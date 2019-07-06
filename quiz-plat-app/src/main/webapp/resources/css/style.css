@@ -1,6 +1,6 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0;text-shadow:none;}
 body{font-family: 'Noto Sans KR', 'Roboto', sans-serif; height:100%; box-sizing:border-box;color:black;background:#c8c8c8;}
-a {color: black!important; text-decoration: inherit;}
+a {color: inherit!important; text-decoration: inherit;}
 /* jquery mobile reset css */
 .ui-header{border:none;}
 .ui-content{overflow:visible;}
@@ -21,13 +21,23 @@ a {color: black!important; text-decoration: inherit;}
 .header__home{margin-top:2px;color:#008fd7;font-size:17px;}
 .header__info+.header__info{margin-left:20px;}
 .header__info:last-child{margin-right:23px;}
-.header__icon-desc{margin-left:4px;font-size:14px;font-weight:500;}
+.header__icon-desc{margin-left:4px;font-size:14px;font-weight:500;color:#a1a1a1;}
 /* card block */
 .card{display:block;background:#fff;border-radius:8px;box-shadow:rgba(0, 0, 0, 0.22) 0px 8px 20px 0px;overflow:hidden;position:relative;}
-.card--single{height:145px;}
+.card--single{height:145px;position:relative;}
+.card--single+.card--single{margin-top:15px;}
 .card+.card{margin-top:22px;}
-.card__desc{display:block;position:relative;font-size:32px;line-height:130%;font-weight:800;padding:30px 34px;}
+.card__desc{display:block;position:relative;font-size:32px;line-height:130%;font-weight:800;padding:30px 34px;height:100%;box-sizing:border-box;}
 .card__foot{display:flex;align-items:center;height:48px;padding:0 34px;background:#e6e6e6;}
 .card__info-area{display:flex;align-items:center;}
 .card__info-area+.card__info-area{margin-left:20px;}
 .card__icon-desc{margin-left:4px;vertical-align:top;font-weight:medium;}
+
+/*detail 글 상세 페이지*/
+.detail__desc{margin-top:28px;}
+.detail__tit{font-size:14px; font-weight:800; color:#a1a1a1;}
+.detail__txtarea{overflow:scroll;font-size:14px;margin:8px 0 0;height:150px!important; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
+.detail__btn{min-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7!important;font-weight:bold;font-size:22px;text-shadow:none!important;border-radius:0!important;border:none;margin:0;}
+.detail .card.on{box-sizing:border-box;background:#32bbff;border:2px solid #008fd7;color:#fff!important;}
+.detail .card.on:before{content:"";display:inline-block;width:32px;height:32px;background:url('../img/VoteCount_Voted_sm@2x.png') no-repeat; background-size:100% 100%;position:absolute; bottom:-2px; right:5px;}
+.detail .detail__btn.on{background:#32bbff;color:#fff!important;}

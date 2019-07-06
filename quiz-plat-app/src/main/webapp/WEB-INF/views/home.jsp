@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="wrapper" data-role="page">
+  <div class="wrapper" id="page1" data-role="page">
     <header data-role="header">
       <h3 style="height:44px;">헤더 영역</h3>
     </header>
@@ -49,22 +49,24 @@
   <div class="wrapper--white" id="page2" data-role="page">
     <div class="" style="height:45px;"><h3>앱바</h3></div>
     <header data-role="header" class="header">
-      <div class="header__back">
-        <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
-        <span class="header__home">홈</span>
+      <div class="header__logo">
+        <a href="#page1" class="header__back" data-transition="slide" data-rel="back">
+          <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
+          <span class="header__home">홈</span>
+        </a>
       </div>
       <div class="header__infos">
         <div class="header__info">
-          <img class="header__icon" src="resources/img/VoteCount@2x.png" width="24px" height="24px" alt="투표수">
+          <img class="header__icon" src="resources/img/VoteCount_BW@2x.png" width="24px" height="24px" alt="투표수">
           <div class="header__icon-desc">3,281</div>
         </div>
         <div class="header__info">
-          <img class="header__icon" src="resources/img/CommentIcon@2x.png" width="24px" height="24px" alt="댓글수" >
+          <img class="header__icon" src="resources/img/Comment_BW@2x.png" width="24px" height="24px" alt="댓글수" >
           <div class="header__icon-desc">78</div>
         </div>
       </div>
     </header>
-    <section class="main-sec" data-role="content">
+    <section class="detail" data-role="content">
         <div class="card card--single">
           <a href="#">
             <span class="card__desc">조선시대 왕으로<br> 다시태어나기</span>
@@ -72,11 +74,15 @@
         </div>
         <div class="card card--single">
           <a href="#">
-            <span class="card__desc">글자수 테스트입니다. 영원히 길어질수는 없지만 세줄까지 가능</span>
+            <span class="card__desc">
+              <span class="card--responsive">글자수 테스트입니다. 영원히 길어질수가능</span>
+            </span>
           </a>
         </div>
-        <div class="card__cont">
-          content  
+        <div class="detail__desc">
+          <p class="detail__tit">설명</p>
+          <div class="detail__txtarea">한글 테스트 한글 테스트 한글 테스트 한글의 크기는 이정도 입니다. 입니다.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam alias excepturi aspernatur magnam molestias, facilis error odio molestiae possimus voluptas impedit dolore adipisci reiciendis at harum recusandae, quia, quasi mollitia. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id accusantium quo minima dolores! Deserunt velit, atque, autem, dolores iure quae vel numquam aliquam hic exercitationem quaerat rem ea sint?</div>
+          <button class="detail__btn" type="button">선택해주세요</button>
         </div>
     </section>
   </div>
