@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.quiz.mapper.writingDtlMapper">
+ 
+ 	<select id="getTextWritingList" resultType="writingDtlDto">
+		SELECT  W.FIR_WRIT_CONTENT
+      		  , W.SEC_WRIT_CONTENT
+      		  , W.FIR_VOTE_NO
+      		  , W.SEC_VOTE_NO
+      	   	  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+		FROM    WRITING W
+		WHERE   1 = 1
+    </select>
+    
+</mapper>
