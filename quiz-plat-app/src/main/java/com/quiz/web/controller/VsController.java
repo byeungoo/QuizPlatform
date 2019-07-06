@@ -3,17 +3,16 @@ package com.quiz.web.controller;
 import java.util.List;
 import java.util.Locale;
  
-import javax.inject.Inject;
- 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
- 
-import com.quiz.web.dto.MemberDto;
-import com.quiz.web.service.MemberService;
+
+import com.quiz.web.dto.WritingDtlDto;
+import com.quiz.web.service.WritingDtlService;
  
 /**
  * Handles requests for the application home page.
@@ -23,21 +22,18 @@ public class VsController {
     
     private static final Logger logger = LoggerFactory.getLogger(VsController.class);
     
-    @Inject
-    private MemberService service;
-    
+    @Autowired
+    private WritingDtlService writingDtlService;
+        
     /**
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Locale locale, Model model) throws Exception{
- 
-        logger.info("home");
-        
-        List<MemberDto> memberList = service.selectMember();
-        
-        model.addAttribute("memberList", memberList);
- 
+    public String main(Locale locale, Model model) throws Exception{
+
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
+    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	
         return "home";
     }
     

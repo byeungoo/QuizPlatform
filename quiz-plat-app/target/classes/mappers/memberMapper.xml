@@ -5,9 +5,12 @@
  
 <mapper namespace="com.quiz.mapper.memberMapper">
  
- 	<select id="selectMember" resultType="memberDto">
-        SELECT ID, PW ,NAME 
-        FROM test
+    <select id="getTextWritingList" resultType="writingDtlDto">
+		SELECT  W.FIR_WRIT_CONTENT
+      		  , W.SEC_WRIT_CONTENT
+      		  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+		FROM    WRITING W
+		WHERE   1 = 1
     </select>
     
 </mapper>
