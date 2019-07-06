@@ -18,7 +18,8 @@ public class WritingDtlDto {
 	private Date   reg_dts;           //등록일시
 	private Date   mod_dts;           //수정일시
 	private int    hits;              //조회수
-	private int    sum_vote;
+	private int    sum_vote;          //총 투표 수
+	private int    sum_comment;       //총 댓글 수
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -109,6 +110,12 @@ public class WritingDtlDto {
 	}
 	public void setSum_vote(int sum_vote) {
 		this.sum_vote = sum_vote;
+	}
+	public int getSum_comment() {
+		return sum_comment;
+	}
+	public void setSum_comment(int sum_comment) {
+		this.sum_comment = sum_comment;
 	}
 
 }
