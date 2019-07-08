@@ -23,15 +23,15 @@
     <section class="main-sec">
       <ul class="main-sec__list" data-role="content">
         <li class="main-sec__list-item">
-        <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
-          <div class="card">
-            <a href="detail.html" data-transition="slide">
-              <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
-              <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
-              <span class="card__desc">${writingDtlDto.sec_writ_content}</span>
-              <div class="card__foot">
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/VoteCount@2x.png" width="24px" height="24px" alt="투표수아이콘">
+          <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
+            <div class="card">
+              <a href="/detail?writing_no=${writingDtlDto.writing_no}" data-transition="slide">
+                <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
+                <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
+                <span class="card__desc">${writingDtlDto.sec_writ_content}</span>
+                <div class="card__foot">
+                  <div class="card__info-area">
+                    <img class="card__icon" src="resources/img/VoteCount@2x.png" width="24px" height="24px" alt="투표수아이콘">
                     <span class="card__icon-desc">${writingDtlDto.sum_vote}</span>
                   </div>
                   <div class="card__info-area">
@@ -40,13 +40,13 @@
                   </div>
                 </div>
               </a>
-          </div>
+            </div>
           </c:forEach>
         </li>
       </ul>
     </section>
   </div>
   
-  <script src="js/common.js"></script>
+  <script src="resources/js/common.js"></script>
 </body>
 </html>

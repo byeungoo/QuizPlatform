@@ -17,4 +17,8 @@ public class WritingDtlService {
     public List<WritingDtlDto> getWritingDtlList() throws Exception{
     	return writingDtlDao.getTextWritingList();
     }
+    
+    public WritingDtlDto getWritingDtl(int writing_no) throws Exception{
+    	return writingDtlDao.getTextWriting(writing_no);
+    }
 }

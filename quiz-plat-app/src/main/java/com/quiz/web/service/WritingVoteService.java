@@ -14,7 +14,8 @@ public class WritingVoteService {
     @Autowired
     private WritingVoteDao writingVoteDao;
     
-    public List<WritingVoteDto> getWritingDtlList() throws Exception{
-    	return writingVoteDao.getWritingVoteList();
+    public WritingVoteDto getWritingDtlDto(int writing_no) throws Exception{
+    	return writingVoteDao.getWritingVoteDto(writing_no);
     }
+    
 }

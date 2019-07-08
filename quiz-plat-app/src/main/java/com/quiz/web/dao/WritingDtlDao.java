@@ -21,4 +21,8 @@ public class WritingDtlDao {
     public List<WritingDtlDto> getTextWritingList() throws Exception {
         return sqlSession.selectList(Namespace+".getTextWritingList");
     }
+    
+    public WritingDtlDto getTextWriting(int writing_no) throws Exception {
+        return sqlSession.selectOne(Namespace+".getTextWriting", writing_no);
+    }
 }

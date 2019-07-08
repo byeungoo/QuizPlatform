@@ -18,8 +18,8 @@ public class WritingVoteDao {
     
     private static final String Namespace = "com.quiz.mapper.writingVoteDtlMapper";
     
-    public List<WritingVoteDto> getWritingVoteList() throws Exception {
-        return sqlSession.selectList(Namespace+".getWritingVoteList");
+    public WritingVoteDto getWritingVoteDto(int writing_no) throws Exception {
+        return sqlSession.selectOne(Namespace+".getWritingVoteDto", writing_no);
     }
-	
+    
 }

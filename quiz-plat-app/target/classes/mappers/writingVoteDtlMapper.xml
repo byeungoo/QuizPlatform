@@ -5,20 +5,13 @@
  
 <mapper namespace="com.quiz.mapper.writingVoteDtlMapper">
  
- 	<select id="getWritingVoteList" resultType="writingVoteDto">
-		SELECT  W.FIR_WRIT_CONTENT
-      		  , W.SEC_WRIT_CONTENT
-      		  , W.FIR_VOTE_NO
-      		  , W.SEC_VOTE_NO
-      	   	  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
-      	   	  , (
-					SELECT COUNT(C.WRITING_NO)
-					FROM   COMMENT C
-					WHERE  1 = 1
-					AND    C.WRITING_NO = W.WRITING_NO
-	            ) SUM_COMMENT
-		FROM    WRITING W
+ 	<select id="getWritingVoteDto" parameterType="int" resultType="writingVoteDto">
+		SELECT  WV.USER_ID
+		      , WV.FIR_CONTENT_VOTE
+		      , WV.SEC_CONTENT_VOTE
+		FROM    WRITING_VOTE WV
 		WHERE   1 = 1
+		AND     WV.WRITING_NO = #{writing_no}
     </select>
     
 </mapper>
