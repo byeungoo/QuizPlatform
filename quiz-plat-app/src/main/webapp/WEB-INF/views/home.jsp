@@ -9,23 +9,22 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>퀴즈플랫폼</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.css" />
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.min.css">
+  <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="wrapper" data-role="page">
-    <header data-role="header">
+  <div class="wrapper">
+    <header>
       <h3 style="height:44px;">헤더 영역</h3>
     </header>
     <section class="main-sec">
-      <ul class="main-sec__list" data-role="content">
+      <ul class="main-sec__list" >
         <li class="main-sec__list-item">
         <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
           <div class="card">
-            <a href="detail.html" data-transition="slide">
+            <a href="detail.html" class="animsition-link" data-animsition-out-class="fade-in-right"
+                  data-animsition-out-duration="200">
               <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
               <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
               <span class="card__desc">${writingDtlDto.sec_writ_content}</span>
@@ -46,7 +45,9 @@
       </ul>
     </section>
   </div>
-  
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
   <script src="js/common.js"></script>
 </body>
 </html>

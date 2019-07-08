@@ -1,8 +1,11 @@
-$('.detail .card').click(function(e){
-  var footBtn = $(this).parents('.detail').find('.detail__btn');
-  var footResultBtn = footBtn.siblings('.detail__btn.on');
-  $(this).siblings('.card').removeClass('on');
-  $(this).addClass('on');
-  footBtn.hide();
-  footResultBtn.show();
+$(".animsition").animsition({
+  inClass: "fade-in-right",
+  outClass: "fade-out-right",
+  inDuration: 200,
+  outDuration: 200,
+});
+
+$('.card--single').click(function(){
+  $('.detail__btn').hide();
+  $('.detail__btn').siblings('a').show();
 });
