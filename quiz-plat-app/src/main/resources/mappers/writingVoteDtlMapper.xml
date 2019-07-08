@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.quiz.mapper.writingVoteDtlMapper">
+ 
+ 	<select id="getWritingVoteDto" parameterType="int" resultType="writingVoteDto">
+		SELECT  WV.USER_ID
+		      , WV.FIR_CONTENT_VOTE
+		      , WV.SEC_CONTENT_VOTE
+		FROM    WRITING_VOTE WV
+		WHERE   1 = 1
+		AND     WV.WRITING_NO = #{writing_no}
+    </select>
+    
+</mapper>

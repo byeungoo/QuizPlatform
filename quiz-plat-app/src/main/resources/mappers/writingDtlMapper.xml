@@ -6,7 +6,8 @@
 <mapper namespace="com.quiz.mapper.writingDtlMapper">
  
  	<select id="getTextWritingList" resultType="writingDtlDto">
-		SELECT  W.FIR_WRIT_CONTENT
+		SELECT  W.WRITING_NO
+		      , W.FIR_WRIT_CONTENT
       		  , W.SEC_WRIT_CONTENT
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
@@ -19,6 +20,28 @@
 	            ) SUM_COMMENT
 		FROM    WRITING W
 		WHERE   1 = 1
+    </select>
+    
+    <select id="getTextWriting" parameterType="int" resultType="writingDtlDto">
+    	SELECT  W.WRITING_NO
+    	      , W.QUES_TYPE_DIV_CD
+		      , W.FIR_WRIT_CONTENT
+      		  , W.SEC_WRIT_CONTENT
+      		  , W.CONTENT
+      		  , W.FIR_VOTE_NO
+      		  , W.SEC_VOTE_NO
+      		  , REGPE_ID
+      		  , HITS
+      		  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+      	   	  , (
+					SELECT COUNT(C.WRITING_NO)
+					FROM   COMMENT C
+					WHERE  1 = 1
+					AND    C.WRITING_NO = W.WRITING_NO
+	            ) SUM_COMMENT
+     	FROM    WRITING W
+     	WHERE   1 = 1
+     	AND     W.WRITING_NO = #{writing_no}
     </select>
     
 </mapper>

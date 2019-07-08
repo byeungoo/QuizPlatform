@@ -24,12 +24,12 @@
       </a>
       <div class="header__infos">
         <div class="header__info">
-          <img class="header__icon" src="img/VoteCount_BW@2x.png" width="24px" height="24px" alt="투표수">
-          <div class="header__icon-desc">3,281</div>
+          <img class="header__icon" src="resources/img/VoteCount_BW@2x.png" width="24px" height="24px" alt="투표수">
+          <div class="header__icon-desc">${writingDtlDto.sum_vote}</div>
         </div>
         <div class="header__info">
-          <img class="header__icon" src="img/Comment_BW@2x.png" width="24px" height="24px" alt="댓글수" >
-          <div class="header__icon-desc">78</div>
+          <img class="header__icon" src="resources/img/Comment_BW@2x.png" width="24px" height="24px" alt="댓글수" >
+          <div class="header__icon-desc">${writingDtlDto.sum_comment}</div>
         </div>
       </div>
     </header>
@@ -51,7 +51,7 @@
         </div>
         <div class="detail__desc">
           <p class="detail__tit">설명</p>
-          <div class="detail__txtarea">한글 테스트 한글 테스트 한글 테스트 한글의 크기는 이정도 입니다. 입니다.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam alias excepturi aspernatur magnam molestias, facilis error odio molestiae possimus voluptas impedit dolore adipisci reiciendis at harum recusandae, quia, quasi mollitia. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe id accusantium quo minima dolores! Deserunt velit, atque, autem, dolores iure quae vel numquam aliquam hic exercitationem quaerat rem ea sint?</div>
+          <div class="detail__txtarea">${writingDtlDto.content}</div>
           <a class="detail__btn">선택해주세요</a>
           <a class="detail__btn on" href="./result.html" class="animsition-link">결과보기</a>
         </div>
