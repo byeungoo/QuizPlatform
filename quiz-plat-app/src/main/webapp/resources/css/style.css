@@ -6,7 +6,7 @@ a {color: inherit!important; text-decoration: inherit;}
 .ui-content{overflow:visible;}
 .ui-header .ui-title{margin:0;}
 .ui-bar-a,.ui-page-theme-a .ui-bar-inherit,html .ui-bar-a .ui-bar-inherit,html .ui-body-a .ui-bar-inherit,html body .ui-group-theme-a .ui-bar-inherit,.ui-overlay-a,.ui-page-theme-a,.ui-page-theme-a .ui-panel-wrapper {background-color:#c8c8c8;border-color:none;color:black;text-shadow:none;} 
-/*page transition 시간 조절*/
+
 .in, .out {-webkit-animation-timing-function: ease-in-out;-webkit-animation-duration: 250ms !important;}
 .wrapper--white, .wrapper--white .header{background:#fff;}
 /*header*/
@@ -30,7 +30,6 @@ a {color: inherit!important; text-decoration: inherit;}
 .card__info-area+.card__info-area{margin-left:20px;}
 .card__icon-desc{margin-left:4px;vertical-align:top;font-weight:medium;}
 
-/*detail 글 상세 페이지*/
 .detail__desc{margin-top:28px;}
 .detail__tit{font-size:14px; font-weight:800; color:#a1a1a1;}
 .detail__txtarea{overflow:scroll;font-size:14px;margin:8px 0 0;height:150px!important; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
@@ -40,7 +39,6 @@ a {color: inherit!important; text-decoration: inherit;}
 .detail .card.on:before{content:"";display:inline-block;width:32px;height:32px;background:url('../img/VoteCount_Voted_sm@2x.png') no-repeat; background-size:100% 100%;position:absolute; bottom:-2px; right:5px;}
 
 
-/*결과페이지 result*/
 .result__toptx{margin:5px 0 40px;font-size:140px;font-weight:800;text-align:center;}
 .result__contwrap{padding:0 25px;}
 .result__cont{margin-top:25px;}

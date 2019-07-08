@@ -5,13 +5,28 @@
  
 <mapper namespace="com.quiz.mapper.writingVoteDtlMapper">
  
- 	<select id="getWritingVoteDto" parameterType="int" resultType="writingVoteDto">
+ 	<select id="getWritingVoteDto" parameterType="writingVoteDto" resultType="writingVoteDto">
 		SELECT  WV.USER_ID
 		      , WV.FIR_CONTENT_VOTE
 		      , WV.SEC_CONTENT_VOTE
 		FROM    WRITING_VOTE WV
 		WHERE   1 = 1
 		AND     WV.WRITING_NO = #{writing_no}
+		AND     WV.USER_ID    = #{user_id}
+    </select>
+    
+ 	<select id="insertWritingVoteDto" parameterType="writingVoteDto">
+		INSERT INTO WRITING_VOTE VALUES(#{writing_no}, #{user_id}, #{fir_content_vote}, #{sec_content_vote}, #{user_id}, #{user_id}, now(), now())
+    </select>
+    
+    <select id="chekVote" parameterType="writingVoteDto" resultType="String">
+		SELECT  CASE WHEN COUNT(*) = 0 THEN 'N'
+             		 ELSE 'Y'
+        	    END AS CHEK_VOTE_VALID
+		FROM    WRITING_VOTE WV
+		WHERE   1 = 1
+		AND     WV.WRITING_NO = #{writing_no}
+		AND     WV.USER_ID    = #{user_id}
     </select>
     
 </mapper>

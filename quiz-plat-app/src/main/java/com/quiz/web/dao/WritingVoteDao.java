@@ -18,8 +18,15 @@ public class WritingVoteDao {
     
     private static final String Namespace = "com.quiz.mapper.writingVoteDtlMapper";
     
-    public WritingVoteDto getWritingVoteDto(int writing_no) throws Exception {
-        return sqlSession.selectOne(Namespace+".getWritingVoteDto", writing_no);
+    public WritingVoteDto getWritingVoteDto(WritingVoteDto writingVoteDto) throws Exception {
+        return sqlSession.selectOne(Namespace+".getWritingVoteDto", writingVoteDto);
     }
     
+    public void insertWritingVoteDto(WritingVoteDto writingVoteDto) throws Exception {
+    	sqlSession.insert(Namespace+".insertWritingVoteDto", writingVoteDto);
+    }
+    
+    public String chekVote(WritingVoteDto writingVoteDto) throws Exception {
+    	return sqlSession.selectOne(Namespace+".chekVote", writingVoteDto);
+    }
 }

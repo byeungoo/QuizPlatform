@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.css" />
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -21,7 +21,7 @@
     <header class="header">
       <div class="header__logo">
         <a href="detail.html" class="header__back" data-transition="slide" data-rel="back">
-          <img src="img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
+          <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
           <span class="header__home">홈</span>
         </a>
       </div>
@@ -33,23 +33,62 @@
         <div class="result__area">
           <div class="result__left-area">
             <div class="result__badges">
-              <img src="./img/lose.png" width="56px" height="21px" alt="lose" class="badge">
-              <img src="./img/mypick.png" width="66px" height="21px" alt="mypick" class="badge">
+              <c:if test="${writingVoteDto.fir_content_vote == 'Y'}">
+                <img src="resources/img/mypick.png" width="66px" height="21px" alt="mypick" class="badge">
+			  </c:if>
+              <c:choose>
+			    <c:when test="${writingDtlDto.fir_vote_perc > writingDtlDto.sec_vote_perc}">
+					<img src="resources/img/win.png" width="56px" height="21px" alt="win" class="badge">
+			    </c:when>
+			    <c:when test="${writingDtlDto.fir_vote_perc == writingDtlDto.sec_vote_perc}">
+					
+			    </c:when>
+    	 	    <c:otherwise>
+					<img src="resources/img/lose.png" width="56px" height="21px" alt="lose" class="badge">
+    	      	</c:otherwise>
+		      </c:choose>
             </div>
             <div class="result__infoarea">
-              <p class="result__info">41.8%</p>
-              <p class="result__infosub">나와 1,371명의 선택</p>
-              <p class="result__footinfo">조선시대 왕으로 다시 태어나기</p>
+              <p class="result__info">${writingDtlDto.fir_vote_perc}%</p>
+			  <c:choose>
+			    <c:when test="${writingVoteDto.fir_content_vote == 'Y'}">
+			      <p class="result__infosub">나와 ${writingDtlDto.fir_vote_no}명의 선택</p>
+			    </c:when>
+    	 	    <c:otherwise>
+        	    	<p class="result__infosub">${writingDtlDto.fir_vote_no}명의 선택</p>
+    	      	</c:otherwise>
+		      </c:choose>
+              <p class="result__footinfo">${writingDtlDto.fir_writ_content}</p>
             </div>
           </div>
           <div class="result__right-area win">
             <div class="result__badges">
-              <img src="./img/win.png" width="56px" height="21px" alt="win" class="badge">
+              <c:if test="${writingVoteDto.sec_content_vote == 'Y'}">
+                <img src="resources/img/mypick.png" width="66px" height="21px" alt="mypick" class="badge">
+			  </c:if>
+              <c:choose>
+			    <c:when test="${writingDtlDto.sec_vote_perc > writingDtlDto.fir_vote_perc}">
+					<img src="resources/img/win.png" width="56px" height="21px" alt="win" class="badge">
+			    </c:when>
+			    <c:when test="${writingDtlDto.sec_vote_perc == writingDtlDto.fir_vote_perc}">
+					
+			    </c:when>
+    	 	    <c:otherwise>
+					<img src="resources/img/lose.png" width="56px" height="21px" alt="lose" class="badge">
+    	      	</c:otherwise>
+		      </c:choose>
             </div>
             <div class="result__infoarea">
-                <p class="result__info">58.2%</p>
-                <p class="result__infosub">1,910명의 선택</p>
-                <p class="result__footinfo">글자는 이런식으로 길어집니다. 물론 영원히 길어질 수는 없죠. 50자가 한계죠.</p>              
+                <p class="result__info">${writingDtlDto.sec_vote_perc}%</p>
+			    <c:choose>
+			      <c:when test="${writingVoteDto.sec_content_vote == 'Y'}">
+			        <p class="result__infosub">나와 ${writingDtlDto.sec_vote_no}명의 선택</p>
+			      </c:when>
+    	 	      <c:otherwise>
+        	    	<p class="result__infosub">${writingDtlDto.sec_vote_no}명의 선택</p>
+    	      	  </c:otherwise>
+		        </c:choose>
+                <p class="result__footinfo">${writingDtlDto.sec_writ_content}</p>              
             </div>
           </div>
         </div>
@@ -74,6 +113,6 @@
     </section>
     <div class="result__footbtn">공유하기</div>
   </div>
-  <script src="js/common.js"></script>
+  <script src="resources/js/common.js"></script>
 </body>
 </html>

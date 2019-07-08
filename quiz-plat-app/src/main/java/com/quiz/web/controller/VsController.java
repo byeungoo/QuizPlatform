@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,11 +35,11 @@ public class VsController {
     private WritingVoteService writingVoteService;
         
     /**
-     * 메인화면
+     * 메인화면 조회
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Locale locale, Model model) throws Exception{
-
+ 
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
     	
@@ -45,19 +47,66 @@ public class VsController {
     }
     
     /**
-     * 상세페이지
+     * 상세페이지 조회
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Locale locale, Model model) throws Exception{
-
+    	
+    	HttpSession session = request.getSession();
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-    	logger.info("데이터: " + writing_no);
+    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
+    	paramWritingVoteDto.setWriting_no(writing_no);
+    	paramWritingVoteDto.setUser_id(session.toString());
+    	
+    	//투표 참여 여부 체크, 이미 참여했을 경우 결과페이지로 이동
+    	if(writingVoteService.chekVote(paramWritingVoteDto).equals("Y")) {
+    		WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+        	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(paramWritingVoteDto);
+        	    	
+        	model.addAttribute("writingDtlDto", writingDtlDto);
+        	model.addAttribute("writingVoteDto", writingVoteDto);
+        	
+            return "result";
+    	} 
+    	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
-    	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(writing_no);
+    	model.addAttribute("writingDtlDto", writingDtlDto);
+    	
+        return "detail";
+    }
+    
+    /**
+     * 결과페이지 조회
+     */
+    @Transactional
+    @RequestMapping(value = "/result", method = RequestMethod.GET)
+    public String result(HttpServletRequest request, Locale locale, Model model) throws Exception{
+    	
+    	HttpSession session = request.getSession();
+    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
+    	String fir_content_vote = request.getParameter("fir_content_vote");
+    	String sec_content_vote = request.getParameter("sec_content_vote");
+    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
+    	
+    	paramWritingVoteDto.setWriting_no(writing_no);
+    	paramWritingVoteDto.setFir_content_vote("N");
+    	paramWritingVoteDto.setSec_content_vote("Y");
+    	paramWritingVoteDto.setUser_id(session.toString());
+    	paramWritingVoteDto.setRegpe_id(session.toString());
+    	paramWritingVoteDto.setModpe_id(session.toString());
+    	
+    	//투표 내용 삽입
+    	writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
+    	//투표수 업데이트
+    	writingDtlService.updateVoteNo(writing_no, "N", "Y");
+    	
+    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+    	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(paramWritingVoteDto);
+    	    	
     	model.addAttribute("writingDtlDto", writingDtlDto);
     	model.addAttribute("writingVoteDto", writingVoteDto);
     	
-        return "detail";
+        return "result";
     }
     
 }

@@ -14,8 +14,16 @@ public class WritingVoteService {
     @Autowired
     private WritingVoteDao writingVoteDao;
     
-    public WritingVoteDto getWritingDtlDto(int writing_no) throws Exception{
-    	return writingVoteDao.getWritingVoteDto(writing_no);
+    public WritingVoteDto getWritingDtlDto(WritingVoteDto writingVoteDto) throws Exception{
+    	return writingVoteDao.getWritingVoteDto(writingVoteDto);
+    }
+    
+    public void insertWritingVoteDto(WritingVoteDto writingVoteDto) throws Exception{
+    	writingVoteDao.insertWritingVoteDto(writingVoteDto);
+    }
+    
+    public String chekVote(WritingVoteDto writingVoteDto) throws Exception{
+    	return writingVoteDao.chekVote(writingVoteDto);
     }
     
 }

@@ -12,6 +12,8 @@ public class WritingVoteDto {
 	private String modpe_id;           //수정자
 	private Date   reg_dts;            //등록일시
 	private Date   mod_dts;            //수정일시
+	private double fir_vote_perc;      //첫번째 질문 퍼센트
+	private double sec_vote_perc;      //두번째 질문 퍼센트
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -60,5 +62,17 @@ public class WritingVoteDto {
 	}
 	public void setMod_dts(Date mod_dts) {
 		this.mod_dts = mod_dts;
+	}
+	public double getFir_vote_perc() {
+		return fir_vote_perc;
+	}
+	public void setFir_vote_perc(double fir_vote_perc) {
+		this.fir_vote_perc = fir_vote_perc;
+	}
+	public double getSec_vote_perc() {
+		return sec_vote_perc;
+	}
+	public void setSec_vote_perc(double sec_vote_perc) {
+		this.sec_vote_perc = sec_vote_perc;
 	}
 }

@@ -20,6 +20,7 @@
 	            ) SUM_COMMENT
 		FROM    WRITING W
 		WHERE   1 = 1
+		ORDER BY REG_DTS DESC
     </select>
     
     <select id="getTextWriting" parameterType="int" resultType="writingDtlDto">
@@ -42,6 +43,18 @@
      	FROM    WRITING W
      	WHERE   1 = 1
      	AND     W.WRITING_NO = #{writing_no}
+    </select>
+    
+    <select id="updateFirVoteNo" parameterType="int">
+    	UPDATE WRITING
+    	SET    FIR_VOTE_NO = FIR_VOTE_NO + 1
+    	WHERE  WRITING_NO = #{writing_no}
+    </select>
+    
+    <select id="updateSecVoteNo" parameterType="int">
+    	UPDATE WRITING
+    	SET    SEC_VOTE_NO = SEC_VOTE_NO + 1
+    	WHERE  WRITING_NO = #{writing_no}
     </select>
     
 </mapper>

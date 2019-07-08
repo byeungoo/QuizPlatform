@@ -20,6 +20,8 @@ public class WritingDtlDto {
 	private int    hits;              //조회수
 	private int    sum_vote;          //총 투표 수
 	private int    sum_comment;       //총 댓글 수
+	private double fir_vote_perc;     //첫번째 투표 비율
+	private double sec_vote_perc;     //두번쨰 투표 비율
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -117,5 +119,16 @@ public class WritingDtlDto {
 	public void setSum_comment(int sum_comment) {
 		this.sum_comment = sum_comment;
 	}
-
+	public double getFir_vote_perc() {
+		return fir_vote_perc;
+	}
+	public void setFir_vote_perc(double fir_vote_perc) {
+		this.fir_vote_perc = fir_vote_perc;
+	}
+	public double getSec_vote_perc() {
+		return sec_vote_perc;
+	}
+	public void setSec_vote_perc(double sec_vote_perc) {
+		this.sec_vote_perc = sec_vote_perc;
+	}
 }
