@@ -23,38 +23,25 @@
     <section class="main-sec">
       <ul class="main-sec__list" data-role="content">
         <li class="main-sec__list-item">
+        <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
           <div class="card">
             <a href="detail.html" data-transition="slide">
-              <span class="card__desc">조선시대 왕으로<br> 다시태어나기</span>
+              <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
               <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
-              <span class="card__desc">그냥 살고<br> 100억 받기</span>
+              <span class="card__desc">${writingDtlDto.sec_writ_content}</span>
               <div class="card__foot">
                 <div class="card__info-area">
                   <img class="card__icon" src="resources/img/VoteCount@2x.png" width="24px" height="24px" alt="투표수아이콘">
-                    <span class="card__icon-desc">3,281</span>
+                    <span class="card__icon-desc">${writingDtlDto.sum_vote}</span>
                   </div>
                   <div class="card__info-area">
                     <img class="card__icon" src="resources/img/CommentIcon@2x.png" width="24px" height="24px" alt="댓글수아이콘">
-                    <span class="card__icon-desc">78</span>
+                    <span class="card__icon-desc">${writingDtlDto.sum_comment}</span>
                   </div>
                 </div>
               </a>
           </div>
-          <div class="card">
-            <span class="card__desc">조선시대 왕으로<br> 다시태어나기</span>
-            <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
-            <span class="card__desc">그냥 살고<br> 100억 받기</span>
-            <div class="card__foot">
-              <div class="card__info-area">
-                <img class="card__icon" src="resources/img/VoteCount@2x.png" width="24px" height="24px" alt="투표수아이콘">
-                  <span class="card__icon-desc">3,281</span>
-                </div>
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/CommentIcon@2x.png" width="24px" height="24px" alt="댓글수아이콘">
-                  <span class="card__icon-desc">78</span>
-                </div>
-              </div>
-          </div>
+          </c:forEach>
         </li>
       </ul>
     </section>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.quiz.web.dao.mappers.WritingDtlMapper">
+ 
+ 	<select id="getTextWritingList" resultType="com.quiz.web.dto.WritingDtlDto">
+        SELECT  FIR_WRIT_CONTENT
+              , SEC_WRIT_CONTENT
+        FROM    WRITING
+        WHERE   1 = 1
+    </select>
+    
+</mapper>
