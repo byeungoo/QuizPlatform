@@ -5,7 +5,6 @@
     <configuration>
     
         <typeAliases>
-            <typeAlias type="com.quiz.web.dto.MemberDto" alias="memberDto"/>
             <typeAlias type="com.quiz.web.dto.WritingDtlDto" alias="writingDtlDto"/>
             <typeAlias type="com.quiz.web.dto.WritingVoteDto" alias="writingVoteDto"/>
         </typeAliases>

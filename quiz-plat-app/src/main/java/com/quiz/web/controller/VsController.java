@@ -2,7 +2,9 @@ package com.quiz.web.controller;
 
 import java.util.List;
 import java.util.Locale;
- 
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,7 @@ public class VsController {
     public String main(Locale locale, Model model) throws Exception{
 
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
-    	List<WritingVoteDto> writingVoteDtoList = writingVoteService.getWritingDtlList();
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
-    	model.addAttribute("writingVoteDtoList", writingVoteDtoList);
     	
         return "home";
     }
@@ -48,13 +48,14 @@ public class VsController {
      * 상세페이지
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String detail(Locale locale, Model model) throws Exception{
+    public String detail(HttpServletRequest request, Locale locale, Model model) throws Exception{
 
-    	
-    	//List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
-    	//List<WritingVoteDto> writingVoteDtoList = writingVoteService.getWritingDtlList();
-    	//model.addAttribute("writingDtlDtoList", writingDtlDtoList);
-    	//model.addAttribute("writingVoteDtoList", writingVoteDtoList);
+    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
+    	logger.info("데이터: " + writing_no);
+    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+    	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(writing_no);
+    	model.addAttribute("writingDtlDto", writingDtlDto);
+    	model.addAttribute("writingVoteDto", writingVoteDto);
     	
         return "detail";
     }
