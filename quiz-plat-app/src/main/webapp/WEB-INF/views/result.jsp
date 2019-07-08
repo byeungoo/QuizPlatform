@@ -10,7 +10,7 @@
   <title>결과페이지</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -18,9 +18,9 @@
     <div class="" style="height:45px;"><h3>앱바</h3></div>
     <header class="header">
       <div class="header__logo">
-        <a href="detail.html" class="animsition-link header__home" data-animsition-out-class="fade-in-left"
+        <a href="/" class="animsition-link header__home" data-animsition-out-class="fade-in-left"
           data-animsition-out-duration="200">
-            <img src="img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
+            <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
             <span class="header__tx">홈</span>
         </a>
       </div>
@@ -114,6 +114,6 @@
   </div>
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
-  <script src="js/common.js"></script>
+  <script src="resources/js/common.js"></script>
 </body>
 </html>
