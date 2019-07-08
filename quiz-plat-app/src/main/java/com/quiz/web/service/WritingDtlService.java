@@ -26,8 +26,8 @@ public class WritingDtlService {
     	WritingDtlDto writingDtlDto = writingDtlDao.getTextWriting(writing_no);
     	
     	int total = writingDtlDto.getSum_vote();
-    	double fir_vote_perc = (double)((double)writingDtlDto.getFir_vote_no()/(double)total) * 100;
-    	double sec_vote_perc = (double)((double)writingDtlDto.getSec_vote_no()/(double)total) * 100;
+    	double fir_vote_perc = Math.round((double)((double)writingDtlDto.getFir_vote_no()/(double)total) * 100);
+    	double sec_vote_perc = Math.round((double)((double)writingDtlDto.getSec_vote_no()/(double)total) * 100);
     	writingDtlDto.setFir_vote_perc(fir_vote_perc);
     	writingDtlDto.setSec_vote_perc(sec_vote_perc);
     	
