@@ -1,6 +1,8 @@
 $('.detail .card').click(function(e){
+  var footBtn = $(this).parents('.detail').find('.detail__btn');
+  var footResultBtn = footBtn.siblings('.detail__btn.on');
   $(this).siblings('.card').removeClass('on');
   $(this).addClass('on');
-  $(this).parents('.detail').find('.detail__btn').addClass('on');
-  $(this).parents('.detail').find('.detail__btn').text("결과보기");
+  footBtn.hide();
+  footResultBtn.show();
 });

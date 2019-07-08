@@ -6,15 +6,9 @@ a {color: inherit!important; text-decoration: inherit;}
 .ui-content{overflow:visible;}
 .ui-header .ui-title{margin:0;}
 .ui-bar-a,.ui-page-theme-a .ui-bar-inherit,html .ui-bar-a .ui-bar-inherit,html .ui-body-a .ui-bar-inherit,html body .ui-group-theme-a .ui-bar-inherit,.ui-overlay-a,.ui-page-theme-a,.ui-page-theme-a .ui-panel-wrapper {background-color:#c8c8c8;border-color:none;color:black;text-shadow:none;} 
-.in, .out {
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-duration: 250ms !important;
-}
-
-.wrapper--white,
-.wrapper--white .header{background:#fff;}
-/* main-sec block */
-
+/*page transition 시간 조절*/
+.in, .out {-webkit-animation-timing-function: ease-in-out;-webkit-animation-duration: 250ms !important;}
+.wrapper--white, .wrapper--white .header{background:#fff;}
 /*header*/
 .header{height:25px;padding:0 15px;}
 .header, .header__infos, .header__info, .header__back{display:flex;justify-content: space-between;align-items:center;}
@@ -22,6 +16,7 @@ a {color: inherit!important; text-decoration: inherit;}
 .header__info+.header__info{margin-left:20px;}
 .header__info:last-child{margin-right:23px;}
 .header__icon-desc{margin-left:4px;font-size:14px;font-weight:500;color:#a1a1a1;}
+.header__title{margin:auto;font-size:17px;color:#a6a6a6;}
 /* card block */
 .card{display:block;background:#fff;border-radius:8px;box-shadow:rgba(0, 0, 0, 0.22) 0px 8px 20px 0px;overflow:hidden;position:relative;}
 .card--single{height:145px;position:relative;}
@@ -37,7 +32,10 @@ a {color: inherit!important; text-decoration: inherit;}
 .detail__desc{margin-top:28px;}
 .detail__tit{font-size:14px; font-weight:800; color:#a1a1a1;}
 .detail__txtarea{overflow:scroll;font-size:14px;margin:8px 0 0;height:150px!important; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
-.detail__btn{min-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7!important;font-weight:bold;font-size:22px;text-shadow:none!important;border-radius:0!important;border:none;margin:0;}
+.detail__btn{display:block;text-align:center;min-height:60px;line-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7!important;font-weight:bold;font-size:22px;text-shadow:none!important;border-radius:0!important;border:none;margin:0;}
+.detail__btn.on{background:#32bbff;color:#fff!important;display:none;}
 .detail .card.on{box-sizing:border-box;background:#32bbff;border:2px solid #008fd7;color:#fff!important;}
 .detail .card.on:before{content:"";display:inline-block;width:32px;height:32px;background:url('../img/VoteCount_Voted_sm@2x.png') no-repeat; background-size:100% 100%;position:absolute; bottom:-2px; right:5px;}
-.detail .detail__btn.on{background:#32bbff;color:#fff!important;}
+
+
+/*결과페이지 result*/
