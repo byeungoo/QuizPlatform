@@ -49,7 +49,7 @@ public class VsController {
     /*
      ** 게시글 작성페이지 조회
      */
-    @RequestMapping(value="", method = RequestMethod.POST)
+    @RequestMapping(value="write", method = RequestMethod.GET)
     public String write(Locale locale, Model model) throws Exception{
     	return "write";
     }
@@ -60,9 +60,20 @@ public class VsController {
     @RequestMapping(value="/insert/write", method = RequestMethod.POST)
     public String insertWrite(HttpServletRequest request, Locale locale, Model model) throws Exception{
     	
-    	//입력받을 때 애초에 writingDtlDto로 받을 수 있게 하고 싶은데?
-    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-    	WritingDtlDto writingDtlDto = new WritingDtlDto();
+    	HttpSession   session           = request.getSession();
+    	WritingDtlDto writingDtlDto     = new WritingDtlDto();   	
+    	String        content 			= request.getParameter("content");
+    	String        fir_writ_content  = request.getParameter("fir_writ_content");
+    	String        sec_writ_content  = request.getParameter("sec_writ_content");
+    	String        ques_type_div_cd  = "10";
+    	
+    	writingDtlDto.setContent(content);
+    	writingDtlDto.setFir_writ_content(fir_writ_content);
+    	writingDtlDto.setSec_writ_content(sec_writ_content);
+    	writingDtlDto.setQues_type_div_cd(ques_type_div_cd);
+    	writingDtlDto.setRegpe_id(session.toString());
+    	writingDtlDto.setModpe_id(session.toString());
+    	
     	writingDtlService.insertWritingDtl(writingDtlDto);
     	
     	model.addAttribute("writingDtlDto", writingDtlDto);
@@ -105,18 +116,22 @@ public class VsController {
      * 결과페이지 조회
      */
     @Transactional
-    @RequestMapping(value = "/result", method = RequestMethod.GET)
+    @RequestMapping(value = "/result", method = RequestMethod.POST)
     public String result(HttpServletRequest request, Locale locale, Model model) throws Exception{
     	
     	HttpSession session = request.getSession();
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-    	String fir_content_vote = request.getParameter("fir_content_vote");
-    	String sec_content_vote = request.getParameter("sec_content_vote");
+    	String inputState = request.getParameter("inputState");
     	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
     	
     	paramWritingVoteDto.setWriting_no(writing_no);
-    	paramWritingVoteDto.setFir_content_vote("N");
-    	paramWritingVoteDto.setSec_content_vote("Y");
+    	if(inputState.equals("before")){
+    		paramWritingVoteDto.setFir_content_vote("Y");
+        	paramWritingVoteDto.setSec_content_vote("N");
+    	}else {
+    		paramWritingVoteDto.setFir_content_vote("N");
+        	paramWritingVoteDto.setSec_content_vote("Y");
+    	}
     	paramWritingVoteDto.setUser_id(session.toString());
     	paramWritingVoteDto.setRegpe_id(session.toString());
     	paramWritingVoteDto.setModpe_id(session.toString());
@@ -124,7 +139,7 @@ public class VsController {
     	//투표 내용 삽입
     	writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
     	//투표수 업데이트
-    	writingDtlService.updateVoteNo(writing_no, "N", "Y");
+    	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
     	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(paramWritingVoteDto);
