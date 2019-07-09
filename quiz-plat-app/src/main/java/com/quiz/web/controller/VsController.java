@@ -46,6 +46,32 @@ public class VsController {
         return "home";
     }
     
+    /*
+     ** 게시글 작성페이지 조회
+     */
+    @RequestMapping(value="", method = RequestMethod.POST)
+    public String write(Locale locale, Model model) throws Exception{
+    	return "write";
+    }
+    
+    /*
+     ** 게시글 작성 
+     */
+    @RequestMapping(value="/insert/write", method = RequestMethod.POST)
+    public String insertWrite(HttpServletRequest request, Locale locale, Model model) throws Exception{
+    	
+    	//입력받을 때 애초에 writingDtlDto로 받을 수 있게 하고 싶은데?
+    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
+    	WritingDtlDto writingDtlDto = new WritingDtlDto();
+    	writingDtlService.insertWritingDtl(writingDtlDto);
+    	
+    	model.addAttribute("writingDtlDto", writingDtlDto);
+    	
+    	//작성 후 detail or result?
+    	
+    	return "detail";
+    }
+    
     /**
      * 상세페이지 조회
      */

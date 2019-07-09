@@ -26,11 +26,15 @@ public class WritingDtlDao {
         return sqlSession.selectOne(Namespace+".getTextWriting", writing_no);
     }
     
-    public void updateFirVoteNo(int writing_no) throws Exception {
+    public void updateFirVoteNo(int writing_no) throws Exception{
     	sqlSession.selectOne(Namespace+".updateFirVoteNo", writing_no);
     }
 
-    public void updateSecVoteNo(int writing_no) throws Exception {
+    public void updateSecVoteNo(int writing_no) throws Exception{
     	sqlSession.selectOne(Namespace+".updateSecVoteNo", writing_no);
+    }
+    
+    public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
+    	sqlSession.insert(Namespace+".insertWritingDtl", writingDtlDto);
     }
 }
