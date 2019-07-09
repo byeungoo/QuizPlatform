@@ -44,4 +44,12 @@ public class WritingDtlService {
     		writingDtlDao.updateSecVoteNo(writing_no);
     	}
     }
+    
+    /*
+     ** 게시글 작성  
+     */
+    public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
+    	writingDtlDao.insertWritingDtl(writingDtlDto);
+    }
+    
 }

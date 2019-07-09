@@ -57,4 +57,9 @@
     	WHERE  WRITING_NO = #{writing_no}
     </select>
     
+    <select id="insertWritingDtl" parameterType="writingDtlDto">
+    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS)
+    	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{regpe_id}, #{modpe_id}, now(), now(), 0)
+    </select>
+ 
 </mapper>

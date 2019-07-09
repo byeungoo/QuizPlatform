@@ -33,15 +33,18 @@
         </div>
       </div>
     </header>
+    
+    <form action="/result" id="result" method="post">
+    <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
     <section class="detail" >
         <div class="card card--single">
-          <input type="radio" name="versus" id="before" class="blind">
+          <input type="radio" name="inputState" id="before" class="blind" value="before">
           <label for="before">
             <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
           </label>
         </div>
         <div class="card card--single">
-            <input type="radio" name="versus" id="after" class="blind">
+            <input type="radio" name="inputState" id="after" class="blind" value="after">
             <label for="after">
               <span class="card__desc">
                 <span class="card--responsive">${writingDtlDto.sec_writ_content}</span>
@@ -54,8 +57,10 @@
           <div class="detail__txtarea">${writingDtlDto.content}</div>
           <a class="detail__btn">선택해주세요</a>
           <a class="detail__btn on" href="/result?writing_no=${writingDtlDto.writing_no}" class="animsition-link">결과보기</a>
+          <input type="submit" value="결과보기화면이동" />
         </div>
     </section>
+    </form>
   </div>
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
