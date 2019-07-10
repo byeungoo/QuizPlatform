@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.quiz.web.dto.UserDto;
+import com.quiz.web.dto.WritingDtlDto;
 
 @Repository
 public class UserDao {
@@ -14,10 +15,10 @@ public class UserDao {
     
     private static final String Namespace = "com.quiz.mapper.userMapper";
     
-    public UserDto insertUser(UserDto userDto) throws Exception{
-        return sqlSession.selectOne(Namespace+".insertUser", userDto);
+    public void insertUser(UserDto userDto) throws Exception{
+        sqlSession.insert(Namespace+".insertUser", userDto);
     }
-	
+    
     public String getNickname() throws Exception{
     	return sqlSession.selectOne(Namespace+".getNickname");
     }

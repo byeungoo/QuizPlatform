@@ -81,11 +81,12 @@ public class VsController {
     	writingDtlDto.setModpe_id(session.toString());
     	
     	UserDto userDto = new UserDto();
-    	userDto.setUser_id(session.toString());
+    	userDto.setUser_id("1");
+    	userDto.setRegpe_id("1");
     	userDto.setNickname(userService.getNickname());
     	
     	userService.insertUser(userDto);
-    	writingDtlService.insertWritingDtl(writingDtlDto);
+    	//writingDtlService.insertWritingDtl(writingDtlDto);
     	
     	model.addAttribute("writingDtlDto", writingDtlDto);
     	

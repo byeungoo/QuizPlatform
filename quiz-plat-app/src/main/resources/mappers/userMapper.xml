@@ -6,7 +6,7 @@
 <mapper namespace="com.quiz.mapper.userMapper">
 
  	<select id="insertUser" parameterType="userDto">
-		INSERT INTO USER VALUES('#{user_id}', '#{nickname}', '#{user_id}', NOW(), NOW())
+		INSERT INTO USER(USER_ID, NICKNAME, REGPE_ID, REG_DTS, MOD_DTS) VALUES(#{user_id}, #{nickname}, #{regpe_id}, now(), now())
     </select>
     
     <select id="getNickname" resultType="String">
