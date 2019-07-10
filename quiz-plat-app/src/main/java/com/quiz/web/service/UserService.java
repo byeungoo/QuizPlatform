@@ -25,5 +25,12 @@ public class UserService {
     public String getNickname() throws Exception{
     	return userDao.getNickname();
     }
+    
+    /*
+     ** 유저 아이디 확인
+     */
+    public int chekUserId(String user_id) throws Exception{
+    	return userDao.chekUserId(user_id);
+    }
 	
 }

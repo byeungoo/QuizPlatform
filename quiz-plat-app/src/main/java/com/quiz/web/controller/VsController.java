@@ -80,13 +80,16 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
-    	UserDto userDto = new UserDto();
-    	userDto.setUser_id("1");
-    	userDto.setRegpe_id("1");
-    	userDto.setNickname(userService.getNickname());
+    	//사용자 아이디 체크 없으면 신규 등록
+    	if(userService.chekUserId(session.toString()) != 1) {
+    		UserDto userDto = new UserDto();
+        	userDto.setUser_id(session.toString());
+        	userDto.setRegpe_id(session.toString());
+        	userDto.setNickname(userService.getNickname());
+        	userService.insertUser(userDto);
+    	} 
     	
-    	userService.insertUser(userDto);
-    	//writingDtlService.insertWritingDtl(writingDtlDto);
+    	writingDtlService.insertWritingDtl(writingDtlDto);
     	
     	model.addAttribute("writingDtlDto", writingDtlDto);
     	
