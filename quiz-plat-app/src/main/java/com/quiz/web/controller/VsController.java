@@ -15,8 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 import com.quiz.web.dto.WritingVoteDto;
+import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 import com.quiz.web.service.WritingVoteService;
  
@@ -33,6 +35,9 @@ public class VsController {
     
     @Autowired
     private WritingVoteService writingVoteService;
+    
+    @Autowired
+    private UserService userService;
         
     /**
      * 메인화면 조회
@@ -57,6 +62,7 @@ public class VsController {
     /*
      ** 게시글 작성 
      */
+    @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
     public String insertWrite(HttpServletRequest request, Locale locale, Model model) throws Exception{
     	
@@ -74,6 +80,11 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
+    	UserDto userDto = new UserDto();
+    	userDto.setUser_id(session.toString());
+    	userDto.setNickname(userService.getNickname());
+    	
+    	userService.insertUser(userDto);
     	writingDtlService.insertWritingDtl(writingDtlDto);
     	
     	model.addAttribute("writingDtlDto", writingDtlDto);

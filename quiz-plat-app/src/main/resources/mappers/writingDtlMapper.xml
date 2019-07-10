@@ -6,6 +6,7 @@
 <mapper namespace="com.quiz.mapper.writingDtlMapper">
  
  	<select id="getTextWritingList" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.getTextWritingList */
 		SELECT  W.WRITING_NO
 		      , W.FIR_WRIT_CONTENT
       		  , W.SEC_WRIT_CONTENT
@@ -24,6 +25,7 @@
     </select>
     
     <select id="getTextWriting" parameterType="int" resultType="writingDtlDto">
+    	/* com.quiz.mapper.writingDtlMapper.getTextWriting */
     	SELECT  W.WRITING_NO
     	      , W.QUES_TYPE_DIV_CD
 		      , W.FIR_WRIT_CONTENT
@@ -46,18 +48,21 @@
     </select>
     
     <select id="updateFirVoteNo" parameterType="int">
+    	/* com.quiz.mapper.writingDtlMapper.updateFirVoteNo */
     	UPDATE WRITING
     	SET    FIR_VOTE_NO = FIR_VOTE_NO + 1
     	WHERE  WRITING_NO = #{writing_no}
     </select>
     
     <select id="updateSecVoteNo" parameterType="int">
+    	/* com.quiz.mapper.writingDtlMapper.updateSecVoteNo */
     	UPDATE WRITING
     	SET    SEC_VOTE_NO = SEC_VOTE_NO + 1
     	WHERE  WRITING_NO = #{writing_no}
     </select>
     
     <select id="insertWritingDtl" parameterType="writingDtlDto">
+    	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
     	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS)
     	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{regpe_id}, #{modpe_id}, now(), now(), 0)
     </select>
