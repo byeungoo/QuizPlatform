@@ -57,7 +57,7 @@ public class VsController {
     /*
      ** 게시글 작성 
      */
-    @RequestMapping(value="/insert/write", method = RequestMethod.POST)
+    @RequestMapping(value="/insert", method = RequestMethod.POST)
     public String insertWrite(HttpServletRequest request, Locale locale, Model model) throws Exception{
     	
     	HttpSession   session           = request.getSession();
@@ -80,7 +80,7 @@ public class VsController {
     	
     	//작성 후 detail or result?
     	
-    	return "detail";
+    	return "result";
     }
     
     /**

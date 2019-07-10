@@ -26,7 +26,7 @@
       </div>
       <div class="header__title">투표 만들기</div>
     </header>
-    <form action="/insert/write" id="insert_write" method="post">
+    <form action="/insert" id="insert_write" method="post">
     <section class="write__wrap">
       <div class="write__inparea">
         <p class="write__inptit">비교 1<span class="write__inpsubtit">최대 50자</span></p>
