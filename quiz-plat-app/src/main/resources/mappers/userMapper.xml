@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.quiz.mapper.userMapper">
+
+ 	<select id="insertUser" parameterType="userDto">
+		INSERT INTO USER(USER_ID, NICKNAME, REGPE_ID, REG_DTS, MOD_DTS) VALUES(#{user_id}, #{nickname}, #{regpe_id}, now(), now())
+    </select>
+    
+    <select id="getNickname" resultType="String">
+    	SELECT  NICKNAME
+		FROM    NICKNAME
+		WHERE   1 = 1
+		AND     USE_YN = 'N'
+		ORDER BY RAND() LIMIT 1
+    </select>    
+    
+</mapper>
