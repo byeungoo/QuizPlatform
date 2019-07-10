@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/java,eclipse,java-web,code-java
-# Edit at https://www.gitignore.io/?templates=java,eclipse,java-web,code-java
+# Created by https://www.gitignore.io/api/java,eclipse,java-web,code-java,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=java,eclipse,java-web,code-java,visualstudiocode
 
 ### Code-Java ###
 # Language Support for Java(TM) by Red Hat extension for Visual Studio Code - https://marketplace.visualstudio.com/items?itemName=redhat.java
@@ -105,4 +105,15 @@ hs_err_pid*
 ## ignoring target file
 target/
 
-# End of https://www.gitignore.io/api/java,eclipse,java-web,code-java
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+# End of https://www.gitignore.io/api/java,eclipse,java-web,code-java,visualstudiocode

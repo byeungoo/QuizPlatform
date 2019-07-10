@@ -56,8 +56,7 @@
           <p class="detail__tit">설명</p>
           <div class="detail__txtarea">${writingDtlDto.content}</div>
           <a class="detail__btn">선택해주세요</a>
-          <a class="detail__btn on" href="/result?writing_no=${writingDtlDto.writing_no}" class="animsition-link">결과보기</a>
-          <input type="submit" value="결과보기화면이동" />
+          <input type="submit" class="detail__btn on" href="/result?writing_no=${writingDtlDto.writing_no}" value="결과보기">
         </div>
     </section>
     </form>

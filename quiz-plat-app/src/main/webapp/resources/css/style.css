@@ -33,7 +33,7 @@ a {color: inherit!important; text-decoration: inherit;}
 .detail__desc{margin-top:28px;}
 .detail__tit{font-size:14px; font-weight:800; color:#a1a1a1;}
 .detail__txtarea{overflow:scroll;font-size:14px;margin:8px 0 0;height:150px!important; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
-.detail__btn{display:block;text-align:center;min-height:60px;line-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7!important;font-weight:bold;font-size:22px;text-shadow:none!important;border-radius:0!important;border:none;margin:0;}
+.detail__btn{display:block;width:100%;text-align:center;min-height:60px;line-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7!important;font-weight:bold;font-size:22px;text-shadow:none!important;border-radius:0!important;border:none;margin:0;}
 .detail__btn.on{background:#32bbff;color:#fff!important;display:none;}
 .detail .card label{display:block;position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;}
 .detail .card input:checked+label{box-sizing:border-box;background:#32bbff;border:2px solid #008fd7;color:#fff!important;}
