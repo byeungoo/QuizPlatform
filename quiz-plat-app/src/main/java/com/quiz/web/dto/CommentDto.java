@@ -4,6 +4,13 @@ import java.util.Date;
 
 public class CommentDto {
 	
+	public CommentDto(int writing_no, String comment_content, int recom_no, String regpe_id) {
+		this.writing_no = writing_no;
+		this.comment_content = comment_content;
+		this.recom_no = recom_no;
+		this.regpe_id = regpe_id;
+	}
+	
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
