@@ -15,7 +15,8 @@
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="wrapper wrapper--white m_scene">
+  <div class="wrapper wrapper--white m-scene">
+    <div class="scene_element scene_element--fadeinright">
     <div class="" style="height:45px;"><h3>앱바</h3></div>
     <header class="header">
       <div class="header__logo">

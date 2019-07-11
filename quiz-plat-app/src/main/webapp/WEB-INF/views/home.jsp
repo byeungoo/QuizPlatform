@@ -16,12 +16,12 @@
 </head>
 <body>
   <div class="wrapper m-scene">
-  	<div>
-		<header>
-	  		<h3 style="height:44px;">헤더 영역</h3>
-	  	</header>
-    <section class="main-sec">
-      <ul class="main-sec__list">
+    <div>
+      <header>
+        <h3 style="height:44px;">헤더 영역</h3>
+      </header>
+      <section class="main-sec">
+        <ul class="main-sec__list">
         <li class="main-sec__list-item">
           <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
             <div class="card">

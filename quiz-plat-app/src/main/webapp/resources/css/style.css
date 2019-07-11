@@ -6,6 +6,7 @@ textarea:focus, input:focus{outline: none;}
 .wrapper{height:100vh;}
 .wrapper--white, .wrapper--white .header{background:#fff;}
 .blind{position: absolute;opacity: 0;}
+.scene_element{height:100%;}
 /*header*/
 .header{height:25px;margin:0 15px;position:relative;}
 .header__infos, .header__info, .header__home{display:flex;justify-content: space-between;align-items:center;}
@@ -34,7 +35,7 @@ textarea:focus, input:focus{outline: none;}
 .detail{padding:0 15px;margin-top:22px;}
 .detail__desc{margin-top:28px;}
 .detail__tit{font-size:14px; font-weight:800; color:#a1a1a1;}
-.detail__txtarea{overflow:scroll;font-size:14px;margin:8px 0 0;height:150px; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
+.detail__txtarea{overflow:scroll;overflow-x:hidden; font-size:14px;margin:8px 0 0;height:150px; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
 .detail__btn{pointer-events:none;display:block;width:100%;text-align:center;min-height:60px;line-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7;font-weight:bold;font-size:22px;text-shadow:none;border-radius:0;border:none;margin:0;}
 .detail__btn:before{content:"선택해주세요";}
 .detail__btn.on{background:#32bbff;color:#fff;pointer-events:auto;}
@@ -67,7 +68,7 @@ textarea:focus, input:focus{outline: none;}
 .result__footbtn{display:block;height:70px;line-height:70px;font-size:22px;font-weight:bold;background-color:#FFF70F;text-align:center;position:fixed;bottom:0;left:0;right:0;}
 .result__badges{min-height:24px;}
 .result__write-wrap{display:block;padding:18px 22px 18px 0;color:#a1a1a1;position:relative}
-.result__write{display:block;width:100%;font-size:14px;overflow:hidden;}
+.result__write{display:block;width:100%;font-size:14px;overflow:hidden;border:0;}
 .result__write-wrap .fa-pen{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 .result__write-wrap .fa-pen.on{color:black;}
 /*작성 페이지*/
@@ -85,5 +86,5 @@ textarea:focus, input:focus{outline: none;}
 /* floating action button */
 .fab{display:block;width:120px;height:40px;line-height:40px;text-align:center;border:2px solid #008fd7;
   border-radius:50px;color:#008fd7;background:#fff;font-size:17px;font-weight:bold;position:fixed;bottom:5px;left:50%;transform:translateX(-50%)}
-.toast{display:none;position:fixed;bottom:60px;height:40px;line-height:40px;display:block;color:white;background:grey;border-radius:50px;padding:0 20px;width:230px;box-sizing:border-box;left:50%;transform:translateX(-50%)}
+.toast{display:none;position:fixed;bottom:60px;height:40px;line-height:40px;display:block;color:white;background:grey;border-radius:50px;padding:0 20px;width:fit-content;width:-webkit-fit-content;box-sizing:border-box;left:50%;transform:translateX(-50%)}
 .toast.on{display:block;}

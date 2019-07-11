@@ -61,8 +61,8 @@
         </form>
       </div>
     </div>
-  </div>  
-  <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
 </body>
