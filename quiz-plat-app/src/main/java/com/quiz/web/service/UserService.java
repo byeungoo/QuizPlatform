@@ -32,5 +32,11 @@ public class UserService {
     public int chekUserId(String user_id) throws Exception{
     	return userDao.chekUserId(user_id);
     }
-	
+    
+    /*
+     ** 닉네임 사용여부 'Y' 업데이트 
+     */
+    public void updateNickname(String nickname) throws Exception{
+    	userDao.updateNickname(nickname);
+    }
 }

@@ -87,6 +87,7 @@ public class VsController {
         	userDto.setRegpe_id(session.toString());
         	userDto.setNickname(userService.getNickname());
         	userService.insertUser(userDto);
+        	userService.updateNickname(userDto.getNickname());
     	} 
     	
     	writingDtlService.insertWritingDtl(writingDtlDto);

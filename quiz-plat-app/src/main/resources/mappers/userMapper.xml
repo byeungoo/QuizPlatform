@@ -24,4 +24,11 @@
 		AND    USER_ID = #{user_id}
     </select>
     
+    <select id="updateNickname" parameterType="String">
+    	UPDATE NICKNAME
+    	SET    USE_YN = 'Y'
+    	WHERE  1 = 1
+    	AND    NICKNAME = #{nickname}
+    </select>
+    
 </mapper>
