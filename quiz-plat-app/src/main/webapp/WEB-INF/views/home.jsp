@@ -9,23 +9,27 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>퀴즈플랫폼</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/keyframes.css">
+  <link rel="stylesheet" href="resources/css/pageTransitions.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="wrapper" data-role="page">
-    <header data-role="header">
-      <h3 style="height:44px;">헤더 영역</h3>
-    </header>
+  <div class="wrapper m-scene">
+  	<div>
+		<header>
+	  		<h3 style="height:44px;">헤더 영역</h3>
+	  	</header>
     <section class="main-sec">
-      <ul class="main-sec__list" data-role="content">
+      <ul class="main-sec__list">
         <li class="main-sec__list-item">
           <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
             <div class="card">
-              <a href="/detail?writing_no=${writingDtlDto.writing_no}" data-transition="slide">
+              <a href="/detail?writing_no=${writingDtlDto.writing_no}">
                 <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
-                <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
+                <div class="card__hr">
+                	<img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS" style="display:block;margin:auto;">
+				</div>
                 <span class="card__desc">${writingDtlDto.sec_writ_content}</span>
                 <div class="card__foot">
                   <div class="card__info-area">
@@ -40,11 +44,18 @@
               </a>
             </div>
           </c:forEach>
-        </li>
-      </ul>
-    </section>
+    	    </li>
+	      </ul>
+    	</section>
+	</div>
+    <a href="write.html" class="fab">
+      투표 만들기
+    </a>
+    <span class="toast on scene_element">새로운 투표가 만들어졌습니다</span>
   </div>
-  
+
+  <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
+  <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
 </body>
 </html>

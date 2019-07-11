@@ -28,14 +28,15 @@ textarea:focus, input:focus{outline: none;}
 .card__info-area{display:flex;align-items:center;}
 .card__info-area+.card__info-area{margin-left:20px;}
 .card__icon-desc{margin-left:4px;vertical-align:top;font-weight:medium;}
-
+.card__hr{display:block;text-align:center;}
+.card__hr img{display:inline-block;}
 /*detail 글 상세 페이지*/
 .detail{padding:0 15px;margin-top:22px;}
 .detail__desc{margin-top:28px;}
 .detail__tit{font-size:14px; font-weight:800; color:#a1a1a1;}
 .detail__txtarea{overflow:scroll;font-size:14px;margin:8px 0 0;height:150px; box-shadow:none;border:none;line-height:150%;padding-right:5px;color:#9c9c9c;}
 .detail__btn{pointer-events:none;display:block;width:100%;text-align:center;min-height:60px;line-height:60px;position:fixed;bottom:0;left:0;right:0;background-color:#ebebeb;color:#c7c7c7;font-weight:bold;font-size:22px;text-shadow:none;border-radius:0;border:none;margin:0;}
-.detail__btn:before{content:"선택해주세요";z-index:999;position:absolute;top:0;left:0;width:100%;height:100%;display:block;}
+.detail__btn:before{content:"선택해주세요";}
 .detail__btn.on{background:#32bbff;color:#fff;pointer-events:auto;}
 .detail__btn.on:before{content:"결과보기";}
 .detail .card label{display:block;position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;}
@@ -65,7 +66,10 @@ textarea:focus, input:focus{outline: none;}
 .result__reply-cont{margin-top:8px;color:#282828;line-height:1.4;}
 .result__footbtn{display:block;height:70px;line-height:70px;font-size:22px;font-weight:bold;background-color:#FFF70F;text-align:center;position:fixed;bottom:0;left:0;right:0;}
 .result__badges{min-height:24px;}
-
+.result__write-wrap{display:block;padding:18px 22px 18px 0;color:#a1a1a1;position:relative}
+.result__write{display:block;width:100%;font-size:14px;overflow:hidden;}
+.result__write-wrap .fa-pen{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+.result__write-wrap .fa-pen.on{color:black;}
 /*작성 페이지*/
 .write__wrap{margin:0 25px;height:100vh;}
 .write__inparea{margin-top:20px;}
@@ -78,39 +82,8 @@ textarea:focus, input:focus{outline: none;}
 .write__footbtn.on{display:none;background:#32bbff;color:#fff;}
 .write__inpcnt.on, .write__txtarea.on{border-color:#008fd7;}
 
-/* 페이지 전환 애니메이션 */
-@keyframes fadeInRight {
-  0% {opacity: 0;-webkit-transform: translate3d(100%, 0, 0);transform: translate3d(100%, 0, 0); }
-  100% {opacity: 1; } 
-}
-@-webkit-keyframes fadeInRight {
-  0% {opacity: 0;-webkit-transform: translate3d(100%, 0, 0);transform: translate3d(100%, 0, 0); }
-  100% {opacity: 1; } 
-}
-@-webkit-keyframes fadeInLeft {
-  0% {opacity: 0;-webkit-transform: translate3d(-100%, 0, 0);transform: translate3d(-100%, 0, 0); }
-  100% {opacity: 1; } 
-}
-@keyframes fadeInLeft {
-  0% {opacity: 0;-webkit-transform: translate3d(-100%, 0, 0);transform: translate3d(-100%, 0, 0); }
-  100% {opacity: 1; } 
-}
-@-webkit-keyframes fadeOut {0% {opacity: 1;} 100% {opacity: 0; } }
-@keyframes fadeOut {0% {opacity: 1;}100% {opacity: 0; } }
-@-webkit-keyframes slideInRight {
-  0% {-webkit-transform: translate3d(100%, 0, 0);transform: translate3d(100%, 0, 0); }
-  100% {-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0); } 
-}
-@keyframes slideInLeft {
-  0% {-webkit-transform: translate3d(-100%, 0, 0);transform: translate3d(-100%, 0, 0); }
-  100% {-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0); } 
-}
-#main .anim_element {-webkit-animation-duration: .25s;animation-duration: .25s;
-  -webkit-transition-timing-function: ease-out;transition-timing-function: ease-out;-webkit-animation-fill-mode: both;animation-fill-mode: both; }
-#main .anim_element--fadeOut {-webkit-animation-name: fadeOut;animation-name: fadeOut; }
-#main .anim_element--fadeInRight {-webkit-animation-name: fadeInRight;animation-name: fadeInRight; }
-#main .anim_element--fadeInLeft {-webkit-animation-name: fadeInLeft;animation-name: fadeInLeft; }
-#main .anim_element--slideInRight {-webkit-animation-name: slideInRight;animation-name: slideInRight; }
-#main .anim_element--slideInLeft {-webkit-animation-name: slideInLeft;animation-name: slideInLeft; }
-#main .anim_element--slowly {-webkit-animation-duration: .5s;animation-duration: .5s;}
-#main.is-exiting .anim_element {-webkit-animation-direction: alternate-reverse;animation-direction: alternate-reverse; }
+/* floating action button */
+.fab{display:block;width:120px;height:40px;line-height:40px;text-align:center;border:2px solid #008fd7;
+  border-radius:50px;color:#008fd7;background:#fff;font-size:17px;font-weight:bold;position:fixed;bottom:5px;left:50%;transform:translateX(-50%)}
+.toast{display:none;position:fixed;bottom:60px;height:40px;line-height:40px;display:block;color:white;background:grey;border-radius:50px;padding:0 20px;width:230px;box-sizing:border-box;left:50%;transform:translateX(-50%)}
+.toast.on{display:block;}
