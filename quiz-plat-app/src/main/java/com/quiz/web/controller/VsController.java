@@ -15,9 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.quiz.web.dto.CommentDto;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 import com.quiz.web.dto.WritingVoteDto;
+import com.quiz.web.service.CommentService;
 import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 import com.quiz.web.service.WritingVoteService;
@@ -38,6 +40,9 @@ public class VsController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private CommentService commentService;
         
     /**
      * 메인화면 조회
@@ -114,10 +119,12 @@ public class VsController {
     	//투표 참여 여부 체크, 이미 참여했을 경우 결과페이지로 이동
     	if(writingVoteService.chekVote(paramWritingVoteDto).equals("Y")) {
     		WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
-        	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(paramWritingVoteDto);
-        	    	
+        	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
+        	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
+        	
         	model.addAttribute("writingDtlDto", writingDtlDto);
         	model.addAttribute("writingVoteDto", writingVoteDto);
+        	model.addAttribute("commentDtoList", commentDtoList);
         	
             return "result";
     	} 
@@ -158,12 +165,55 @@ public class VsController {
     	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
-    	WritingVoteDto writingVoteDto = writingVoteService.getWritingDtlDto(paramWritingVoteDto);
+    	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
     	    	
     	model.addAttribute("writingDtlDto", writingDtlDto);
     	model.addAttribute("writingVoteDto", writingVoteDto);
     	
         return "result";
     }
+    
+    /*
+     ** 댓글 작성 
+     */
+    @Transactional
+    @RequestMapping(value = "writeComment", method = RequestMethod.POST)
+    public String writeComment(HttpServletRequest request, Model model) throws Exception{
+    	
+    	HttpSession session    = request.getSession();
+    	    	
+    	//사용자 아이디 체크 없으면 신규 등록
+    	UserDto userDto = new UserDto();
+    	if(userService.chekUserId(session.toString()) != 1) {
+        	userDto.setUser_id(session.toString());
+        	userDto.setRegpe_id(session.toString());
+        	userDto.setNickname(userService.getNickname());
+        	userService.insertUser(userDto);
+        	userService.updateNickname(userDto.getNickname());
+    	} 
+    	
+    	//댓글 내용 삽입
+    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
+    	String comment_content = request.getParameter("comment_content");
+    	int like = 0;
+    	CommentDto commentDto = new CommentDto(writing_no, comment_content, like, session.toString());   	
+    	commentService.insertComment(commentDto);   	
+    	
+    	//result view 랜더링
+    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
+    	paramWritingVoteDto.setWriting_no(writing_no);
+    	paramWritingVoteDto.setUser_id(session.toString());
+    	
+    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+        WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
+        List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
+        
+        model.addAttribute("writingDtlDto", writingDtlDto);
+        model.addAttribute("writingVoteDto", writingVoteDto);
+        model.addAttribute("commentDtoList", commentDtoList);
+    	
+    	return "result";
+    }
+    
     
 }

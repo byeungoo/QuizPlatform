@@ -8,6 +8,7 @@
             <typeAlias type="com.quiz.web.dto.WritingDtlDto" alias="writingDtlDto"/>
             <typeAlias type="com.quiz.web.dto.WritingVoteDto" alias="writingVoteDto"/>
             <typeAlias type="com.quiz.web.dto.UserDto" alias="userDto"/>
+            <typeAlias type="com.quiz.web.dto.CommentDto" alias="commentDto"/>
         </typeAliases>
         
     </configuration>

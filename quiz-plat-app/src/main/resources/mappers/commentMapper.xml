@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.quiz.mapper.commentMapper">
+
+ 	<select id="insertComment" parameterType="commentDto">
+		INSERT INTO COMMENT(WRITING_NO, COMMENT_CONTENT, RECOM_NO, REGPE_ID, REG_DTS, MOD_DTS) 
+		VALUES(#{writing_no}, #{comment_content}, #{recom_no}, #{regpe_id}, now(), now())
+    </select>
+    
+    <select id="getCommentDtoList" parameterType="int" resultType="commentDto">
+    	SELECT  COMMENT_CONTENT
+    	      , RECOM_NO
+    	      , REGPE_ID
+    	      , REG_DTS
+    	      , MOD_DTS
+        FROM    COMMENT
+        WHERE   1 = 1
+        AND     WRITING_NO = #{writing_no}
+    </select>
+    
+    
+</mapper>

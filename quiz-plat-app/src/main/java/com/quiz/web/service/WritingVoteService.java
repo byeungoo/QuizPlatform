@@ -12,7 +12,7 @@ public class WritingVoteService {
     @Autowired
     private WritingVoteDao writingVoteDao;
     
-    public WritingVoteDto getWritingDtlDto(WritingVoteDto writingVoteDto) throws Exception{
+    public WritingVoteDto getWritingVoteDto(WritingVoteDto writingVoteDto) throws Exception{
     	return writingVoteDao.getWritingVoteDto(writingVoteDto);
     }
     
