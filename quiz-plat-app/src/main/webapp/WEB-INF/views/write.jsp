@@ -10,10 +10,12 @@
   <title>투표작성페이지</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/keyframes.css">
+  <link rel="stylesheet" href="resources/css/pageTransitions.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="wrapper wrapper--white">
+  <div class="wrapper wrapper--white m_scene">
     <div class="" style="height:45px;"><h3>앱바</h3></div>
     <header class="header">
       <div class="header__logo">
@@ -43,7 +45,8 @@
     <input type="submit" value="만들기" class="write__footbtn on"></input>
     </form>
   </div>
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
+  <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
 </body>
 </html>
