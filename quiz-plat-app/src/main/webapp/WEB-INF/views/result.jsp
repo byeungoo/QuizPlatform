@@ -29,7 +29,7 @@
     </header>
     <section class="result__contwrap">
       <div class="result__cont">
-        <div class="result__toptx">엥;</div>
+        <div class="result__toptx">핫</div>
         <div class="result__area">
           <div class="result__left-area">
             <div class="result__badges">
@@ -61,6 +61,7 @@
               <p class="result__footinfo">${writingDtlDto.fir_writ_content}</p>
             </div>
           </div>
+		  <img src="./resources/img/fire.gif" alt="불이미지" class="result__vsimg">
           <div class="result__right-area win">
             <div class="result__badges">
               <c:if test="${writingVoteDto.sec_content_vote == 'Y'}">
@@ -107,9 +108,10 @@
         <form action = "writeComment" id="writeComment" method="post">
           <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
           <div class="result__write-wrap">
-            <textarea name="comment_content" id="comment_content" class="result__write" placeholder="댓글을 입력해주세요"></textarea>
-            <i class="fas fa-pen"></i>
-            <input type="submit" value="댓글작성"/>
+			<div class="result__write-contwrap">
+           	 <textarea name="comment_content" id="comment_content" class="result__write" placeholder="댓글을 입력해주세요"></textarea>
+           	 <i class="fas fa-pen" onclick="$(this).parents('#writeComment').submit();" ></i>
+			</div>
           </div>
         </form>
     </section>

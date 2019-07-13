@@ -4,22 +4,32 @@ $(function() {
       $('.detail__btn').addClass('on');
     });
     
-    $('.write__inpcnt, .write__txtarea').on('keyup',function(){
-      var len = $(this).val().trim().length;
+    $('.write__inparea').on('keyup',function(){
+      var len = $(this).find('input, textarea').val().trim().length;
       if(len > 0) $(this).addClass('on');
       else if(len == 0) $(this).removeClass('on');
-      if(isAllChecked.call($(this))){
-        $('.write__footbtn').hide();
-        $('.write__footbtn.on').show();
+      var writeWrap= $('.write__wrap');
+      var writeInpArea = $('.write__inparea');
+      var writeBtn = writeWrap.find('.write__footbtn');
+      if(isAllChecked()){
+        writeWrap.addClass('on');
+        writeBtn.val('만들기');
       }else{
-        $('.write__footbtn').show();
-        $('.write__footbtn.on').hide();
+        writeWrap.removeClass('on');
+        writeBtn.val('필수 항목을 입력해주세요');
       }
+    });
+
+    $('.write__inparea').on('focusin','.write__inpcnt, .write__txtarea',function(){
+      $(this).addClass('focus');
+    });
+    $('.write__inparea').on('focusout','.write__inpcnt, .write__txtarea',function(){
+      $(this).removeClass('focus');
     });
 
     function isAllChecked(){
       var chk = 0;
-      $('.write__inpcnt, .write__txtarea').each(function(index,item){
+      $('.write__inparea').each(function(index,item){
         $(item).hasClass('on') ? chk++ : chk;
       });
       return chk == 3 ? true : false;
@@ -58,11 +68,21 @@ $(function() {
         toast.addClass('scene_element--fadeout');
       }, 2000);
 
-      $('.result__write').on('keydown', function() {
+      $('.result__write').on('keyup', function() {
         if($(this).val().trim().length >0){
           $(this).siblings('i').addClass('on');
         }else{
           $(this).siblings('i').removeClass('on');
         }
      });
+
+     //상세페이지 카드 내 텍스트크기 조절하기
+     var detailCard = $('.card__responsive');
+     detailCard.each(function(index,item){
+       var fontSize= parseInt($(this).css('font-size'),10);
+       while($(this)[0].scrollHeight > $(this).innerHeight()){
+         fontSize -= 2;
+         $(this).css('font-size',(fontSize-2)+'px');
+       }
+     })
 });
