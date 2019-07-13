@@ -11,14 +11,17 @@
     </select>
     
     <select id="getCommentDtoList" parameterType="int" resultType="commentDto">
-    	SELECT  COMMENT_CONTENT
-    	      , RECOM_NO
-    	      , REGPE_ID
-    	      , REG_DTS
-    	      , MOD_DTS
-        FROM    COMMENT
+        SELECT  C.COMMENT_CONTENT
+			  , C.RECOM_NO
+	          , C.REGPE_ID
+	          , C.REG_DTS
+	          , C.MOD_DTS
+	          , U.NICKNAME
+        FROM    COMMENT C
+              , USER U
         WHERE   1 = 1
-        AND     WRITING_NO = #{writing_no}
+        AND     C.WRITING_NO = #{writing_no}
+        AND     C.REGPE_ID = U.USER_ID
     </select>
     
     
