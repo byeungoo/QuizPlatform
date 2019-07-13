@@ -7,6 +7,8 @@ public class UserDto {
 	private String user_id;  //사용자ID
 	private String nickname; //닉네임
 	private String regpe_id; //등록자
+	private String pwd;
+	private String reg_div_cd;
 	private Date   reg_dts;  //등록일
 	private Date   mod_dts;  //변경일
 	
@@ -39,5 +41,17 @@ public class UserDto {
 	}
 	public void setMod_dts(Date mod_dts) {
 		this.mod_dts = mod_dts;
+	}
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	public String getReg_div_cd() {
+		return reg_div_cd;
+	}
+	public void setReg_div_cd(String reg_div_cd) {
+		this.reg_div_cd = reg_div_cd;
 	}
 }

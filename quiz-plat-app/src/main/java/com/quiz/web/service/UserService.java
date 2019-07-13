@@ -27,10 +27,17 @@ public class UserService {
     }
     
     /*
-     ** 유저 아이디 확인
+     ** 비회원 유저 아이디 확인
      */
     public int chekUserId(String user_id) throws Exception{
     	return userDao.chekUserId(user_id);
+    }
+    
+    /*
+     ** 회원 유저 아이디 확인
+     */
+    public int chekOurUser(UserDto userDto) throws Exception{
+    	return userDao.chekOurUser(userDto);
     }
     
     /*
