@@ -96,7 +96,7 @@
           <c:forEach items="${commentDtoList}" var="commentDto">
             <div class="result__reply">
               <div class="result__reply-tit">
-                ${commentDto.regpe_id}
+                ${commentDto.nickname}
               </div>
               <div class="result__reply-cont">
                 ${commentDto.comment_content}
