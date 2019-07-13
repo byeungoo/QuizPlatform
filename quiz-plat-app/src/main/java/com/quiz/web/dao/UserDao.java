@@ -26,6 +26,10 @@ public class UserDao {
     public int chekUserId(String user_id) throws Exception{
     	return sqlSession.selectOne(Namespace+".chekUserId", user_id);
     }
+    
+    public int chekOurUser(UserDto userDto) throws Exception{
+    	return sqlSession.selectOne(Namespace+".chekOurUser", userDto);
+    }
     public void updateNickname(String nickname) throws Exception{
     	sqlSession.update(Namespace+".updateNickname", nickname);
     }
