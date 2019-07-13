@@ -92,27 +92,25 @@
           </div>
         </div>
         <div class="result__reply-area">
-          <div class="result__reply">
-            <div class="result__reply-tit">
-              익명
+          <c:forEach items="${commentDtoList}" var="commentDto">
+            <div class="result__reply">
+              <div class="result__reply-tit">
+                ${commentDto.regpe_id}
+              </div>
+              <div class="result__reply-cont">
+                ${commentDto.comment_content}
+              </div>
             </div>
-            <div class="result__reply-cont">
-              당연히 100억이지 조선시대 왕들 전부 단명하는거 모르는 부분? 전자 찍으신분들 채소 국사시간에 졸으신 분들 ㅋ
-            </div>
-          </div>
-          <div class="result__reply">
-            <div class="result__reply-tit">
-              익명23
-            </div>
-            <div class="result__reply-cont">
-              뭔소리야 당연히 닥후지 조선시대 왕이 짱이야
-            </div>
-          </div>
+          </c:forEach>
         </div>
-        <div class="result__write-wrap">
-          <textarea name="" id="" class="result__write" placeholder="댓글을 입력해주세요"></textarea>
-          <i class="fas fa-pen"></i>
-        </div>
+        <form action = "writeComment" id="writeComment" method="post">
+          <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
+          <div class="result__write-wrap">
+            <textarea name="comment_content" id="comment_content" class="result__write" placeholder="댓글을 입력해주세요"></textarea>
+            <i class="fas fa-pen"></i>
+            <input type="submit" value="댓글작성"/>
+          </div>
+        </form>
     </section>
     <div class="result__footbtn">공유하기</div>
   </div>

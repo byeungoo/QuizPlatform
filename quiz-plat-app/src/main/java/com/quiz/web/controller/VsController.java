@@ -97,11 +97,11 @@ public class VsController {
     	
     	writingDtlService.insertWritingDtl(writingDtlDto);
     	
-    	model.addAttribute("writingDtlDto", writingDtlDto);
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
+    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	model.addAttribute("toastOn", "Y");
     	
-    	//작성 후 detail or result?
-    	
-    	return "result";
+    	return "home";
     }
     
     /**
@@ -166,9 +166,11 @@ public class VsController {
     	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
     	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
-    	    	
+    	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
+    	
     	model.addAttribute("writingDtlDto", writingDtlDto);
     	model.addAttribute("writingVoteDto", writingVoteDto);
+    	model.addAttribute("commentDtoList", commentDtoList);
     	
         return "result";
     }
@@ -196,7 +198,11 @@ public class VsController {
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
     	String comment_content = request.getParameter("comment_content");
     	int like = 0;
-    	CommentDto commentDto = new CommentDto(writing_no, comment_content, like, session.toString());   	
+    	CommentDto commentDto = new CommentDto();
+    	commentDto.setWriting_no(writing_no);
+    	commentDto.setComment_content(comment_content);
+    	commentDto.setRecom_no(like);
+    	commentDto.setRegpe_id(session.toString());
     	commentService.insertComment(commentDto);   	
     	
     	//result view 랜더링

@@ -4,13 +4,6 @@ import java.util.Date;
 
 public class CommentDto {
 	
-	public CommentDto(int writing_no, String comment_content, int recom_no, String regpe_id) {
-		this.writing_no = writing_no;
-		this.comment_content = comment_content;
-		this.recom_no = recom_no;
-		this.regpe_id = regpe_id;
-	}
-	
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
@@ -19,6 +12,7 @@ public class CommentDto {
 	private String modpe_id;           //수정자
 	private Date   reg_dts;            //등록일시
 	private Date   mod_dts;            //수정일시
+	private String nickname;           //닉네임
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -67,5 +61,11 @@ public class CommentDto {
 	}
 	public void setMod_dts(Date mod_dts) {
 		this.mod_dts = mod_dts;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }
