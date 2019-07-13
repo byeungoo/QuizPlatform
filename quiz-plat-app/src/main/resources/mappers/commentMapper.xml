@@ -22,6 +22,7 @@
         WHERE   1 = 1
         AND     C.WRITING_NO = #{writing_no}
         AND     C.REGPE_ID = U.USER_ID
+        ORDER BY C.REG_DTS ASC
     </select>
     
     

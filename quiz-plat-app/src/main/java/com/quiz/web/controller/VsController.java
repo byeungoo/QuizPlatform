@@ -1,7 +1,6 @@
 package com.quiz.web.controller;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,10 +22,9 @@ import com.quiz.web.service.CommentService;
 import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 import com.quiz.web.service.WritingVoteService;
+import common.SHA256;
  
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
 public class VsController {
     
@@ -48,7 +46,7 @@ public class VsController {
      * 메인화면 조회
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main(Locale locale, Model model) throws Exception{
+    public String main(Model model) throws Exception{
  
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
@@ -60,7 +58,7 @@ public class VsController {
      ** 게시글 작성페이지 조회
      */
     @RequestMapping(value="write", method = RequestMethod.GET)
-    public String write(Locale locale, Model model) throws Exception{
+    public String write(Model model) throws Exception{
     	return "write";
     }
     
@@ -69,7 +67,7 @@ public class VsController {
      */
     @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
-    public String insertWrite(HttpServletRequest request, Locale locale, Model model) throws Exception{
+    public String insertWrite(HttpServletRequest request, Model model) throws Exception{
     	
     	HttpSession   session           = request.getSession();
     	WritingDtlDto writingDtlDto     = new WritingDtlDto();   	
@@ -86,11 +84,12 @@ public class VsController {
     	writingDtlDto.setModpe_id(session.toString());
     	
     	//사용자 아이디 체크 없으면 신규 등록
-    	if(userService.chekUserId(session.toString()) != 1) {
+    	if(userService.chekUserId(session.toString()) == 0) {
     		UserDto userDto = new UserDto();
         	userDto.setUser_id(session.toString());
         	userDto.setRegpe_id(session.toString());
         	userDto.setNickname(userService.getNickname());
+        	userDto.setReg_div_cd("20");
         	userService.insertUser(userDto);
         	userService.updateNickname(userDto.getNickname());
     	} 
@@ -104,11 +103,11 @@ public class VsController {
     	return "home";
     }
     
-    /**
-     * 상세페이지 조회
+    /*
+     ** 상세페이지 조회
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String detail(HttpServletRequest request, Locale locale, Model model) throws Exception{
+    public String detail(HttpServletRequest request, Model model) throws Exception{
     	
     	HttpSession session = request.getSession();
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
@@ -135,12 +134,12 @@ public class VsController {
         return "detail";
     }
     
-    /**
-     * 결과페이지 조회
+    /*
+     ** 결과페이지 조회
      */
     @Transactional
     @RequestMapping(value = "/result", method = RequestMethod.POST)
-    public String result(HttpServletRequest request, Locale locale, Model model) throws Exception{
+    public String result(HttpServletRequest request, Model model) throws Exception{
     	
     	HttpSession session = request.getSession();
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
@@ -186,10 +185,11 @@ public class VsController {
     	    	
     	//사용자 아이디 체크 없으면 신규 등록
     	UserDto userDto = new UserDto();
-    	if(userService.chekUserId(session.toString()) != 1) {
+    	if(userService.chekUserId(session.toString()) == 0) {
         	userDto.setUser_id(session.toString());
         	userDto.setRegpe_id(session.toString());
         	userDto.setNickname(userService.getNickname());
+        	userDto.setReg_div_cd("20");
         	userService.insertUser(userDto);
         	userService.updateNickname(userDto.getNickname());
     	} 
@@ -220,6 +220,59 @@ public class VsController {
     	
     	return "result";
     }
+ 
+    /*
+     ** 회원가입 화면 조회 
+     */
+    @RequestMapping(value = "/enrollForm", method = RequestMethod.GET)
+    public String enrollForm(Model model) throws Exception{	
+        return "";
+    }
     
+    /*
+     ** 회원가입
+     */
+    @RequestMapping(value = "/enroll", method = RequestMethod.POST)
+    public String enroll(HttpServletRequest request, Model model) throws Exception{
+    	SHA256 sha256 = new SHA256();
+    	
+    	String user_id = request.getParameter("user_id");
+    	String nickname = userService.getNickname();
+    	String pwd = sha256.getSHA256(request.getParameter("pwd"));
+    	String reg_div_cd = "10";
+    	
+    	UserDto userDto = new UserDto();
+    	userDto.setUser_id(user_id);
+    	userDto.setNickname(nickname);
+    	userDto.setPwd(pwd);
+    	userDto.setReg_div_cd(reg_div_cd);
+    	userService.insertUser(userDto);
+    	userService.updateNickname(userDto.getNickname());
+    	
+        return "login";
+    }
+    
+    /*
+     ** 로그인 처리
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(HttpServletRequest request, Model model) throws Exception{
+    	SHA256 sha256 = new SHA256();
+    	String user_id = request.getParameter("user_id");
+    	String pwd = sha256.getSHA256(request.getParameter("pwd"));
+    	
+    	UserDto userDto = new UserDto();
+    	userDto.setUser_id(user_id);
+    	userDto.setPwd(pwd);
+    	
+    	//유저아이디가 없을 경우
+    	if(userService.chekOurUser(userDto) == 0) {
+    		
+    	} else {
+    		
+    	}
+    	
+        return "";
+    }
     
 }
