@@ -87,6 +87,13 @@ $(function () {
     var success = document.execCommand('copy');
     showToast();
   });
+  
+  var toast = $('.toast.on').addClass('scene_element--fadein');
+  toast.removeClass('scene_element--fadeout');
+  setTimeout(() => {
+    toast.removeClass('scene_element--fadein');
+    toast.addClass('scene_element--fadeout');
+  }, 2000);
 
 });
 

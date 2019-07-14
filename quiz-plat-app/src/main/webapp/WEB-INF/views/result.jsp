@@ -180,7 +180,7 @@
     <span class="toast url-toast scene_element">URL이 복사되었습니다.</span>
   </div>
 
-  <div class="result__footbtn" onclick="copyToClipboard('pickvs.com/detail?writing_no=1');">URL 복사</div>
+  <div class="result__footbtn" onclick="copyToClipboard('pickvs.com/detail?writing_no=${writingDtlDto.writing_no}');">URL 복사</div>
   <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>

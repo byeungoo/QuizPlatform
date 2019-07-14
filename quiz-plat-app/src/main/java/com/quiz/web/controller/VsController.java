@@ -100,7 +100,6 @@ public class VsController {
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
     	model.addAttribute("toastOn", "Y");
     	
-    	return "home";
     	return "redirect:/";
     }
     
