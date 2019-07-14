@@ -113,7 +113,7 @@
           </div>
         </form>
     </section>
-    <div class="result__footbtn">공유하기</div>
+    <div class="result__footbtn" onclick="ClipUrl()">공유하기</div>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
   <script src="resources/js/smoothState.js"></script>

@@ -66,3 +66,22 @@ $(function() {
         }
      });
 });
+
+function ClipUrl(){
+	var writing_no = $('#writing_no').val();
+	oViewLink = "http://localhost/detail?writing_no="+ writing_no;
+	alert ( oViewLink.value );
+	window.clipboardData.setData("Text", oViewLink);
+	alert ( "주소가 복사되었습니다. \'Ctrl+V\'를 눌러 붙여넣기 해주세요." );
+}
+
+function urlClipCopy() { 
+	var f = document.clipboard.url;
+	f.value = document.location.href;
+	f.select() ;
+	therange=f.createTextRange() ;
+	therange.execCommand("Copy");
+	alert("클립보드로 URL이 복사되었습니다.");
+}
+
+
