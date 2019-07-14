@@ -593,20 +593,19 @@ textarea {
   display: none;
   position: fixed;
   bottom: 75px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   height: 40px;
   line-height: 40px;
   color: white;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 50px;
-  padding: 0 20px;
   box-sizing: border-box;
+  padding: 0 20px;
   text-align: center;
-  margin: 0 25vw;
-  min-width: 200px;
+  min-width: fit-content;
 }
 
 .toast.on {
-  display: block;
+  display: table;
 }

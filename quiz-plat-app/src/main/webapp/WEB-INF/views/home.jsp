@@ -50,9 +50,10 @@
     <a href="write.html" class="fab">
       투표 만들기
     </a>
-    <span class="toast scene_element">URL이 복사되었습니다</span>
+    <span class="toast scene_element">새로운 투표가 만들어졌습니다</span>
+  </div>
 
-  <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
 </body>

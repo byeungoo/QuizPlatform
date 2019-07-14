@@ -61,13 +61,6 @@ $(function () {
     },
     smoothState = $page.smoothState(options).data('smoothState');
 
-  //토스트 메세지
-  var toast = $('.toast.on').addClass('scene_element--fadein');
-  setTimeout(() => {
-    toast.removeClass('scene_element--fadein');
-    toast.addClass('scene_element--fadeout');
-  }, 2000);
-
   $('.result__write').on('keyup', function () {
     if ($(this).val().trim().length > 0) {
       $(this).siblings('i').addClass('on');
@@ -85,4 +78,32 @@ $(function () {
       $(this).css('font-size', (fontSize - 2) + 'px');
     }
   });
+
+  //결과페이지 URL복사 버튼
+  $('.result__footbtn').on('click', function (e) {
+    var hiddeninp = $("#writing_no");
+    var toast = $('.url-toast');
+    hiddeninp.select();
+    var success = document.execCommand('copy');
+    showToast();
+  });
+
 });
+
+function copyToClipboard(url) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(url).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+var showToast = function () {
+  //토스트 메세지
+  var toast = $('.toast').addClass('on scene_element--fadein');
+  toast.removeClass('scene_element--fadeout');
+  setTimeout(() => {
+    toast.removeClass('scene_element--fadein');
+    toast.addClass('scene_element--fadeout');
+  }, 2000);
+};

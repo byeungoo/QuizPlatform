@@ -171,14 +171,16 @@
           <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
           <div class="result__write-wrap">
 			<div class="result__write-contwrap">
-           	 <textarea name="comment_content" id="comment_content" class="result__write" placeholder="댓글을 입력해주세요"></textarea>
+           	 <textarea name="comment_content" id="comment_content" class="result__write" placeholder="댓글을 입력해주세요"  maxlength="500"></textarea>
            	 <i class="fas fa-pen" onclick="$(this).parents('#writeComment').submit();" ></i>
 			</div>
           </div>
         </form>
     </section>
-    <div class="result__footbtn">공유하기</div>
+    <span class="toast url-toast scene_element">URL이 복사되었습니다.</span>
   </div>
+
+  <div class="result__footbtn" onclick="copyToClipboard('pickvs.com/detail?writing_no=1');">URL 복사</div>
   <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>

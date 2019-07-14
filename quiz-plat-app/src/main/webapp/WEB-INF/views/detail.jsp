@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -16,6 +17,7 @@
     rel="stylesheet">
 
 </head>
+
 <body>
   <div class="wrapper wrapper--white m-scene" id="main">
     <div class="scene_element scene_element--fadeinright">
