@@ -43,7 +43,7 @@ public class VsController {
     private CommentService commentService;
         
     /**
-     * ¸ÞÀÎÈ­¸é Á¶È¸
+     * ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½È¸
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
@@ -55,7 +55,7 @@ public class VsController {
     }
     
     /*
-     ** °Ô½Ã±Û ÀÛ¼ºÆäÀÌÁö Á¶È¸
+     ** ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
      */
     @RequestMapping(value="write", method = RequestMethod.GET)
     public String write(Model model) throws Exception{
@@ -63,7 +63,7 @@ public class VsController {
     }
     
     /*
-     ** °Ô½Ã±Û ÀÛ¼º 
+     ** ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½ 
      */
     @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
@@ -83,7 +83,7 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
-    	//»ç¿ëÀÚ ¾ÆÀÌµð Ã¼Å© ¾øÀ¸¸é ½Å±Ô µî·Ï
+    	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ ï¿½ï¿½ï¿½
     	if(userService.chekUserId(session.toString()) == 0) {
     		UserDto userDto = new UserDto();
         	userDto.setUser_id(session.toString());
@@ -104,7 +104,7 @@ public class VsController {
     }
     
     /*
-     ** »ó¼¼ÆäÀÌÁö Á¶È¸
+     ** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
@@ -115,7 +115,7 @@ public class VsController {
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
     	
-    	//ÅõÇ¥ Âü¿© ¿©ºÎ Ã¼Å©, ÀÌ¹Ì Âü¿©ÇßÀ» °æ¿ì °á°úÆäÀÌÁö·Î ÀÌµ¿
+    	//ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©, ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     	if(writingVoteService.chekVote(paramWritingVoteDto).equals("Y")) {
     		WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
         	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
@@ -135,10 +135,10 @@ public class VsController {
     }
     
     /*
-     ** °á°úÆäÀÌÁö Á¶È¸
+     ** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
      */
     @Transactional
-    @RequestMapping(value = "/result", method = RequestMethod.POST)
+    @RequestMapping(value = "/result")
     public String result(HttpServletRequest request, Model model) throws Exception{
     	
     	HttpSession session = request.getSession();
@@ -158,9 +158,9 @@ public class VsController {
     	paramWritingVoteDto.setRegpe_id(session.toString());
     	paramWritingVoteDto.setModpe_id(session.toString());
     	
-    	//ÅõÇ¥ ³»¿ë »ðÀÔ
+    	//ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     	writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
-    	//ÅõÇ¥¼ö ¾÷µ¥ÀÌÆ®
+    	//ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
@@ -175,7 +175,7 @@ public class VsController {
     }
     
     /*
-     ** ´ñ±Û ÀÛ¼º 
+     ** ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ 
      */
     @Transactional
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
@@ -183,7 +183,7 @@ public class VsController {
     	
     	HttpSession session    = request.getSession();
     	    	
-    	//»ç¿ëÀÚ ¾ÆÀÌµð Ã¼Å© ¾øÀ¸¸é ½Å±Ô µî·Ï
+    	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ ï¿½ï¿½ï¿½
     	UserDto userDto = new UserDto();
     	if(userService.chekUserId(session.toString()) == 0) {
         	userDto.setUser_id(session.toString());
@@ -194,7 +194,7 @@ public class VsController {
         	userService.updateNickname(userDto.getNickname());
     	} 
     	
-    	//´ñ±Û ³»¿ë »ðÀÔ
+    	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
     	String comment_content = request.getParameter("comment_content");
     	int like = 0;
@@ -205,7 +205,7 @@ public class VsController {
     	commentDto.setRegpe_id(session.toString());
     	commentService.insertComment(commentDto);   	
     	
-    	//result view ·£´õ¸µ
+    	//result view ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
@@ -222,7 +222,7 @@ public class VsController {
     }
  
     /*
-     ** È¸¿ø°¡ÀÔ È­¸é Á¶È¸ 
+     ** È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½È¸ 
      */
     @RequestMapping(value = "/enrollForm", method = RequestMethod.GET)
     public String enrollForm(Model model) throws Exception{	
@@ -230,7 +230,7 @@ public class VsController {
     }
     
     /*
-     ** È¸¿ø°¡ÀÔ
+     ** È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     @RequestMapping(value = "/enroll", method = RequestMethod.POST)
     public String enroll(HttpServletRequest request, Model model) throws Exception{
@@ -253,7 +253,7 @@ public class VsController {
     }
     
     /*
-     ** ·Î±×ÀÎ Ã³¸®
+     ** ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request, Model model) throws Exception{
@@ -265,7 +265,7 @@ public class VsController {
     	userDto.setUser_id(user_id);
     	userDto.setPwd(pwd);
     	
-    	//À¯Àú¾ÆÀÌµð°¡ ¾øÀ» °æ¿ì
+    	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     	if(userService.chekOurUser(userDto) == 0) {
     		
     	} else {

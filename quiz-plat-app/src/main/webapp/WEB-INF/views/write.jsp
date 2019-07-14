@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> 
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>투표작성페이지</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -37,12 +37,11 @@
           <input type="text" class="write__inpcnt" name="sec_writ_content" id="sec_writ_content">
         </div>
         <div class="write__inparea">
-            <p class="write__inptit">설명<span class="write__inpsubtit">최대 500자</span></p>
-            <textarea class="write__txtarea" name="content" id="content" cols="50" rows="10"></textarea>
-          </div>
+           <p class="write__inptit">설명<span class="write__inpsubtit">최대 500자</span></p>
+           <textarea class="write__txtarea" name="content" id="content" cols="50" rows="10"></textarea>
+        </div>
+        <input type="submit" value="필수 항목을 입력해주세요" class="write__footbtn"></input>
     </section>
-    <input type="submit" value="필수 항목을 작성해주세요" class="write__footbtn"></input>
-    <input type="submit" value="만들기" class="write__footbtn on"></input>
     </form>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
