@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>상세페이지</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -18,8 +18,7 @@
 <body>
   <div class="wrapper wrapper--white m-scene" id="main">
     <div class="scene_element scene_element--fadeinright">
-    	<div class="" style="height:45px;"><h3>앱바</h3></div>
-    	  <header class="header">
+    	<header class="header">
           <a href="/" class="header__home">
             <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
             <span class="header__tx">홈</span>
@@ -35,8 +34,8 @@
             </div>
           </div>
         </header>
-        <form action="/result" id="result" method="post">
-        <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
+        <form action="/result" id="result" method="post" id="detail_form">
+        <input type="hidden" id="writing_no" name="writing_no" value= ${writingDtlDto.writing_no} > 
         <section class="detail" >
           <div class="card card--single">
             <input type="radio" name="inputState" id="before" class="blind" value="before">
@@ -55,7 +54,7 @@
           <div class="detail__desc">
             <p class="detail__tit">설명</p>
             <div class="detail__txtarea">${writingDtlDto.content}</div>
-            <a class="detail__btn" onclick="document.getElementById('result').submit();">
+            <a class="detail__btn" onclick="document.getElementById('result').submit();"></a>
           </div>
         </section>
         </form>

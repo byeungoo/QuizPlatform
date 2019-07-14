@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> 
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>결과페이지</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -17,17 +17,16 @@
 <body>
   <div class="wrapper wrapper--white m-scene">
     <div class="scene_element scene_element--fadeinright">
-    <div class="" style="height:45px;"><h3>앱바</h3></div>
-    <header class="header">
-      <div class="header__logo">
-        <a href="/" class="header__home">
-            <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
-            <span class="header__tx">홈</span>
-        </a>
-      </div>
-      <div class="header__title">결과보기</div>
-    </header>
-    <section class="result__contwrap">
+	    <header class="header">
+	      <div class="header__logo">
+	        <a href="/" class="header__home">
+	            <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
+	            <span class="header__tx">홈</span>
+	        </a>
+	      </div>
+	      <div class="header__title">결과보기</div>
+	    </header>
+	    <section class="result__contwrap">
       <div class="result__cont">
         <div class="result__toptx">핫</div>
         <div class="result__area">

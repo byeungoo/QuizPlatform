@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> 
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>퀴즈플랫폼</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -17,7 +17,6 @@
 <body style="background:#c8c8c8;">
   <div class="wrapper m-scene">
       <header>
-        <h3 style="height:44px;background:#c8c8c8">헤더 영역</h3>
       </header>
       <section class="main-sec" >
        <ul class="main-sec__list">
@@ -50,7 +49,7 @@
     <a href="write.html" class="fab">
       투표 만들기
     </a>
-    <span class="toast on scene_element">URL이 복사되었습니다</span>
+    <span class="toast scene_element">URL이 복사되었습니다</span>
 
   <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
   <script src="resources/js/smoothState.js"></script>
