@@ -157,13 +157,13 @@ public class VsController {
     	paramWritingVoteDto.setUser_id(session.toString());
     	paramWritingVoteDto.setRegpe_id(session.toString());
     	paramWritingVoteDto.setModpe_id(session.toString());
-    	
-    	if(userService.chekUserId(session.toString()) == 0) {
+    	    	
+    	if(writingVoteService.chekVote(paramWritingVoteDto).equals("N")) {
     		writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
+        	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	}
     	
     	//占쏙옙표占쏙옙 占쏙옙占쏙옙占쏙옙트
-    	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
     	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
