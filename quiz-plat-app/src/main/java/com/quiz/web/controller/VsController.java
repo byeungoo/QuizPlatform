@@ -43,7 +43,7 @@ public class VsController {
     private CommentService commentService;
         
     /**
-     * ����ȭ�� ��ȸ
+     * 占쏙옙占쏙옙화占쏙옙 占쏙옙회
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
@@ -55,7 +55,7 @@ public class VsController {
     }
     
     /*
-     ** �Խñ� �ۼ������� ��ȸ
+     ** 占쌉시깍옙 占쌜쇽옙占쏙옙占쏙옙占쏙옙 占쏙옙회
      */
     @RequestMapping(value="write", method = RequestMethod.GET)
     public String write(Model model) throws Exception{
@@ -63,7 +63,7 @@ public class VsController {
     }
     
     /*
-     ** �Խñ� �ۼ� 
+     ** 占쌉시깍옙 占쌜쇽옙 
      */
     @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
@@ -83,7 +83,7 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
-    	//����� ���̵� üũ ������ �ű� ���
+    	//占쏙옙占쏙옙占� 占쏙옙占싱듸옙 체크 占쏙옙占쏙옙占쏙옙 占신깍옙 占쏙옙占�
     	if(userService.chekUserId(session.toString()) == 0) {
     		UserDto userDto = new UserDto();
         	userDto.setUser_id(session.toString());
@@ -104,7 +104,7 @@ public class VsController {
     }
     
     /*
-     ** �������� ��ȸ
+     ** 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙회
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
@@ -115,7 +115,7 @@ public class VsController {
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
     	
-    	//��ǥ ���� ���� üũ, �̹� �������� ��� ����������� �̵�
+    	//占쏙옙표 占쏙옙占쏙옙 占쏙옙占쏙옙 체크, 占싱뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占� 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占� 占싱듸옙
     	if(writingVoteService.chekVote(paramWritingVoteDto).equals("Y")) {
     		WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
         	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
@@ -135,7 +135,7 @@ public class VsController {
     }
     
     /*
-     ** ��������� ��ȸ
+     ** 占쏙옙占쏙옙占쏙옙占쏙옙占� 占쏙옙회
      */
     @Transactional
     @RequestMapping(value = "/result")
@@ -158,9 +158,9 @@ public class VsController {
     	paramWritingVoteDto.setRegpe_id(session.toString());
     	paramWritingVoteDto.setModpe_id(session.toString());
     	
-    	//��ǥ ���� ����
+    	//占쏙옙표 占쏙옙占쏙옙 占쏙옙占쏙옙
     	writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
-    	//��ǥ�� ������Ʈ
+    	//占쏙옙표占쏙옙 占쏙옙占쏙옙占쏙옙트
     	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
@@ -175,7 +175,7 @@ public class VsController {
     }
     
     /*
-     ** ��� �ۼ� 
+     ** 占쏙옙占� 占쌜쇽옙 
      */
     @Transactional
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
@@ -183,7 +183,7 @@ public class VsController {
     	
     	HttpSession session    = request.getSession();
     	    	
-    	//����� ���̵� üũ ������ �ű� ���
+    	//占쏙옙占쏙옙占� 占쏙옙占싱듸옙 체크 占쏙옙占쏙옙占쏙옙 占신깍옙 占쏙옙占�
     	UserDto userDto = new UserDto();
     	if(userService.chekUserId(session.toString()) == 0) {
         	userDto.setUser_id(session.toString());
@@ -194,7 +194,7 @@ public class VsController {
         	userService.updateNickname(userDto.getNickname());
     	} 
     	
-    	//��� ���� ����
+    	//占쏙옙占� 占쏙옙占쏙옙 占쏙옙占쏙옙
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
     	String comment_content = request.getParameter("comment_content");
     	int like = 0;
@@ -205,7 +205,7 @@ public class VsController {
     	commentDto.setRegpe_id(session.toString());
     	commentService.insertComment(commentDto);   	
     	
-    	//result view ������
+    	//result view 占쏙옙占쏙옙占쏙옙
     	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
@@ -222,7 +222,7 @@ public class VsController {
     }
  
     /*
-     ** ȸ������ ȭ�� ��ȸ 
+     ** 회占쏙옙占쏙옙占쏙옙 화占쏙옙 占쏙옙회 
      */
     @RequestMapping(value = "/enrollForm", method = RequestMethod.GET)
     public String enrollForm(Model model) throws Exception{	
@@ -230,7 +230,7 @@ public class VsController {
     }
     
     /*
-     ** ȸ������
+     ** 회占쏙옙占쏙옙占쏙옙
      */
     @RequestMapping(value = "/enroll", method = RequestMethod.POST)
     public String enroll(HttpServletRequest request, Model model) throws Exception{
@@ -253,7 +253,7 @@ public class VsController {
     }
     
     /*
-     ** �α��� ó��
+     ** 占싸깍옙占쏙옙 처占쏙옙
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(HttpServletRequest request, Model model) throws Exception{
@@ -265,7 +265,7 @@ public class VsController {
     	userDto.setUser_id(user_id);
     	userDto.setPwd(pwd);
     	
-    	//�������̵� ���� ���
+    	//占쏙옙占쏙옙占쏙옙占싱듸옙 占쏙옙占쏙옙 占쏙옙占�
     	if(userService.chekOurUser(userDto) == 0) {
     		
     	} else {

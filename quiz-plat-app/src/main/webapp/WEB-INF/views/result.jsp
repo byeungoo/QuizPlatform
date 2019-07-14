@@ -31,9 +31,45 @@
 	    </header>
 	    <section class="result__contwrap">
       <div class="result__cont">
-        <div class="result__toptx">핫</div>
-        <div class="result__area">
-          <div class="result__left-area">
+		<c:choose>
+          <c:when test="${(writingDtlDto.sec_vote_perc >= writingDtlDto.fir_vote_perc) and (writingDtlDto.sec_vote_perc - writingDtlDto.fir_vote_perc <= 10) }">
+		    <div class="result__toptx">핫</div>
+	      </c:when>
+	      <c:when test="${(writingDtlDto.sec_vote_perc <= writingDtlDto.fir_vote_perc) and (writingDtlDto.fir_vote_perc - writingDtlDto.sec_vote_perc <= 10) }">
+		    <div class="result__toptx">핫</div>
+	      </c:when>
+	      <c:when test="${(writingVoteDto.fir_content_vote == 'Y') and (writingDtlDto.fir_vote_perc > writingDtlDto.sec_vote_perc) 
+	                       and (writingDtlDto.fir_vote_perc - writingDtlDto.sec_vote_perc > 10) }">
+	        <div class="result__toptx">오</div>
+	      </c:when>
+	      <c:when test="${(writingVoteDto.sec_content_vote == 'Y') and (writingDtlDto.fir_vote_perc < writingDtlDto.sec_vote_perc) 
+	                       and (writingDtlDto.sec_vote_perc - writingDtlDto.fir_vote_perc > 10) }">
+	        <div class="result__toptx">오</div>
+	      </c:when>
+	      <c:otherwise>
+	        <div class="result__toptx">엥</div>
+	      </c:otherwise>
+        </c:choose>
+        
+        <c:choose>
+        <c:when test="${(writingDtlDto.sec_vote_perc >= writingDtlDto.fir_vote_perc) and (writingDtlDto.sec_vote_perc - writingDtlDto.fir_vote_perc <= 10) }">
+		  <div class="result__area hot">
+	    </c:when>
+	    <c:when test="${(writingDtlDto.sec_vote_perc <= writingDtlDto.fir_vote_perc) and (writingDtlDto.fir_vote_perc - writingDtlDto.sec_vote_perc <= 10) }">
+		  <div class="result__area hot">
+	    </c:when>
+	    <c:otherwise>
+	      <div class="result__area">
+	    </c:otherwise>
+        </c:choose>
+        <c:choose>
+          <c:when test="${writingDtlDto.fir_vote_perc >= writingDtlDto.sec_vote_perc}">
+            <div class="result__left-area win">
+          </c:when>
+          <c:otherwise>
+            <div class="result__left-area">
+          </c:otherwise>
+        </c:choose>
             <div class="result__badges">
               <c:if test="${writingVoteDto.fir_content_vote == 'Y'}">
                 <img src="resources/img/mypick.png" width="66px" height="21px" alt="mypick" class="badge">
@@ -51,7 +87,17 @@
 		      </c:choose>
             </div>
             <div class="result__infoarea">
-              <p class="result__info">${writingDtlDto.fir_vote_perc}%</p>
+              <c:choose>
+                <c:when test="${(writingDtlDto.sec_vote_perc >= writingDtlDto.fir_vote_perc) and (writingDtlDto.sec_vote_perc - writingDtlDto.fir_vote_perc <= 10) }">
+			      <p class="result__info">${writingDtlDto.fir_vote_perc}%</p>
+			    </c:when>
+			    <c:when test="${(writingDtlDto.sec_vote_perc <= writingDtlDto.fir_vote_perc) and (writingDtlDto.fir_vote_perc - writingDtlDto.sec_vote_perc <= 10) }">
+			      <p class="result__info">${writingDtlDto.fir_vote_perc}%</p>
+			    </c:when>
+			    <c:otherwise>
+			      <p class="result__info">${writingDtlDto.fir_vote_perc}%</p>
+			    </c:otherwise>
+              </c:choose>
 			  <c:choose>
 			    <c:when test="${writingVoteDto.fir_content_vote == 'Y'}">
 			      <p class="result__infosub">나와 ${writingDtlDto.fir_vote_no}명의 선택</p>
@@ -63,8 +109,22 @@
               <p class="result__footinfo">${writingDtlDto.fir_writ_content}</p>
             </div>
           </div>
-		  <img src="./resources/img/fire.gif" alt="불이미지" class="result__vsimg">
-          <div class="result__right-area win">
+          <c:choose>
+          	<c:when test="${(writingDtlDto.sec_vote_perc >= writingDtlDto.fir_vote_perc) and (writingDtlDto.sec_vote_perc - writingDtlDto.fir_vote_perc <= 10) }">
+					<img src="./resources/img/fire.gif" alt="불이미지" class="result__vsimg">
+			</c:when>
+			<c:when test="${(writingDtlDto.sec_vote_perc <= writingDtlDto.fir_vote_perc) and (writingDtlDto.fir_vote_perc - writingDtlDto.sec_vote_perc <= 10) }">
+					<img src="./resources/img/fire.gif" alt="불이미지" class="result__vsimg">
+			</c:when>
+          </c:choose>  
+          <c:choose>
+            <c:when test="${writingDtlDto.sec_vote_perc >= writingDtlDto.fir_vote_perc}">
+              <div class="result__right-area win">
+            </c:when>
+            <c:otherwise>
+              <div class="result__right-area">
+            </c:otherwise>
+          </c:choose>
             <div class="result__badges">
               <c:if test="${writingVoteDto.sec_content_vote == 'Y'}">
                 <img src="resources/img/mypick.png" width="66px" height="21px" alt="mypick" class="badge">
@@ -91,7 +151,7 @@
         	    	<p class="result__infosub">${writingDtlDto.sec_vote_no}명의 선택</p>
     	      	  </c:otherwise>
 		        </c:choose>
-                <p class="result__footinfo">${writingDtlDto.sec_writ_content}</p>              
+			    <p class="result__footinfo">${writingDtlDto.sec_writ_content}</p>              
             </div>
           </div>
         </div>

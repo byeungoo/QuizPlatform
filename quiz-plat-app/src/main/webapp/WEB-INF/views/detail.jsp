@@ -41,14 +41,18 @@
           <div class="card card--single">
             <input type="radio" name="inputState" id="before" class="blind" value="before">
             <label for="before">
-              <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
+              <span class="card__desc">
+              	<span class="card__responsive two-line">
+              		${writingDtlDto.fir_writ_content}
+              	</span>
+              </span>
             </label>
           </div>
           <div class="card card--single">
               <input type="radio" name="inputState" id="after" class="blind" value="after">
               <label for="after">
                 <span class="card__desc">
-                  <span class="card--responsive">${writingDtlDto.sec_writ_content}</span>
+                  <span class="card__responsive two-line">${writingDtlDto.sec_writ_content}</span>
                 </span>
               </label>
           </div>
