@@ -101,6 +101,7 @@ public class VsController {
     	model.addAttribute("toastOn", "Y");
     	
     	return "home";
+    	return "redirect:/";
     }
     
     /*
