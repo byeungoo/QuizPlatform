@@ -3,20 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>투표작성페이지</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
-  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
   <div class="wrapper wrapper--white m_scene">
-    <div class="" style="height:45px;"><h3>앱바</h3></div>
     <header class="header">
       <div class="header__logo">
         <a href="/" class="header__home">
