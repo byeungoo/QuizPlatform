@@ -29,25 +29,26 @@
       <div class="header__title">투표 만들기</div>
     </header>
     <form action="/insert" id="insert_write" method="post">
-    <section class="write__wrap">
-      <div class="write__inparea">
-        <p class="write__inptit">비교 1<span class="write__inpsubtit">최대 50자</span></p>
-        <input type="text" class="write__inpcnt" name="fir_writ_content" id="fir_writ_content" maxlength="50">
-      </div>
-      <div class="write__inparea">
+      <section class="write__wrap">
+        <div class="write__inparea">
+          <p class="write__inptit">비교 1<span class="write__inpsubtit">최대 50자</span></p>
+          <input type="text" class="write__inpcnt" name="fir_writ_content" id="fir_writ_content" maxlength="50">
+        </div>
+        <div class="write__inparea">
           <p class="write__inptit">비교 2<span class="write__inpsubtit">최대 50자</span></p>
           <input type="text" class="write__inpcnt" name="sec_writ_content" id="sec_writ_content" maxlength="50">
         </div>
         <div class="write__inparea">
-           <p class="write__inptit">설명<span class="write__inpsubtit">최대 500자</span></p>
-           <textarea class="write__txtarea" name="content" id="content" cols="50" rows="10" maxlength="500"></textarea>
+          <p class="write__inptit">설명<span class="write__inpsubtit">최대 500자</span></p>
+          <textarea class="write__txtarea" name="content" id="content" cols="50" rows="10" maxlength="500"></textarea>
         </div>
         <input type="submit" value="필수 항목을 입력해주세요" class="write__footbtn"></input>
-    </section>
+      </section>
     </form>
   </div>
-  <script src="https://code.jquery.com/jquery-2.2.4.js" ></script>  
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
 </body>
+
 </html>
