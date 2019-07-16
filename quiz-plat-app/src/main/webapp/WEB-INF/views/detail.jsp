@@ -15,12 +15,11 @@
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap"
     rel="stylesheet">
-
 </head>
 
 <body>
   <div class="wrapper wrapper--white m-scene" id="main">
-    <div class="scene_element scene_element--fadeinright">
+    <div class="page scene_element scene_element--fadeinright">
       <header class="header">
         <a href="/" class="header__home">
           <img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
@@ -44,7 +43,7 @@
             <input type="radio" name="inputState" id="before" class="blind" value="before">
             <label for="before">
               <span class="card__desc">
-                <span class="card__responsive two-line">
+                <span class="card__responsive">
                   ${writingDtlDto.fir_writ_content}
                 </span>
               </span>
@@ -54,18 +53,18 @@
             <input type="radio" name="inputState" id="after" class="blind" value="after">
             <label for="after">
               <span class="card__desc">
-                <span class="card__responsive two-line">${writingDtlDto.sec_writ_content}</span>
+                <span class="card__responsive">${writingDtlDto.sec_writ_content}</span>
               </span>
             </label>
           </div>
           <div class="detail__desc">
             <p class="detail__tit">설명</p>
             <div class="detail__txtarea">${writingDtlDto.content}</div>
-            <a class="detail__btn" onclick="document.getElementById('result').submit();"></a>
           </div>
         </section>
       </form>
     </div>
+    <a class="detail__btn" onclick="document.getElementById('result').submit();"></a>
   </div>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>

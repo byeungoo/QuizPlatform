@@ -8,7 +8,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>퀴즈플랫폼</title>
+  <title>PickVS</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
@@ -19,8 +19,6 @@
 
 <body style="background:#c8c8c8;">
   <div class="wrapper m-scene">
-    <header>
-    </header>
     <section class="main-sec">
       <ul class="main-sec__list">
         <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
@@ -51,16 +49,13 @@
         </c:forEach>
       </ul>
     </section>
+    <a href="write" class="fab">
+      투표 만들기
+    </a>
+    <c:if test="${toastOn == 'Y'}">
+      <p class="toast on scene_element">새로운 투표가 만들어졌습니다</p>
+    </c:if>
   </div>
-  <a href="write" class="fab">
-    투표 만들기
-  </a>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-  <c:if test="${toastOn == 'Y'}">
-    <span class="toast on scene_element">새로운 투표가 만들어졌습니다</span>
-  </c:if>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
