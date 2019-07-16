@@ -1,6 +1,8 @@
 package com.quiz.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.quiz.web.dto.CommentDto;
 import com.quiz.web.dto.UserDto;
@@ -138,7 +143,7 @@ public class VsController {
      ** 占쏙옙占쏙옙占쏙옙占쏙옙占� 占쏙옙회
      */
     @Transactional
-    @RequestMapping(value = "/result")
+    @RequestMapping(value = "/result", method = RequestMethod.GET)
     public String result(HttpServletRequest request, Model model) throws Exception{
     	
     	HttpSession session = request.getSession();
@@ -181,7 +186,7 @@ public class VsController {
      */
     @Transactional
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
-    public String writeComment(HttpServletRequest request, Model model) throws Exception{
+    public String writeComment(HttpServletRequest request, RedirectAttributes redirect) throws Exception{
     	
     	HttpSession session    = request.getSession();
     	    	
@@ -198,7 +203,9 @@ public class VsController {
     	
     	//占쏙옙占� 占쏙옙占쏙옙 占쏙옙占쏙옙
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-    	String comment_content = request.getParameter("comment_content");
+        String fir_content_vote = request.getParameter("fir_content_vote");
+        String sec_content_vote = request.getParameter("sec_content_vote");
+        String comment_content = request.getParameter("comment_content");
     	int like = 0;
     	CommentDto commentDto = new CommentDto();
     	commentDto.setWriting_no(writing_no);
@@ -212,15 +219,51 @@ public class VsController {
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
     	
-    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
-        WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
-        List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
-        
-        model.addAttribute("writingDtlDto", writingDtlDto);
-        model.addAttribute("writingVoteDto", writingVoteDto);
-        model.addAttribute("commentDtoList", commentDtoList);
+        redirect.addFlashAttribute("writing_no", writing_no);
+        if(fir_content_vote.equals("Y")) {
+        	redirect.addFlashAttribute("inputState", "before");
+        }else {
+        	redirect.addFlashAttribute("inputState", "after");
+        }
+
+    	return "redirect:/resultComm";
+    }
+    
+    @RequestMapping(value = "/resultComm", method = RequestMethod.GET)
+    public String resultComm(HttpServletRequest request, @ModelAttribute("writing_no") int writing_no, 
+     @ModelAttribute("inputState") String inputState, Model model) throws Exception{
     	
-    	return "result";
+    	HttpSession session = request.getSession();
+    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
+    	
+    	paramWritingVoteDto.setWriting_no(writing_no);
+    	if(inputState.equals("before")){
+    		paramWritingVoteDto.setFir_content_vote("Y");
+        	paramWritingVoteDto.setSec_content_vote("N");
+    	}else {
+    		paramWritingVoteDto.setFir_content_vote("N");
+        	paramWritingVoteDto.setSec_content_vote("Y");
+    	}
+    	paramWritingVoteDto.setUser_id(session.toString());
+    	paramWritingVoteDto.setRegpe_id(session.toString());
+    	paramWritingVoteDto.setModpe_id(session.toString());
+    	    	
+    	if(writingVoteService.chekVote(paramWritingVoteDto).equals("N")) {
+    		writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
+        	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
+    	}
+    	
+    	//占쏙옙표占쏙옙 占쏙옙占쏙옙占쏙옙트
+    	
+    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+    	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
+    	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
+    	
+    	model.addAttribute("writingDtlDto", writingDtlDto);
+    	model.addAttribute("writingVoteDto", writingVoteDto);
+    	model.addAttribute("commentDtoList", commentDtoList);
+    	
+    	return "redirect:result";
     }
  
     /*
