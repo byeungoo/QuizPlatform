@@ -180,6 +180,8 @@
 	</div>
 	<form action="writeComment" id="writeComment" method="post">
 		<input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
+		<input type="hidden" id="fir_content_vote" name="fir_content_vote" value=${writingVoteDto.fir_content_vote}>
+		<input type="hidden" id="sec_content_vote" name="sec_content_vote" value=${writingVoteDto.sec_content_vote}>
 		<div class="result__write-wrap">
 			<div class="result__write-contwrap">
 				<textarea name="comment_content" id="comment_content" class="result__write" placeholder="댓글을 입력해주세요"

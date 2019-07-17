@@ -36,7 +36,7 @@
           </div>
         </div>
       </header>
-      <form action="/result" id="result" method="post" id="detail_form">
+      <form action="/result" id="result" method="get" id="detail_form">
         <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
         <section class="detail">
           <div class="card card--single">
