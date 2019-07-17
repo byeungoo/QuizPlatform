@@ -10,12 +10,12 @@ $(function () {
     else if (len == 0) $(this).removeClass('on');
     var writeWrap = $('.write__wrap');
     var writeInpArea = $('.write__inparea');
-    var writeBtn = writeWrap.find('.write__footbtn');
+    var writeBtn = $('.write__footbtn');
     if (isAllChecked()) {
-      writeWrap.addClass('on');
+      writeBtn.addClass('on');
       writeBtn.val('만들기');
     } else {
-      writeWrap.removeClass('on');
+      writeBtn.removeClass('on');
       writeBtn.val('필수 항목을 입력해주세요');
     }
   });
@@ -73,31 +73,22 @@ $(function () {
   var detailCard = $('.card__responsive');
   detailCard.each(function (index, item) {
     var fontSize = parseInt($(this).css('font-size'), 10);
-    while ($(this)[0].scrollHeight > $(this).innerHeight()) {
-      fontSize -= 2;
-      $(this).css('font-size', (fontSize - 2) + 'px');
+    while ($(this)[0].scrollHeight > $(this)[0].clientHeight) {
+      fontSize -= 1;
+      $(this).css('font-size', (fontSize) + 'px');
+      $(this).css('line-height', (fontSize) + 'px');
     }
   });
 
-  //결과페이지 URL복사 버튼
-  $('.result__footbtn').on('click', function (e) {
-    var hiddeninp = $("#writing_no");
-    var toast = $('.url-toast');
-    hiddeninp.select();
-    var success = document.execCommand('copy');
-    showToast();
-  });
-  
-  var toast = $('.toast.on').addClass('scene_element--fadein');
-  toast.removeClass('scene_element--fadeout');
-  setTimeout(() => {
-    toast.removeClass('scene_element--fadein');
-    toast.addClass('scene_element--fadeout');
-  }, 2000);
+  var toast = $('.toast.on');
+  if (toast.length > 0) {
+    showToast(toast);
+  }
 
 });
 
 function copyToClipboard(url) {
+  showToast($('.toast'));
   var $temp = $("<input>");
   $("body").append($temp);
   $temp.val(url).select();
@@ -105,12 +96,11 @@ function copyToClipboard(url) {
   $temp.remove();
 }
 
-var showToast = function () {
-  //토스트 메세지
-  var toast = $('.toast').addClass('on scene_element--fadein');
-  toast.removeClass('scene_element--fadeout');
+function showToast(target) {
+  target.addClass('scene_element--fadein on');
+  target.removeClass('scene_element--fadeout');
   setTimeout(() => {
-    toast.removeClass('scene_element--fadein');
-    toast.addClass('scene_element--fadeout');
+    target.removeClass('scene_element--fadein');
+    target.addClass('scene_element--fadeout');
   }, 2000);
-};
+}

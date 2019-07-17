@@ -19,15 +19,18 @@
 
 <body>
 	<div class="wrapper wrapper--white m-scene">
-		<div class="scene_element scene_element--fadeinright">
+		<div class="page scene_element scene_element--fadeinright">
 			<header class="header">
-				<div class="header__logo">
-					<a href="/" class="header__home">
-						<img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
-						<span class="header__tx">홈</span>
-					</a>
+				<div class="header__cnt">
+					<div class="header__logo">
+						<a href="/" class="header__home">
+							<img src="resources/img/Back_blue@2x.png" width="16px" height="24px" alt="뒤로가기버튼" class="header__icon">
+							<span class="header__tx">홈</span>
+						</a>
+					</div>
+					<div class="header__title">결과보기</div>
+					<div class="header__infos"></div>
 				</div>
-				<div class="header__title">결과보기</div>
 			</header>
 			<section class="result__contwrap">
 				<div class="result__cont">
@@ -187,12 +190,15 @@
 			</div>
 		</div>
 	</form>
+	</div>
 	</section>
-	<span class="toast url-toast scene_element">URL이 복사되었습니다.</span>
+
 	</div>
 
 	<div class="result__footbtn" onclick="copyToClipboard('pickvs.com/detail?writing_no=${writingDtlDto.writing_no}');">
 		URL 복사</div>
+	<p class="toast scene_element">URL이 복사되었습니다.</p>
+	</div>
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 	<script src="resources/js/smoothState.js"></script>
 	<script src="resources/js/common.js"></script>
