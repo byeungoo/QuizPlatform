@@ -21,7 +21,6 @@
 	            ) SUM_COMMENT
 		FROM    WRITING W
 		WHERE   1 = 1
-		AND     W.USE_YN = 'Y'
 		ORDER BY REG_DTS DESC
     </select>
     
