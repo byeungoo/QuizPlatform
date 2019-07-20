@@ -78,35 +78,56 @@ $(function () {
     }
   });
 
+  $('.join').on('keyup', ".join_inp:not([type='password'])", function (e) {
+    if ($(this).val().trim().length === 0) { //누구든 입력이 없으면 보더 삭제
+      $(this).removeClass('on');
+      $(this).removeClass('wrong');
+    } else {
+      $(this).addClass("on");
+    }
+  });
+
   //회원가입 비밀번호 중복 체크
   $(".join")
     .on('keyup', "input[type = 'password']", function (e) {
+      var trigger = $(e.delegateTarget).find(".join_submit");
       var pwdInputs = $(e.delegateTarget).find("input[type='password']");
       var index = pwdInputs.index($(this));
       var me = $(this);
       var other = $(pwdInputs[Number(!index)]);
       var str1 = me.val();
       var str2 = other.val();
-      if (str1.length === 0) { //누구든 입력이 없으면 보더 삭제
-        $(this).removeClass('on');
-        $(this).removeClass('wrong');
+      if (!str1) {
+        me.removeClass('on');
+        me.removeClass('wrong');
         return;
-      }
-      if (!str2) { //다른 인풋이 비어있을땐 나는 파란색 보더가 생겨야함.
-        $(this).addClass("on");
+      } else if (!str2) {
+        me.addClass('on');
         return;
-      }
-      if ((str1.length !== str2.length)) { //다른인풋이 비어있지 않을땐 길이가 같을때만 파랑 -> 빨강 보더
-        $(this).removeClass("on");
-        $(this).addClass('wrong');
-      } else {
-        if (str1 === str2) {
-          $(this).removeClass('wrong');
-          $(this).addClass('on');
-        }
       }
 
+      if ((str1.length !== str2.length)) { //다른인풋이 비어있지 않을땐 길이가 같을때만 파랑 -> 빨강 보더
+        pwdInputs.removeClass("on");
+        pwdInputs.addClass('wrong');
+      } else {
+        if (str1 === str2) {
+          pwdInputs.removeClass('wrong');
+          pwdInputs.addClass('on');
+        }
+      }
     })
+
+  $('.join').on('click', '.join_submit', function (e) {
+    var group = $(e.delegateTarget).find('input');
+    var index = areNotCompleted(group);
+    if (index !== -1) {
+      setTimeout(function () {
+        $(group[index]).prop('placeholder', '항목을 입력해주세요.');
+        $(group[index]).focus();
+      }, 0)
+      return false;
+    }
+  })
 
   var toast = $('.toast.on');
   if (toast.length > 0) {
@@ -114,6 +135,14 @@ $(function () {
   }
 
 });
+
+function areNotCompleted(group) { //모두 입력되었으면 -1리턴
+  for (var i = 0; i < group.length; i++) {
+    if (!$(group[i]).hasClass('on'))
+      return i;
+  }
+  return -1;
+}
 
 function copyToClipboard(url) {
   showToast($('.toast'));
