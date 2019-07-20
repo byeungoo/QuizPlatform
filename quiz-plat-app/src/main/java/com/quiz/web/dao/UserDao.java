@@ -27,10 +27,20 @@ public class UserDao {
     	return sqlSession.selectOne(Namespace+".chekUserId", user_id);
     }
     
-    public int chekOurUser(UserDto userDto) throws Exception{
+    public boolean chekOurUser(UserDto userDto) throws Exception{
     	return sqlSession.selectOne(Namespace+".chekOurUser", userDto);
     }
+    
     public void updateNickname(String nickname) throws Exception{
     	sqlSession.update(Namespace+".updateNickname", nickname);
     }
+    
+    public boolean chekNickname(String nickname) throws Exception{
+    	return sqlSession.selectOne(Namespace+".chekNickname", nickname);
+    }
+    
+    public void insertNickname(String nickname) throws Exception{
+    	sqlSession.insert(Namespace+".insertNickname", nickname);
+    }
+    
 }

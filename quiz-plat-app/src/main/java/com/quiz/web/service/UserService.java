@@ -36,7 +36,7 @@ public class UserService {
     /*
      ** 회원 유저 아이디 확인
      */
-    public int chekOurUser(UserDto userDto) throws Exception{
+    public boolean chekOurUser(UserDto userDto) throws Exception{
     	return userDao.chekOurUser(userDto);
     }
     
@@ -45,5 +45,20 @@ public class UserService {
      */
     public void updateNickname(String nickname) throws Exception{
     	userDao.updateNickname(nickname);
+    }
+    
+    /*
+     ** 닉네임 사용여부 'Y' 업데이트 
+     */
+    public boolean chekNickname(String nickname) throws Exception{
+    	return userDao.chekNickname(nickname);
+    }
+    
+    /*
+     ** 닉네임 추가 
+     */
+    
+    public void insertNickname(String nickname) throws Exception{
+    	userDao.insertNickname(nickname);
     }
 }
