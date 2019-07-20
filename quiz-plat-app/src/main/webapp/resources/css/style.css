@@ -39,7 +39,7 @@ textarea {
 }
 
 /* common */
-#lean_overlay {
+#lean-overlay {
   position: fixed;
   z-index: 100;
   top: 0px;
@@ -648,24 +648,29 @@ textarea {
   display: table;
 }
 
-.join {
+.modal {
   background: #fff;
 }
 
-.join_inp_tit {
+.modal_inp_tit {
   font-size: 22px;
   font-weight: bold;
 }
 
-.join_cont {
+.modal_chk_tit {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.modal_cont {
   padding: 30px 20px;
 }
 
-.join_inparea+.join_inparea {
+.modal_inparea+.modal_inparea {
   margin-top: 20px;
 }
 
-.join_inp {
+.modal_inp {
   display: block;
   margin-top: 5px;
   width: 100%;
@@ -677,19 +682,19 @@ textarea {
   padding: 20px;
 }
 
-.join_inp:focus {
+.modal_inp:focus {
   box-shadow: inset 0 0 0 2px #222;
 }
 
-.join_inp.wrong {
+.modal_inp.wrong {
   box-shadow: inset 0 0 0 2px red;
 }
 
-.join_inp.on {
+.modal_inp.on {
   box-shadow: inset 0 0 0 2px #32bbff;
 }
 
-.join_submit {
+.modal_footbtn {
   margin: auto;
   height: 50px;
   border: 1px solid #222;
@@ -697,4 +702,30 @@ textarea {
   border-radius: 10px;
   width: 100%;
   margin-top: 20px;
+}
+
+.modal .modal_close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0%);
+    -webkit-transform: translateY(0%);
+  }
+}
+
+.slideinUp {
+  animation-name: slideInUp;
+  animation-fill-mode: both;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }

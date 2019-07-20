@@ -78,7 +78,7 @@ $(function () {
     }
   });
 
-  $('.join').on('keyup', ".join_inp:not([type='password'])", function (e) {
+  $('.modal').on('keyup', ".modal_inp", function (e) {
     if ($(this).val().trim().length === 0) { //누구든 입력이 없으면 보더 삭제
       $(this).removeClass('on');
       $(this).removeClass('wrong');
@@ -88,9 +88,8 @@ $(function () {
   });
 
   //회원가입 비밀번호 중복 체크
-  $(".join")
+  $("#join")
     .on('keyup', "input[type = 'password']", function (e) {
-      var trigger = $(e.delegateTarget).find(".join_submit");
       var pwdInputs = $(e.delegateTarget).find("input[type='password']");
       var index = pwdInputs.index($(this));
       var me = $(this);
@@ -113,14 +112,16 @@ $(function () {
         if (str1 === str2) {
           pwdInputs.removeClass('wrong');
           pwdInputs.addClass('on');
+        } else {
+          $(this).removeClass('on');
         }
       }
     })
 
-  $('.join').on('click', '.join_submit', function (e) {
+  $('.modal').on('click', '.modal_submit', function (e) {
     var group = $(e.delegateTarget).find('input');
     var index = areNotCompleted(group);
-    if (index !== 1) {
+    if (index !== -1) {
       setTimeout(function () {
         $(group[index]).prop('placeholder', '항목을 입력해주세요.');
         $(group[index]).focus();
