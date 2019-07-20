@@ -94,7 +94,7 @@ public class loginController {
 	    		}
 	    	}
 	    	
-	        return "testLogin";
+	        return "member_modal";
 	    }
 	    
 	    /*
@@ -136,13 +136,4 @@ public class loginController {
 	    	
 	    	return "home";
 	    }
-	    
-	    /*
-	     ** 테스트페이지
-	     */
-	    @RequestMapping(value="/test", method = RequestMethod.GET)
-	    public String test(HttpServletRequest request) throws Exception{
-	    	return "testPage";
-	    }
-	 
 }

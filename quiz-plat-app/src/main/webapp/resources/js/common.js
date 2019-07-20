@@ -119,7 +119,7 @@ $(function () {
     })
 
   $('.modal').on('click', '.modal_submit', function (e) {
-    var group = $(e.delegateTarget).find('input');
+    var group = $(e.delegateTarget).find('.modal_inp');
     var index = areNotCompleted(group);
     if (index !== -1) {
       setTimeout(function () {
