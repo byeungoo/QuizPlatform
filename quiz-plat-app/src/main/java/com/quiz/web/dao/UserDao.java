@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
@@ -27,8 +28,8 @@ public class UserDao {
     	return sqlSession.selectOne(Namespace+".chekUserId", user_id);
     }
     
-    public boolean chekOurUser(UserDto userDto) throws Exception{
-    	return sqlSession.selectOne(Namespace+".chekOurUser", userDto);
+    public boolean chekOurUser(LoginCommand loginCommand) throws Exception{
+    	return sqlSession.selectOne(Namespace+".chekOurUser", loginCommand);
     }
     
     public void updateNickname(String nickname) throws Exception{

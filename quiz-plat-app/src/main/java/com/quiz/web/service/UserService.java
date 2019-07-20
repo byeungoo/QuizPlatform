@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.quiz.web.dao.UserDao;
+import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
 
 @Service
@@ -36,8 +37,8 @@ public class UserService {
     /*
      ** 회원 유저 아이디 확인
      */
-    public boolean chekOurUser(UserDto userDto) throws Exception{
-    	return userDao.chekOurUser(userDto);
+    public boolean chekOurUser(LoginCommand loginCommand) throws Exception{
+    	return userDao.chekOurUser(loginCommand);
     }
     
     /*

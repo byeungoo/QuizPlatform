@@ -1,6 +1,8 @@
 package com.quiz.web.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.service.UserService;
 
@@ -76,10 +79,20 @@ public class loginController {
 	     ** 로그인 페이지 이동
 	     */
 	    @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
-	    public String loginForm(Model model) throws Exception{
+	    public String loginForm(HttpServletRequest request, Model model) throws Exception{
 	    	
-	    	String nickname = userService.getNickname();
-	    	model.addAttribute("nickname", nickname);
+	    	Cookie[] getCookie = request.getCookies();
+	    	if(getCookie != null){
+	    		for(int i=0; i<getCookie.length; i++){
+	    			Cookie c = getCookie[i];
+		    		String cookieName = c.getName(); // 쿠키 이름 가져오기
+		    		String value = c.getValue();     // 쿠키 값 가져오기
+		    		if(c.getName().equals("remember-me")) {
+		    			model.addAttribute("Cookie", c);
+		    			logger.info("찾음");
+		    		}
+	    		}
+	    	}
 	    	
 	        return "testLogin";
 	    }
@@ -88,32 +101,48 @@ public class loginController {
 	     ** 로그인 처리
 	     */
 	    @RequestMapping(value = "/login", method = RequestMethod.POST)
-	    public String login(HttpServletRequest request, Model model) throws Exception{
+	    public String login(HttpServletResponse response, Model model, LoginCommand loginCommand) throws Exception{
+
 	    	SHA256 sha256 = new SHA256();
-	    	String user_id = request.getParameter("user_id");
-	    	String pwd = sha256.getSHA256(request.getParameter("pwd"));
-	    	
-	    	UserDto userDto = new UserDto();
-	    	userDto.setUser_id(user_id);
-	    	userDto.setPwd(pwd);
+	    	String pwd = sha256.getSHA256(loginCommand.getPwd());
+	    	loginCommand.setPwd(pwd);
 	    	
 	    	//회원가입 정보 확인
-	    	if(userService.chekOurUser(userDto) == true) {
+	    	if(userService.chekOurUser(loginCommand) == true) { //로그인 성공
 	    		
-	    	} else {
+	    		// 자동로그인 쿠기 셋팅
+	            Cookie cookie = new Cookie("remember-me", loginCommand.getUser_id());
+	            cookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+	            
+	            cookie.setMaxAge(28*24*60*60); //쿠키 만료 시간4주 설정
+	            response.addCookie(cookie); 
 	    		
-	    	}
+	    	} else { //로그인 실패
+	    		return "loginForm";
+	    	} 
 	    	
-	        return "home";
+	        return "redirect:/";
 	    }
 	    
 	    /*
 	     ** 로그아웃 처리
 	     */
 	    @RequestMapping(value="/logout", method = RequestMethod.GET)
-	    public String logout() throws Exception{
+	    public String logout(HttpServletResponse response) throws Exception{
+	    	
+	    	Cookie myCookie = new Cookie("remember-me", null);
+	        myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+	        myCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
 	    	
 	    	return "home";
+	    }
+	    
+	    /*
+	     ** 테스트페이지
+	     */
+	    @RequestMapping(value="/test", method = RequestMethod.GET)
+	    public String test(HttpServletRequest request) throws Exception{
+	    	return "testPage";
 	    }
 	 
 }
