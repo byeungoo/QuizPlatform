@@ -11,8 +11,18 @@
 }
 
 .blind {
+  overflow: hidden;
   position: absolute;
-  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  line-height: 0;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
+  clip: rect(0, 0, 0, 0);
 }
 
 ::-webkit-scrollbar {
@@ -26,6 +36,18 @@ input {
 input:not([type=checkbox]):not([type=radio]),
 textarea {
   -webkit-appearance: none;
+}
+
+/* common */
+#lean_overlay {
+  position: fixed;
+  z-index: 100;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  display: none;
 }
 
 /*header*/
@@ -570,6 +592,7 @@ textarea {
   z-index: 999;
 }
 
+
 .write__footbtn.on {
   background-color: #32bbff;
   color: #fff;
@@ -623,4 +646,55 @@ textarea {
 
 .toast.on {
   display: table;
+}
+
+.join {
+  background: #fff;
+}
+
+.join_inp_tit {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.join_cont {
+  padding: 30px 20px;
+}
+
+.join_inparea+.join_inparea {
+  margin-top: 20px;
+}
+
+.join_inp {
+  display: block;
+  margin-top: 5px;
+  width: 100%;
+  box-shadow: inset 0 0 0 1px #222;
+  border: 0;
+  box-sizing: border-box;
+  border-radius: 10px;
+  height: 30px;
+  padding: 20px;
+}
+
+.join_inp:focus {
+  box-shadow: inset 0 0 0 2px #222;
+}
+
+.join_inp.wrong {
+  box-shadow: inset 0 0 0 2px red;
+}
+
+.join_inp.on {
+  box-shadow: inset 0 0 0 2px #32bbff;
+}
+
+.join_submit {
+  margin: auto;
+  height: 50px;
+  border: 1px solid #222;
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 20px;
 }

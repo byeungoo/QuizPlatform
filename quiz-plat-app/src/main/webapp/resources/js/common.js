@@ -5,9 +5,7 @@ $(function () {
   });
 
   $('.write__inparea').on('keyup', function () {
-    var len = $(this).find('input, textarea').val().trim().length;
-    if (len > 0) $(this).addClass('on');
-    else if (len == 0) $(this).removeClass('on');
+    toggleInputBdr($(this));
     var writeWrap = $('.write__wrap');
     var writeInpArea = $('.write__inparea');
     var writeBtn = $('.write__footbtn');
@@ -80,6 +78,36 @@ $(function () {
     }
   });
 
+  //회원가입 비밀번호 중복 체크
+  $(".join")
+    .on('keyup', "input[type = 'password']", function (e) {
+      var pwdInputs = $(e.delegateTarget).find("input[type='password']");
+      var index = pwdInputs.index($(this));
+      var me = $(this);
+      var other = $(pwdInputs[Number(!index)]);
+      var str1 = me.val();
+      var str2 = other.val();
+      if (str1.length === 0) { //누구든 입력이 없으면 보더 삭제
+        $(this).removeClass('on');
+        $(this).removeClass('wrong');
+        return;
+      }
+      if (!str2) { //다른 인풋이 비어있을땐 나는 파란색 보더가 생겨야함.
+        $(this).addClass("on");
+        return;
+      }
+      if ((str1.length !== str2.length)) { //다른인풋이 비어있지 않을땐 길이가 같을때만 파랑 -> 빨강 보더
+        $(this).removeClass("on");
+        $(this).addClass('wrong');
+      } else {
+        if (str1 === str2) {
+          $(this).removeClass('wrong');
+          $(this).addClass('on');
+        }
+      }
+
+    })
+
   var toast = $('.toast.on');
   if (toast.length > 0) {
     showToast(toast);
@@ -103,4 +131,10 @@ function showToast(target) {
     target.removeClass('scene_element--fadein');
     target.addClass('scene_element--fadeout');
   }, 2000);
+}
+
+var toggleInputBdr = function (target) {
+  var len = target.find('input, textarea').val().trim().length;
+  if (len > 0) target.addClass('on');
+  else if (len == 0) target.removeClass('on');
 }
