@@ -48,7 +48,7 @@ public class VsController {
     private CommentService commentService;
         
     /**
-     * 占쏙옙占쏙옙화占쏙옙 占쏙옙회
+     * 메인 페이지 이동
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
@@ -60,7 +60,7 @@ public class VsController {
     }
     
     /*
-     ** 占쌉시깍옙 占쌜쇽옙占쏙옙占쏙옙占쏙옙 占쏙옙회
+     ** 글 작성 페이지 이동
      */
     @RequestMapping(value="write", method = RequestMethod.GET)
     public String write(Model model) throws Exception{
@@ -68,7 +68,7 @@ public class VsController {
     }
     
     /*
-     ** 占쌉시깍옙 占쌜쇽옙 
+     ** 글 작성
      */
     @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
@@ -88,7 +88,7 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
-    	//占쏙옙占쏙옙占� 占쏙옙占싱듸옙 체크 占쏙옙占쏙옙占쏙옙 占신깍옙 占쏙옙占�
+    	//작성글 있는지 확인
     	if(userService.chekUserId(session.toString()) == 0) {
     		UserDto userDto = new UserDto();
         	userDto.setUser_id(session.toString());
@@ -109,7 +109,7 @@ public class VsController {
     }
     
     /*
-     ** 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙회
+     ** 글 상세 페이지 조회
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
@@ -120,7 +120,7 @@ public class VsController {
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
     	
-    	//占쏙옙표 占쏙옙占쏙옙 占쏙옙占쏙옙 체크, 占싱뱄옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占� 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占� 占싱듸옙
+    	//이미 투표를 했는지 검사
     	if(writingVoteService.chekVote(paramWritingVoteDto).equals("Y")) {
     		WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
         	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
@@ -140,7 +140,7 @@ public class VsController {
     }
     
     /*
-     ** 占쏙옙占쏙옙占쏙옙占쏙옙占� 占쏙옙회
+     ** 결과페이지
      */
     @Transactional
     @RequestMapping(value = "/result", method = RequestMethod.GET)
@@ -168,8 +168,6 @@ public class VsController {
         	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	}
     	
-    	//占쏙옙표占쏙옙 占쏙옙占쏙옙占쏙옙트
-    	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
     	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
     	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
@@ -182,7 +180,7 @@ public class VsController {
     }
     
     /*
-     ** 占쏙옙占� 占쌜쇽옙 
+     ** 댓글 작성
      */
     @Transactional
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
@@ -190,7 +188,6 @@ public class VsController {
     	
     	HttpSession session    = request.getSession();
     	    	
-    	//占쏙옙占쏙옙占� 占쏙옙占싱듸옙 체크 占쏙옙占쏙옙占쏙옙 占신깍옙 占쏙옙占�
     	UserDto userDto = new UserDto();
     	if(userService.chekUserId(session.toString()) == 0) {
         	userDto.setUser_id(session.toString());
@@ -201,10 +198,9 @@ public class VsController {
         	userService.updateNickname(userDto.getNickname());
     	} 
     	
-    	//占쏙옙占� 占쏙옙占쏙옙 占쏙옙占쏙옙
+    	//댓글 insert
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
         String fir_content_vote = request.getParameter("fir_content_vote");
-        String sec_content_vote = request.getParameter("sec_content_vote");
         String comment_content = request.getParameter("comment_content");
     	int like = 0;
     	CommentDto commentDto = new CommentDto();
@@ -214,7 +210,7 @@ public class VsController {
     	commentDto.setRegpe_id(session.toString());
     	commentService.insertComment(commentDto);   	
     	
-    	//result view 占쏙옙占쏙옙占쏙옙
+    	//결과페이지 이동
     	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
@@ -229,6 +225,9 @@ public class VsController {
     	return "redirect:/resultComm";
     }
     
+    /*
+     ** 댓글 redirect
+     */
     @RequestMapping(value = "/resultComm", method = RequestMethod.GET)
     public String resultComm(HttpServletRequest request, @ModelAttribute("writing_no") int writing_no, 
      @ModelAttribute("inputState") String inputState, Model model) throws Exception{
@@ -253,8 +252,6 @@ public class VsController {
         	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
     	}
     	
-    	//占쏙옙표占쏙옙 占쏙옙占쏙옙占쏙옙트
-    	
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
     	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
     	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
@@ -265,59 +262,4 @@ public class VsController {
     	
     	return "redirect:result";
     }
- 
-    /*
-     ** 회占쏙옙占쏙옙占쏙옙 화占쏙옙 占쏙옙회 
-     */
-    @RequestMapping(value = "/enrollForm", method = RequestMethod.GET)
-    public String enrollForm(Model model) throws Exception{	
-        return "";
-    }
-    
-    /*
-     ** 회占쏙옙占쏙옙占쏙옙
-     */
-    @RequestMapping(value = "/enroll", method = RequestMethod.POST)
-    public String enroll(HttpServletRequest request, Model model) throws Exception{
-    	SHA256 sha256 = new SHA256();
-    	
-    	String user_id = request.getParameter("user_id");
-    	String nickname = userService.getNickname();
-    	String pwd = sha256.getSHA256(request.getParameter("pwd"));
-    	String reg_div_cd = "10";
-    	
-    	UserDto userDto = new UserDto();
-    	userDto.setUser_id(user_id);
-    	userDto.setNickname(nickname);
-    	userDto.setPwd(pwd);
-    	userDto.setReg_div_cd(reg_div_cd);
-    	userService.insertUser(userDto);
-    	userService.updateNickname(userDto.getNickname());
-    	
-        return "login";
-    }
-    
-    /*
-     ** 占싸깍옙占쏙옙 처占쏙옙
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest request, Model model) throws Exception{
-    	SHA256 sha256 = new SHA256();
-    	String user_id = request.getParameter("user_id");
-    	String pwd = sha256.getSHA256(request.getParameter("pwd"));
-    	
-    	UserDto userDto = new UserDto();
-    	userDto.setUser_id(user_id);
-    	userDto.setPwd(pwd);
-    	
-    	//占쏙옙占쏙옙占쏙옙占싱듸옙 占쏙옙占쏙옙 占쏙옙占�
-    	if(userService.chekOurUser(userDto) == 0) {
-    		
-    	} else {
-    		
-    	}
-    	
-        return "";
-    }
-    
 }

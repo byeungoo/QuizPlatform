@@ -120,7 +120,7 @@ $(function () {
   $('.join').on('click', '.join_submit', function (e) {
     var group = $(e.delegateTarget).find('input');
     var index = areNotCompleted(group);
-    if (index !== 1) {
+    if (index !== -1) {
       setTimeout(function () {
         $(group[index]).prop('placeholder', '항목을 입력해주세요.');
         $(group[index]).focus();

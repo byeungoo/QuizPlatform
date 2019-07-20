@@ -31,12 +31,34 @@
     	AND    NICKNAME = #{nickname}
     </select>
     
-    <select id="chekOurUser" parameterType="userDto" resultType="int">
-    	SELECT COUNT(USER_ID)
-		FROM   USER
-		WHERE  1 = 1
-		AND    USER_ID = #{user_id}
-		AND    PWD     = #{pwd}
+    <select id="chekOurUser" parameterType="userDto" resultType="boolean">
+			SELECT CASE WHEN EXISTS(
+			   					 	   SELECT *
+			   						   FROM   USER
+			   						   WHERE  1 = 1
+			   						   AND    USER_ID = #{user_id}
+			   						   AND    PWD     = #{pwd}
+								   ) 
+		               THEN TRUE
+				       ELSE FALSE 
+				  END
+    </select>
+    
+ 	<select id="insertNickname" parameterType="String">
+ 		/* com.quiz.mapper.userMapper.insertNickname */
+		INSERT INTO NICKNAME VALUES(#{nickname}, 'Y')
+    </select>
+    
+    <select id="chekNickname" parameterType="String" resultType="boolean">
+    	SELECT CASE WHEN EXISTS (
+    								SELECT *
+    								FROM   NICKNAME
+    								WHERE  1 = 1
+    								AND    NICKNAME = #{nickname}
+    	                        )
+    	           THEN TRUE
+    	           ELSE FALSE
+    	       END
     </select>
     
 </mapper>
