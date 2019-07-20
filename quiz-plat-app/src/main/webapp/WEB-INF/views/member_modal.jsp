@@ -20,7 +20,7 @@
     <div class="join_cont">
       <div class="join_inparea">
         <label for="join1" class="join_inp_tit">아이디</label>
-        <input type="text" class="join_inp" placeholder="아이디를 입력해주세요." id="join1">
+        <input type="text" class="join_inp" placeholder="아이디를 입력해주세요" id="join1">
       </div>
       <div class="join_inparea">
         <label for="join1" class="join_inp_tit">닉네임</label>
@@ -32,7 +32,7 @@
       </div>
       <div class="join_inparea">
         <label for="join4" class="join_inp_tit">비밀번호 확인</label>
-        <input type="password" class="join_inp" placeholder="한번더입력" id="join4">
+        <input type="password" class="join_inp" placeholder="한번 더 입력해주세요" id="join4">
       </div>
       <button class="join_submit">회원가입</button>
     </div>
