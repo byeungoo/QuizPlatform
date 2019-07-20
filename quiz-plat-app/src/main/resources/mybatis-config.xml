@@ -9,6 +9,7 @@
             <typeAlias type="com.quiz.web.dto.WritingVoteDto" alias="writingVoteDto"/>
             <typeAlias type="com.quiz.web.dto.UserDto" alias="userDto"/>
             <typeAlias type="com.quiz.web.dto.CommentDto" alias="commentDto"/>
+            <typeAlias type="com.quiz.web.dto.LoginCommand" alias="loginCommand"/>
         </typeAliases>
         
     </configuration>

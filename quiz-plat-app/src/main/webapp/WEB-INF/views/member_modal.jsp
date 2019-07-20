@@ -16,49 +16,54 @@
 
 <body>
   <!-- 회원 가입 모달창-->
+  <form action="/enroll" id="enroll" method="post" >
   <div class="modal" id="join" style="display:none;width:85vw;">
     <button class="modal_close"><i class="fas fa-times fa-2x"></i></button>
     <div class="modal_cont">
       <div class="modal_inparea">
         <label for="join1" class="modal_inp_tit">아이디</label>
-        <input type="text" class="modal_inp" placeholder="아이디를 입력해주세요" id="join1">
+        <input type="text" class="modal_inp" placeholder="아이디를 입력해주세요" name="join1" id="join1">
       </div>
       <div class="modal_inparea">
         <label for="join2" class="modal_inp_tit">닉네임</label>
-        <input type="text" class="modal_inp" placeholder="행복한 돼지" id="join2">
+        <input type="text" class="modal_inp on" value=${nickname} name="join2" id="join2">
       </div>
       <div class="modal_inparea">
         <label for="join3" class="modal_inp_tit">비밀번호</label>
-        <input type="password" class="modal_inp" placeholder="비밀번호" id="join3">
+        <input type="password" class="modal_inp" placeholder="비밀번호" name="join3" id="join3">
       </div>
       <div class="modal_inparea">
         <label for="join4" class="modal_inp_tit">비밀번호 확인</label>
-        <input type="password" class="modal_inp" placeholder="한번 더 입력해주세요" id="join4">
+        <input type="password" class="modal_inp" placeholder="한번 더 입력해주세요" name="join4" id="join4">
       </div>
       <button class="modal_submit modal_footbtn">회원가입</button>
     </div>
   </div>
+  </form>
   <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
 
   <!-- 로그인 모달창-->
+
   <div class="modal" id="login" style="display:none;width:85vw;">
     <button class="modal_close"><i class="fas fa-times fa-2x"></i></button>
+    <form action="/login" id="userLogin" method="post" >
     <div class="modal_cont">
       <div class="modal_inparea">
         <label for="login1" class="modal_inp_tit">아이디</label>
-        <input type="text" class="modal_inp" placeholder="아이디를 입력해주세요" id="login1">
+        <input type="text" class="modal_inp" placeholder="아이디를 입력해주세요" name="user_id" id="login1">
       </div>
       <div class="modal_inparea">
         <label for="login2" class="modal_inp_tit">비밀번호</label>
-        <input type="password" class="modal_inp" placeholder="비밀번호" id="login2">
+        <input type="password" class="modal_inp" placeholder="비밀번호" name="pwd" id="login2">
       </div>
       <div class="modal_inparea">
-        <input type="checkbox" class="modal_chk" id="login_chk">
+        <input type="checkbox" class="modal_chk" name="rememberId" id="login_chk">
         <label for="login_chk" class="modal_chk_tit">자동로그인</label>
       </div>
       <button class="modal_footbtn modal_submit">로그인</button>
-      <button class="modal_footbtn" onclick="$('.modal_close').click(); $('#join_trigger').click();">회원가입</button>
-    </div>
+      <button type="button" class="modal_footbtn" onclick="$('.modal_close').click(); $('#join_trigger').click();">회원가입</button>
+    </div>  
+    </form>
   </div>
   <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
 
