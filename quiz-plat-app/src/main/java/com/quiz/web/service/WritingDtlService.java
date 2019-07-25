@@ -52,4 +52,11 @@ public class WritingDtlService {
     	writingDtlDao.insertWritingDtl(writingDtlDto);
     }
     
+    /*
+     ** 조회 수 증가
+     */
+    public void updateHits(int writing_no) throws Exception{
+    	writingDtlDao.updateHits(writing_no);
+    }
+    
 }

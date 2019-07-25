@@ -48,7 +48,7 @@ public class VsController {
     private CommentService commentService;
         
     /**
-     * 메인 페이지 이동
+     * 硫붿씤 �럹�씠吏� �씠�룞
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
@@ -60,7 +60,7 @@ public class VsController {
     }
     
     /*
-     ** 글 작성 페이지 이동
+     ** 湲� �옉�꽦 �럹�씠吏� �씠�룞
      */
     @RequestMapping(value="write", method = RequestMethod.GET)
     public String write(Model model) throws Exception{
@@ -68,7 +68,7 @@ public class VsController {
     }
     
     /*
-     ** 글 작성
+     ** 湲� �옉�꽦
      */
     @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
@@ -88,7 +88,7 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
-    	//작성글 있는지 확인
+    	//�옉�꽦湲� �엳�뒗吏� �솗�씤
     	if(userService.chekUserId(session.toString()) == 0) {
     		UserDto userDto = new UserDto();
         	userDto.setUser_id(session.toString());
@@ -109,7 +109,7 @@ public class VsController {
     }
     
     /*
-     ** 글 상세 페이지 조회
+     ** 湲� �긽�꽭 �럹�씠吏� 議고쉶
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
@@ -117,10 +117,18 @@ public class VsController {
     	HttpSession session = request.getSession();
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
     	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
-    	paramWritingVoteDto.setWriting_no(writing_no);
-    	paramWritingVoteDto.setUser_id(session.toString());
     	
-    	//이미 투표를 했는지 검사
+    	Object userDto = session.getAttribute("login");
+        if(userDto!=null) {  //로그인 정보 유지 시, 유저 아이디 세팅
+        	UserDto user = (UserDto) userDto;
+        	paramWritingVoteDto.setWriting_no(writing_no);
+        	paramWritingVoteDto.setUser_id(user.getUser_id());
+        } else {            //로그인 정보가 없을 경우(비회원), 세션 아이디 세팅
+        	paramWritingVoteDto.setWriting_no(writing_no);
+        	paramWritingVoteDto.setUser_id(session.toString());
+        }
+	    	
+    	//�씠誘� �닾�몴瑜� �뻽�뒗吏� 寃��궗
     	if(writingVoteService.chekVote(paramWritingVoteDto).equals("Y")) {
     		WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
         	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
@@ -129,6 +137,9 @@ public class VsController {
         	model.addAttribute("writingDtlDto", writingDtlDto);
         	model.addAttribute("writingVoteDto", writingVoteDto);
         	model.addAttribute("commentDtoList", commentDtoList);
+        	
+        	//조회 수 증가
+            writingDtlService.updateHits(writing_no);
         	
             return "result";
     	} 
@@ -140,7 +151,7 @@ public class VsController {
     }
     
     /*
-     ** 결과페이지
+     ** 寃곌낵�럹�씠吏�
      */
     @Transactional
     @RequestMapping(value = "/result", method = RequestMethod.GET)
@@ -159,10 +170,19 @@ public class VsController {
     		paramWritingVoteDto.setFir_content_vote("N");
         	paramWritingVoteDto.setSec_content_vote("Y");
     	}
-    	paramWritingVoteDto.setUser_id(session.toString());
-    	paramWritingVoteDto.setRegpe_id(session.toString());
-    	paramWritingVoteDto.setModpe_id(session.toString());
-    	    	
+    	
+    	Object userDto = session.getAttribute("login");
+        if(userDto!=null) {  //로그인 정보 유지 시, 유저 아이디 세팅
+        	UserDto user = (UserDto) userDto;
+        	paramWritingVoteDto.setUser_id(user.getUser_id());
+        	paramWritingVoteDto.setRegpe_id(user.getUser_id());
+        	paramWritingVoteDto.setModpe_id(user.getUser_id());
+        } else {            //로그인 정보가 없을 경우(비회원), 세션 아이디 세팅
+        	paramWritingVoteDto.setUser_id(session.toString());
+        	paramWritingVoteDto.setRegpe_id(session.toString());
+        	paramWritingVoteDto.setModpe_id(session.toString());
+        }
+	
     	if(writingVoteService.chekVote(paramWritingVoteDto).equals("N")) {
     		writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
         	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
@@ -176,11 +196,14 @@ public class VsController {
     	model.addAttribute("writingVoteDto", writingVoteDto);
     	model.addAttribute("commentDtoList", commentDtoList);
     	
+    	//조회 수 증가
+        writingDtlService.updateHits(writing_no);
+    	
         return "result";
     }
     
     /*
-     ** 댓글 작성
+     ** �뙎湲� �옉�꽦
      */
     @Transactional
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
@@ -198,7 +221,7 @@ public class VsController {
         	userService.updateNickname(userDto.getNickname());
     	} 
     	
-    	//댓글 insert
+    	//�뙎湲� insert
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
         String fir_content_vote = request.getParameter("fir_content_vote");
         String comment_content = request.getParameter("comment_content");
@@ -210,7 +233,7 @@ public class VsController {
     	commentDto.setRegpe_id(session.toString());
     	commentService.insertComment(commentDto);   	
     	
-    	//결과페이지 이동
+    	//寃곌낵�럹�씠吏� �씠�룞
     	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
     	paramWritingVoteDto.setWriting_no(writing_no);
     	paramWritingVoteDto.setUser_id(session.toString());
@@ -226,7 +249,7 @@ public class VsController {
     }
     
     /*
-     ** 댓글 redirect
+     ** �뙎湲� redirect
      */
     @RequestMapping(value = "/resultComm", method = RequestMethod.GET)
     public String resultComm(HttpServletRequest request, @ModelAttribute("writing_no") int writing_no, 

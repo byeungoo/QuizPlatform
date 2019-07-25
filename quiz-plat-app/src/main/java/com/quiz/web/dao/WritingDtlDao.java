@@ -37,4 +37,8 @@ public class WritingDtlDao {
     public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	sqlSession.insert(Namespace+".insertWritingDtl", writingDtlDto);
     }
+    
+    public void updateHits(int writing_no) throws Exception{
+    	sqlSession.update(Namespace+".updateHits", writing_no);
+    }
 }

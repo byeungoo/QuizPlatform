@@ -33,12 +33,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Cookie cookie = WebUtils.getCookie(request, "remember");
 
         if(cookie!=null) {
-        	logger.info("쿠키값: " + cookie.getValue());
         	UserDto userDto = userService.checkLoginBefore(cookie.getValue());
 
         	if(userDto!=null) {
         		session.setAttribute("login", userDto);
-        		logger.info("세션값: " + userDto.toString());
         	}
         }
         
