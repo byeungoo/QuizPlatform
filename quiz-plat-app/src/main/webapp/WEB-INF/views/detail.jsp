@@ -18,6 +18,20 @@
 </head>
 
 <body>
+
+  <div>
+    <c:choose>
+	  <c:when test="${cookie.remember.value != null}">
+        <ul>
+		  ${cookie.remember.value}
+		</ul>
+      </c:when>
+      <c:otherwise>
+                쿠키 없음
+      </c:otherwise>
+	</c:choose>
+  </div>
+  
   <div class="wrapper wrapper--white m-scene" id="main">
     <div class="page scene_element scene_element--fadeinright">
       <header class="header">

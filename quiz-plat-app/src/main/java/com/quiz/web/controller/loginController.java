@@ -3,6 +3,7 @@ package com.quiz.web.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +90,6 @@ public class loginController {
 		    		String value = c.getValue();     // 쿠키 값 가져오기
 		    		if(c.getName().equals("remember-me")) {
 		    			model.addAttribute("Cookie", c);
-		    			logger.info("찾음");
 		    		}
 	    		}
 	    	}
@@ -101,8 +101,11 @@ public class loginController {
 	     ** 로그인 처리
 	     */
 	    @RequestMapping(value = "/login", method = RequestMethod.POST)
-	    public String login(HttpServletResponse response, Model model, LoginCommand loginCommand) throws Exception{
+	    public String login(HttpServletResponse response, HttpServletRequest request, HttpSession session, 
+	    		            Model model, LoginCommand loginCommand) throws Exception{
 
+	    	session = request.getSession();
+	    	
 	    	SHA256 sha256 = new SHA256();
 	    	String pwd = sha256.getSHA256(loginCommand.getPwd());
 	    	loginCommand.setPwd(pwd);
@@ -111,11 +114,11 @@ public class loginController {
 	    	if(userService.chekOurUser(loginCommand) == true) { //로그인 성공
 	    		
 	    		// 자동로그인 쿠기 셋팅
-	            Cookie cookie = new Cookie("remember-me", loginCommand.getUser_id());
+	            Cookie cookie = new Cookie("remember", session.getId());
 	            cookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
-	            
 	            cookie.setMaxAge(28*24*60*60); //쿠키 만료 시간4주 설정
 	            response.addCookie(cookie); 
+	            session.setAttribute("login", loginCommand);
 	    		
 	    	} else { //로그인 실패
 	    		return "loginForm";
@@ -128,12 +131,15 @@ public class loginController {
 	     ** 로그아웃 처리
 	     */
 	    @RequestMapping(value="/logout", method = RequestMethod.GET)
-	    public String logout(HttpServletResponse response) throws Exception{
+	    public String logout(HttpServletResponse response, HttpSession session) throws Exception{
 	    	
-	    	Cookie myCookie = new Cookie("remember-me", null);
-	        myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
-	        myCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
-	    	
-	    	return "home";
+	    	Cookie cookie = new Cookie("remember", null);
+	        cookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+	        cookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
+	        response.addCookie(cookie);
+	        session.invalidate(); //세션해제
+	        //session.removeAttribute("login"); // 하나씩 하려면 이렇게 해도 됨.
+	        
+	    	return "redirect:/";
 	    }
 }

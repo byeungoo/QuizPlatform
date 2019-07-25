@@ -22,5 +22,16 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.quiz.web" />
+
+    <!--로그인 처리 Interceptor 설정-->
+    <beans:bean id="loginInterceptor" class="common.interceptor.LoginInterceptor"/>
+
+    <interceptors>
+        <interceptor>
+            <mapping path="/login"/>
+            <mapping path="/logout"/>
+            <beans:ref bean="loginInterceptor"/>
+        </interceptor>
+    </interceptors>
 	
 </beans:beans>
