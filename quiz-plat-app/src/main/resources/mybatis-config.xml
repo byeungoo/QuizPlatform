@@ -10,6 +10,7 @@
             <typeAlias type="com.quiz.web.dto.UserDto" alias="userDto"/>
             <typeAlias type="com.quiz.web.dto.CommentDto" alias="commentDto"/>
             <typeAlias type="com.quiz.web.dto.LoginCommand" alias="loginCommand"/>
+            <typeAlias type="common.AuthInfo" alias="authInfo"/>
         </typeAliases>
         
     </configuration>

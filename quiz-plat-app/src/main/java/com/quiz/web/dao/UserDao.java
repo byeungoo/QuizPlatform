@@ -8,6 +8,8 @@ import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
+import common.AuthInfo;
+
 @Repository
 public class UserDao {
 
@@ -42,6 +44,18 @@ public class UserDao {
     
     public void insertNickname(String nickname) throws Exception{
     	sqlSession.insert(Namespace+".insertNickname", nickname);
+    }
+    
+    public void keepLogin(AuthInfo authInfo) {
+    	sqlSession.update(Namespace+".keepLogin", authInfo);
+    }
+    
+    public UserDto checkLoginBefore(String session_id) {
+    	return sqlSession.selectOne(Namespace+".checkLoginBefore", session_id);
+    }
+    
+    public UserDto getUserDto(String user_id) {
+    	return sqlSession.selectOne(Namespace+".getUserDto", user_id);
     }
     
 }

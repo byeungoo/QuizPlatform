@@ -1,8 +1,12 @@
 package com.quiz.web.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.WebUtils;
 
 import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
@@ -81,19 +86,6 @@ public class loginController {
 	    @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
 	    public String loginForm(HttpServletRequest request, Model model) throws Exception{
 	    	
-	    	Cookie[] getCookie = request.getCookies();
-	    	if(getCookie != null){
-	    		for(int i=0; i<getCookie.length; i++){
-	    			Cookie c = getCookie[i];
-		    		String cookieName = c.getName(); // 쿠키 이름 가져오기
-		    		String value = c.getValue();     // 쿠키 값 가져오기
-		    		if(c.getName().equals("remember-me")) {
-		    			model.addAttribute("Cookie", c);
-		    			logger.info("찾음");
-		    		}
-	    		}
-	    	}
-	    	
 	        return "member_modal";
 	    }
 	    
@@ -101,22 +93,39 @@ public class loginController {
 	     ** 로그인 처리
 	     */
 	    @RequestMapping(value = "/login", method = RequestMethod.POST)
-	    public String login(HttpServletResponse response, Model model, LoginCommand loginCommand) throws Exception{
+	    public String login(HttpServletResponse response, HttpServletRequest request, HttpSession session, 
+	    		            Model model, LoginCommand loginCommand) throws Exception{
 
+	    	session = request.getSession();
+	    	
 	    	SHA256 sha256 = new SHA256();
 	    	String pwd = sha256.getSHA256(loginCommand.getPwd());
 	    	loginCommand.setPwd(pwd);
 	    	
 	    	//회원가입 정보 확인
 	    	if(userService.chekOurUser(loginCommand) == true) { //로그인 성공
+	    		  		
+	    		if(loginCommand.isRememberId()) {
+	    			
+	    			// 자동로그인 쿠기 셋팅
+	    			int cookieMaxTime = 28*24*60*60; // 쿠키만료 시간 4주
+	    			
+		            Cookie cookie = new Cookie("remember", session.getId());
+		            cookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+		            cookie.setMaxAge(cookieMaxTime);
+		            response.addCookie(cookie); 
+		            
+		            Calendar calendar = Calendar.getInstance();
+		            Date now = new Date();
+		            calendar.add(Calendar.SECOND, cookieMaxTime);
+		            
+		            //쿠키정보 디비 저장
+		            userService.keepLogin(loginCommand.getUser_id(), session.getId(),  calendar.getTime());
+	    		}
 	    		
-	    		// 자동로그인 쿠기 셋팅
-	            Cookie cookie = new Cookie("remember-me", loginCommand.getUser_id());
-	            cookie.setPath("/"); // 모든 경로에서 접근 가능 하도록 설정
+	            UserDto userDto = userService.getUserDto(loginCommand.getUser_id());
 	            
-	            cookie.setMaxAge(28*24*60*60); //쿠키 만료 시간4주 설정
-	            response.addCookie(cookie); 
-	    		
+	            session.setAttribute("login", userDto);	
 	    	} else { //로그인 실패
 	    		return "loginForm";
 	    	} 
@@ -128,12 +137,23 @@ public class loginController {
 	     ** 로그아웃 처리
 	     */
 	    @RequestMapping(value="/logout", method = RequestMethod.GET)
-	    public String logout(HttpServletResponse response) throws Exception{
+	    public String logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
 	    	
-	    	Cookie myCookie = new Cookie("remember-me", null);
-	        myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
-	        myCookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
-	    	
-	    	return "home";
+	    	Cookie cookie = WebUtils.getCookie(request, "remember");
+	    	if(cookie!=null) {
+	    		cookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+		        cookie.setPath("/"); // 모든 경로에서 삭제 됬음을 알린다.
+		        response.addCookie(cookie);
+	    	}
+	        
+	        Object userDto = session.getAttribute("login");
+	        if(userDto!=null) {
+	        	UserDto user = (UserDto) userDto;
+	        	//session.invalidate(); //전체세션해제
+		        session.removeAttribute("login"); // 하나씩 하려면 이렇게 해도 됨.
+		        userService.keepLogin(user.getUser_id(), "none", new Date());
+	        }
+	        
+	    	return "redirect:/";
 	    }
 }

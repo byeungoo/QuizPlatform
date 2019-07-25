@@ -61,4 +61,27 @@
     	       END
     </select>
     
+    <select id="keepLogin" parameterType="authInfo">
+    	/* com.quiz.mapper.userMapper.keepLogin */
+    	UPDATE  USER
+    	SET     SESSION_KEY   = #{session_id}
+    	      , SESSION_LIMIT = #{session_limit}
+    	WHERE   USER_ID       = #{user_id} 
+    </select>
+    
+    <select id="checkLoginBefore" resultType="userDto">
+    	SELECT  USER_ID
+    	      , NICKNAME
+    	FROM    USER
+    	WHERE   SESSION_KEY = #{session_id}
+    </select>
+    
+    <select id="getUserDto" resultType="userDto">
+    	SELECT  USER_ID
+    	      , NICKNAME
+    	FROM    USER
+    	WHERE   1 = 1
+    	AND     USER_ID = #{user_id}
+    </select>
+    
 </mapper>

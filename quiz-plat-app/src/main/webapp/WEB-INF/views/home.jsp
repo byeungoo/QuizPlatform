@@ -18,6 +18,27 @@
 </head>
 
 <body style="background:#c8c8c8;">
+
+  <div>
+ 	<c:choose>
+        <c:when test="${empty login }">
+          <li>
+            <a href="#">로그인</a>
+          </li>
+          <li>
+            <a href="#">회원가입</a>
+          </li>
+          <li>
+          	${login}
+          </li>
+        </c:when>
+        <c:otherwise>
+          <p>${login.user_id}님, 반갑습니다!</p>
+          <p>${cookie.remember.value}님, 반갑습니다!</p>
+        </c:otherwise>
+    </c:choose>	
+  </div>
+
   <div class="wrapper m-scene">
     <section class="main-sec">
       <ul class="main-sec__list">
