@@ -17,8 +17,14 @@
     rel="stylesheet">
 </head>
 
-<body style="background:#c8c8c8;">
-
+<body>
+  <header class="home_header">
+    <ul class="home_header_navlist">
+      <li class="home_header_navitem on">인기</li>
+      <li class="home_header_navitem">신규</li>
+      <li class="home_header_navitem">활동</li>
+    </ul>
+  </header>
   <div>
  	<c:choose>
         <c:when test="${empty login }">
@@ -47,21 +53,18 @@
             <div class="card">
               <a href="/detail?writing_no=${writingDtlDto.writing_no}">
                 <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
-                <div class="card__hr">
-                  <img src="resources/img/CenterBar@2x.png" width="320px" height="25px" alt="VS"
-                    style="display:block;margin:auto;">
+                <div class="card__vsimg">
+                  <img src="resources/img/vs.png" alt="vs이미지">
                 </div>
-                <span class="card__desc">${writingDtlDto.sec_writ_content}</span>
-                <div class="card__foot">
+                <span class="card__desc ellipsis">${writingDtlDto.sec_writ_content}</span>
+                <div class="card__info-wrap">
                   <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/VoteCount@2x.png" width="24px" height="24px"
-                      alt="투표수아이콘">
-                    <span class="card__icon-desc">${writingDtlDto.sum_vote}</span>
+                    <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+                    <span class="card__icon-desc font_blue">${writingDtlDto.sum_vote}</span>
                   </div>
                   <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/CommentIcon@2x.png" width="24px" height="24px"
-                      alt="댓글수아이콘">
-                    <span class="card__icon-desc">${writingDtlDto.sum_comment}</span>
+                    <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+                    <span class="card__icon-desc font_yellow">${writingDtlDto.sum_comment}</span>
                   </div>
                 </div>
               </a>

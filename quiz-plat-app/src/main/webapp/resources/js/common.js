@@ -67,17 +67,6 @@ $(function () {
     }
   });
 
-  //상세페이지 카드 내 텍스트크기 조절하기
-  var detailCard = $('.card__responsive');
-  detailCard.each(function (index, item) {
-    var fontSize = parseInt($(this).css('font-size'), 10);
-    while ($(this)[0].scrollHeight > $(this)[0].clientHeight) {
-      fontSize -= 1;
-      $(this).css('font-size', (fontSize) + 'px');
-      $(this).css('line-height', (fontSize) + 'px');
-    }
-  });
-
   $('.modal').on('keyup', ".modal_inp", function (e) {
     if ($(this).val().trim().length === 0) { //누구든 입력이 없으면 보더 삭제
       $(this).removeClass('on');
@@ -118,6 +107,7 @@ $(function () {
       }
     })
 
+  //modal 제출 버튼 클릭시
   $('.modal').on('click', '.modal_submit', function (e) {
     var group = $(e.delegateTarget).find('.modal_inp');
     var index = areNotCompleted(group);
@@ -129,11 +119,40 @@ $(function () {
       return false;
     }
   })
-
+  //토스트
   var toast = $('.toast.on');
   if (toast.length > 0) {
     showToast(toast);
   }
+
+  //토글
+  $('.rdo_toggle').on('click', function (e) {
+    var group = $('.rdo_toggle');
+    var nowIdx = group.index($(this));
+    group.each(function (index, item) {
+      if (index === nowIdx) {
+        $(item).addClass('on');
+        return;
+      }
+      $(item).removeClass('on');
+    })
+  });
+
+  //2종류 토글, On or off
+  $('.toggle_on_off').on('click', function (e) {
+    var group = $('.toggle_on_off');
+    var nowIdx = group.index($(this));
+    group.each(function (index, item) {
+      if (index === nowIdx) {
+        $(item).removeClass('off');
+        $(item).addClass('on');
+        return;
+      }
+      $(item).removeClass('on');
+      $(item).addClass('off');
+    })
+  });
+
 
 });
 
