@@ -89,7 +89,7 @@ textarea {
 .header_wrap {
   display: table;
   width: 100%;
-  height: 7vh;
+  height: 7%;
   padding: 0 20px;
   table-layout: fixed;
   box-sizing: border-box;
@@ -141,6 +141,14 @@ textarea {
   padding: 15px 0;
 }
 
+.mt-1 {
+  margin-top: 40px;
+}
+
+.mt-2 {
+  margin-top: 10px;
+}
+
 .card__prtg {
   display: none;
 }
@@ -176,15 +184,10 @@ textarea {
 .card--single {
   position: relative;
   width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
   padding: 0;
 }
 
-
-.card--single:first-child {
-  margin-top: 0;
-}
 
 
 .ellipsis {
@@ -225,7 +228,7 @@ textarea {
   margin-top: 28px;
 }
 
-.detail__vs {
+.detail_vs {
   display: inline-block;
   width: 40px;
   height: 20px;
@@ -304,40 +307,56 @@ textarea {
 
 /*detail 글 상세 페이지*/
 .detail {
-  padding: 16px 18px 0;
+  padding: 16px 6px 0;
   position: absolute;
   width: 100%;
-  height: 93vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.detail .detail__top {
-  flex: 1.3;
+.detail .detail_top {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   position: relative;
 }
 
-.detail .detail__top .card--single {
-  height: 40%;
+.detail_bottom {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  visibility: hidden;
 }
 
+.swiper-slide-active .detail_bottom {
+  visibility: visible;
+}
+
+.detail_txtareawrap {
+  height: 200px;
+  padding: 18px;
+  padding-right: 10px;
+  border: 1px solid #b0b0b0;
+  border-radius: 8px;
+  position: relative;
+  margin: 18px 0;
+}
+
+
+.detail .detail_top .card--single {
+  height: 137px;
+}
 
 .detail .card__info-wrap {
   top: 0;
-  right: 35px;
-}
-
-.detail_bottom {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  right: 15px;
 }
 
 .detail_btn {
+  display: none;
   width: 100%;
   padding: 1vh;
   text-align: center;
@@ -346,25 +365,14 @@ textarea {
   border-radius: 5px;
   background: none;
   color: #9c9c9c;
-  margin-bottom: 2.5vh;
+  margin: 18px 0;
 }
 
-.detail_bottom .detail_txtareawrap {
-  margin-top: 10px;
-}
 
 .detail_wrap .detail_replyarea {
   display: none;
 }
 
-.detail_txtareawrap {
-  height: 70%;
-  padding: 20px;
-  padding-right: 10px;
-  border: 1px solid #b0b0b0;
-  border-radius: 8px;
-  position: relative;
-}
 
 
 .detail_txtarea {
@@ -382,71 +390,65 @@ textarea {
 
 .detail__119 {
   display: block;
-  width: 55px;
-  height: 20px;
+  width: 40px;
+  height: 15px;
   background: url(../img/119.png) no-repeat;
   background-size: 100% 100%;
   border: 0;
   position: absolute;
-  right: 0;
-  bottom: 0;
-  transform: translate(-10px, 150%);
-
+  top: 0;
+  left: 10px;
 }
 
-.detail__btn:before {
-  content: "선택해주세요";
-}
 
-.detail__btn.on {
-  background: #32bbff;
-  color: #fff;
-  pointer-events: auto;
-}
 
-.detail__btn.on:before {
-  content: "결과보기";
-}
-
-.detail_wrap.on .card--single {
+.card_wrap.on .card--single {
   box-shadow: none;
 }
 
-.detail_wrap.on .card--single label {
+.card_wrap.on .card--single label {
   box-shadow: inset 0 0 0 1px #B6B6B6;
 }
 
-.detail_wrap.on .card--single .card__desc {
-  color: #B6B6B6;
+.card_wrap.on .card.on label {
+  box-shadow: inset 0 0 0 1px rgb(0, 143, 215);
 }
 
-.detail_wrap.on .card--single .card__subdesc {
+.card_wrap.on .card_subdesc {
   display: inline-block;
   color: #B6b6b6;
   opacity: .45;
-  height: 10%;
 }
 
-.detail_wrap.on .card__prtg {
+.card_wrap.on .card__desc {
+  font-weight: bold;
+  color: #B6b6b6;
+}
+
+.card_wrap.on .card__prtg {
   display: inline-block;
 }
 
-.detail_wrap.on .detail_replyarea {
+.detail_bottom.on .detail_replyarea {
   display: block;
 }
 
-
-.detail_wrap.on .header_center:before {
-  content: "투표완료";
-}
-
-.detail_wrap.on .detail_txtareawrap {
+.detail_bottom.on .detail_txtareawrap {
   display: none;
 }
 
+.detail_bottom.on .detail_btn {
+  display: block;
+}
+
+.detail_bottom.on .detail_btn+.detail_txtareawrap {
+  margin-top: 0;
+}
+
+
 .detail_wrap .header_center:before {
   display: inline-block;
-  content: "미투표";
+  content: "투표하기";
   height: 16px;
 }
 
@@ -476,7 +478,7 @@ textarea {
   width: 100%;
   z-index: 1;
   border-radius: 8px;
-  padding: 5% 10%;
+  padding: 20px 30px;
   box-sizing: border-box;
 }
 
@@ -514,7 +516,7 @@ textarea {
   }
 }
 
-.card__subdesc {
+.card_subdesc {
   display: none;
   font-size: 12px;
   line-height: 1;
@@ -525,17 +527,17 @@ textarea {
   box-shadow: inset 0 0 0 1px #008fd7;
 }
 
-.detail_wrap.on .card--single.on .card__desc {
+.card_wrap.on .card--single.on .card__desc {
   color: #0f7bff;
 }
 
-.detail_wrap.on .card--single.on .card__subdesc {
+.card_wrap.on .card--single.on .card_subdesc {
   color: #0f7bff;
   opacity: .45;
 }
 
 
-.detail_wrap.on .card--single.on .card__subdesc {
+.detail_wrap.on .card--single.on .card_subdesc {
   display: inline-block;
 }
 
