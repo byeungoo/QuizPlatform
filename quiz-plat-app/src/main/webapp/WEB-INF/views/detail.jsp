@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
+  <link rel="stylesheet" href="resources/css/swiper.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700,700i&display=swap"
     rel="stylesheet">
 </head>
@@ -40,101 +41,372 @@
         <div class="header_center"></div>
         <div class="header_right"></div>
       </header>
-      <form action="/result" id="result" method="get" id="detail_form">
-        <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
-        <section class="detail">
-          <div class="card__info-wrap">
-            <div class="card__info-area">
-              <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-              <span class="card__icon-desc font_blue">${writingDtlDto.sum_vote}</span>
-            </div>
-            <div class="card__info-area">
-              <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-              <span class="card__icon-desc font_yellow">${writingDtlDto.sum_comment}</span>
-            </div>
-          </div>
-          <div class="detail__top">
-            <div class="card card--single">
-              <label for="before">
-                <p class="card__descwrap">
-                  <span class="card__desc">
-                    ${writingDtlDto.fir_writ_content}
-                  </span>
-                </p>
-                <span class="card__subdesc">
-                  나를 포함한 141명의 선택
-                </span>
-                <span class="card__prtg">37%</span>
-              </label>
-            </div>
-            <span class="detail__vs"></span>
-            <div class="card card--single">
-              <label for="after">
-                <p class="card__descwrap">
-                  <span class="card__desc">
-                    ${writingDtlDto.sec_writ_content}
-                  </span>
-                </p>
-                <span class="card__subdesc later">
-                  나를 제외한 243명의 선택
-                </span>
-                <span class="card__prtg later">63%</span>
-              </label>
-            </div>
-          </div>
-          <div class="detail_bottom">
-            <div class="detail_replyarea">
-              <button class="detail_btn">본문 펼치기</button>
-              <ul class="detail_replylist">
-                <li class="detail_replyitem">
-                  <span class="detail_replytit">익명</span>
-                  <span class="detail_replycont">
-                    당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                    전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                  </span>
-                </li>
-                <li class="detail_replyitem">
-                  <span class="detail_replytit">익명</span>
-                  <span class="detail_replycont">
-                    당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                    전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                  </span>
-                </li>
-                <li class="detail_replyitem">
-                  <span class="detail_replytit">익명</span>
-                  <span class="detail_replycont">
-                    당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                    전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                  </span>
-                </li>
-              </ul>
-
-            </div>
-            <div class="detail_txtareawrap">
-              <div class="detail_txtarea">
-                ${writingDtlDto.content}
-              </div>
+      <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <section class="detail">
               <button type="button" class="detail__119">
               </button>
-            </div>
+              <div class="card__info-wrap">
+                <div class="card__info-area">
+                  <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+                  <span class="card__icon-desc font_blue">1,945</span>
+                </div>
+                <div class="card__info-area">
+                  <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+                  <span class="card__icon-desc font_yellow">1,988</span>
+                </div>
+              </div>
+              <div class="detail_top card_wrap mt-2 mt-2">
+                <div class="card card--single">
+                  <label for="before">
+                    <p class="card__descwrap">
+                      <span class="card__desc">
+                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
+                      </span>
+                    </p>
+                    <span class="card_subdesc">
+                      나를 포함한 141명의 선택
+                    </span>
+                    <span class="card__prtg">37%</span>
+                  </label>
+                </div>
+                <span class="detail_vs"></span>
+                <div class="card card--single mt-1">
+                  <label for="after">
+                    <p class="card__descwrap">
+                      <span class="card__desc">
+                        제목이 한줄이라도 크기 유지
+                      </span>
+                    </p>
+                    <span class="card_subdesc later">
+                      나를 제외한 243명의 선택
+                    </span>
+                    <span class="card__prtg later">63%</span>
+                  </label>
+                </div>
+              </div>
+              <div class="detail_bottom">
+                <button class="detail_btn">본문 펼치기</button>
+                <div class="detail_txtareawrap">
+                  <div class="detail_txtarea">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
+                    impedit,
+                    fuga
+                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
+                    cupiditate
+                    molestias.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
+                    vitae
+                    maxime
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
+                    rerum
+                    vel
+                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
+                    praesentium
+                    magnam.
+                  </div>
+                </div>
+                <div class="detail_replyarea">
+                  <ul class="detail_replylist">
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
-      </form>
+          <div class="swiper-slide">
+            <section class="detail">
+              <button type="button" class="detail__119">
+              </button>
+              <div class="card__info-wrap">
+                <div class="card__info-area">
+                  <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+                  <span class="card__icon-desc font_blue">1,945</span>
+                </div>
+                <div class="card__info-area">
+                  <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+                  <span class="card__icon-desc font_yellow">1,988</span>
+                </div>
+              </div>
+              <div class="detail_top card_wrap mt-2 mt-2">
+                <div class="card card--single">
+                  <label for="before">
+                    <p class="card__descwrap">
+                      <span class="card__desc">
+                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
+                      </span>
+                    </p>
+                    <span class="card_subdesc">
+                      나를 포함한 141명의 선택
+                    </span>
+                    <span class="card__prtg">37%</span>
+                  </label>
+                </div>
+                <span class="detail_vs"></span>
+                <div class="card card--single mt-1">
+                  <label for="after">
+                    <p class="card__descwrap">
+                      <span class="card__desc">
+                        제목이 한줄이라도 크기 유지
+                      </span>
+                    </p>
+                    <span class="card_subdesc later">
+                      나를 제외한 243명의 선택
+                    </span>
+                    <span class="card__prtg later">63%</span>
+                  </label>
+                </div>
+              </div>
+              <div class="detail_bottom">
+                <button class="detail_btn">본문 펼치기</button>
+                <div class="detail_txtareawrap">
+                  <div class="detail_txtarea">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
+                    impedit,
+                    fuga
+                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
+                    cupiditate
+                    molestias.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
+                    vitae
+                    maxime
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
+                    rerum
+                    vel
+                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
+                    praesentium
+                    magnam.
+                  </div>
+                </div>
+                <div class="detail_replyarea">
+                  <ul class="detail_replylist">
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="swiper-slide">
+            <section class="detail">
+              <button type="button" class="detail__119">
+              </button>
+              <div class="card__info-wrap">
+                <div class="card__info-area">
+                  <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+                  <span class="card__icon-desc font_blue">1,945</span>
+                </div>
+                <div class="card__info-area">
+                  <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+                  <span class="card__icon-desc font_yellow">1,988</span>
+                </div>
+              </div>
+              <div class="detail_top card_wrap mt-2 mt-2">
+                <div class="card card--single">
+                  <label for="before">
+                    <p class="card__descwrap">
+                      <span class="card__desc">
+                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
+                      </span>
+                    </p>
+                    <span class="card_subdesc">
+                      나를 포함한 141명의 선택
+                    </span>
+                    <span class="card__prtg">37%</span>
+                  </label>
+                </div>
+                <span class="detail_vs"></span>
+                <div class="card card--single mt-1">
+                  <label for="after">
+                    <p class="card__descwrap">
+                      <span class="card__desc">
+                        제목이 한줄이라도 크기 유지
+                      </span>
+                    </p>
+                    <span class="card_subdesc later">
+                      나를 제외한 243명의 선택
+                    </span>
+                    <span class="card__prtg later">63%</span>
+                  </label>
+                </div>
+              </div>
+              <div class="detail_bottom">
+                <button class="detail_btn">본문 펼치기</button>
+                <div class="detail_txtareawrap">
+                  <div class="detail_txtarea">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
+                    impedit,
+                    fuga
+                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
+                    cupiditate
+                    molestias.
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
+                    vitae
+                    maxime
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
+                    rerum
+                    vel
+                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
+                    praesentium
+                    magnam.
+                  </div>
+                </div>
+                <div class="detail_replyarea">
+                  <ul class="detail_replylist">
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                    <li class="detail_replyitem">
+                      <span class="detail_replytit">익명</span>
+                      <span class="detail_replycont">
+                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
+                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
+  <script src="resources/js/swiper.js"></script>
   <script type="text/javascript">
-    /*카드 선택시 색변경 및 문구변경*/
+    /*카드 선택시 UI변경*/
     $('.card').on('click', function (e) {
-      var wrapper = $('.wrapper');
-      var cards = wrapper.find('.card');
+      var cardwrap = $(e.target).closest('.card_wrap');
+      var cards = cardwrap.find('.card');
+      var bottomInfo = cardwrap.siblings('.detail_bottom');
       var nowIdx = cards.index(this);
-      wrapper.addClass('on');
+      cardwrap.addClass('on');
+      bottomInfo.addClass('on');
       cards.removeClass('on');
       $(this).addClass('on');
     })
+    $('.detail_btn').on('click', function (e) {
+      $(this).siblings('.detail_txtareawrap').toggle();
+    })
+
+    var mySwiper = new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      slidesPerView: 1.1,
+      centeredSlides: true,
+      threshold: 15,
+      on: {
+        'init': function (e) {
+          this.container = $('.swiper-container');
+        },
+        'sliderMove': function (e) {
+          $('.swiper-slide-prev .detail_bottom').css('visibility', 'visible');
+          $('.swiper-slide-next .detail_bottom').css('visibility', 'visible');
+        },
+        'slideChangeTransitionEnd': function (e) {
+          $('html, body').scrollTop(0);
+          $('.swiper-slide-prev .detail_bottom').css('visibility', 'hidden');
+          $('.swiper-slide-active .detail_bottom').css('visibility', 'visible');
+          $('.swiper-slide-next .detail_bottom').css('visibility', 'hidden');
+        }
+      }
+    });
   </script>
 </body>
 
