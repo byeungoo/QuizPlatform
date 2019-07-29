@@ -4,25 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.quiz.mapper.writingDtlMapper">
- 
+                                    
  	<select id="getTextWritingList" resultType="writingDtlDto">
  		/* com.quiz.mapper.writingDtlMapper.getTextWritingList */
 		SELECT  W.WRITING_NO
 		      , W.FIR_WRIT_CONTENT
-      		  , W.SEC_WRIT_CONTENT
-      		  , W.FIR_VOTE_NO
-      		  , W.SEC_VOTE_NO
-      	   	  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
-      	   	  , (
-					SELECT COUNT(C.WRITING_NO)
-					FROM   COMMENT C
-					WHERE  1 = 1
-					AND    C.WRITING_NO = W.WRITING_NO
-	            ) SUM_COMMENT
+		      , W.SEC_WRIT_CONTENT
+		      , W.FIR_VOTE_NO
+		      , W.SEC_VOTE_NO
+		      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+		      , (
+			       SELECT COUNT(C.WRITING_NO)
+			       FROM   COMMENT C
+			       WHERE  1 = 1
+			       AND    C.WRITING_NO = W.WRITING_NO
+			    ) SUM_COMMENT
 		FROM    WRITING W
 		WHERE   1 = 1
 		AND     W.USE_YN = 'Y'
-		ORDER BY REG_DTS DESC
+		ORDER BY W.REG_DTS DESC
     </select>
     
     <select id="getTextWriting" parameterType="int" resultType="writingDtlDto">
@@ -74,5 +74,66 @@
     	SET    HITS = HITS + 1
     	WHERE  WRITING_NO = #{writing_no}
     </select>
- 
+    
+ 	<select id="getHotTextWritingList" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.getHotTextWritingList */
+		SELECT  T.*
+		      ,  CASE WHEN T.FIR_VOTE_NO - T.SEC_VOTE_NO = 0 THEN (T.SUM_VOTE+3*SUM_COMMENT)
+			     ELSE ROUND((T.SUM_VOTE+3*SUM_COMMENT)/(ABS(T.FIR_VOTE_NO - T.SEC_VOTE_NO)/(T.FIR_VOTE_NO+T.SEC_VOTE_NO)*100))
+			     END AS POPULARITY
+		      , ROUND((ABS((T.FIR_VOTE_NO-T.SEC_VOTE_NO))/(T.FIR_VOTE_NO+T.SEC_VOTE_NO)*100)) 'VOTE_DIFF'
+		FROM   (
+				   SELECT  W.WRITING_NO
+				         , W.FIR_WRIT_CONTENT
+				         , W.SEC_WRIT_CONTENT
+				         , W.FIR_VOTE_NO
+				         , W.SEC_VOTE_NO
+				         , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+				         , (
+					    	   SELECT COUNT(C.WRITING_NO)
+					    	   FROM   COMMENT C
+					    	   WHERE  1            = 1
+					    	   AND    C.WRITING_NO = W.WRITING_NO
+						   ) SUM_COMMENT
+				FROM    WRITING W
+				WHERE   1 = 1
+				AND     W.USE_YN = 'Y'
+				AND     W.WRITING_NO IN (
+							    			SELECT WV.WRITING_NO
+							    			FROM   WRITING_VOTE WV
+							    			WHERE  1 = 1
+							    			AND    WV.WRITING_NO = W.WRITING_NO
+							    			AND    WV.USER_ID = 't'
+										)
+		       ) T
+		WHERE 1 = 1
+		ORDER BY POPULARITY DESC
+    </select>
+    
+  	<select id="getMyVote" parameterType="userDto" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.getMyVote */
+		SELECT  W.WRITING_NO
+		      , W.FIR_WRIT_CONTENT
+		      , W.SEC_WRIT_CONTENT
+		      , W.FIR_VOTE_NO
+		      , W.SEC_VOTE_NO
+		      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+		      , (
+			    	SELECT COUNT(C.WRITING_NO)
+			    	FROM   COMMENT C
+			    	WHERE  1 = 1
+			    	AND    C.WRITING_NO = W.WRITING_NO
+				) SUM_COMMENT
+		FROM    WRITING W
+		WHERE   1 = 1
+		AND     W.USE_YN = 'Y'
+		AND     W.WRITING_NO IN (
+					    		    SELECT WV.WRITING_NO
+					    		    FROM   WRITING_VOTE WV
+					   			    WHERE  1 = 1
+					    			AND    WV.WRITING_NO = W.WRITING_NO
+					    			AND    WV.USER_ID = #{user_id}
+				        		)
+		ORDER BY W.REG_DTS DESC
+    </select>
 </mapper>

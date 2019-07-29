@@ -14,8 +14,25 @@ public class WritingDtlService {
     @Autowired
     private WritingDtlDao writingDtlDao;
     
-    public List<WritingDtlDto> getWritingDtlList() throws Exception{
+    /*
+     ** 최신 게신글 리스트 조회
+     */
+    public List<WritingDtlDto> getTextWritingList() throws Exception{
     	return writingDtlDao.getTextWritingList();
+    }
+    
+    /*
+     ** 인기 게시글 리스트 조회
+     */  
+    public List<WritingDtlDto> getHotTextWritingList() throws Exception{
+    	return writingDtlDao.getHotTextWritingList();
+    }
+    
+    /*
+     ** 나의 투표 리스트 조회
+     */  
+    public List<WritingDtlDto> getMyVote(String user_id) throws Exception{
+    	return writingDtlDao.getMyVote(user_id);
     }
     
     /*

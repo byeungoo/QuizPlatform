@@ -20,6 +20,7 @@ public class WritingDtlDto {
 	private int    hits;              //조회수
 	private int    sum_vote;          //총 투표 수
 	private int    sum_comment;       //총 댓글 수
+	private double popularity;        //인기도
 	private double fir_vote_perc;     //첫번째 투표 비율
 	private double sec_vote_perc;     //두번쨰 투표 비율
 	
@@ -130,5 +131,11 @@ public class WritingDtlDto {
 	}
 	public void setSec_vote_perc(double sec_vote_perc) {
 		this.sec_vote_perc = sec_vote_perc;
+	}
+	public double getPopularity() {
+		return popularity;
+	}
+	public void setPopularity(double popularity) {
+		this.popularity = popularity;
 	}
 }
