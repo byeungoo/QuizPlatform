@@ -1,13 +1,13 @@
 @import url('./reset.css');
 
-.wrapper,
-.page {
-  height: 100%;
-}
-
 .wrapper--white,
 .wrapper--white .header {
   background: #fff;
+}
+
+.wrapper,
+.page {
+  height: 100%;
 }
 
 .blind {
@@ -25,6 +25,9 @@
   clip: rect(0, 0, 0, 0);
 }
 
+body {
+  position: relative;
+}
 
 body::-webkit-scrollbar {
   display: none;
@@ -120,7 +123,47 @@ textarea {
 /*main*/
 .main-sec {
   padding: 0 15px;
-  height: 100%;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.main-spinner {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  font-size: 0;
+  line-height: 1;
+  background: url('../img/spinner.png') no-repeat;
+  background-size: 100% 100%;
+  animation-name: rotate;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+}
+
+.main-sec__list {
+  text-align: center;
 }
 
 .main-sec__list-item {
@@ -862,9 +905,9 @@ textarea {
 }
 
 .toast {
-  display: none;
+  display: inline-block;
   position: fixed;
-  bottom: 75px;
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
   height: 40px;
@@ -876,10 +919,6 @@ textarea {
   padding: 0 20px;
   text-align: center;
   min-width: fit-content;
-}
-
-.toast.on {
-  display: table;
 }
 
 .modal {

@@ -119,11 +119,6 @@ $(function () {
       return false;
     }
   })
-  //토스트
-  var toast = $('.toast.on');
-  if (toast.length > 0) {
-    showToast(toast);
-  }
 
   //토글
   $('.rdo_toggle').on('click', function (e) {
@@ -153,8 +148,25 @@ $(function () {
     })
   });
 
-
 });
+
+/* 스피너 모음 */
+var _spinner = $('.main-spinner');
+var _target;
+
+function makeSpinner() {
+  return $('<span class="main-spinner"></span>');
+}
+
+function showSpinner(target) {
+  _target = target;
+  _spinner = _spinner.length ? $(_spinner).detach() : makeSpinner();
+  _spinner.appendTo(target);
+}
+
+function hideSpinner() {
+  _spinner = $(_spinner).detach();
+}
 
 function areNotCompleted(group) { //모두 입력되었으면 -1리턴
   for (var i = 0; i < group.length; i++) {
@@ -162,6 +174,12 @@ function areNotCompleted(group) { //모두 입력되었으면 -1리턴
       return i;
   }
   return -1;
+}
+
+//토스트
+var toast = $('.toast');
+if (toast.length > 0) {
+  showToast(toast);
 }
 
 function copyToClipboard(url) {

@@ -26,7 +26,7 @@
     </ul>
   </header>
   <div>
- 	<c:choose>
+ 		<c:choose>
         <c:when test="${empty login }">
           <li>
             <a href="#">로그인</a>
@@ -73,18 +73,69 @@
         </c:forEach>
       </ul>
     </section>
- 
-    <a href="write" class="fab">
+		<c:if test="${toastOn == 'Y'}">
+   	  <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
+    </c:if>
+    <a href="/write.html" class="fab">
       투표 만들기
     </a>
-    <c:if test="${toastOn == 'Y'}">
-      <p class="toast on scene_element">새로운 투표가 만들어졌습니다</p>
-    </c:if>
   </div>
 
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
+  <script src="resources/js/jsrender.min.js"></script>
+  <script id="cardTmpl" type="text/jsrender">
+    <li class="main-sec__list-item">
+      <div class="card">
+        <a href="/detail.html">
+          <span class="card__desc ellipsis">{{:title}}</span>
+          <div class="card__vsimg">
+            <img src="resources/img/vs.png" alt="vs이미지">
+          </div>
+          <span class="card__desc ellipsis">{{:title}}</span>
+          <div class="card__info-wrap">
+            <div class="card__info-area">
+              <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+              <span class="card__icon-desc font_blue">{{:boardSeq}}</span>
+            </div>
+            <div class="card__info-area">
+              <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+              <span class="card__icon-desc font_yellow">{{:boardSeq}}</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </li>
+  </script>
+  <script>
+    //메인페이지 인피니티스크롤
+    (function () {
+      var isExecuted = false;
+      $(window).scroll(function (e) {
+        var winH = $(window).height();
+        var docH = $(document).height();
+        var winTop = $(window).scrollTop();
+        if (winTop >= docH - winH && !isExecuted) {
+          isExecuted = true;
+          showSpinner($('.main-sec__list'));
+          $.ajax({
+            url: 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/page1',
+            success: function (data) {
+              hideSpinner();
+              var tmpl = $.templates('#cardTmpl');
+              var html = tmpl.render(data);
+              $(html).appendTo($('.main-sec__list'));
+              isExecuted = false;
+            },
+            error: function (data) {
+              console.log(data);
+            }
+          })
+        }
+      });
+    })();
+  </script>
 </body>
 
 </html>
