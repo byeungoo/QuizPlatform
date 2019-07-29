@@ -48,17 +48,42 @@ public class VsController {
     private CommentService commentService;
         
     /**
-     * 硫붿씤 �럹�씠吏� �씠�룞
+     * 인기순 조회(메인)
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
  
-    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getHotTextWritingList();
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
     	
         return "home";
     }
     
+    /**
+     * 최신순 조회
+     */
+    @RequestMapping(value = "/latestWriting", method = RequestMethod.GET)
+    public String latestWriting(HttpSession session, HttpServletRequest request, Model model) throws Exception{
+ 
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList();
+    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	
+        return "home";
+    }
+    
+    /**
+     * 나의 활동내역 최신순 조회
+     */
+    @RequestMapping(value = "/getMyVote", method = RequestMethod.GET)
+    public String getMyVote(HttpSession session, HttpServletRequest request, Model model) throws Exception{
+ 
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getMyVote(userDto.getUser_id());
+    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	
+        return "home";
+    }
     /*
      ** 湲� �옉�꽦 �럹�씠吏� �씠�룞
      */
@@ -73,7 +98,6 @@ public class VsController {
     @Transactional
     @RequestMapping(value="/insert", method = RequestMethod.POST)
     public String insertWrite(HttpServletRequest request, Model model) throws Exception{
-    	
     	HttpSession   session           = request.getSession();
     	WritingDtlDto writingDtlDto     = new WritingDtlDto();   	
     	String        content 			= request.getParameter("content");
@@ -101,7 +125,7 @@ public class VsController {
     	
     	writingDtlService.insertWritingDtl(writingDtlDto);
     	
-    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getWritingDtlList();
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList();
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
     	model.addAttribute("toastOn", "Y");
     	

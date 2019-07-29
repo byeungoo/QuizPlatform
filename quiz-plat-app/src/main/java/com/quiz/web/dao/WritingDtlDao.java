@@ -41,4 +41,12 @@ public class WritingDtlDao {
     public void updateHits(int writing_no) throws Exception{
     	sqlSession.update(Namespace+".updateHits", writing_no);
     }
+    
+    public List<WritingDtlDto> getHotTextWritingList() throws Exception{
+        return sqlSession.selectList(Namespace+".getHotTextWritingList");
+    }
+    
+    public List<WritingDtlDto> getMyVote(String user_id) throws Exception{
+    	return sqlSession.selectList(Namespace+".getMyVote", user_id);
+    }
 }

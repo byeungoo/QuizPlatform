@@ -2,6 +2,9 @@ package com.quiz.web.service;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,8 +88,27 @@ public class UserService {
     	return userDao.checkLoginBefore(session_id);
     }
     
+    /*
+     ** 회원객체 조회
+     */
     public UserDto getUserDto(String user_id) {
     	return userDao.getUserDto(user_id);
     }
     
+    /*
+     ** userId 세팅 객체 획득
+     */
+    public UserDto getUesrSettingDto(HttpSession session, HttpServletRequest request) {
+    	
+    	Object userDto = session.getAttribute("login");
+    	UserDto user = new UserDto();
+        if(userDto!=null) {  //로그인 정보 유지 시, 유저 아이디 세팅
+        	user = (UserDto) userDto;
+        } else {            //로그인 정보가 없을 경우(비회원), 세션 아이디 세팅
+        	session = request.getSession();
+        	user.setUser_id(session.toString());
+        }
+    	
+    	return user;
+    }
 }
