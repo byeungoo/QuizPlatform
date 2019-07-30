@@ -58,7 +58,7 @@
                   <span class="card__icon-desc font_yellow">1,988</span>
                 </div>
               </div>
-              <div class="detail_top card_wrap mt-2 mt-2">
+              <div class="detail_top card_wrap mt-2">
                 <div class="card card--single">
                   <label for="before">
                     <p class="card__descwrap">
@@ -370,9 +370,77 @@
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
   <script src="resources/js/swiper.js"></script>
+  <script src="resources/js/jsrender.min.js"></script>
+  <script id="slideTmpl" type="text/jsrender">
+    <div class="swiper-slide">
+        <section class="detail">
+          <button type="button" class="detail__119">
+          </button>
+          <div class="card__info-wrap">
+            <div class="card__info-area">
+              <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+              <span class="card__icon-desc font_blue">{{:votecount}}</span>
+            </div>
+            <div class="card__info-area">
+              <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+              <span class="card__icon-desc font_yellow">{{:replycount}}</span>
+            </div>
+          </div>
+          <div class="detail_top card_wrap mt-2 mt-2">
+            <div class="card card--single">
+              <label for="before">
+                <p class="card__descwrap">
+                  <span class="card__desc">
+                    {{:card_top_desc}}
+                  </span>
+                </p>
+                <span class="card_subdesc">
+                  나를 포함한 {{:card_top_count}}명의 선택
+                </span>
+                <span class="card__prtg">{{:card_top_prtg}}</span>
+              </label>
+            </div>
+            <span class="detail_vs"></span>
+            <div class="card card--single mt-1">
+              <label for="after">
+                <p class="card__descwrap">
+                  <span class="card__desc">
+                    {{:card_bottom_desc}}
+                  </span>
+                </p>
+                <span class="card_subdesc later">
+                  나를 제외한 {{:card_bottom_count}}명의 선택
+                </span>
+                <span class="card__prtg later">{{:card_bottom_prtg}}</span>
+              </label>
+            </div>
+          </div>
+          <div class="detail_bottom">
+            <button class="detail_btn">본문 펼치기</button>
+            <div class="detail_txtareawrap">
+              <div class="detail_txtarea">
+                {{:detail_txtarea}}
+              </div>
+            </div>
+            <div class="detail_replyarea">
+              <ul class="detail_replylist">
+                {{for replys }}
+                  <li class="detail_replyitem">
+                    <span class="detail_replytit">{{>replytit}}</span>
+                    <span class="detail_replycont">
+                      {{>replycont}}
+                    </span>
+                  </li>
+                {{/for}}
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+  </script>
   <script type="text/javascript">
     /*카드 선택시 UI변경*/
-    $('.card').on('click', function (e) {
+    $('.swiper-wrapper').on('click', '.card', function (e) {
       var cardwrap = $(e.target).closest('.card_wrap');
       var cards = cardwrap.find('.card');
       var bottomInfo = cardwrap.siblings('.detail_bottom');
@@ -381,8 +449,9 @@
       bottomInfo.addClass('on');
       cards.removeClass('on');
       $(this).addClass('on');
-    })
-    $('.detail_btn').on('click', function (e) {
+    });
+
+    $('.swiper-wrapper').on('click', '.detail_btn', function (e) {
       $(this).siblings('.detail_txtareawrap').toggle();
     })
 
@@ -390,23 +459,26 @@
       direction: 'horizontal',
       slidesPerView: 1.1,
       centeredSlides: true,
-      threshold: 15,
-      on: {
-        'init': function (e) {
-          this.container = $('.swiper-container');
-        },
-        'sliderMove': function (e) {
-          $('.swiper-slide-prev .detail_bottom').css('visibility', 'visible');
-          $('.swiper-slide-next .detail_bottom').css('visibility', 'visible');
-        },
-        'slideChangeTransitionEnd': function (e) {
-          $('html, body').scrollTop(0);
-          $('.swiper-slide-prev .detail_bottom').css('visibility', 'hidden');
-          $('.swiper-slide-active .detail_bottom').css('visibility', 'visible');
-          $('.swiper-slide-next .detail_bottom').css('visibility', 'hidden');
-        }
-      }
+      threshold: 15
     });
+
+    mySwiper.on('slideChange', function (e) {
+      var curIdx = mySwiper.activeIndex;
+      var total = mySwiper.slides.length;
+      if (curIdx === total - 2) {
+        $.ajax({
+          url: 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/infiniteswipe',
+          success: function (data) {
+            var tmpl = $.templates('#slideTmpl');
+            var html = tmpl.render(data);
+            mySwiper.appendSlide(html);
+          },
+          error: function (data) {
+            console.log(data);
+          }
+        });
+      }
+    })
   </script>
 </body>
 

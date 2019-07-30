@@ -1,8 +1,5 @@
 $(function () {
   'use strict';
-  $('.card--single').click(function () {
-    $('.detail__btn').addClass('on');
-  });
 
   $('.write__inparea').on('keyup', function () {
     toggleInputBdr($(this));

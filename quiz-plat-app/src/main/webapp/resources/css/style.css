@@ -371,11 +371,6 @@ textarea {
   position: relative;
   margin-bottom: 50px;
   box-sizing: border-box;
-  visibility: hidden;
-}
-
-.swiper-slide-active .detail_bottom {
-  visibility: visible;
 }
 
 .detail_txtareawrap {
@@ -411,6 +406,9 @@ textarea {
   margin: 18px 0;
 }
 
+.detail_replyarea {
+  padding: 0 10px;
+}
 
 .detail_wrap .detail_replyarea {
   display: none;
