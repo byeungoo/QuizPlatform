@@ -493,6 +493,32 @@ textarea {
   height: 16px;
 }
 
+.reply_inputwrap {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+}
+
+.reply_input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  padding: 10px;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
+
+.reply_submit {
+  position: absolute;
+  display: inline-block;
+  right: 10px;
+  top: 50%;
+  margin-top: -10px;
+}
 
 .detail_replyitem+.detail_replyitem {
   margin-top: 2.5vh;

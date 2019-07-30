@@ -366,6 +366,10 @@
       </div>
     </div>
   </div>
+  <div class="reply_inputwrap">
+    <input type="text" class="reply_input">
+    <button type="button" class="reply_submit">제출</button>
+  </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
@@ -438,7 +442,16 @@
         </section>
       </div>
   </script>
+  <script id="replyTmpl" type="text/jsrender">
+    <li class="detail_replyitem">
+      <span class="detail_replytit">{{:nickname}}</span>
+      <span class="detail_replycont">
+        {{:content}}
+      </span>
+    </li>
+  </script>
   <script type="text/javascript">
+
     /*카드 선택시 UI변경*/
     $('.swiper-wrapper').on('click', '.card', function (e) {
       var cardwrap = $(e.target).closest('.card_wrap');
@@ -451,6 +464,7 @@
       $(this).addClass('on');
     });
 
+    /* 본문 펼치기 */
     $('.swiper-wrapper').on('click', '.detail_btn', function (e) {
       $(this).siblings('.detail_txtareawrap').toggle();
     })
@@ -462,6 +476,7 @@
       threshold: 15
     });
 
+    /* 무한 스와이프 구현 */
     mySwiper.on('slideChange', function (e) {
       var curIdx = mySwiper.activeIndex;
       var total = mySwiper.slides.length;
@@ -478,7 +493,31 @@
           }
         });
       }
+    });
+
+    /* 댓글 비동기 입력*/
+    $('.reply_submit').on('click', function (e) {
+      var input = $(this).siblings('.reply_input');
+      var target = $('.detail_replylist');
+      var replytx = input.val();
+      $.ajax({
+        url: "https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/replyAsync",
+        data: replytx,
+        success: function (data) {
+          setTimeout(function (e) {
+            $('.swiper-container').animate({ scrollTop: $(document).height() }, 0);
+          }, 0);
+          var tmpl = $.templates('#replyTmpl');
+          var html = tmpl.render(data);
+          target.append(html);
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+      input.val('');
     })
+
   </script>
 </body>
 
