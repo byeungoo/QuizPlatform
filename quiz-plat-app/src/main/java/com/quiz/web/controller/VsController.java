@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.quiz.web.dto.CommentDto;
@@ -27,6 +28,8 @@ import com.quiz.web.service.CommentService;
 import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 import com.quiz.web.service.WritingVoteService;
+
+import common.PagingDto;
 import common.SHA256;
  
 
@@ -59,16 +62,35 @@ public class VsController {
         return "home";
     }
     
-    /**
-     * 최신순 조회
+    /*
+     ** 최신순 조회 
      */
-    @RequestMapping(value = "/latestWriting", method = RequestMethod.GET)
+    @RequestMapping(value = "/latestWriting", method = RequestMethod.GET) 
     public String latestWriting(HttpSession session, HttpServletRequest request, Model model) throws Exception{
- 
-    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList();
-    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	logger.info("latestWriting호출");
+    	PagingDto pagingDto = new PagingDto();
+    	pagingDto.setPage_num(1);
     	
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList(pagingDto);
+    	model.addAttribute(writingDtlDtoList);
         return "home";
+    }
+    
+    /*
+     ** 최신순 페이징 처리
+     */
+    @RequestMapping(value = "/getPaigingList", method = RequestMethod.GET)
+    public @ResponseBody List<WritingDtlDto> getPaigingList(HttpSession session, HttpServletRequest request) throws Exception{
+    	
+    	logger.info("getPaigingList호출");
+    	String pageNum = request.getParameter("page");
+    	logger.info("페이지번호: " + pageNum);
+    	PagingDto pagingDto = new PagingDto();
+    	pagingDto.setPage_num(Integer.parseInt(pageNum));
+    	
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList(pagingDto);
+
+        return writingDtlDtoList;
     }
     
     /**
@@ -125,7 +147,10 @@ public class VsController {
     	
     	writingDtlService.insertWritingDtl(writingDtlDto);
     	
-    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList();
+    	PagingDto pagingDto = new PagingDto();
+    	pagingDto.setPage_num(1);
+    	
+    	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList(pagingDto);
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
     	model.addAttribute("toastOn", "Y");
     	
@@ -309,4 +334,5 @@ public class VsController {
     	
     	return "redirect:result";
     }
+    
 }
