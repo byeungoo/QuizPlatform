@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.quiz.web.dao.WritingDtlDao;
 import com.quiz.web.dto.WritingDtlDto;
 
+import common.PagingDto;
+
 @Service
 public class WritingDtlService {
 	
@@ -17,8 +19,15 @@ public class WritingDtlService {
     /*
      ** 최신 게신글 리스트 조회
      */
-    public List<WritingDtlDto> getTextWritingList() throws Exception{
-    	return writingDtlDao.getTextWritingList();
+    public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
+    	
+    	int start = (pagingDto.getPage_num()-1)*pagingDto.getPage_size();
+    	int end = pagingDto.getPage_num()*pagingDto.getPage_size();
+    	
+    	pagingDto.setStart(start);
+    	pagingDto.setEnd(end);
+    	
+    	return writingDtlDao.getTextWritingList(pagingDto);
     }
     
     /*

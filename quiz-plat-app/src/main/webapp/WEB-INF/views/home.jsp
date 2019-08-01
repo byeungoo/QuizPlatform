@@ -89,19 +89,19 @@
     <li class="main-sec__list-item">
       <div class="card">
         <a href="/detail.html">
-          <span class="card__desc ellipsis">{{:title}}</span>
+          <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
           <div class="card__vsimg">
             <img src="resources/img/vs.png" alt="vs이미지">
           </div>
-          <span class="card__desc ellipsis">{{:title}}</span>
+          <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
           <div class="card__info-wrap">
             <div class="card__info-area">
               <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-              <span class="card__icon-desc font_blue">{{:boardSeq}}</span>
+              <span class="card__icon-desc font_blue">{{:sum_vote}}</span>
             </div>
             <div class="card__info-area">
               <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-              <span class="card__icon-desc font_yellow">{{:boardSeq}}</span>
+              <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
             </div>
           </div>
         </a>
@@ -112,21 +112,37 @@
     //메인페이지 인피니티스크롤
     (function () {
       var isExecuted = false;
+      var page = 2;
+      var isFull = false;
       $(window).scroll(function (e) {
         var winH = $(window).height();
         var docH = $(document).height();
         var winTop = $(window).scrollTop();
-        if (winTop >= docH - winH && !isExecuted) {
+        //console.log("페이지: " + page);
+        console.log(isFull);
+        if (Math.ceil(winTop) >= docH - winH && !isExecuted && !isFull) {
           isExecuted = true;
           showSpinner($('.main-sec__list'));
           $.ajax({
-            url: 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/page1',
+        	type : 'GET',  
+            dataType : 'json', 
+            data : {"page" : page},
+            url: '<c:url value='/getPaigingList' />',
             success: function (data) {
+              console.log(data);
               hideSpinner();
               var tmpl = $.templates('#cardTmpl');
               var html = tmpl.render(data);
               $(html).appendTo($('.main-sec__list'));
               isExecuted = false;
+              page +=1;
+              console.log("안");
+              console.log(isFull);
+              console.log(data);
+              if(!data.length	){
+            	  isFull = true;
+              }
+              console.log(page);
             },
             error: function (data) {
               console.log(data);

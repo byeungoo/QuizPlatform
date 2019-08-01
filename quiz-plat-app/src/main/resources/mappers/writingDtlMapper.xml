@@ -5,24 +5,37 @@
  
 <mapper namespace="com.quiz.mapper.writingDtlMapper">
                                     
- 	<select id="getTextWritingList" resultType="writingDtlDto">
+ 	<select id="getTextWritingList" parameterType="common.PagingDto" resultType="writingDtlDto">
  		/* com.quiz.mapper.writingDtlMapper.getTextWritingList */
-		SELECT  W.WRITING_NO
-		      , W.FIR_WRIT_CONTENT
-		      , W.SEC_WRIT_CONTENT
-		      , W.FIR_VOTE_NO
-		      , W.SEC_VOTE_NO
-		      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
-		      , (
-			       SELECT COUNT(C.WRITING_NO)
-			       FROM   COMMENT C
-			       WHERE  1 = 1
-			       AND    C.WRITING_NO = W.WRITING_NO
-			    ) SUM_COMMENT
-		FROM    WRITING W
-		WHERE   1 = 1
-		AND     W.USE_YN = 'Y'
-		ORDER BY W.REG_DTS DESC
+ 		<![CDATA[
+		SELECT  B.*
+		FROM (
+			SELECT  A.*
+			FROM   (
+					SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
+					      , W.WRITING_NO
+					      , W.FIR_WRIT_CONTENT
+					      , W.SEC_WRIT_CONTENT
+					      , W.FIR_VOTE_NO
+					      , W.SEC_VOTE_NO
+					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+					      , (
+						       SELECT COUNT(C.WRITING_NO)
+						       FROM   COMMENT C
+						       WHERE  1 = 1
+						       AND    C.WRITING_NO = W.WRITING_NO
+						    ) SUM_COMMENT
+					FROM    WRITING W,
+						( SELECT @ROWNUM := 0 ) R
+					WHERE   1 = 1
+					AND     W.USE_YN = 'Y'
+					ORDER BY W.REG_DTS DESC
+			       ) A
+			WHERE A.RNUM <=#{end}
+		     ) B
+		 WHERE 1 = 1 
+		 AND   B.RNUM>#{start}
+		 ]]>
     </select>
     
     <select id="getTextWriting" parameterType="int" resultType="writingDtlDto">
@@ -98,13 +111,6 @@
 				FROM    WRITING W
 				WHERE   1 = 1
 				AND     W.USE_YN = 'Y'
-				AND     W.WRITING_NO IN (
-							    			SELECT WV.WRITING_NO
-							    			FROM   WRITING_VOTE WV
-							    			WHERE  1 = 1
-							    			AND    WV.WRITING_NO = W.WRITING_NO
-							    			AND    WV.USER_ID = 't'
-										)
 		       ) T
 		WHERE 1 = 1
 		ORDER BY POPULARITY DESC

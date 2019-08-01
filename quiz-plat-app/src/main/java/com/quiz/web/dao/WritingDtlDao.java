@@ -10,6 +10,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.quiz.web.dto.WritingDtlDto;
 
+import common.PagingDto;
+
 @Repository
 public class WritingDtlDao {
 	
@@ -18,8 +20,8 @@ public class WritingDtlDao {
     
     private static final String Namespace = "com.quiz.mapper.writingDtlMapper";
     
-    public List<WritingDtlDto> getTextWritingList() throws Exception{
-        return sqlSession.selectList(Namespace+".getTextWritingList");
+    public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
+        return sqlSession.selectList(Namespace+".getTextWritingList", pagingDto);
     }
     
     public WritingDtlDto getTextWriting(int writing_no) throws Exception{

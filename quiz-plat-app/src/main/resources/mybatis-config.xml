@@ -11,6 +11,7 @@
             <typeAlias type="com.quiz.web.dto.CommentDto" alias="commentDto"/>
             <typeAlias type="com.quiz.web.dto.LoginCommand" alias="loginCommand"/>
             <typeAlias type="common.AuthInfo" alias="authInfo"/>
+            <typeAlias type="common.PagingDto" alias="pagingDto"/>
         </typeAliases>
         
     </configuration>
