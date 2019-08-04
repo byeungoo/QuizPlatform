@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.quiz.web.dao.WritingDtlDao;
-import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.PagingDto;
@@ -18,7 +17,7 @@ public class WritingDtlService {
     private WritingDtlDao writingDtlDao;
     
     /*
-     ** ÃÖ½Å °Ô½Å±Û ¸®½ºÆ® Á¶È¸
+     ** ï¿½Ö½ï¿½ ï¿½Ô½Å±ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
      */
     public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
     	
@@ -31,11 +30,11 @@ public class WritingDtlService {
     	pagingDto.setStart(start);
     	pagingDto.setEnd(end);
     	
-    	if(mainCategory == 1) { //ÀÎ±â¼ø Á¶È¸
+    	if(mainCategory == 1) { //ï¿½Î±ï¿½ï¿½ ï¿½ï¿½È¸
     		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
-    	} else if(mainCategory == 2){ //ÃÖ½Å¼ø Á¶È¸
+    	} else if(mainCategory == 2){ //ï¿½Ö½Å¼ï¿½ ï¿½ï¿½È¸
     		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
-    	} else { //³ªÀÇ È°µ¿³»¿ª Á¶È¸(3)
+    	} else { //ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(3)
     		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
     	}
     	
@@ -43,21 +42,21 @@ public class WritingDtlService {
     }
     
     /*
-     ** ÀÎ±â °Ô½Ã±Û ¸®½ºÆ® Á¶È¸
+     ** ï¿½Î±ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
      */  
     public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
     	return writingDtlDao.getHotTextWritingList(pagingDto);
     }
     
     /*
-     ** ³ªÀÇ ÅõÇ¥ ¸®½ºÆ® Á¶È¸
+     ** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
      */  
     public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
     	return writingDtlDao.getMyVote(pagingDto);
     }
     
     /*
-     ** °Ô½Ã±Û ¼¼ºÎ ³»¿ë Á¶È¸
+     ** ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
      */
     public WritingDtlDto getWritingDtl(int writing_no) throws Exception{
     	
@@ -73,7 +72,7 @@ public class WritingDtlService {
     }
     
     /*
-     ** °Ô½Ã±Û ÅõÇ¥ ¼ö ¾øµ¥ÀÌÆ®
+     ** ï¿½Ô½Ã±ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
      */  
     public void updateVoteNo(int writing_no, String fir_content_vote, String sec_content_vote) throws Exception{
     	if(fir_content_vote.equals("Y")) {
@@ -84,21 +83,21 @@ public class WritingDtlService {
     }
     
     /*
-     ** °Ô½Ã±Û ÀÛ¼º  
+     ** ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½  
      */
     public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	writingDtlDao.insertWritingDtl(writingDtlDto);
     }
     
     /*
-     ** Á¶È¸ ¼ö Áõ°¡
+     ** ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      */
     public void updateHits(int writing_no) throws Exception{
     	writingDtlDao.updateHits(writing_no);
     }
     
     /*
-     ** ³»°¡ ÅõÇ¥ ÇÏÁö ¾ÊÀº ÀÎ±â ¼ø °Ô½Ã¹° 4°³ Á¶È¸
+     ** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ 4ï¿½ï¿½ ï¿½ï¿½È¸
      */
     public List<WritingDtlDto> getPopulWritingDtoList(PagingDto pagingDto) throws Exception{
     	

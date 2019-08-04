@@ -5,9 +5,12 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.quiz.web.controller.VsController;
 import com.quiz.web.dao.UserDao;
 import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
@@ -20,57 +23,59 @@ public class UserService {
 	@Autowired
     private UserDao userDao;
 	
+	private static final Logger logger = LoggerFactory.getLogger(VsController.class);
+	
     /*
-     ** À¯Àú µî·Ï  
+     ** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½  
      */
     public void insertUser(UserDto userDto) throws Exception{
     	userDao.insertUser(userDto);
     }
     
     /*
-     ** ´Ð³×ÀÓ È¹µæ
+     ** ï¿½Ð³ï¿½ï¿½ï¿½ È¹ï¿½ï¿½
      */
     public String getNickname() throws Exception{
     	return userDao.getNickname();
     }
     
     /*
-     ** ºñÈ¸¿ø À¯Àú ¾ÆÀÌµð È®ÀÎ
+     ** ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ È®ï¿½ï¿½
      */
     public int chekUserId(String user_id) throws Exception{
     	return userDao.chekUserId(user_id);
     }
     
     /*
-     ** È¸¿ø À¯Àú ¾ÆÀÌµð È®ÀÎ
+     ** È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ È®ï¿½ï¿½
      */
     public boolean chekOurUser(LoginCommand loginCommand) throws Exception{
     	return userDao.chekOurUser(loginCommand);
     }
     
     /*
-     ** ´Ð³×ÀÓ »ç¿ë¿©ºÎ 'Y' ¾÷µ¥ÀÌÆ® 
+     ** ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ë¿©ï¿½ï¿½ 'Y' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® 
      */
     public void updateNickname(String nickname) throws Exception{
     	userDao.updateNickname(nickname);
     }
     
     /*
-     ** ´Ð³×ÀÓ »ç¿ë¿©ºÎ 'Y' ¾÷µ¥ÀÌÆ® 
+     ** ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ë¿©ï¿½ï¿½ 'Y' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® 
      */
     public boolean chekNickname(String nickname) throws Exception{
     	return userDao.chekNickname(nickname);
     }
     
     /*
-     ** ´Ð³×ÀÓ Ãß°¡ 
+     ** ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
      */
     public void insertNickname(String nickname) throws Exception{
     	userDao.insertNickname(nickname);
     }
     
     /*
-     ** ·Î±×ÀÎ À¯Áö 
+     ** ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
      */
     public void keepLogin(String user_id, String session_id, Date session_limit) {
     	AuthInfo authInfo = new AuthInfo();
@@ -82,31 +87,35 @@ public class UserService {
     }
     
     /*
-     ** °èÁ¤ Áß ¼¼¼Ç °ª ÀÖ´ÂÁö Ã¼Å©
+     ** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
      */
     public UserDto checkLoginBefore(String session_id) {
     	return userDao.checkLoginBefore(session_id);
     }
     
     /*
-     ** È¸¿ø°´Ã¼ Á¶È¸
+     ** È¸ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½È¸
      */
     public UserDto getUserDto(String user_id) {
     	return userDao.getUserDto(user_id);
     }
     
     /*
-     ** userId ¼¼ÆÃ °´Ã¼ È¹µæ
+     ** userId ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ È¹ï¿½ï¿½
      */
     public UserDto getUesrSettingDto(HttpSession session, HttpServletRequest request) {
     	
     	Object userDto = session.getAttribute("login");
+    	
     	UserDto user = new UserDto();
-        if(userDto!=null) {  //·Î±×ÀÎ Á¤º¸ À¯Áö ½Ã, À¯Àú ¾ÆÀÌµð ¼¼ÆÃ
+        if(userDto!=null) {  //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
         	user = (UserDto) userDto;
-        } else {            //·Î±×ÀÎ Á¤º¸°¡ ¾øÀ» °æ¿ì(ºñÈ¸¿ø), ¼¼¼Ç ¾ÆÀÌµð ¼¼ÆÃ
+        	user.setReg_div_cd("10");
+        } else {            //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½È¸ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
         	session = request.getSession();
         	user.setUser_id(session.toString());
+        	user.setRegpe_id(session.toString());
+        	user.setReg_div_cd("20");
         }
     	
     	return user;

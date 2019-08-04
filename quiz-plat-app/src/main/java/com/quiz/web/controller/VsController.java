@@ -188,11 +188,22 @@ public class VsController {
         paramWritingVoteDto.setRegpe_id(user.getUser_id());
         paramWritingVoteDto.setModpe_id(user.getUser_id());
         
-        //최종 결과 담을 객체 생성
+        //페이징 정보 세팅
+    	PagingDto pagingDto = new PagingDto();
+    	pagingDto.setUser_id(user.getUser_id());
+    	pagingDto.setPage_num(1);
+    	pagingDto.setPage_size(5);
+        
+        //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
         DetailDto detailDto = new DetailDto();
-	    List<WritingDtlDto> detailWritingList = new ArrayList();
-	    List<WritingVoteDto> detailWritingVoteList = new ArrayList();
+	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(pagingDto);
+	    //List<WritingVoteDto> detailWritingVoteList = new ArrayList();
 	    HashMap<Integer, List<CommentDto>> detailCommentList = new HashMap<Integer,  List<CommentDto>>();
+	    
+	    //해당 글에 대한 댓글 정보 조회 및 추가
+	    for(WritingDtlDto tempDto :detailWritingList) {
+	    	detailCommentList.put(tempDto.getWriting_no() , commentService.getCommentDtoList(tempDto.getWriting_no()));
+	    }
 	    
         //클릭한 상세 글정보 
     	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
@@ -202,17 +213,15 @@ public class VsController {
     	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
     	
     	//클릭한 글 정보 추가
-    	detailWritingList.add(writingDtlDto);
-    	detailWritingVoteList.add(writingVoteDto);
+    	detailWritingList.add(0, writingDtlDto);
+    	//detailWritingVoteList.add(0, writingVoteDto);
     	detailCommentList.put(writingDtlDto.getWriting_no() , commentDtoList);
     	
-    	PagingDto pagingDto = new PagingDto();
-    	pagingDto.setUser_id(user.getUser_id());
-    	pagingDto.setPage_num(1);
-    	pagingDto.setPage_size(5);
+
+    	detailDto.setDetailCommentList(detailCommentList);
+    	detailDto.setDetailWritingList(detailWritingList);
     	
-    	//인기 컨텐츠 4개 불러오기
-    	writingDtlService.getPopulWritingDtoList(pagingDto);
+    	model.addAttribute("detailDto", detailDto);
     	
     	model.addAttribute("writingDtlDto", writingDtlDto);
     	model.addAttribute("writingVoteDto", writingVoteDto);
@@ -277,46 +286,32 @@ public class VsController {
      ** 댓글 작성
      */
     @Transactional
-    @RequestMapping(value = "writeComment", method = RequestMethod.POST)
-    public String writeComment(HttpServletRequest request, RedirectAttributes redirect) throws Exception{
-    	
+    @RequestMapping(value = "writeComment", method = RequestMethod.GET)
+    public @ResponseBody List<CommentDto> writeComment(HttpServletRequest request, @RequestParam(value="replytx") String replytx) throws Exception{
+    	logger.info("writeComment호출");
     	HttpSession session    = request.getSession();
     	    	
-    	UserDto userDto = new UserDto();
-    	if(userService.chekUserId(session.toString()) == 0) {
-        	userDto.setUser_id(session.toString());
-        	userDto.setRegpe_id(session.toString());
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	if(userDto.getReg_div_cd().equals("10")) {
+        	
+    	} else if(userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
         	userDto.setNickname(userService.getNickname());
-        	userDto.setReg_div_cd("20");
         	userService.insertUser(userDto);
         	userService.updateNickname(userDto.getNickname());
-    	} 
+    	}
     	
-    	//�뙎湲� insert
+    	//comment -> 비동기로 받아올 수 있도록 처리
     	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-        String fir_content_vote = request.getParameter("fir_content_vote");
-        String comment_content = request.getParameter("comment_content");
+        String comment_content = replytx;
     	int like = 0;
     	CommentDto commentDto = new CommentDto();
     	commentDto.setWriting_no(writing_no);
     	commentDto.setComment_content(comment_content);
     	commentDto.setRecom_no(like);
-    	commentDto.setRegpe_id(session.toString());
+    	commentDto.setRegpe_id(userDto.getUser_id());
     	commentService.insertComment(commentDto);   	
-    	
-    	//寃곌낵�럹�씠吏� �씠�룞
-    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
-    	paramWritingVoteDto.setWriting_no(writing_no);
-    	paramWritingVoteDto.setUser_id(session.toString());
-    	
-        redirect.addFlashAttribute("writing_no", writing_no);
-        if(fir_content_vote.equals("Y")) {
-        	redirect.addFlashAttribute("inputState", "before");
-        }else {
-        	redirect.addFlashAttribute("inputState", "after");
-        }
 
-    	return "redirect:/resultComm";
+    	return commentService.getCommentDtoList(writing_no);
     }
     
     /*
