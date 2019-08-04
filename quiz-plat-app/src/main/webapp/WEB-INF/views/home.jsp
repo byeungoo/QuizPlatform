@@ -20,9 +20,9 @@
 <body>
   <header class="home_header">
     <ul class="home_header_navlist">
-      <li class="home_header_navitem on">인기</li>
-      <li class="home_header_navitem">신규</li>
-      <li class="home_header_navitem">활동</li>
+      <li class="home_header_navitem on" onclick=switchCategory(1)>인기</li>
+      <li class="home_header_navitem"    onclick=switchCategory(2)>신규</li>
+      <li class="home_header_navitem"    onclick=switchCategory(3)>활동</li>
     </ul>
   </header>
   <div>
@@ -80,6 +80,27 @@
       투표 만들기
     </a>
   </div>
+  
+  <script>
+   function switchCategory(categoryType){
+	   /*
+	   	1일 경우 인기순
+	   	2일 경우 최신순
+	   	3일 경우 내 활동내역
+	   */
+	   if(categoryType == 1){
+		   //page = 2;
+		   //mainCategory = 1;
+	   } else if(categoryType == 2){
+		   //page = 2;
+		   //mainCategory = 2;
+	   } else if(categoryType == 3){
+		   //page = 2;
+		   //mainCategory = 3;
+	   }
+	   
+	}
+  </script>
 
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
@@ -88,7 +109,7 @@
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
       <div class="card">
-        <a href="/detail.html">
+        <a href="/detail">
           <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
           <div class="card__vsimg">
             <img src="resources/img/vs.png" alt="vs이미지">
@@ -113,36 +134,34 @@
     (function () {
       var isExecuted = false;
       var page = 2;
+      var mainCategory = 1;
       var isFull = false;
+      
+      var allData = { "page": page, "mainCategory": mainCategory};
+      
       $(window).scroll(function (e) {
         var winH = $(window).height();
         var docH = $(document).height();
         var winTop = $(window).scrollTop();
-        //console.log("페이지: " + page);
-        console.log(isFull);
+
         if (Math.ceil(winTop) >= docH - winH && !isExecuted && !isFull) {
           isExecuted = true;
           showSpinner($('.main-sec__list'));
           $.ajax({
         	type : 'GET',  
             dataType : 'json', 
-            data : {"page" : page},
+            data : allData,
             url: '<c:url value='/getPaigingList' />',
             success: function (data) {
-              console.log(data);
               hideSpinner();
               var tmpl = $.templates('#cardTmpl');
               var html = tmpl.render(data);
               $(html).appendTo($('.main-sec__list'));
               isExecuted = false;
-              page +=1;
-              console.log("안");
-              console.log(isFull);
-              console.log(data);
-              if(!data.length	){
+              allData.page +=1;
+              if(!data.length){
             	  isFull = true;
               }
-              console.log(page);
             },
             error: function (data) {
               console.log(data);

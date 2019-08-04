@@ -51,11 +51,11 @@
               <div class="card__info-wrap">
                 <div class="card__info-area">
                   <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                  <span class="card__icon-desc font_blue">1,945</span>
+                  <span class="card__icon-desc font_blue">${writingDtlDto.sum_vote}</span>
                 </div>
                 <div class="card__info-area">
                   <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                  <span class="card__icon-desc font_yellow">1,988</span>
+                  <span class="card__icon-desc font_yellow">${writingDtlDto.sum_comment}</span>
                 </div>
               </div>
               <div class="detail_top card_wrap mt-2">
@@ -63,7 +63,7 @@
                   <label for="before">
                     <p class="card__descwrap">
                       <span class="card__desc">
-                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
+                        ${writingDtlDto.fir_writ_content}
                       </span>
                     </p>
                     <span class="card_subdesc">
@@ -77,7 +77,7 @@
                   <label for="after">
                     <p class="card__descwrap">
                       <span class="card__desc">
-                        제목이 한줄이라도 크기 유지
+                        ${writingDtlDto.sec_writ_content}
                       </span>
                     </p>
                     <span class="card_subdesc later">
@@ -91,60 +91,19 @@
                 <button class="detail_btn">본문 펼치기</button>
                 <div class="detail_txtareawrap">
                   <div class="detail_txtarea">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
-                    impedit,
-                    fuga
-                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
-                    cupiditate
-                    molestias.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
-                    vitae
-                    maxime
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
-                    rerum
-                    vel
-                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
-                    praesentium
-                    magnam.
+                    ${writingDtlDto.content}
                   </div>
                 </div>
                 <div class="detail_replyarea">
                   <ul class="detail_replylist">
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
+                    <c:forEach items="${commentDtoList}" var="commentDto">
+                      <li class="detail_replyitem">
+                      <span class="detail_replytit">${commentDto.nickname}</span>
                       <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
+						${commentDto.comment_content}
                       </span>
-                    </li>
+                    </c:forEach>
                     <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
                   </ul>
                 </div>
               </div>

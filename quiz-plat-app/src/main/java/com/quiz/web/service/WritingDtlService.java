@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.quiz.web.dao.WritingDtlDao;
+import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.PagingDto;
@@ -23,25 +24,36 @@ public class WritingDtlService {
     	
     	int start = (pagingDto.getPage_num()-1)*pagingDto.getPage_size();
     	int end = pagingDto.getPage_num()*pagingDto.getPage_size();
+    	Integer mainCategory = pagingDto.getMainCategory();
     	
+    	List<WritingDtlDto> pagingWritingDtlDtoList;
+    
     	pagingDto.setStart(start);
     	pagingDto.setEnd(end);
     	
-    	return writingDtlDao.getTextWritingList(pagingDto);
+    	if(mainCategory == 1) { //인기순 조회
+    		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
+    	} else if(mainCategory == 2){ //최신순 조회
+    		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
+    	} else { //나의 활동내역 조회(3)
+    		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
+    	}
+    	
+    	return pagingWritingDtlDtoList;
     }
     
     /*
      ** 인기 게시글 리스트 조회
      */  
-    public List<WritingDtlDto> getHotTextWritingList() throws Exception{
-    	return writingDtlDao.getHotTextWritingList();
+    public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
+    	return writingDtlDao.getHotTextWritingList(pagingDto);
     }
     
     /*
      ** 나의 투표 리스트 조회
      */  
-    public List<WritingDtlDto> getMyVote(String user_id) throws Exception{
-    	return writingDtlDao.getMyVote(user_id);
+    public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
+    	return writingDtlDao.getMyVote(pagingDto);
     }
     
     /*
@@ -83,6 +95,20 @@ public class WritingDtlService {
      */
     public void updateHits(int writing_no) throws Exception{
     	writingDtlDao.updateHits(writing_no);
+    }
+    
+    /*
+     ** 내가 투표 하지 않은 인기 순 게시물 4개 조회
+     */
+    public List<WritingDtlDto> getPopulWritingDtoList(PagingDto pagingDto) throws Exception{
+    	
+    	int start = (pagingDto.getPage_num()-1)*pagingDto.getPage_size();
+    	int end = pagingDto.getPage_num()*pagingDto.getPage_size();
+    	
+    	pagingDto.setStart(start);
+    	pagingDto.setEnd(end);
+    	
+    	return writingDtlDao.getPopulWritingDtoList(pagingDto);
     }
     
 }
