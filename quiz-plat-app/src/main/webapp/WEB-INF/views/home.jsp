@@ -20,29 +20,29 @@
 <body>
   <header class="home_header">
     <ul class="home_header_navlist">
-      <li class="home_header_navitem on">인기</li>
-      <li class="home_header_navitem">신규</li>
-      <li class="home_header_navitem">활동</li>
+      <li class="home_header_navitem on" val="1">인기</li>
+      <li class="home_header_navitem" val="2">신규</li>
+      <li class="home_header_navitem" val="3">활동</li>
     </ul>
   </header>
   <div>
- 		<c:choose>
-        <c:when test="${empty login }">
-          <li>
-            <a href="#">로그인</a>
-          </li>
-          <li>
-            <a href="#">회원가입</a>
-          </li>
-          <li>
-          	${login}
-          </li>
-        </c:when>
-        <c:otherwise>
-          <p>${login.user_id}님, 반갑습니다!</p>
-          <p>${cookie.remember.value}님, 반갑습니다!</p>
-        </c:otherwise>
-    </c:choose>	
+    <c:choose>
+      <c:when test="${empty login }">
+        <li>
+          <a href="#">로그인</a>
+        </li>
+        <li>
+          <a href="#">회원가입</a>
+        </li>
+        <li>
+          ${login}
+        </li>
+      </c:when>
+      <c:otherwise>
+        <p>${login.user_id}님, 반갑습니다!</p>
+        <p>${cookie.remember.value}님, 반갑습니다!</p>
+      </c:otherwise>
+    </c:choose>
   </div>
 
   <div class="wrapper m-scene">
@@ -73,8 +73,8 @@
         </c:forEach>
       </ul>
     </section>
-		<c:if test="${toastOn == 'Y'}">
-   	  <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
+    <c:if test="${toastOn == 'Y'}">
+      <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
     </c:if>
     <a href="/write.html" class="fab">
       투표 만들기
@@ -114,6 +114,13 @@
       var isExecuted = false;
       var page = 2;
       var isFull = false;
+
+      // [D] 여기에 카테고리별 리스트 비동기 처리
+      $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
+        page = 2;
+        mainCategory = $(this).val();
+      })
+
       $(window).scroll(function (e) {
         var winH = $(window).height();
         var docH = $(document).height();
@@ -124,10 +131,10 @@
           isExecuted = true;
           showSpinner($('.main-sec__list'));
           $.ajax({
-        	type : 'GET',  
-            dataType : 'json', 
-            data : {"page" : page},
-            url: '<c:url value='/getPaigingList' />',
+            type: 'GET',
+            dataType: 'json',
+            data: { "page": page },
+            url: '<c:url value=' / getPaigingList' />',
             success: function (data) {
               console.log(data);
               hideSpinner();
@@ -135,12 +142,12 @@
               var html = tmpl.render(data);
               $(html).appendTo($('.main-sec__list'));
               isExecuted = false;
-              page +=1;
+              page += 1;
               console.log("안");
               console.log(isFull);
               console.log(data);
-              if(!data.length	){
-            	  isFull = true;
+              if (!data.length) {
+                isFull = true;
               }
               console.log(page);
             },
