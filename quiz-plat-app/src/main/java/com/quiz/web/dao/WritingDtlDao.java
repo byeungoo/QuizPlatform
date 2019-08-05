@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.PagingDto;
@@ -20,6 +21,7 @@ public class WritingDtlDao {
     
     private static final String Namespace = "com.quiz.mapper.writingDtlMapper";
     
+    //최신순 페이징 리스트 조회
     public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
         return sqlSession.selectList(Namespace+".getTextWritingList", pagingDto);
     }
@@ -44,11 +46,19 @@ public class WritingDtlDao {
     	sqlSession.update(Namespace+".updateHits", writing_no);
     }
     
-    public List<WritingDtlDto> getHotTextWritingList() throws Exception{
-        return sqlSession.selectList(Namespace+".getHotTextWritingList");
+    //인기순 페이징 리스트 조회
+    public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
+        return sqlSession.selectList(Namespace+".getHotTextWritingList", pagingDto);
     }
     
-    public List<WritingDtlDto> getMyVote(String user_id) throws Exception{
-    	return sqlSession.selectList(Namespace+".getMyVote", user_id);
+    //나의 활동내역 페이징 리스트 조회
+    public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
+    	return sqlSession.selectList(Namespace+".getMyVote", pagingDto);
     }
+    
+    //
+    public List<WritingDtlDto> getPopulWritingDtoList(PagingDto pagingDto) throws Exception{
+    	return sqlSession.selectList(Namespace+".getPopulWritingDtoList", pagingDto);
+    }
+    
 }

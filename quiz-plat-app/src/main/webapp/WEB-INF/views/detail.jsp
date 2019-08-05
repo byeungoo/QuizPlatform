@@ -44,18 +44,19 @@
       <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
+          <c:forEach items="${detailDto.detailWritingList}" var="detailWriting">
+          <div class="swiper-slide" id=${detailWriting.writing_no}>
             <section class="detail">
               <button type="button" class="detail__119">
               </button>
               <div class="card__info-wrap">
                 <div class="card__info-area">
                   <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                  <span class="card__icon-desc font_blue">1,945</span>
+                  <span class="card__icon-desc font_blue">${detailWriting.sum_vote}</span>
                 </div>
                 <div class="card__info-area">
                   <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                  <span class="card__icon-desc font_yellow">1,988</span>
+                  <span class="card__icon-desc font_yellow">${detailWriting.sum_comment}</span>
                 </div>
               </div>
               <div class="detail_top card_wrap mt-2">
@@ -63,7 +64,7 @@
                   <label for="before">
                     <p class="card__descwrap">
                       <span class="card__desc">
-                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
+                        ${detailWriting.fir_writ_content}
                       </span>
                     </p>
                     <span class="card_subdesc">
@@ -77,7 +78,7 @@
                   <label for="after">
                     <p class="card__descwrap">
                       <span class="card__desc">
-                        제목이 한줄이라도 크기 유지
+                        ${detailWriting.sec_writ_content}
                       </span>
                     </p>
                     <span class="card_subdesc later">
@@ -91,277 +92,29 @@
                 <button class="detail_btn">본문 펼치기</button>
                 <div class="detail_txtareawrap">
                   <div class="detail_txtarea">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
-                    impedit,
-                    fuga
-                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
-                    cupiditate
-                    molestias.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
-                    vitae
-                    maxime
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
-                    rerum
-                    vel
-                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
-                    praesentium
-                    magnam.
+                    ${detailWriting.content}
                   </div>
                 </div>
                 <div class="detail_replyarea">
                   <ul class="detail_replylist">
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
+                    <c:forEach items="${detailDto.detailCommentList}" var="entry" varStatus="status">
+                      <c:if test="${entry.key eq detailWriting.writing_no}">
+                        <li class="detail_replyitem">
+						  <c:forEach items="${entry.value}" var="item" varStatus="status">
+						    <span class="detail_replytit">${item.nickname}</span>
+                            <span class="detail_replycont">
+                              ${item.comment_content}
+                            </span>
+						  </c:forEach>
+                        </li>
+                      </c:if>
+                    </c:forEach>
                   </ul>
                 </div>
               </div>
             </section>
           </div>
-          <div class="swiper-slide">
-            <section class="detail">
-              <button type="button" class="detail__119">
-              </button>
-              <div class="card__info-wrap">
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                  <span class="card__icon-desc font_blue">1,945</span>
-                </div>
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                  <span class="card__icon-desc font_yellow">1,988</span>
-                </div>
-              </div>
-              <div class="detail_top card_wrap mt-2 mt-2">
-                <div class="card card--single">
-                  <label for="before">
-                    <p class="card__descwrap">
-                      <span class="card__desc">
-                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
-                      </span>
-                    </p>
-                    <span class="card_subdesc">
-                      나를 포함한 141명의 선택
-                    </span>
-                    <span class="card__prtg">37%</span>
-                  </label>
-                </div>
-                <span class="detail_vs"></span>
-                <div class="card card--single mt-1">
-                  <label for="after">
-                    <p class="card__descwrap">
-                      <span class="card__desc">
-                        제목이 한줄이라도 크기 유지
-                      </span>
-                    </p>
-                    <span class="card_subdesc later">
-                      나를 제외한 243명의 선택
-                    </span>
-                    <span class="card__prtg later">63%</span>
-                  </label>
-                </div>
-              </div>
-              <div class="detail_bottom">
-                <button class="detail_btn">본문 펼치기</button>
-                <div class="detail_txtareawrap">
-                  <div class="detail_txtarea">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
-                    impedit,
-                    fuga
-                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
-                    cupiditate
-                    molestias.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
-                    vitae
-                    maxime
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
-                    rerum
-                    vel
-                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
-                    praesentium
-                    magnam.
-                  </div>
-                </div>
-                <div class="detail_replyarea">
-                  <ul class="detail_replylist">
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-          </div>
-          <div class="swiper-slide">
-            <section class="detail">
-              <button type="button" class="detail__119">
-              </button>
-              <div class="card__info-wrap">
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                  <span class="card__icon-desc font_blue">1,945</span>
-                </div>
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                  <span class="card__icon-desc font_yellow">1,988</span>
-                </div>
-              </div>
-              <div class="detail_top card_wrap mt-2 mt-2">
-                <div class="card card--single">
-                  <label for="before">
-                    <p class="card__descwrap">
-                      <span class="card__desc">
-                        50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다50글자테스트중이다
-                      </span>
-                    </p>
-                    <span class="card_subdesc">
-                      나를 포함한 141명의 선택
-                    </span>
-                    <span class="card__prtg">37%</span>
-                  </label>
-                </div>
-                <span class="detail_vs"></span>
-                <div class="card card--single mt-1">
-                  <label for="after">
-                    <p class="card__descwrap">
-                      <span class="card__desc">
-                        제목이 한줄이라도 크기 유지
-                      </span>
-                    </p>
-                    <span class="card_subdesc later">
-                      나를 제외한 243명의 선택
-                    </span>
-                    <span class="card__prtg later">63%</span>
-                  </label>
-                </div>
-              </div>
-              <div class="detail_bottom">
-                <button class="detail_btn">본문 펼치기</button>
-                <div class="detail_txtareawrap">
-                  <div class="detail_txtarea">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa accusamus voluptates aliquid
-                    impedit,
-                    fuga
-                    fugit voluptatum non omnis autem ullam placeat. Deserunt enim commodi iure quisquam culpa totam
-                    cupiditate
-                    molestias.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, accusamus amet. Perspiciatis
-                    vitae
-                    maxime
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam possimus sunt repudiandae dolorum
-                    rerum
-                    vel
-                    voluptatum, corporis aspernatur cum. Eos ipsam eaque iste laborum optio doloremque fugiat sint
-                    praesentium
-                    magnam.
-                  </div>
-                </div>
-                <div class="detail_replyarea">
-                  <ul class="detail_replylist">
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                    <li class="detail_replyitem">
-                      <span class="detail_replytit">익명</span>
-                      <span class="detail_replycont">
-                        당연히 100억이지 조선시대 왕들 전부 단명한거 모르는 부분?
-                        전자 찍으신 분들 채소 국사시간에 졸으신 분들 ㅋ
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-          </div>
+          </c:forEach>
         </div>
       </div>
     </div>
@@ -446,7 +199,7 @@
     <li class="detail_replyitem">
       <span class="detail_replytit">{{:nickname}}</span>
       <span class="detail_replycont">
-        {{:content}}
+        {{:comment_content}}
       </span>
     </li>
   </script>
@@ -500,19 +253,26 @@
       var input = $(this).siblings('.reply_input');
       var target = $('.detail_replylist');
       var replytx = input.val();
+      var writingNo = '47';
+      
+      var commentData = { "writingNo": writingNo, "replytx": replytx};
+      
+      console.log("댓글버튼클릭");      
       $.ajax({
-        url: "https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/replyAsync",
-        data: replytx,
+    	type : 'GET',
+    	dataType : 'json',
+        url: '<c:url value='/writeComment' />',
+        data: commentData,
         success: function (data) {
           setTimeout(function (e) {
             $('.swiper-container').animate({ scrollTop: $(document).height() }, 0);
           }, 0);
           var tmpl = $.templates('#replyTmpl');
           var html = tmpl.render(data);
-          target.append(html);
+          target.append(html);  
         },
         error: function (data) {
-          console.log(data);
+          console.log(data);   
         }
       })
       input.val('');

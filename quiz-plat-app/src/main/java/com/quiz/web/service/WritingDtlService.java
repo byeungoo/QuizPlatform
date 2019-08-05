@@ -17,35 +17,46 @@ public class WritingDtlService {
     private WritingDtlDao writingDtlDao;
     
     /*
-     ** ÃÖ½Å °Ô½Å±Û ¸®½ºÆ® Á¶È¸
+     ** ï¿½Ö½ï¿½ ï¿½Ô½Å±ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
      */
     public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
     	
     	int start = (pagingDto.getPage_num()-1)*pagingDto.getPage_size();
     	int end = pagingDto.getPage_num()*pagingDto.getPage_size();
+    	Integer mainCategory = pagingDto.getMainCategory();
     	
+    	List<WritingDtlDto> pagingWritingDtlDtoList;
+    
     	pagingDto.setStart(start);
     	pagingDto.setEnd(end);
     	
-    	return writingDtlDao.getTextWritingList(pagingDto);
+    	if(mainCategory == 1) { //ï¿½Î±ï¿½ï¿½ ï¿½ï¿½È¸
+    		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
+    	} else if(mainCategory == 2){ //ï¿½Ö½Å¼ï¿½ ï¿½ï¿½È¸
+    		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
+    	} else { //ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(3)
+    		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
+    	}
+    	
+    	return pagingWritingDtlDtoList;
     }
     
     /*
-     ** ÀÎ±â °Ô½Ã±Û ¸®½ºÆ® Á¶È¸
+     ** ï¿½Î±ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
      */  
-    public List<WritingDtlDto> getHotTextWritingList() throws Exception{
-    	return writingDtlDao.getHotTextWritingList();
+    public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
+    	return writingDtlDao.getHotTextWritingList(pagingDto);
     }
     
     /*
-     ** ³ªÀÇ ÅõÇ¥ ¸®½ºÆ® Á¶È¸
+     ** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
      */  
-    public List<WritingDtlDto> getMyVote(String user_id) throws Exception{
-    	return writingDtlDao.getMyVote(user_id);
+    public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
+    	return writingDtlDao.getMyVote(pagingDto);
     }
     
     /*
-     ** °Ô½Ã±Û ¼¼ºÎ ³»¿ë Á¶È¸
+     ** ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
      */
     public WritingDtlDto getWritingDtl(int writing_no) throws Exception{
     	
@@ -61,7 +72,7 @@ public class WritingDtlService {
     }
     
     /*
-     ** °Ô½Ã±Û ÅõÇ¥ ¼ö ¾øµ¥ÀÌÆ®
+     ** ï¿½Ô½Ã±ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
      */  
     public void updateVoteNo(int writing_no, String fir_content_vote, String sec_content_vote) throws Exception{
     	if(fir_content_vote.equals("Y")) {
@@ -72,17 +83,31 @@ public class WritingDtlService {
     }
     
     /*
-     ** °Ô½Ã±Û ÀÛ¼º  
+     ** ï¿½Ô½Ã±ï¿½ ï¿½Û¼ï¿½  
      */
     public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	writingDtlDao.insertWritingDtl(writingDtlDto);
     }
     
     /*
-     ** Á¶È¸ ¼ö Áõ°¡
+     ** ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
      */
     public void updateHits(int writing_no) throws Exception{
     	writingDtlDao.updateHits(writing_no);
+    }
+    
+    /*
+     ** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ 4ï¿½ï¿½ ï¿½ï¿½È¸
+     */
+    public List<WritingDtlDto> getPopulWritingDtoList(PagingDto pagingDto) throws Exception{
+    	
+    	int start = (pagingDto.getPage_num()-1)*pagingDto.getPage_size();
+    	int end = pagingDto.getPage_num()*pagingDto.getPage_size();
+    	
+    	pagingDto.setStart(start);
+    	pagingDto.setEnd(end);
+    	
+    	return writingDtlDao.getPopulWritingDtoList(pagingDto);
     }
     
 }
