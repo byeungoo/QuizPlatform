@@ -20,9 +20,9 @@
 <body>
   <header class="home_header">
     <ul class="home_header_navlist">
-      <li class="home_header_navitem on" onclick=switchCategory(1)>인기</li>
-      <li class="home_header_navitem"    onclick=switchCategory(2)>신규</li>
-      <li class="home_header_navitem"    onclick=switchCategory(3)>활동</li>
+      <li class="home_header_navitem on" val="1">인기</li>
+      <li class="home_header_navitem" val="2">신규</li>
+      <li class="home_header_navitem" val="3">활동</li>
     </ul>
   </header>
   <div>
@@ -48,6 +48,31 @@
   <div class="wrapper m-scene">
     <section class="main-sec">
       <ul class="main-sec__list">
+        <c:forEach items="${writingPopulDtoList}" var="writingPopulDto">
+          <li class="main-sec__list-item">
+            <div class="card">
+              <a href="/detail?writing_no=${writingPopulDto.writing_no}">
+                <span class="card__desc">${writingPopulDto.fir_writ_content}</span>
+                <div class="card__vsimg">
+                  <img src="resources/img/vs.png" alt="vs이미지">
+                </div>
+                <span class="card__desc ellipsis">${writingPopulDto.sec_writ_content}</span>
+                <div class="card__info-wrap">
+                  <div class="card__info-area">
+                    <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+                    <span class="card__icon-desc font_blue">${writingPopulDto.sum_vote}</span>
+                  </div>
+                  <div class="card__info-area">
+                    <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+                    <span class="card__icon-desc font_yellow">${writingPopulDto.sum_comment}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </li>
+        </c:forEach>
+      </ul>
+      <ul class="main-sec__list" style="display:none">
         <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
           <li class="main-sec__list-item">
             <div class="card">
@@ -72,6 +97,31 @@
           </li>
         </c:forEach>
       </ul>
+      <ul class="main-sec__list" style="display:none">
+        <c:forEach items="${writingMyVoteDtoList}" var="writingMyVoteDto">
+          <li class="main-sec__list-item">
+            <div class="card">
+              <a href="/detail?writing_no=${writingMyVoteDto.writing_no}">
+                <span class="card__desc">${writingMyVoteDto.fir_writ_content}</span>
+                <div class="card__vsimg">
+                  <img src="resources/img/vs.png" alt="vs이미지">
+                </div>
+                <span class="card__desc ellipsis">${writingMyVoteDto.sec_writ_content}</span>
+                <div class="card__info-wrap">
+                  <div class="card__info-area">
+                    <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
+                    <span class="card__icon-desc font_blue">${writingMyVoteDto.sum_vote}</span>
+                  </div>
+                  <div class="card__info-area">
+                    <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
+                    <span class="card__icon-desc font_yellow">${writingMyVoteDto.sum_comment}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </li>
+        </c:forEach>
+      </ul>
     </section>
 		<c:if test="${toastOn == 'Y'}">
    	  <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
@@ -80,27 +130,6 @@
       투표 만들기
     </a>
   </div>
-  
-  <script>
-   function switchCategory(categoryType){
-	   /*
-	   	1일 경우 인기순
-	   	2일 경우 최신순
-	   	3일 경우 내 활동내역
-	   */
-	   if(categoryType == 1){
-		   //page = 2;
-		   //mainCategory = 1;
-	   } else if(categoryType == 2){
-		   //page = 2;
-		   //mainCategory = 2;
-	   } else if(categoryType == 3){
-		   //page = 2;
-		   //mainCategory = 3;
-	   }
-	   
-	}
-  </script>
 
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
@@ -137,6 +166,12 @@
       var mainCategory = 1;
       var isFull = false;
       
+      // [D] 여기에 카테고리별 리스트 비동기 처리
+      $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
+        //page = 2;
+        mainCategory = $(this).val();
+      })
+      
       var allData = { "page": page, "mainCategory": mainCategory};
       
       $(window).scroll(function (e) {
@@ -158,7 +193,8 @@
               var html = tmpl.render(data);
               $(html).appendTo($('.main-sec__list'));
               isExecuted = false;
-              allData.page +=1;
+              allData.page +=1; 	  
+              
               if(!data.length){
             	  isFull = true;
               }

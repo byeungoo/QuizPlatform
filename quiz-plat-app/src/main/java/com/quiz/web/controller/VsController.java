@@ -1,6 +1,5 @@
 package com.quiz.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.quiz.web.dto.CommentDto;
 import com.quiz.web.dto.DetailDto;
@@ -61,7 +59,11 @@ public class VsController {
     	pagingDto.setMainCategory(1);
   	
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList(pagingDto);
+    	List<WritingDtlDto> writingPopulDtoList = writingDtlService.getHotTextWritingList(pagingDto);
+    	List<WritingDtlDto> writingMyVoteDtoList = writingDtlService.getMyVote(pagingDto);
     	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	model.addAttribute("writingPopulDtoList", writingPopulDtoList);
+    	model.addAttribute("writingMyVoteDtoList", writingMyVoteDtoList);
     	
         return "home";
     }
@@ -223,9 +225,9 @@ public class VsController {
     	
     	model.addAttribute("detailDto", detailDto);
     	
-    	model.addAttribute("writingDtlDto", writingDtlDto);
-    	model.addAttribute("writingVoteDto", writingVoteDto);
-    	model.addAttribute("commentDtoList", commentDtoList);
+    	//model.addAttribute("writingDtlDto", writingDtlDto);
+    	//model.addAttribute("writingVoteDto", writingVoteDto);
+    	//model.addAttribute("commentDtoList", commentDtoList);
     	
     	//조회 수 증가
         writingDtlService.updateHits(writing_no);
@@ -287,9 +289,9 @@ public class VsController {
      */
     @Transactional
     @RequestMapping(value = "writeComment", method = RequestMethod.GET)
-    public @ResponseBody List<CommentDto> writeComment(HttpServletRequest request, @RequestParam(value="replytx") String replytx) throws Exception{
+    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") String writingNo) throws Exception{
     	logger.info("writeComment호출");
-    	HttpSession session    = request.getSession();
+    	session    = request.getSession();
     	    	
     	UserDto userDto = userService.getUesrSettingDto(session, request);
     	if(userDto.getReg_div_cd().equals("10")) {
@@ -301,17 +303,19 @@ public class VsController {
     	}
     	
     	//comment -> 비동기로 받아올 수 있도록 처리
-    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-        String comment_content = replytx;
+    	//int writing_no = Integer.parseInt(request.getParameter("writing_no"));
+        int writing_no = Integer.parseInt((writingNo));
+    	String comment_content = replytx;
     	int like = 0;
     	CommentDto commentDto = new CommentDto();
     	commentDto.setWriting_no(writing_no);
     	commentDto.setComment_content(comment_content);
     	commentDto.setRecom_no(like);
     	commentDto.setRegpe_id(userDto.getUser_id());
+    	commentDto.setNickname(userDto.getNickname());
     	commentService.insertComment(commentDto);   	
 
-    	return commentService.getCommentDtoList(writing_no);
+    	return commentDto;
     }
     
     /*

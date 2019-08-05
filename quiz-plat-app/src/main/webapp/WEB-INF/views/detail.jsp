@@ -45,7 +45,7 @@
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <c:forEach items="${detailDto.detailWritingList}" var="detailWriting">
-          <div class="swiper-slide">
+          <div class="swiper-slide" id=${detailWriting.writing_no}>
             <section class="detail">
               <button type="button" class="detail__119">
               </button>
@@ -199,7 +199,7 @@
     <li class="detail_replyitem">
       <span class="detail_replytit">{{:nickname}}</span>
       <span class="detail_replycont">
-        {{:content}}
+        {{:comment_content}}
       </span>
     </li>
   </script>
@@ -253,6 +253,7 @@
       var input = $(this).siblings('.reply_input');
       var target = $('.detail_replylist');
       var replytx = input.val();
+      var writingNo = '47';
       
       var commentData = { "writingNo": writingNo, "replytx": replytx};
       
@@ -268,12 +269,10 @@
           }, 0);
           var tmpl = $.templates('#replyTmpl');
           var html = tmpl.render(data);
-          target.append(html);
-          console.log("성공");      
+          target.append(html);  
         },
         error: function (data) {
-          console.log(data);
-          console.log("실패");      
+          console.log(data);   
         }
       })
       input.val('');
