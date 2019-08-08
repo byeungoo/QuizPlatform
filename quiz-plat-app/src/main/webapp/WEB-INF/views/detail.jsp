@@ -136,11 +136,11 @@
           <div class="card__info-wrap">
             <div class="card__info-area">
               <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-              <span class="card__icon-desc font_blue">{{:votecount}}</span>
+              <span class="card__icon-desc font_blue">{{:sum_vote}}</span>
             </div>
             <div class="card__info-area">
               <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-              <span class="card__icon-desc font_yellow">{{:replycount}}</span>
+              <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
             </div>
           </div>
           <div class="detail_top card_wrap mt-2 mt-2">
@@ -148,11 +148,11 @@
               <label for="before">
                 <p class="card__descwrap">
                   <span class="card__desc">
-                    {{:card_top_desc}}
+                    {{:fir_writ_content}}
                   </span>
                 </p>
                 <span class="card_subdesc">
-                  나를 포함한 {{:card_top_count}}명의 선택
+                  나를 포함한 {{:fir_vote_no}}명의 선택
                 </span>
                 <span class="card__prtg">{{:card_top_prtg}}</span>
               </label>
@@ -162,11 +162,11 @@
               <label for="after">
                 <p class="card__descwrap">
                   <span class="card__desc">
-                    {{:card_bottom_desc}}
+                    {{:sec_writ_content}}
                   </span>
                 </p>
                 <span class="card_subdesc later">
-                  나를 제외한 {{:card_bottom_count}}명의 선택
+                  나를 제외한 {{:sec_vote_no}}명의 선택
                 </span>
                 <span class="card__prtg later">{{:card_bottom_prtg}}</span>
               </label>
@@ -181,11 +181,11 @@
             </div>
             <div class="detail_replyarea">
               <ul class="detail_replylist">
-                {{for replys }}
+                {{for detailCommentList }}
                   <li class="detail_replyitem">
-                    <span class="detail_replytit">{{>replytit}}</span>
+                    <span class="detail_replytit">{{>nickname}}</span>
                     <span class="detail_replycont">
-                      {{>replycont}}
+                      {{>comment_content}}
                     </span>
                   </li>
                 {{/for}}
@@ -257,8 +257,7 @@
       var writingNo = '47';
       
       var commentData = { "writingNo": writingNo, "replytx": replytx};
-      
-      console.log("댓글버튼클릭");      
+          
       $.ajax({
     	type : 'POST',
     	dataType : 'json',
