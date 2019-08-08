@@ -11,7 +11,8 @@ import org.apache.ibatis.session.SqlSession;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
-import common.PagingDto;
+import common.paging.dto.PagingDto;
+import common.paging.dto.WritingDtlPagingDto;
 
 @Repository
 public class WritingDtlDao {
@@ -57,8 +58,8 @@ public class WritingDtlDao {
     }
     
     //
-    public List<WritingDtlDto> getPopulWritingDtoList(PagingDto pagingDto) throws Exception{
-    	return sqlSession.selectList(Namespace+".getPopulWritingDtoList", pagingDto);
+    public List<WritingDtlDto> getPopulWritingDtoList(WritingDtlPagingDto writingDtlPagingDto) throws Exception{
+    	return sqlSession.selectList(Namespace+".getPopulWritingDtoList", writingDtlPagingDto);
     }
     
 }

@@ -235,17 +235,18 @@
       var total = mySwiper.slides.length;
       if (curIdx === total - 2) {
         $.ajax({
-          url: 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/infiniteswipe',
+          url: '<c:url value='/getDetailDtoList' />',
           success: function (data) {
             var tmpl = $.templates('#slideTmpl');
             var html = tmpl.render(data);
             mySwiper.appendSlide(html);
+            console.log("성공: " + data);
           },
           error: function (data) {
             console.log(data);
           }
         });
-      }
+      } 
     });
 
     /* 댓글 비동기 입력*/
@@ -259,7 +260,7 @@
       
       console.log("댓글버튼클릭");      
       $.ajax({
-    	type : 'GET',
+    	type : 'POST',
     	dataType : 'json',
         url: '<c:url value='/writeComment' />',
         data: commentData,

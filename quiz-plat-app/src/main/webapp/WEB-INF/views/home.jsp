@@ -184,10 +184,10 @@
           showSpinner($('.main-sec__list'));
           $.ajax({
         	  type : 'GET',  
-            dataType : 'json', 
-            data : allData,
-            url: '<c:url value='/getPaigingList' />',
-            success: function (data) {
+              dataType : 'json', 
+              data : allData,
+              url: '<c:url value='/getPaigingList' />',
+              success: function (data) {
               hideSpinner();
               var tmpl = $.templates('#cardTmpl');
               var html = tmpl.render(data);
