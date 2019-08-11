@@ -228,6 +228,7 @@ public class VsController {
     	detailDto.setDetailWritingList(detailWritingList);
     	
     	model.addAttribute("detailDto", detailDto);
+    	model.addAttribute("writing_no", writing_no);
     	
     	//조회 수 증가
         writingDtlService.updateHits(writing_no);
@@ -240,7 +241,8 @@ public class VsController {
      */
     @Transactional
     @RequestMapping(value = "getDetailDtoList", method = RequestMethod.GET)
-    public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request) throws Exception{
+    public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request
+    		                  , @RequestParam(value="page") int page, @RequestParam(value="writing_no") int writing_no) throws Exception{
     	
     	session    = request.getSession();
     	  
@@ -250,10 +252,11 @@ public class VsController {
         //페이징 정보 세팅
     	PagingDto pagingDto = new WritingDtlPagingDto();
     	pagingDto.setUser_id(user.getUser_id());
-    	pagingDto.setPage_num(2);
+    	pagingDto.setPage_num(page);
     	pagingDto.setPage_size(5);
         
     	WritingDtlPagingDto writingDtlPagingDto = (WritingDtlPagingDto) pagingDto;
+    	writingDtlPagingDto.setWriting_no(writing_no);
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);

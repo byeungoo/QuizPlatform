@@ -228,27 +228,41 @@
       centeredSlides: true,
       threshold: 15
     });
+    
+    (function () {
+      var page = 2;
+      var writing_no = ${writing_no};
+      var paramData = { "page": page, "writing_no": writing_no};
+      var isFull = false;
 
-    /* 무한 스와이프 구현 */
-    mySwiper.on('slideChange', function (e) {
-      var curIdx = mySwiper.activeIndex;
-      var total = mySwiper.slides.length;
-      if (curIdx === total - 2) {
-        $.ajax({
-          url: '<c:url value='/getDetailDtoList' />',
-          success: function (data) {
-            var tmpl = $.templates('#slideTmpl');
-            var html = tmpl.render(data);
-            mySwiper.appendSlide(html);
-            console.log("성공: " + data);
-          },
-          error: function (data) {
-            console.log(data);
-          }
-        });
-      } 
-    });
-
+      /* 무한 스와이프 구현 */
+      mySwiper.on('slideChange', function (e) {
+        var curIdx = mySwiper.activeIndex;
+        var total  = mySwiper.slides.length;
+        if (curIdx === total - 2 && !isFull) {
+          $.ajax({
+            type : 'GET',  
+            dataType : 'json',
+            url: '<c:url value='/getDetailDtoList' />',
+            data:  paramData,
+            success: function (data) {
+              var tmpl = $.templates('#slideTmpl');
+              var html = tmpl.render(data);
+              mySwiper.appendSlide(html);
+              paramData.page += 1;
+              
+              if(!data.length){
+            	  isFull = true;
+              }
+            },
+            error: function (data) {
+              console.log(data);
+            }
+          });
+        } 
+      });
+    })();
+    
     /* 댓글 비동기 입력*/
     $('.reply_submit').on('click', function (e) {
       var input = $(this).siblings('.reply_input');

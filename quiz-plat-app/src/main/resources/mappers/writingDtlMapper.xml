@@ -192,11 +192,12 @@
 								      , W.SEC_VOTE_NO
 								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 								      , (
-									    SELECT COUNT(C.WRITING_NO)
-									    FROM   COMMENT C
-									    WHERE  1            = 1
-									    AND    C.WRITING_NO = W.WRITING_NO
-									) SUM_COMMENT
+									        SELECT COUNT(C.WRITING_NO)
+									        FROM   COMMENT C
+									        WHERE  1            = 1
+									        AND    C.WRITING_NO = W.WRITING_NO
+									    ) SUM_COMMENT
+									  , W.REG_DTS
 								FROM    WRITING W
 								      , (
 									    SELECT  TW.WRITING_NO
@@ -212,7 +213,8 @@
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
 						WHERE 1 = 1
-						ORDER BY POPULARITY DESC
+						ORDER BY  POPULARITY DESC
+						        , REG_DTS DESC
 				       ) A
 				WHERE 1 = 1
 				AND   A.RNUM <=#{end}

@@ -168,7 +168,6 @@
 
       // [D] 여기에 카테고리별 리스트 비동기 처리
       $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
-        //page = 2;
         mainCategory = $(this).val();
       })
       
