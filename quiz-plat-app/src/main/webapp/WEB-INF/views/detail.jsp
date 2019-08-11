@@ -120,7 +120,7 @@
     </div>
   </div>
   <div class="reply_inputwrap">
-    <input type="text" class="reply_input">
+    <input type="text" class="reply_input" placeholder="댓글을 입력하세요">
     <button type="button" class="reply_submit">제출</button>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
@@ -128,6 +128,7 @@
   <script src="resources/js/common.js"></script>
   <script src="resources/js/swiper.js"></script>
   <script src="resources/js/jsrender.min.js"></script>
+  <script src="resources/js/jquery-accordion.js"></script>
   <script id="slideTmpl" type="text/jsrender">
     <div class="swiper-slide">
         <section class="detail">
@@ -200,6 +201,12 @@
       <span class="detail_replytit">{{:nickname}}</span>
       <span class="detail_replycont">
         {{:comment_content}}
+      </span>
+      <span class="detail_replyinfos">
+        <span class="detail_replyup"></span>
+        <span class="detail_replyuptx">{{:upcount}}</span>
+        <span class="detail_replydown"></span>
+        <span class="detail_replydowntx">{{:downcount}}</span>
       </span>
     </li>
   </script>
@@ -277,6 +284,13 @@
       })
       input.val('');
     })
+
+    //댓글 펼치기 기능
+    $('.accordion').accordion({
+      "transitionSpeed": 700,
+      "transitionEasing": "cubic-bezier(0.23, 1, 0.32, 1)"
+    });
+
 
   </script>
 </body>
