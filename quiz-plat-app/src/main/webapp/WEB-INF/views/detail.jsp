@@ -130,18 +130,18 @@
   <script src="resources/js/jsrender.min.js"></script>
   <script src="resources/js/jquery-accordion.js"></script>
   <script id="slideTmpl" type="text/jsrender">
-    <div class="swiper-slide" id={{:writing_no}}>
+    <div class="swiper-slide">
         <section class="detail">
           <button type="button" class="detail__119">
           </button>
           <div class="card__info-wrap">
             <div class="card__info-area">
               <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-              <span class="card__icon-desc font_blue">{{:sum_vote}}</span>
+              <span class="card__icon-desc font_blue">{{:votecount}}</span>
             </div>
             <div class="card__info-area">
               <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-              <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
+              <span class="card__icon-desc font_yellow">{{:replycount}}</span>
             </div>
           </div>
           <div class="detail_top card_wrap mt-2 mt-2">
@@ -149,11 +149,11 @@
               <label for="before">
                 <p class="card__descwrap">
                   <span class="card__desc">
-                    {{:fir_writ_content}}
+                    {{:card_top_desc}}
                   </span>
                 </p>
                 <span class="card_subdesc">
-                  나를 포함한 {{:fir_vote_no}}명의 선택
+                  나를 포함한 {{:card_top_count}}명의 선택
                 </span>
                 <span class="card__prtg">{{:card_top_prtg}}</span>
               </label>
@@ -163,11 +163,11 @@
               <label for="after">
                 <p class="card__descwrap">
                   <span class="card__desc">
-                    {{:sec_writ_content}}
+                    {{:card_bottom_desc}}
                   </span>
                 </p>
                 <span class="card_subdesc later">
-                  나를 제외한 {{:sec_vote_no}}명의 선택
+                  나를 제외한 {{:card_bottom_count}}명의 선택
                 </span>
                 <span class="card__prtg later">{{:card_bottom_prtg}}</span>
               </label>
@@ -182,11 +182,11 @@
             </div>
             <div class="detail_replyarea">
               <ul class="detail_replylist">
-                {{for detailCommentList }}
+                {{for replys }}
                   <li class="detail_replyitem">
-                    <span class="detail_replytit">{{>nickname}}</span>
+                    <span class="detail_replytit">{{>replytit}}</span>
                     <span class="detail_replycont">
-                      {{>comment_content}}
+                      {{>replycont}}
                     </span>
                   </li>
                 {{/for}}
@@ -235,52 +235,38 @@
       centeredSlides: true,
       threshold: 15
     });
-    
-    (function () {
-      var page = 2;
-      var writing_no = ${writing_no};
-      var paramData = { "page": page, "writing_no": writing_no};
-      var isFull = false;
 
-      /* 무한 스와이프 구현 */
-      mySwiper.on('slideChange', function (e) {
-        var curIdx = mySwiper.activeIndex;
-        var total  = mySwiper.slides.length;
-        if (curIdx === total - 2 && !isFull) {
-          $.ajax({
-            type : 'GET',  
-            dataType : 'json',
-            url: '<c:url value='/getDetailDtoList' />',
-            data:  paramData,
-            success: function (data) {
-              var tmpl = $.templates('#slideTmpl');
-              var html = tmpl.render(data);
-              mySwiper.appendSlide(html);
-              paramData.page += 1;
-              
-              if(!data.length){
-            	  isFull = true;
-              }
-            },
-            error: function (data) {
-              console.log(data);
-            }
-          });
-        } 
-      });
-    })();
-    
+    /* 무한 스와이프 구현 */
+    mySwiper.on('slideChange', function (e) {
+      var curIdx = mySwiper.activeIndex;
+      var total = mySwiper.slides.length;
+      if (curIdx === total - 2) {
+        $.ajax({
+          url: 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/infiniteswipe',
+          success: function (data) {
+            var tmpl = $.templates('#slideTmpl');
+            var html = tmpl.render(data);
+            mySwiper.appendSlide(html);
+          },
+          error: function (data) {
+            console.log(data);
+          }
+        });
+      }
+    });
+
     /* 댓글 비동기 입력*/
     $('.reply_submit').on('click', function (e) {
-      var activeSlide = $('.swiper-slide.swiper-slide-active');
       var input = $(this).siblings('.reply_input');
-      var target = activeSlide.find('.detail_replylist');
+      var target = $('.detail_replylist');
       var replytx = input.val();
-      var writingNo = activeSlide.attr('id');
+      var writingNo = '47';
+      
       var commentData = { "writingNo": writingNo, "replytx": replytx};
-          
+      
+      console.log("댓글버튼클릭");      
       $.ajax({
-    	type : 'POST',
+    	type : 'GET',
     	dataType : 'json',
         url: '<c:url value='/writeComment' />',
         data: commentData,
