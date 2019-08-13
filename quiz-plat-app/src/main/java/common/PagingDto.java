@@ -1,4 +1,4 @@
-package common.paging.dto;
+package common;
 
 public class PagingDto {
 

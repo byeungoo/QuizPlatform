@@ -168,6 +168,7 @@
 
       // [D] 여기에 카테고리별 리스트 비동기 처리
       $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
+        //page = 2;
         mainCategory = $(this).val();
       })
       
@@ -183,10 +184,10 @@
           showSpinner($('.main-sec__list'));
           $.ajax({
         	  type : 'GET',  
-              dataType : 'json', 
-              data : allData,
-              url: '<c:url value='/getPaigingList' />',
-              success: function (data) {
+            dataType : 'json', 
+            data : allData,
+            url: '<c:url value='/getPaigingList' />',
+            success: function (data) {
               hideSpinner();
               var tmpl = $.templates('#cardTmpl');
               var html = tmpl.render(data);

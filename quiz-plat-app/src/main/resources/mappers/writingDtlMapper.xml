@@ -171,7 +171,7 @@
 		]]>
     </select>
     
-    <select id="getPopulWritingDtoList" parameterType="writingDtlPagingDto" resultType="writingDtlDto">
+    <select id="getPopulWritingDtoList" parameterType="pagingDto" resultType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.getPopulWritingDtoList */
     	<![CDATA[
 		SELECT  B.*
@@ -192,12 +192,11 @@
 								      , W.SEC_VOTE_NO
 								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 								      , (
-									        SELECT COUNT(C.WRITING_NO)
-									        FROM   COMMENT C
-									        WHERE  1            = 1
-									        AND    C.WRITING_NO = W.WRITING_NO
-									    ) SUM_COMMENT
-									  , W.REG_DTS
+									    SELECT COUNT(C.WRITING_NO)
+									    FROM   COMMENT C
+									    WHERE  1            = 1
+									    AND    C.WRITING_NO = W.WRITING_NO
+									) SUM_COMMENT
 								FROM    WRITING W
 								      , (
 									    SELECT  TW.WRITING_NO
@@ -208,13 +207,11 @@
 									) WV
 								WHERE   1 = 1
 								AND     W.USE_YN = 'Y'
-								AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
 								AND     WV.WRITING_NO = W.WRITING_NO
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
 						WHERE 1 = 1
-						ORDER BY  POPULARITY DESC
-						        , REG_DTS DESC
+						ORDER BY POPULARITY DESC
 				       ) A
 				WHERE 1 = 1
 				AND   A.RNUM <=#{end}

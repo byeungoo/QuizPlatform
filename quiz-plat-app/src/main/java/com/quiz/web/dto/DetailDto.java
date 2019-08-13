@@ -3,7 +3,7 @@ package com.quiz.web.dto;
 import java.util.HashMap;
 import java.util.List;
 
-public class DetailDto {  //상세 페이지 시작 시 기본 데이터 뿌려주기 위한 DTO
+public class DetailDto {
 
 	private List<WritingDtlDto> detailWritingList;
 	private List<WritingVoteDto> detailWritingVoteList;
