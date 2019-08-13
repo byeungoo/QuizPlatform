@@ -132,7 +132,7 @@ table {
 html,
 body {
   font-family: 'Noto Sans KR', 'Roboto', sans-serif;
-  min-height: 100%;
+  height: 100%;
   box-sizing: border-box;
   color: black;
 }

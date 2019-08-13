@@ -20,11 +20,31 @@
 <body>
   <header class="home_header">
     <ul class="home_header_navlist">
-      <li class="home_header_navitem on" value="0">인기</li>
-      <li class="home_header_navitem" value="1">신규</li>
-      <li class="home_header_navitem" value="2">활동</li>
+      <li class="home_header_navitem on" val="1">인기</li>
+      <li class="home_header_navitem" val="2">신규</li>
+      <li class="home_header_navitem" val="3">활동</li>
     </ul>
   </header>
+  <div>
+    <c:choose>
+      <c:when test="${empty login }">
+        <li>
+          <a href="#">로그인</a>
+        </li>
+        <li>
+          <a href="#">회원가입</a>
+        </li>
+        <li>
+          ${login}
+        </li>
+      </c:when>
+      <c:otherwise>
+        <p>${login.user_id}님, 반갑습니다!</p>
+        <p>${cookie.remember.value}님, 반갑습니다!</p>
+      </c:otherwise>
+    </c:choose>
+  </div>
+
   <div class="wrapper m-scene">
     <section class="main-sec">
       <ul class="main-sec__list">
@@ -139,126 +159,52 @@
     </li>
   </script>
   <script>
-
-    $(function () {
-      //인피니티 스크롤 위치 기억
-      $('.main-sec__list').on('click', 'a', function (e) {
-        var nextPage = $(e.currentTarget).attr('href');
-        var ifrWrapper = $('<div/>', {
-          class: "iframe_wrapper",
-          css: {
-            '-webkit-overflow-scrolling': touch,
-            "overflow": 'hidden auto'
-          }
-        });
-        var iframe = $('<iframe/>', {
-          src: nextPage,
-          scrolling: 'yes',
-          css: {
-            height: "100vh",
-            width: "100vw"
-          }
-        });
-        ifrWrapper.append(iframe);
-        $('body').children().hide();
-        $('body').prepend(ifrWrapper);
-        e.preventDefault();
-        window.history.pushState('', '', nextPage);
-      });
-      window.onpopstate = function (e) {
-        $('body').find('.iframe_wrapper').remove();
-        $('body').children().show();
-      }
-    });
-
-
-    //메인페이지 JS 모음
+    //메인페이지 인피니티스크롤
     (function () {
       var isExecuted = false;
-      var mainDatas = [];
-      var cateNum = 0;
-      var url = 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/page1';
-      // var url = "<c:url value='/getPaigingList' />";
-      var mainCardList = $('.main-sec__list');
-      var tabcount = $('.home_header_navitem').length;
-      for (var i = 0; i < tabcount; i++) {
-        //카테고리 별로 필요한 데이터를 배열로 관리
-        mainDatas.push({
-          'prevPos': 0, //스크롤 탑 위치
-          'cards': null, //리스트의 카드들
-          'curPage': 0, //현재 보고 있는 페이지
-          'isFull': false //카테고리의 글을 모두 불러왔는지?
-        });
-      }
+      var page = 2;
+      var mainCategory = 1;
+      var isFull = false;
 
-      //상단 메뉴 탭 : 탭 이동 시각적 효과 및 초기 데이터 비동기 로드
+      // [D] 여기에 카테고리별 리스트 비동기 처리
       $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
-        toggleTab(e);
-        savePrevState();
-        setCurrentState(e);
-      });
-
-      //인피니티스크롤
+        //page = 2;
+        mainCategory = $(this).val();
+      })
+      
+      var allData = { "page": page, "mainCategory": mainCategory};
+      
       $(window).scroll(function (e) {
         var winH = $(window).height();
         var docH = $(document).height();
         var winTop = $(window).scrollTop();
-        if (Math.ceil(winTop) >= docH - winH && !isExecuted && !mainDatas[isFull]) {
-          loadData(url, cateNum);
+
+        if (Math.ceil(winTop) >= docH - winH && !isExecuted && !isFull) {
+          isExecuted = true;
+          showSpinner($('.main-sec__list'));
+          $.ajax({
+        	  type : 'GET',  
+            dataType : 'json', 
+            data : allData,
+            url: '<c:url value='/getPaigingList' />',
+            success: function (data) {
+              hideSpinner();
+              var tmpl = $.templates('#cardTmpl');
+              var html = tmpl.render(data);
+              $(html).appendTo($('.main-sec__list'));
+              isExecuted = false;
+              allData.page +=1; 	  
+              
+              if(!data.length){
+            	  isFull = true;
+              }
+            },
+            error: function (data) {
+              console.log(data);
+            }
+          })
         }
       });
-
-      var savePrevState = function () {
-        var data = {};
-        data['prevPos'] = $(window).scrollTop();
-        data['cards'] = mainCardList.children().detach();
-        $.extend(mainDatas[cateNum], data);
-      };
-
-      var setCurrentState = function (e) {
-        cateNum = $(e.target).val();
-        mainDatas[cateNum] ? refreshDatas() : loadData(url, cateNum);
-      };
-
-      var restoreScroll = function () {
-        $('html, body').animate({ scrollTop: mainDatas[cateNum].prevPos }, 0);
-      }
-
-      var refreshDatas = function () { //기존 배열에 있는 데이터를 세팅
-        mainCardList.append((mainDatas[cateNum].cards));
-        restoreScroll();
-      };
-
-      var loadData = function (url, cateNum) { //새롭게 데이터를 가져와서 세팅
-        isExecuted = true;
-        var sendData = { "page": mainDatas[cateNum].curPage, "mainCategory": cateNum };
-        showSpinner(mainCardList);
-        $.ajax({
-          url,
-          type: 'GET',
-          dataType: 'json',
-          data: sendData,
-          success: function (data) {
-            hideSpinner();
-            appendCardsToList(data);
-            mainDatas[cateNum].curPage++;
-            if (!data.length) {
-              mainDatas[cateNum].isFull = true;
-            }
-          },
-          error: function (data) {
-            console.log(data);
-          }
-        });
-      }
-
-      var appendCardsToList = function (data) { //새롭게 데이터를 가져와서 리스트에 세팅
-        var tmpl = $.templates('#cardTmpl');
-        var html = tmpl.render(data);
-        $(html).appendTo(mainCardList);
-        isExecuted = false;
-      }
-
     })();
   </script>
 </body>

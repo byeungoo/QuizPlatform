@@ -56,19 +56,11 @@ $(function () {
     },
     smoothState = $page.smoothState(options).data("smoothState");
 
-  $(".result__write").on("keyup", function () {
-    if (
-      $(this)
-      .val()
-      .trim().length > 0
-    ) {
-      $(this)
-        .siblings("i")
-        .addClass("on");
+  $('.result__write').on('keyup', function () {
+    if ($(this).val().trim().length > 0) {
+      $(this).siblings('i').addClass('on');
     } else {
-      $(this)
-        .siblings("i")
-        .removeClass("on");
+      $(this).siblings('i').removeClass('on');
     }
   });
 
@@ -215,8 +207,3 @@ var toggleInputBdr = function (target) {
   if (len > 0) target.addClass("on");
   else if (len == 0) target.removeClass("on");
 };
-
-function toggleTab(e) {
-  $(e.delegateTarget).children().removeClass('on');
-  $(e.target).addClass('on');
-}
