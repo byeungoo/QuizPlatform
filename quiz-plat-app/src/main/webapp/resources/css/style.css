@@ -1,4 +1,5 @@
 @import url("./reset.css");
+
 /* jquery-accordion.css */
 [data-accordion] [data-content] {
   overflow: hidden;
@@ -20,7 +21,7 @@
   position: relative;
 }
 
-[data-accordion].open > [data-control]:after {
+[data-accordion].open>[data-control]:after {
   -webkit-transform: rotate(-180deg);
   -ms-transform: rotate(-180deg);
   transform: rotate(-180deg);
@@ -33,7 +34,7 @@
 
 .wrapper,
 .page {
-  height: 100%;
+  min-height: calc(100vh - 71px);
 }
 
 .blind {
@@ -90,9 +91,13 @@ textarea {
 
 /*header*/
 .home_header {
-  margin: 0 15px;
-  padding: 20px 10px 15px;
-  position: relative;
+  padding: 20px 25px 15px;
+  margin-bottom: 1px;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
 }
 
 .home_header_navlist {
@@ -111,7 +116,7 @@ textarea {
   border-bottom: 3px solid black;
 }
 
-.home_header_navitem + .home_header_navitem {
+.home_header_navitem+.home_header_navitem {
   margin-left: 35px;
 }
 
@@ -358,7 +363,7 @@ textarea {
   display: flex;
 }
 
-.card__info-area + .card__info-area {
+.card__info-area+.card__info-area {
   margin-left: 20px;
 }
 
@@ -394,7 +399,6 @@ textarea {
 /*detail 글 상세 페이지*/
 .detail {
   padding: 16px 6px 0;
-  position: absolute;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -522,7 +526,7 @@ textarea {
   display: block;
 }
 
-.detail_bottom.on .detail_btn + .detail_txtareawrap {
+.detail_bottom.on .detail_btn+.detail_txtareawrap {
   margin-top: 0;
 }
 
@@ -569,7 +573,7 @@ textarea {
   position: relative;
 }
 
-.detail_replyitem + .detail_replyitem {
+.detail_replyitem+.detail_replyitem {
   margin-top: 10px;
 }
 
@@ -962,7 +966,7 @@ textarea {
   margin: 0 18px;
 }
 
-.write__inparea + .write__inparea {
+.write__inparea+.write__inparea {
   margin-top: 17px;
 }
 
@@ -1107,7 +1111,7 @@ textarea {
   padding: 30px 20px;
 }
 
-.modal_inparea + .modal_inparea {
+.modal_inparea+.modal_inparea {
   margin-top: 20px;
 }
 
