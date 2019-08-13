@@ -4,10 +4,10 @@ public class PagingDto {
 
 	private int page_num;         //������ ��ȣ
 	private int page_size;        //�ѹ��� ó���� ������ ����
-	private String user_id;        //����� ���̵�
+	private String user_id;        //�����? ���̵�
 	private Integer mainCategory; //���������� �α�,�ű�,Ȱ�� ī�װ� ��
 	private int start;            //����¡ ���� ��ȣ
-	private int end;              //����¡ ���� ��ȣ
+	private int end;              //하이하이
 	
 	public PagingDto(){
 		this.page_size = 10;
