@@ -11,7 +11,8 @@ import org.apache.ibatis.session.SqlSession;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
-import common.PagingDto;
+import common.paging.dto.PagingDto;
+import common.paging.dto.WritingDtlPagingDto;
 
 @Repository
 public class WritingDtlDao {
@@ -21,7 +22,7 @@ public class WritingDtlDao {
     
     private static final String Namespace = "com.quiz.mapper.writingDtlMapper";
     
-    //ÃÖ½Å¼ø ÆäÀÌÂ¡ ¸®½ºÆ® Á¶È¸
+    //ï¿½Ö½Å¼ï¿½ ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È¸
     public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
         return sqlSession.selectList(Namespace+".getTextWritingList", pagingDto);
     }
@@ -46,19 +47,19 @@ public class WritingDtlDao {
     	sqlSession.update(Namespace+".updateHits", writing_no);
     }
     
-    //ÀÎ±â¼ø ÆäÀÌÂ¡ ¸®½ºÆ® Á¶È¸
+    //ì¸ê¸°ê¸€ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
     public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
         return sqlSession.selectList(Namespace+".getHotTextWritingList", pagingDto);
     }
     
-    //³ªÀÇ È°µ¿³»¿ª ÆäÀÌÂ¡ ¸®½ºÆ® Á¶È¸
+    //íšŒì›ì´ íˆ¬í‘œí•œ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
     public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
     	return sqlSession.selectList(Namespace+".getMyVote", pagingDto);
     }
     
     //
-    public List<WritingDtlDto> getPopulWritingDtoList(PagingDto pagingDto) throws Exception{
-    	return sqlSession.selectList(Namespace+".getPopulWritingDtoList", pagingDto);
+    public List<WritingDtlDto> getPopulWritingDtoList(WritingDtlPagingDto writingDtlPagingDto) throws Exception{
+    	return sqlSession.selectList(Namespace+".getPopulWritingDtoList", writingDtlPagingDto);
     }
     
 }
