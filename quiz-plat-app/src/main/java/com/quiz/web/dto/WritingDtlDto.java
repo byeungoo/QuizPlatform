@@ -5,25 +5,25 @@ import java.util.List;
 
 public class WritingDtlDto {
 	
-	private int    writing_no;        //�Խñ۹�ȣ
-	private String ques_type_div_cd;  //�������������ڵ�, 10: �ؽ�Ʈ, 20: �̹���
-	private String content;           //����
-	private String fir_writ_content;  //�� ���� ù��° �ۼ����� 
-	private String sec_writ_content;  //�� ���� �ι�° �ۼ�����
-	private String fir_writ_img_path; //�� ���� ù��° �ۼ� �̹��� ���
-	private String sec_writ_img_path; //�� ���� �ι�° �ۼ� �̹��� ���
-	private int    fir_vote_no;       //ù��° ��ǥ ��
-	private int    sec_vote_no;       //�ι�° ��ǥ ��
-	private String regpe_id;          //�ۼ���
-	private String modpe_id;          //������
-	private Date   reg_dts;           //����Ͻ�
-	private Date   mod_dts;           //�����Ͻ�
-	private int    hits;              //��ȸ��
-	private int    sum_vote;          //�� ��ǥ ��
-	private int    sum_comment;       //�� ��� ��
-	private double popularity;        //�α⵵
-	private double fir_vote_perc;     //ù��° ��ǥ ����
-	private double sec_vote_perc;     //�ι��� ��ǥ ����
+private int    writing_no;        //게시글번호
+	private String ques_type_div_cd;  //질문유형구분코드, 10: 텍스트, 20: 이미지
+	private String content;           //본문
+	private String fir_writ_content;  //비교 질문 첫번째 작성내용 
+	private String sec_writ_content;  //비교 질문 두번째 작성내용
+	private String fir_writ_img_path; //비교 질문 첫번째 작성 이미지 경로
+	private String sec_writ_img_path; //비교 질문 두번째 작성 이미지 경로
+	private int    fir_vote_no;       //첫번째 투표 수
+	private int    sec_vote_no;       //두번째 투표 수
+	private String regpe_id;          //작성자
+	private String modpe_id;          //수정자
+	private Date   reg_dts;           //등록일시
+	private Date   mod_dts;           //수정일시
+	private int    hits;              //조회수
+	private int    sum_vote;          //총 투표 수
+	private int    sum_comment;       //총 댓글 수
+	private double popularity;        //인기도
+	private double fir_vote_perc;     //첫번째 투표 비율
+	private double sec_vote_perc;     //두번째 투표 비율
 	private List<CommentDto> detailCommentList; //댓글리스트
 
 	public int getWriting_no() {
