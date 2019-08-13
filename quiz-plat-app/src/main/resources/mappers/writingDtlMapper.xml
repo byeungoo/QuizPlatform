@@ -157,9 +157,9 @@
 						AND     W.WRITING_NO IN (
 											    SELECT WV.WRITING_NO
 											    FROM   WRITING_VOTE WV
-												    WHERE  1 = 1
+												       WHERE  1      = 1
 												AND    WV.WRITING_NO = W.WRITING_NO
-												AND    WV.USER_ID = #{user_id}
+												AND    WV.USER_ID    = #{user_id}
 											)
 						ORDER BY W.REG_DTS DESC
 					) A

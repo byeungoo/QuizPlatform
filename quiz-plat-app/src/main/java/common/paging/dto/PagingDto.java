@@ -2,15 +2,15 @@ package common.paging.dto;
 
 public class PagingDto {
 
-	private int page_num;         //ÆäÀÌÁö ¹øÈ£
-	private int page_size;        //ÇÑ¹ø¿¡ Ã³¸®ÇÒ ÆäÀÌÁö °³¼ö
-	private String user_id;        //»ç¿ëÀÚ ¾ÆÀÌµğ
-	private Integer mainCategory; //¸ŞÀÎÆäÀÌÁö ÀÎ±â,½Å±Ô,È°µ¿ Ä«Å×°í¸® °ª
-	private int start;            //ÆäÀÌÂ¡ ½ÃÀÛ ¹øÈ£
-	private int end;              //ÆäÀÌÂ¡ Á¾·á ¹øÈ£
+	private int page_num;         //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+	private int page_size;        //ï¿½Ñ¹ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private String user_id;        //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
+	private Integer mainCategory; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½,ï¿½Å±ï¿½,È°ï¿½ï¿½ Ä«ï¿½×°ï¿½ ï¿½ï¿½
+	private int start;            //ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+	private int end;              //ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 	
 	public PagingDto(){
-		this.page_size = 15;
+		this.page_size = 10;
 	}
 
 	public int getPage_num() {

@@ -58,12 +58,13 @@ public class VsController {
     	PagingDto pagingDto = new PagingDto();
     	pagingDto.setPage_num(1);
     	pagingDto.setMainCategory(1);
-  	
+    	List<WritingDtlDto> writingPopulDtoList = writingDtlService.getTextWritingList(pagingDto);
+    	pagingDto.setMainCategory(2);
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList(pagingDto);
-    	List<WritingDtlDto> writingPopulDtoList = writingDtlService.getHotTextWritingList(pagingDto);
-    	List<WritingDtlDto> writingMyVoteDtoList = writingDtlService.getMyVote(pagingDto);
-    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
+    	pagingDto.setMainCategory(3);
+    	List<WritingDtlDto> writingMyVoteDtoList = writingDtlService.getTextWritingList(pagingDto);
     	model.addAttribute("writingPopulDtoList", writingPopulDtoList);
+    	model.addAttribute("writingDtlDtoList", writingDtlDtoList);
     	model.addAttribute("writingMyVoteDtoList", writingMyVoteDtoList);
     	
         return "home";
@@ -85,7 +86,7 @@ public class VsController {
     }
     
     /**
-     * 나의 활동내역 최신순 조회
+     * 나의 활동내역 조회
      */
     @RequestMapping(value = "/getMyVote", method = RequestMethod.GET)
     public String getMyVote(HttpSession session, HttpServletRequest request, Model model) throws Exception{

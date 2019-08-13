@@ -137,7 +137,7 @@
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
       <div class="card">
-        <a href="/detail">
+        <a href="/detail?writing_no={{:writing_no}}">
           <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
           <div class="card__vsimg">
             <img src="resources/img/vs.png" alt="vs이미지">
@@ -204,7 +204,7 @@
         mainDatas.push({
           'prevPos': 0, //스크롤 탑 위치
           'cards': null, //리스트의 카드들
-          'curPage': 0, //현재 보고 있는 페이지
+          'curPage': 2, //현재 보고 있는 페이지
           'isFull': false //카테고리의 글을 모두 불러왔는지?
         });
       }
@@ -252,7 +252,7 @@
         var sendData = { "page": mainDatas[cateNum].curPage, "mainCategory": cateNum };
         showSpinner(mainCardList);
         $.ajax({
-          url,
+          url:url,
           type: 'GET',
           dataType: 'json',
           data: sendData,
