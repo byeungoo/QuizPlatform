@@ -1,29 +1,31 @@
 package com.quiz.web.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class WritingDtlDto {
 	
-	private int    writing_no;        //°Ô½Ã±Û¹øÈ£
-	private String ques_type_div_cd;  //Áú¹®À¯Çü±¸ºÐÄÚµå, 10: ÅØ½ºÆ®, 20: ÀÌ¹ÌÁö
-	private String content;           //º»¹®
-	private String fir_writ_content;  //ºñ±³ Áú¹® Ã¹¹øÂ° ÀÛ¼º³»¿ë 
-	private String sec_writ_content;  //ºñ±³ Áú¹® µÎ¹øÂ° ÀÛ¼º³»¿ë
-	private String fir_writ_img_path; //ºñ±³ Áú¹® Ã¹¹øÂ° ÀÛ¼º ÀÌ¹ÌÁö °æ·Î
-	private String sec_writ_img_path; //ºñ±³ Áú¹® µÎ¹øÂ° ÀÛ¼º ÀÌ¹ÌÁö °æ·Î
-	private int    fir_vote_no;       //Ã¹¹øÂ° ÅõÇ¥ ¼ö
-	private int    sec_vote_no;       //µÎ¹øÂ° ÅõÇ¥ ¼ö
-	private String regpe_id;          //ÀÛ¼ºÀÚ
-	private String modpe_id;          //¼öÁ¤ÀÚ
-	private Date   reg_dts;           //µî·ÏÀÏ½Ã
-	private Date   mod_dts;           //¼öÁ¤ÀÏ½Ã
-	private int    hits;              //Á¶È¸¼ö
-	private int    sum_vote;          //ÃÑ ÅõÇ¥ ¼ö
-	private int    sum_comment;       //ÃÑ ´ñ±Û ¼ö
-	private double popularity;        //ÀÎ±âµµ
-	private double fir_vote_perc;     //Ã¹¹øÂ° ÅõÇ¥ ºñÀ²
-	private double sec_vote_perc;     //µÎ¹ø¤Š ÅõÇ¥ ºñÀ²
-	
+	private int    writing_no;        //ï¿½Ô½Ã±Û¹ï¿½È£
+	private String ques_type_div_cd;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½, 10: ï¿½Ø½ï¿½Æ®, 20: ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String content;           //ï¿½ï¿½ï¿½ï¿½
+	private String fir_writ_content;  //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½Û¼ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	private String sec_writ_content;  //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¹ï¿½Â° ï¿½Û¼ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String fir_writ_img_path; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½Û¼ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	private String sec_writ_img_path; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¹ï¿½Â° ï¿½Û¼ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	private int    fir_vote_no;       //Ã¹ï¿½ï¿½Â° ï¿½ï¿½Ç¥ ï¿½ï¿½
+	private int    sec_vote_no;       //ï¿½Î¹ï¿½Â° ï¿½ï¿½Ç¥ ï¿½ï¿½
+	private String regpe_id;          //ï¿½Û¼ï¿½ï¿½ï¿½
+	private String modpe_id;          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Date   reg_dts;           //ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
+	private Date   mod_dts;           //ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
+	private int    hits;              //ï¿½ï¿½È¸ï¿½ï¿½
+	private int    sum_vote;          //ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½
+	private int    sum_comment;       //ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private double popularity;        //ï¿½Î±âµµ
+	private double fir_vote_perc;     //Ã¹ï¿½ï¿½Â° ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
+	private double sec_vote_perc;     //ï¿½Î¹ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
+	private List<CommentDto> detailCommentList; //ëŒ“ê¸€ë¦¬ìŠ¤íŠ¸
+
 	public int getWriting_no() {
 		return writing_no;
 	}
@@ -137,5 +139,12 @@ public class WritingDtlDto {
 	}
 	public void setPopularity(double popularity) {
 		this.popularity = popularity;
+	}
+	public List<CommentDto> getDetailCommentList() {
+		return detailCommentList;
+	}
+
+	public void setDetailCommentList(List<CommentDto> detailCommentList) {
+		this.detailCommentList = detailCommentList;
 	}
 }

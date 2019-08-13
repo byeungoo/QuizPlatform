@@ -28,7 +28,8 @@ import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 import com.quiz.web.service.WritingVoteService;
 
-import common.PagingDto;
+import common.paging.dto.PagingDto;
+import common.paging.dto.WritingDtlPagingDto;
  
 
 @Controller
@@ -175,7 +176,7 @@ public class VsController {
     }
     
     /*
-     ** 상세페이지 이동, 클릭한 글과 인기 컨텐츠 4개를 뿌려줌
+     ** 상세페이지 이동, 클릭한 글과 인기 컨텐츠 데이터 전송
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
@@ -191,14 +192,17 @@ public class VsController {
         paramWritingVoteDto.setModpe_id(user.getUser_id());
         
         //페이징 정보 세팅
-    	PagingDto pagingDto = new PagingDto();
+    	PagingDto pagingDto = new WritingDtlPagingDto();
     	pagingDto.setUser_id(user.getUser_id());
     	pagingDto.setPage_num(1);
     	pagingDto.setPage_size(5);
         
+    	WritingDtlPagingDto writingDtlPagingDto = (WritingDtlPagingDto) pagingDto;
+    	writingDtlPagingDto.setWriting_no(writing_no);
+    	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
         DetailDto detailDto = new DetailDto();
-	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(pagingDto);
+	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);
 	    //List<WritingVoteDto> detailWritingVoteList = new ArrayList();
 	    HashMap<Integer, List<CommentDto>> detailCommentList = new HashMap<Integer,  List<CommentDto>>();
 	    
@@ -224,71 +228,54 @@ public class VsController {
     	detailDto.setDetailWritingList(detailWritingList);
     	
     	model.addAttribute("detailDto", detailDto);
-    	
-    	//model.addAttribute("writingDtlDto", writingDtlDto);
-    	//model.addAttribute("writingVoteDto", writingVoteDto);
-    	//model.addAttribute("commentDtoList", commentDtoList);
+    	model.addAttribute("writing_no", writing_no);
     	
     	//조회 수 증가
         writingDtlService.updateHits(writing_no);
     	
         return "detail";
     }
-    
+
     /*
-     ** 결과페이지
+     ** 상세 페이지 비동기 처리 페이징 조회
      */
-    /*
     @Transactional
-    @RequestMapping(value = "/result", method = RequestMethod.GET)
-    public String result(HttpServletRequest request, Model model) throws Exception{
+    @RequestMapping(value = "getDetailDtoList", method = RequestMethod.GET)
+    public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request
+    		                  , @RequestParam(value="page") int page, @RequestParam(value="writing_no") int writing_no) throws Exception{
     	
-    	HttpSession session = request.getSession();
-    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-    	String inputState = request.getParameter("inputState");
-    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
-    	
-    	paramWritingVoteDto.setWriting_no(writing_no);
-    	if(inputState.equals("before")){
-    		paramWritingVoteDto.setFir_content_vote("Y");
-        	paramWritingVoteDto.setSec_content_vote("N");
-    	}else {
-    		paramWritingVoteDto.setFir_content_vote("N");
-        	paramWritingVoteDto.setSec_content_vote("Y");
-    	}
-    	
-    	Object userDto = session.getAttribute("login");
+    	session    = request.getSession();
+    	  
     	//유저 정보 조회
     	UserDto user = userService.getUesrSettingDto(session, request);
-        paramWritingVoteDto.setUser_id(user.getUser_id());
-        paramWritingVoteDto.setRegpe_id(user.getUser_id());
-        paramWritingVoteDto.setModpe_id(user.getUser_id());
-	
-    	if(writingVoteService.chekVote(paramWritingVoteDto).equals("N")) {
-    		writingVoteService.insertWritingVoteDto(paramWritingVoteDto);
-        	writingDtlService.updateVoteNo(writing_no, paramWritingVoteDto.getFir_content_vote(), paramWritingVoteDto.getSec_content_vote());
-    	}
+        
+        //페이징 정보 세팅
+    	PagingDto pagingDto = new WritingDtlPagingDto();
+    	pagingDto.setUser_id(user.getUser_id());
+    	pagingDto.setPage_num(page);
+    	pagingDto.setPage_size(5);
+        
+    	WritingDtlPagingDto writingDtlPagingDto = (WritingDtlPagingDto) pagingDto;
+    	writingDtlPagingDto.setWriting_no(writing_no);
     	
-    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
-    	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramWritingVoteDto);
-    	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
-    	
-    	model.addAttribute("writingDtlDto", writingDtlDto);
-    	model.addAttribute("writingVoteDto", writingVoteDto);
-    	model.addAttribute("commentDtoList", commentDtoList);
-    	
+        //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
+	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);
+    
+	    //해당 글에 대한 댓글 정보 조회 및 추가
+	    for(WritingDtlDto detailDto :detailWritingList) {
+	    	detailDto.setDetailCommentList(commentService.getCommentDtoList(detailDto.getWriting_no()));
+	    }	
+
     	//조회 수 증가
-        writingDtlService.updateHits(writing_no, userDto);
-    	
-        return "result";
+        //writingDtlService.updateHits(writing_no);
+    	return detailWritingList;
     }
-    */
     
     /*
      ** 댓글 작성
      */
     @Transactional
-    @RequestMapping(value = "writeComment", method = RequestMethod.GET)
+    @RequestMapping(value = "writeComment", method = RequestMethod.POST)
     public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") String writingNo) throws Exception{
     	logger.info("writeComment호출");
     	session    = request.getSession();
