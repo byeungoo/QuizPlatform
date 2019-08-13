@@ -129,7 +129,7 @@
   <script src="resources/js/swiper.js"></script>
   <script src="resources/js/jsrender.min.js"></script>
   <script id="slideTmpl" type="text/jsrender">
-    <div class="swiper-slide">
+    <div class="swiper-slide" id={{:writing_no}}>
         <section class="detail">
           <button type="button" class="detail__119">
           </button>
@@ -265,11 +265,11 @@
     
     /* 댓글 비동기 입력*/
     $('.reply_submit').on('click', function (e) {
+      var activeSlide = $('.swiper-slide.swiper-slide-active');
       var input = $(this).siblings('.reply_input');
-      var target = $('.detail_replylist');
+      var target = activeSlide.find('.detail_replylist');
       var replytx = input.val();
-      var writingNo = '47';
-      
+      var writingNo = activeSlide.attr('id');
       var commentData = { "writingNo": writingNo, "replytx": replytx};
           
       $.ajax({
