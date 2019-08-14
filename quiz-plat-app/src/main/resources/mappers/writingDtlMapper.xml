@@ -25,8 +25,9 @@
 						       WHERE  1 = 1
 						       AND    C.WRITING_NO = W.WRITING_NO
 						    ) SUM_COMMENT
-					FROM    WRITING W,
-						( SELECT @ROWNUM := 0 ) R
+						  , WV.VOTE  
+					FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
+						  , ( SELECT @ROWNUM := 0 ) R
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
 					ORDER BY W.REG_DTS DESC
@@ -47,8 +48,8 @@
       		  , W.CONTENT
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
-      		  , REGPE_ID
-      		  , HITS
+      		  , W.REGPE_ID
+      		  , W.HITS
       		  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
       	   	  , (
 					SELECT COUNT(C.WRITING_NO)
@@ -56,37 +57,26 @@
 					WHERE  1 = 1
 					AND    C.WRITING_NO = W.WRITING_NO
 	            ) SUM_COMMENT
-     	FROM    WRITING W
+	          , ROUND((W.FIR_VOTE_NO/(W.FIR_VOTE_NO+W.SEC_VOTE_NO))*100) AS FIR_VOTE_PERC
+			  , ROUND((W.SEC_VOTE_NO/(W.FIR_VOTE_NO+W.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
+			  , WV.VOTE
+     	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
      	WHERE   1 = 1
      	AND     W.WRITING_NO = #{writing_no}
     </select>
     
-    <select id="updateFirVoteNo" parameterType="int">
-    	/* com.quiz.mapper.writingDtlMapper.updateFirVoteNo */
-    	UPDATE WRITING
-    	SET    FIR_VOTE_NO = FIR_VOTE_NO + 1
-    	WHERE  WRITING_NO = #{writing_no}
-    </select>
-    
-    <select id="updateSecVoteNo" parameterType="int">
-    	/* com.quiz.mapper.writingDtlMapper.updateSecVoteNo */
-    	UPDATE WRITING
-    	SET    SEC_VOTE_NO = SEC_VOTE_NO + 1
-    	WHERE  WRITING_NO = #{writing_no}
-    </select>
-    
-    <select id="insertWritingDtl" parameterType="writingDtlDto">
+    <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
     	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS)
     	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{regpe_id}, #{modpe_id}, now(), now(), 0)
-    </select>
+    </insert>
     
-    <select id="updateHits" parameterType="int">
+    <update id="updateHits" parameterType="int">
     	/* com.quiz.mapper.writingDtlMapper.updateHits */
     	UPDATE WRITING
     	SET    HITS = HITS + 1
     	WHERE  WRITING_NO = #{writing_no}
-    </select>
+    </update>
     
  	<select id="getHotTextWritingList" parameterType="pagingDto" resultType="writingDtlDto">
  		/* com.quiz.mapper.writingDtlMapper.getHotTextWritingList */
@@ -184,6 +174,8 @@
 							     ELSE ROUND((T.SUM_VOTE+3*SUM_COMMENT)/(ABS(T.FIR_VOTE_NO - T.SEC_VOTE_NO)/(T.FIR_VOTE_NO+T.SEC_VOTE_NO)*100))
 							     END AS POPULARITY
 						      , ROUND((ABS((T.FIR_VOTE_NO-T.SEC_VOTE_NO))/(T.FIR_VOTE_NO+T.SEC_VOTE_NO)*100)) 'VOTE_DIFF'
+						      , ROUND((T.FIR_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS FIR_VOTE_PERC
+						      , ROUND((T.SEC_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 						FROM   (
 								SELECT	W.WRITING_NO
 								      , W.FIR_WRIT_CONTENT
@@ -223,4 +215,23 @@
 		AND   B.RNUM>#{start}	
     	]]>
     </select>
+    
+    <update id="updateFirVote" parameterType="paramDto">
+    	/* com.quiz.mapper.writingDtlMapper.updateFirVote */
+    	UPDATE  WRITING
+    	SET     FIR_VOTE_NO = FIR_VOTE_NO + 1
+    	      , MODPE_ID    = #{user_id}
+    	      , MOD_DTS     = now()   
+    	WHERE   WRITING_NO  = #{writing_no}
+    </update>
+    
+    <update id="updateSecVote" parameterType="paramDto">
+    	/* com.quiz.mapper.writingDtlMapper.updateSecVote */
+    	UPDATE  WRITING
+    	SET     SEC_VOTE_NO = SEC_VOTE_NO + 1
+    	      , MODPE_ID    = #{user_id}
+    	      , MOD_DTS     = now()   
+    	WHERE   WRITING_NO  = #{writing_no}
+    </update>
+    
 </mapper>

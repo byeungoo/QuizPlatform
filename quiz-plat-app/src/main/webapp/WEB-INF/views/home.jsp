@@ -72,56 +72,6 @@
           </li>
         </c:forEach>
       </ul>
-      <ul class="main-sec__list" style="display:none">
-        <c:forEach items="${writingDtlDtoList}" var="writingDtlDto">
-          <li class="main-sec__list-item">
-            <div class="card">
-              <a href="/detail?writing_no=${writingDtlDto.writing_no}">
-                <span class="card__desc">${writingDtlDto.fir_writ_content}</span>
-                <div class="card__vsimg">
-                  <img src="resources/img/vs.png" alt="vs이미지">
-                </div>
-                <span class="card__desc ellipsis">${writingDtlDto.sec_writ_content}</span>
-                <div class="card__info-wrap">
-                  <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                    <span class="card__icon-desc font_blue">${writingDtlDto.sum_vote}</span>
-                  </div>
-                  <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                    <span class="card__icon-desc font_yellow">${writingDtlDto.sum_comment}</span>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </li>
-        </c:forEach>
-      </ul>
-      <ul class="main-sec__list" style="display:none">
-        <c:forEach items="${writingMyVoteDtoList}" var="writingMyVoteDto">
-          <li class="main-sec__list-item">
-            <div class="card">
-              <a href="/detail?writing_no=${writingMyVoteDto.writing_no}">
-                <span class="card__desc">${writingMyVoteDto.fir_writ_content}</span>
-                <div class="card__vsimg">
-                  <img src="resources/img/vs.png" alt="vs이미지">
-                </div>
-                <span class="card__desc ellipsis">${writingMyVoteDto.sec_writ_content}</span>
-                <div class="card__info-wrap">
-                  <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                    <span class="card__icon-desc font_blue">${writingMyVoteDto.sum_vote}</span>
-                  </div>
-                  <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                    <span class="card__icon-desc font_yellow">${writingMyVoteDto.sum_comment}</span>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </li>
-        </c:forEach>
-      </ul>
     </section>
     <c:if test="${toastOn == 'Y'}">
       <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
@@ -195,8 +145,6 @@
       var isExecuted = false;
       var mainDatas = [];
       var cateNum = 0;
-      //var url = 'https://my-json-server.typicode.com/JaeCheolSim/JsonHolder/page1';
-      var url = "<c:url value='/getPaigingList' />";
       var mainCardList = $('.main-sec__list');
       var tabcount = $('.home_header_navitem').length;
       for (var i = 0; i < tabcount; i++) {
@@ -221,8 +169,8 @@
         var winH = $(window).height();
         var docH = $(document).height();
         var winTop = $(window).scrollTop();
-        if (Math.ceil(winTop) >= docH - winH && !isExecuted && !mainDatas['isFull']) {
-          loadData(url, cateNum);
+        if (Math.ceil(winTop) >= docH - winH && !isExecuted && !mainDatas[cateNum].isFull) {
+          loadData(cateNum);
         }
       });
 
@@ -235,7 +183,7 @@
 
       var setCurrentState = function (e) {
         cateNum = $(e.target).val();
-        mainDatas[cateNum] ? refreshDatas() : loadData(url, cateNum);
+        mainDatas[cateNum] ? refreshDatas() : loadData(cateNum);
       };
 
       var restoreScroll = function () {
@@ -247,12 +195,12 @@
         restoreScroll();
       };
 
-      var loadData = function (url, cateNum) { //새롭게 데이터를 가져와서 세팅
+      var loadData = function (cateNum) { //새롭게 데이터를 가져와서 세팅
         isExecuted = true;
         var sendData = { "page": mainDatas[cateNum].curPage, "mainCategory": cateNum };
         showSpinner(mainCardList);
         $.ajax({
-          url:url,
+          url: '<c:url value='/getPaigingList' />',	
           type: 'GET',
           dataType: 'json',
           data: sendData,

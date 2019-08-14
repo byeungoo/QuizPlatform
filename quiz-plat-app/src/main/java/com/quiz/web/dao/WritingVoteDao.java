@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.quiz.web.dto.ParamDto;
 import com.quiz.web.dto.WritingVoteDto;
 
 import org.apache.ibatis.session.SqlSession;
@@ -18,12 +19,12 @@ public class WritingVoteDao {
     
     private static final String Namespace = "com.quiz.mapper.writingVoteDtlMapper";
     
-    public WritingVoteDto getWritingVoteDto(WritingVoteDto writingVoteDto) throws Exception {
-        return sqlSession.selectOne(Namespace+".getWritingVoteDto", writingVoteDto);
+    public WritingVoteDto getWritingVoteDto(ParamDto paramDto) throws Exception {
+        return sqlSession.selectOne(Namespace+".getWritingVoteDto", paramDto);
     }
     
-    public void insertWritingVoteDto(WritingVoteDto writingVoteDto) throws Exception {
-    	sqlSession.insert(Namespace+".insertWritingVoteDto", writingVoteDto);
+    public void insertWritingVoteDto(ParamDto paramDto) throws Exception {
+    	sqlSession.insert(Namespace+".insertWritingVoteDto", paramDto);
     }
     
     public String chekVote(WritingVoteDto writingVoteDto) throws Exception {

@@ -26,56 +26,56 @@ public class UserService {
 	private static final Logger logger = LoggerFactory.getLogger(VsController.class);
 	
     /*
-     ** ���� ���  
+     ** 占쏙옙占쏙옙 占쏙옙占�  
      */
     public void insertUser(UserDto userDto) throws Exception{
     	userDao.insertUser(userDto);
     }
     
     /*
-     ** �г��� ȹ��
+     ** 占싻놂옙占쏙옙 획占쏙옙
      */
     public String getNickname() throws Exception{
     	return userDao.getNickname();
     }
     
     /*
-     ** ��ȸ�� ���� ���̵� Ȯ��
+     ** 占쏙옙회占쏙옙 占쏙옙占쏙옙 占쏙옙占싱듸옙 확占쏙옙
      */
     public int chekUserId(String user_id) throws Exception{
     	return userDao.chekUserId(user_id);
     }
     
     /*
-     ** ȸ�� ���� ���̵� Ȯ��
+     ** 회占쏙옙 占쏙옙占쏙옙 占쏙옙占싱듸옙 확占쏙옙
      */
     public boolean chekOurUser(LoginCommand loginCommand) throws Exception{
     	return userDao.chekOurUser(loginCommand);
     }
     
     /*
-     ** �г��� ��뿩�� 'Y' ������Ʈ 
+     ** 占싻놂옙占쏙옙 占쏙옙肉⑼옙占� 'Y' 占쏙옙占쏙옙占쏙옙트 
      */
     public void updateNickname(String nickname) throws Exception{
     	userDao.updateNickname(nickname);
     }
     
     /*
-     ** �г��� ��뿩�� 'Y' ������Ʈ 
+     ** 占싻놂옙占쏙옙 占쏙옙肉⑼옙占� 'Y' 占쏙옙占쏙옙占쏙옙트 
      */
     public boolean chekNickname(String nickname) throws Exception{
     	return userDao.chekNickname(nickname);
     }
     
     /*
-     ** �г��� �߰� 
+     ** 占싻놂옙占쏙옙 占쌩곤옙 
      */
     public void insertNickname(String nickname) throws Exception{
     	userDao.insertNickname(nickname);
     }
     
     /*
-     ** �α��� ���� 
+     ** 占싸깍옙占쏙옙 占쏙옙占쏙옙 
      */
     public void keepLogin(String user_id, String session_id, Date session_limit) {
     	AuthInfo authInfo = new AuthInfo();
@@ -87,31 +87,32 @@ public class UserService {
     }
     
     /*
-     ** ���� �� ���� �� �ִ��� üũ
+     ** 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙 占쏙옙 占쌍댐옙占쏙옙 체크
      */
     public UserDto checkLoginBefore(String session_id) {
     	return userDao.checkLoginBefore(session_id);
     }
     
     /*
-     ** ȸ����ü ��ȸ
+     ** 회占쏙옙占쏙옙체 占쏙옙회
      */
     public UserDto getUserDto(String user_id) {
     	return userDao.getUserDto(user_id);
     }
     
     /*
-     ** userId ���� ��ü ȹ��
+     ** userId 占쏙옙占쏙옙 占쏙옙체 획占쏙옙
      */
     public UserDto getUesrSettingDto(HttpSession session, HttpServletRequest request) {
     	
     	Object userDto = session.getAttribute("login");
     	
     	UserDto user = new UserDto();
-        if(userDto!=null) {  //�α��� ���� ���� ��, ���� ���̵� ����
+        if(userDto!=null) {  //占싸깍옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙, 占쏙옙占쏙옙 占쏙옙占싱듸옙 占쏙옙占쏙옙
         	user = (UserDto) userDto;
+        	user.setRegpe_id(user.getUser_id());
         	user.setReg_div_cd("10");
-        } else {            //�α��� ������ ���� ���(��ȸ��), ���� ���̵� ����
+        } else {            //占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占�(占쏙옙회占쏙옙), 占쏙옙占쏙옙 占쏙옙占싱듸옙 占쏙옙占쏙옙
         	session = request.getSession();
         	user.setUser_id(session.toString());
         	user.setRegpe_id(session.toString());

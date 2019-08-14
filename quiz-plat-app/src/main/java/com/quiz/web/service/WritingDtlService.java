@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.quiz.web.dao.WritingDtlDao;
+import com.quiz.web.dto.ParamDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.paging.dto.PagingDto;
@@ -31,9 +32,9 @@ public class WritingDtlService {
     	pagingDto.setStart(start);
     	pagingDto.setEnd(end);
     	
-    	if(mainCategory == 1) { //占싸깍옙占� 占쏙옙회
+    	if(mainCategory == 0) { //占싸깍옙占� 占쏙옙회
     		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
-    	} else if(mainCategory == 2){ //占쌍신쇽옙 占쏙옙회
+    	} else if(mainCategory == 1){ //占쌍신쇽옙 占쏙옙회
     		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
     	} else { //占쏙옙占쏙옙 활占쏙옙占쏙옙占쏙옙 占쏙옙회(3)
     		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
@@ -63,23 +64,18 @@ public class WritingDtlService {
     	
     	WritingDtlDto writingDtlDto = writingDtlDao.getTextWriting(writing_no);
     	
-    	int total = writingDtlDto.getSum_vote();
-    	double fir_vote_perc = Math.round((double)((double)writingDtlDto.getFir_vote_no()/(double)total) * 100);
-    	double sec_vote_perc = Math.round((double)((double)writingDtlDto.getSec_vote_no()/(double)total) * 100);
-    	writingDtlDto.setFir_vote_perc(fir_vote_perc);
-    	writingDtlDto.setSec_vote_perc(sec_vote_perc);
-    	
     	return writingDtlDto;
     }
     
     /*
-     ** 占쌉시깍옙 占쏙옙표 占쏙옙 占쏙옙占쏙옙占쏙옙트
+     ** 게시글 투표 수 업데이트
      */  
-    public void updateVoteNo(int writing_no, String fir_content_vote, String sec_content_vote) throws Exception{
-    	if(fir_content_vote.equals("Y")) {
-    		writingDtlDao.updateFirVoteNo(writing_no);
-    	} else if(sec_content_vote.equals("Y")){
-    		writingDtlDao.updateSecVoteNo(writing_no);
+    public void updateVote(ParamDto paramDto) throws Exception{
+    	
+    	if(paramDto.getVote() == 1) {
+    		writingDtlDao.updateFirVote(paramDto);
+    	} else if(paramDto.getVote() == 2) {
+    		writingDtlDao.updateSecVote(paramDto);
     	}
     }
     
@@ -91,7 +87,7 @@ public class WritingDtlService {
     }
     
     /*
-     ** 占쏙옙회 占쏙옙 占쏙옙占쏙옙
+     ** 글 조회 수 업데이트
      */
     public void updateHits(int writing_no) throws Exception{
     	writingDtlDao.updateHits(writing_no);

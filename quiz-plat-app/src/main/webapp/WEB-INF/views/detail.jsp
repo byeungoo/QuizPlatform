@@ -70,7 +70,7 @@
                     <span class="card_subdesc">
                       나를 포함한 141명의 선택
                     </span>
-                    <span class="card__prtg">37%</span>
+                    <span class="card__prtg">${detailWriting.fir_vote_perc}%</span>
                   </label>
                 </div>
                 <span class="detail_vs"></span>
@@ -84,7 +84,7 @@
                     <span class="card_subdesc later">
                       나를 제외한 243명의 선택
                     </span>
-                    <span class="card__prtg later">63%</span>
+                    <span class="card__prtg later">${detailWriting.sec_vote_perc}%</span>
                   </label>
                 </div>
               </div>

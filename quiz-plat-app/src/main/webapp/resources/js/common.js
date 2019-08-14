@@ -175,7 +175,7 @@ function showSpinner(target) {
 }
 
 function hideSpinner() {
-  _spinner = $(_spinner).detach();
+  _spinner = _spinner.detach();
 }
 
 function areNotCompleted(group) {

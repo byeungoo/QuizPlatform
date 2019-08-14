@@ -6,12 +6,11 @@ public class WritingVoteDto {
 
 	private int    writing_no;         //게시글 번호
 	private String user_id;            //사용자아이디
-	private String fir_content_vote;   //첫번째내용투표
-	private String sec_content_vote;   //두번째내용투표
 	private String regpe_id;           //작성자
 	private String modpe_id;           //수정자
 	private Date   reg_dts;            //등록일시
 	private Date   mod_dts;            //수정일시
+	private Integer vote;              //1일경우 위의 컨텐츠, 2일경우 아래 컨텐츠 투표
 	private double fir_vote_perc;      //첫번째 질문 퍼센트
 	private double sec_vote_perc;      //두번째 질문 퍼센트
 	
@@ -26,18 +25,6 @@ public class WritingVoteDto {
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
-	}
-	public String getFir_content_vote() {
-		return fir_content_vote;
-	}
-	public void setFir_content_vote(String fir_content_vote) {
-		this.fir_content_vote = fir_content_vote;
-	}
-	public String getSec_content_vote() {
-		return sec_content_vote;
-	}
-	public void setSec_content_vote(String sec_content_vote) {
-		this.sec_content_vote = sec_content_vote;
 	}
 	public String getRegpe_id() {
 		return regpe_id;
@@ -74,5 +61,11 @@ public class WritingVoteDto {
 	}
 	public void setSec_vote_perc(double sec_vote_perc) {
 		this.sec_vote_perc = sec_vote_perc;
+	}
+	public Integer getVote() {
+		return vote;
+	}
+	public void setVote(Integer vote) {
+		this.vote = vote;
 	}
 }
