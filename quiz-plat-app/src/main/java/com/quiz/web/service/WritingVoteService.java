@@ -1,5 +1,8 @@
 package com.quiz.web.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,20 @@ public class WritingVoteService {
     private WritingVoteDao writingVoteDao;
     
     public WritingVoteDto getWritingVoteDto(ParamDto paramDto) throws Exception{
-    	return writingVoteDao.getWritingVoteDto(paramDto);
+    	
+    	WritingVoteDto writingVoteDto = writingVoteDao.getWritingVoteDto(paramDto);
+    	
+    	List<Integer> voteNoArr =  new ArrayList<Integer>();
+    	List<Integer> votePerc =  new ArrayList<Integer>();
+    	voteNoArr.add(writingVoteDto.getFir_vote_no());
+    	voteNoArr.add(writingVoteDto.getSec_vote_no());
+    	votePerc.add(writingVoteDto.getFir_vote_perc());
+    	votePerc.add(writingVoteDto.getSec_vote_perc());
+    	
+    	writingVoteDto.setVoteNoArr(voteNoArr);
+    	writingVoteDto.setVotePerc(votePerc);
+    	
+    	return writingVoteDto;
     }
     
     public void insertWritingVoteDto(ParamDto paramDto) throws Exception{

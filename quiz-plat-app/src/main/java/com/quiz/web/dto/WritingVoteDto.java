@@ -1,18 +1,23 @@
 package com.quiz.web.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class WritingVoteDto {
 
-	private int    writing_no;         //°Ô½Ã±Û ¹øÈ£
-	private String user_id;            //»ç¿ëÀÚ¾ÆÀÌµğ
-	private String regpe_id;           //ÀÛ¼ºÀÚ
-	private String modpe_id;           //¼öÁ¤ÀÚ
-	private Date   reg_dts;            //µî·ÏÀÏ½Ã
-	private Date   mod_dts;            //¼öÁ¤ÀÏ½Ã
-	private Integer vote;              //1ÀÏ°æ¿ì À§ÀÇ ÄÁÅÙÃ÷, 2ÀÏ°æ¿ì ¾Æ·¡ ÄÁÅÙÃ÷ ÅõÇ¥
-	private double fir_vote_perc;      //Ã¹¹øÂ° Áú¹® ÆÛ¼¾Æ®
-	private double sec_vote_perc;      //µÎ¹øÂ° Áú¹® ÆÛ¼¾Æ®
+	private int     writing_no;         //ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È£
+	private String  user_id;            //ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½Ìµï¿½
+	private String  regpe_id;           //ï¿½Û¼ï¿½ï¿½ï¿½
+	private String  modpe_id;           //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Date    reg_dts;            //ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
+	private Date    mod_dts;            //ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
+	private Integer vote;               //1ï¿½Ï°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 2ï¿½Ï°ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+	private int     fir_vote_no;
+	private int     sec_vote_no;
+	private Integer fir_vote_perc;      //Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½Æ®
+	private Integer sec_vote_perc;      //ï¿½Î¹ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½Æ®
+	private List<Integer> voteNoArr;    //ì»¨í…ì¸  íˆ¬í‘œ ìˆ˜ ë¦¬ìŠ¤íŠ¸
+	private List<Integer> votePerc;     //ì»¨í…ì¸  íˆ¬í‘œ ë¹„ìœ¨ ë¦¬ìŠ¤íŠ¸
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -50,22 +55,46 @@ public class WritingVoteDto {
 	public void setMod_dts(Date mod_dts) {
 		this.mod_dts = mod_dts;
 	}
-	public double getFir_vote_perc() {
-		return fir_vote_perc;
-	}
-	public void setFir_vote_perc(double fir_vote_perc) {
-		this.fir_vote_perc = fir_vote_perc;
-	}
-	public double getSec_vote_perc() {
-		return sec_vote_perc;
-	}
-	public void setSec_vote_perc(double sec_vote_perc) {
-		this.sec_vote_perc = sec_vote_perc;
-	}
 	public Integer getVote() {
 		return vote;
 	}
 	public void setVote(Integer vote) {
 		this.vote = vote;
+	}
+	public int getFir_vote_no() {
+		return fir_vote_no;
+	}
+	public void setFir_vote_no(int fir_vote_no) {
+		this.fir_vote_no = fir_vote_no;
+	}
+	public int getSec_vote_no() {
+		return sec_vote_no;
+	}
+	public void setSec_vote_no(int sec_vote_no) {
+		this.sec_vote_no = sec_vote_no;
+	}
+	public Integer getFir_vote_perc() {
+		return fir_vote_perc;
+	}
+	public void setFir_vote_perc(Integer fir_vote_perc) {
+		this.fir_vote_perc = fir_vote_perc;
+	}
+	public Integer getSec_vote_perc() {
+		return sec_vote_perc;
+	}
+	public void setSec_vote_perc(Integer sec_vote_perc) {
+		this.sec_vote_perc = sec_vote_perc;
+	}
+	public List<Integer> getVoteNoArr() {
+		return voteNoArr;
+	}
+	public void setVoteNoArr(List<Integer> voteNoArr) {
+		this.voteNoArr = voteNoArr;
+	}
+	public List<Integer> getVotePerc() {
+		return votePerc;
+	}
+	public void setVotePerc(List<Integer> votePerc) {
+		this.votePerc = votePerc;
 	}
 }
