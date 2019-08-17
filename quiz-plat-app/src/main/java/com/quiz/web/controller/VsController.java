@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,8 +61,6 @@ public class VsController {
     	pagingDto.setPage_num(1);
     	pagingDto.setMainCategory(0);
     	List<WritingDtlDto> writingPopulDtoList = writingDtlService.getTextWritingList(pagingDto);
-
-    	List<WritingDtlDto> writingMyVoteDtoList = writingDtlService.getTextWritingList(pagingDto);
     	model.addAttribute("writingPopulDtoList", writingPopulDtoList);
     	
         return "home";
@@ -70,8 +69,10 @@ public class VsController {
     /*
      ** 메인페이지 비동기 페이징 처리
      */
-    @RequestMapping(value = "/getPaigingList", method = RequestMethod.GET)
-    public @ResponseBody List<WritingDtlDto> getPaigingList(HttpSession session, HttpServletRequest request
+    
+    @CrossOrigin
+    @RequestMapping(value = "/getPagingList", method = RequestMethod.GET)
+    public @ResponseBody List<WritingDtlDto> getPagingList(HttpSession session, HttpServletRequest request
     		          , @RequestParam(value="page") String page, @RequestParam(value="mainCategory") String mainCategory) throws Exception{
     	
     	//유저정보 획득
@@ -167,7 +168,6 @@ public class VsController {
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
         DetailDto detailDto = new DetailDto();
 	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);
-	    //List<WritingVoteDto> detailWritingVoteList = new ArrayList();
 	    HashMap<Integer, List<CommentDto>> detailCommentList = new HashMap<Integer,  List<CommentDto>>();
 	    
 	    //해당 글에 대한 댓글 정보 조회 및 추가
@@ -202,6 +202,7 @@ public class VsController {
      ** 상세 페이지 비동기 처리 페이징 조회
      */
     @Transactional
+    @CrossOrigin
     @RequestMapping(value = "getDetailDtoList", method = RequestMethod.GET)
     public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request
     		                  , @RequestParam(value="page") int page, @RequestParam(value="writing_no") int writing_no) throws Exception{
@@ -235,7 +236,8 @@ public class VsController {
      ** 상세페이지 투표 비동기 처리
      */
     @Transactional
-    @RequestMapping(value = "vote", method = RequestMethod.GET)
+    @CrossOrigin
+    @RequestMapping(value = "vote", method = RequestMethod.POST)
     public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="voteNum") int voteNum , @RequestParam(value="writingNo") int writingNo) throws Exception{
 
     	session = request.getSession();
@@ -269,6 +271,7 @@ public class VsController {
      ** 댓글 작성 비동기 처리
      */
     @Transactional
+    @CrossOrigin
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
     public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") String writingNo) throws Exception{
 

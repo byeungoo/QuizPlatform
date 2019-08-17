@@ -10,10 +10,16 @@
 		SELECT  WV.USER_ID
 		      , WV.WRITING_NO
 		      , WV.VOTE
+		      , W.FIR_VOTE_NO
+		      , W.SEC_VOTE_NO
+			  , ROUND((W.FIR_VOTE_NO/(W.FIR_VOTE_NO+W.SEC_VOTE_NO))*100) AS FIR_VOTE_PERC
+			  , ROUND((W.SEC_VOTE_NO/(W.FIR_VOTE_NO+W.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 		FROM    WRITING_VOTE WV
+		      , WRITING W 
 		WHERE   1 = 1
 		AND     WV.WRITING_NO = #{writing_no}
 		AND     WV.USER_ID    = #{user_id}
+		AND		W.WRITING_NO  = WV.WRITING_NO
     </select>
     
  	<select id="insertWritingVoteDto" parameterType="paramDto">

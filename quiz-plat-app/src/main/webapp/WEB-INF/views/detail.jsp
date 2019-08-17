@@ -41,11 +41,11 @@
         <div class="header_center"></div>
         <div class="header_right"></div>
       </header>
-      <input type="hidden" id="writing_no" name="writing_no" value=${writingDtlDto.writing_no}>
+
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <c:forEach items="${detailDto.detailWritingList}" var="detailWriting">
-          <div class="swiper-slide" id=${detailWriting.writing_no}>
+          <div class="swiper-slide" id=slide${detailWriting.writing_no}>
             <section class="detail">
               <button type="button" class="detail__119">
               </button>
@@ -130,7 +130,7 @@
   <script src="resources/js/jsrender.min.js"></script>
   <script src="resources/js/jquery-accordion.js"></script>
   <script id="slideTmpl" type="text/jsrender">
-    <div class="swiper-slide" id={{:writing_no}}>
+    <div class="swiper-slide" id=slide{{:writing_no}}>
         <section class="detail">
           <button type="button" class="detail__119">
           </button>
