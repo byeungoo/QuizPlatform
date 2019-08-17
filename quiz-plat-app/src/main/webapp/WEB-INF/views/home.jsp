@@ -152,7 +152,7 @@
         mainDatas.push({
           'prevPos': 0, //스크롤 탑 위치
           'cards': null, //리스트의 카드들
-          'curPage': 2, //현재 보고 있는 페이지
+          'curPage': 2, //다음에 불러와야할 페이지 번호
           'isFull': false //카테고리의 글을 모두 불러왔는지?
         });
       }
@@ -200,7 +200,7 @@
         var sendData = { "page": mainDatas[cateNum].curPage, "mainCategory": cateNum };
         showSpinner(mainCardList);
         $.ajax({
-          url: '<c:url value='/getPaigingList' />',	
+          url: '<c:url value='/getPagingList' />',	
           type: 'GET',
           dataType: 'json',
           data: sendData,

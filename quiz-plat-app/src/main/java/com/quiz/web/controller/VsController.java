@@ -71,8 +71,8 @@ public class VsController {
      */
     
     @CrossOrigin
-    @RequestMapping(value = "/getPaigingList", method = RequestMethod.GET)
-    public @ResponseBody List<WritingDtlDto> getPaigingList(HttpSession session, HttpServletRequest request
+    @RequestMapping(value = "/getPagingList", method = RequestMethod.GET)
+    public @ResponseBody List<WritingDtlDto> getPagingList(HttpSession session, HttpServletRequest request
     		          , @RequestParam(value="page") String page, @RequestParam(value="mainCategory") String mainCategory) throws Exception{
     	
     	//유저정보 획득
