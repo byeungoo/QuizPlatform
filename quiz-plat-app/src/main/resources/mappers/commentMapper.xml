@@ -6,13 +6,18 @@
 <mapper namespace="com.quiz.mapper.commentMapper">
 
  	<insert id="insertComment" parameterType="commentDto">
-		INSERT INTO COMMENT(WRITING_NO, COMMENT_CONTENT, RECOM_NO, REGPE_ID, REG_DTS, MOD_DTS) 
-		VALUES(#{writing_no}, #{comment_content}, #{recom_no}, #{regpe_id}, now(), now())
+ 		/* com.quiz.mapper.commentMapper.insertComment */
+		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NO, REGPE_ID, MOD_DTS) 
+		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_no}, #{regpe_id}, now())
     </insert>
     
-    <select id="getCommentDtoList" parameterType="int" resultType="commentDto">
+    <select id="getCommentDtoList" parameterType="paramDto" resultType="commentDto">
+        /* com.quiz.mapper.commentMapper.getCommentDtoList */
         SELECT  C.WRITING_NO
+              , C.COMMENT_NO
+              , C.PARENT
               , C.COMMENT_CONTENT
+              , C.DEPTH
 			  , C.RECOM_NO
 	          , C.REGPE_ID
 	          , C.REG_DTS
@@ -22,7 +27,30 @@
               , USER U
         WHERE   1 = 1
         AND     C.WRITING_NO = #{writing_no}
-        AND     C.REGPE_ID = U.USER_ID
+        AND     C.REGPE_ID   = U.USER_ID
+        AND     C.DEPTH      = #{depth}
+        ORDER BY C.REG_DTS ASC
+    </select>
+    
+    <select id="getLowCommentDtoList" parameterType="paramDto" resultType="lowCommentDto">
+    	/* com.quiz.mapper.commentMapper.getLowCommentDtoList */
+        SELECT  C.WRITING_NO
+              , C.COMMENT_NO
+              , C.PARENT
+              , C.COMMENT_CONTENT
+              , C.DEPTH
+			  , C.RECOM_NO
+	          , C.REGPE_ID
+	          , C.REG_DTS
+	          , C.MOD_DTS
+	          , U.NICKNAME
+        FROM    COMMENT C
+              , USER U
+        WHERE   1 = 1
+        AND     C.WRITING_NO = #{writing_no}
+        AND     C.REGPE_ID   = U.USER_ID
+        AND     C.DEPTH      = #{depth}
+        AND      C.PARENT     = #{parent}
         ORDER BY C.REG_DTS ASC
     </select>
     

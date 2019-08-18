@@ -145,65 +145,6 @@ public class VsController {
     /*
      ** 상세페이지 이동, 클릭한 글과 인기 컨텐츠 데이터 전송
      */
-    /*
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String detail(HttpServletRequest request, Model model) throws Exception{
-    	
-    	HttpSession session = request.getSession();
-    	int writing_no = Integer.parseInt(request.getParameter("writing_no"));
-    	WritingVoteDto paramWritingVoteDto = new WritingVoteDto();
-    	
-    	//유저 정보 조회
-    	UserDto user = userService.getUesrSettingDto(session, request);
-        paramWritingVoteDto.setUser_id(user.getUser_id());
-        paramWritingVoteDto.setRegpe_id(user.getUser_id());
-        paramWritingVoteDto.setModpe_id(user.getUser_id());
-        
-        //페이징 정보 세팅
-    	PagingDto pagingDto = new WritingDtlPagingDto();
-    	pagingDto.setUser_id(user.getUser_id());
-    	pagingDto.setPage_num(1);
-    	pagingDto.setPage_size(5);
-        
-    	WritingDtlPagingDto writingDtlPagingDto = (WritingDtlPagingDto) pagingDto;
-    	writingDtlPagingDto.setWriting_no(writing_no);
-    	
-        //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
-        DetailDto detailDto = new DetailDto();
-	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);
-	    HashMap<Integer, List<CommentDto>> detailCommentList = new HashMap<Integer,  List<CommentDto>>();
-	    
-	    //해당 글에 대한 댓글 정보 조회 및 추가
-	    for(WritingDtlDto tempDto :detailWritingList) {
-	    	detailCommentList.put(tempDto.getWriting_no() , commentService.getCommentDtoList(tempDto.getWriting_no()));
-	    }
-	    
-        //클릭한 상세 글정보 
-    	WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
-
-    	//클릭한 상세 댓글 정보
-    	List<CommentDto> commentDtoList = commentService.getCommentDtoList(writing_no);
-    	
-    	//클릭한 글 정보 추가
-    	detailWritingList.add(0, writingDtlDto);
-    	detailCommentList.put(writingDtlDto.getWriting_no() , commentDtoList);
-    	
-
-    	detailDto.setDetailCommentList(detailCommentList);
-    	detailDto.setDetailWritingList(detailWritingList);
-    	
-    	model.addAttribute("detailDto", detailDto);
-    	model.addAttribute("writing_no", writing_no);
-    	
-    	//조회 수 증가
-        writingDtlService.updateHits(writing_no);
-    	
-        return "detail";
-    }
-    */
-    /*
-     ** 상세페이지 이동, 클릭한 글과 인기 컨텐츠 데이터 전송
-     */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
     	
@@ -222,11 +163,23 @@ public class VsController {
     		                  , @RequestParam(value="writingNo") int writing_no) throws Exception{
     	
     	session    = request.getSession();
-    	  
+    	
+    	ParamDto paramDto = new ParamDto();
+    	paramDto.setWriting_no(writing_no);
+    	paramDto.setDepth(0);  //댓글조회를 위해 0으로 세팅
+    	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+	    List<CommentDto> commendDtoList = commentService.getCommentDtoList(paramDto);  
 	    
-	    writingDtlDto.setDetailCommentList(commentService.getCommentDtoList(writing_no));
+	    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
+	    //대댓글 값 세팅
+	    for(CommentDto tempCommentDto : commendDtoList) {
+	    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
+	    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto));
+	    }
+	    
+	    writingDtlDto.setDetailCommentList(commendDtoList);
     
     	return writingDtlDto;
     }    
@@ -256,10 +209,23 @@ public class VsController {
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);
-    
+     
+    	ParamDto paramDto = new ParamDto();
+    	
 	    //해당 글에 대한 댓글 정보 조회 및 추가
 	    for(WritingDtlDto detailDto :detailWritingList) {
-	    	detailDto.setDetailCommentList(commentService.getCommentDtoList(detailDto.getWriting_no()));
+	    	paramDto.setDepth(0);  //댓글조회를 위해 0으로 세팅
+	    	paramDto.setWriting_no(detailDto.getWriting_no());
+	    	detailDto.setDetailCommentList(commentService.getCommentDtoList(paramDto));  //댓글 세팅
+	    	
+		    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
+		    List<CommentDto> commentListDto = detailDto.getDetailCommentList();
+		    
+		    //대댓글 값 세팅
+		    for(CommentDto tempCommentDto : commentListDto) {
+		    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
+		    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto));
+		    }
 	    }	
 
     	return detailWritingList;
@@ -305,8 +271,9 @@ public class VsController {
      */
     @Transactional
     @CrossOrigin
-    @RequestMapping(value = "writeComment", method = RequestMethod.POST)
-    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") String writingNo) throws Exception{
+    @RequestMapping(value = "writeComment", method = RequestMethod.GET)
+    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") int writing_no
+    		                                     , @RequestParam(value="depth") int depth, @RequestParam(value="parent") Integer parent) throws Exception{
 
     	session    = request.getSession();
     	    	
@@ -319,16 +286,25 @@ public class VsController {
     	}
     	
     	//댓글 저장 후 반환
-        int writing_no = Integer.parseInt((writingNo));
     	String comment_content = replytx;
-    	int like = 0;
+    	int recom_no = 0;
     	CommentDto commentDto = new CommentDto();
     	commentDto.setWriting_no(writing_no);
     	commentDto.setComment_content(comment_content);
-    	commentDto.setRecom_no(like);
+    	commentDto.setRecom_no(recom_no);
     	commentDto.setRegpe_id(userDto.getUser_id());
     	commentDto.setNickname(userDto.getNickname());
-    	commentService.insertComment(commentDto);   	
+    	commentDto.setDepth(depth);
+    	commentDto.setParent(parent);
+    	commentService.insertComment(commentDto);
+    	
+    	//대댓글 조회 파라미터 설정
+    	ParamDto paramDto = new ParamDto();
+    	paramDto.setWriting_no(writing_no);
+    	paramDto.setDepth(depth);
+    	paramDto.setParent(parent);
+    	
+    	commentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto)); //대댓글 세팅
 
     	return commentDto;
     }    

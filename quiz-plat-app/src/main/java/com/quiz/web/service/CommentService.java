@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.quiz.web.dao.CommentDao;
 import com.quiz.web.dto.CommentDto;
+import com.quiz.web.dto.LowCommentDto;
+import com.quiz.web.dto.ParamDto;
 
 @Service
 public class CommentService {
@@ -18,8 +20,12 @@ public class CommentService {
 		commentDao.insertComment(commentDto);
 	}
 	
-	public List<CommentDto> getCommentDtoList (int writing_no) throws Exception{
-		return commentDao.getCommentDtoList(writing_no);
+	public List<CommentDto> getCommentDtoList (ParamDto paramDto) throws Exception{
+		return commentDao.getCommentDtoList(paramDto);
+	}
+	
+	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto) throws Exception{
+		return commentDao.getLowCommentDtoList(paramDto);
 	}
 
 }

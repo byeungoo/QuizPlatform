@@ -2,9 +2,11 @@ package com.quiz.web.dto;
 
 public class ParamDto {
 	
-	private int writing_no;  //°Ô½Ã±Û ¹øÈ£
-	private String user_id;  //»ç¿ëÀÚ¾ÆÀÌµğ
-	private Integer vote;    //1ÀÏ°æ¿ì À§ÀÇ ÄÁÅÙÃ÷, 2ÀÏ°æ¿ì ¾Æ·¡ ÄÁÅÙÃ÷ ÅõÇ¥
+	private int     writing_no;  //ê²Œì‹œê¸€ë²ˆí˜¸
+	private String  user_id;     //ìœ ì €ì•„ì´ë””
+	private Integer vote;        //1: ì²«ë²ˆì¨° ì»¨í…ì¸  íˆ¬í‘œ, 2: ë‘ë²ˆì§¸ ì»¨í…ì¸  íˆ¬í‘œ
+	private int     depth;       //0: ëŒ“ê¸€, 1: ëŒ€ëŒ“ê¸€
+	private Integer parent;      //ëŒ€ëŒ“ê¸€ ìƒìœ„ ëŒ“ê¸€ë²ˆí˜¸
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -23,6 +25,18 @@ public class ParamDto {
 	}
 	public void setVote(Integer vote) {
 		this.vote = vote;
+	}
+	public int getDepth() {
+		return depth;
+	}
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+	public Integer getParent() {
+		return parent;
+	}
+	public void setParent(Integer parent) {
+		this.parent = parent;
 	}
 	
 }

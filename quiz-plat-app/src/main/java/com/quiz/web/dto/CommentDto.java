@@ -1,18 +1,22 @@
 package com.quiz.web.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class CommentDto {
 	
-	private int    writing_no;         //°Ô½Ã±Û¹øÈ£
-	private int    comment_no;         //´ñ±Û¹øÈ£
-	private String comment_content;    //´ñ±Û³»¿ë
-	private int    recom_no;           //ÃßÃµ¼ö
-	private String regpe_id;           //ÀÛ¼ºÀÚ
-	private String modpe_id;           //¼öÁ¤ÀÚ
-	private Date   reg_dts;            //µî·ÏÀÏ½Ã
-	private Date   mod_dts;            //¼öÁ¤ÀÏ½Ã
-	private String nickname;           //´Ğ³×ÀÓ
+	private int    writing_no;         //ê²Œì‹œê¸€ë²ˆí˜¸
+	private int    comment_no;         //ëŒ“ê¸€ë²ˆí˜¸
+	private String comment_content;    //ëŒ“ê¸€ë‚´ìš©
+	private int    recom_no;           //ì¶”ì²œìˆ˜
+	private String regpe_id;           //ë“±ë¡ì
+	private String modpe_id;           //ë³€ê²½ì
+	private Date   reg_dts;            //ë“±ë¡ì¼
+	private Date   mod_dts;            //ë³€ê²½ì¼
+	private String nickname;           //ë‹‰ë„¤ì„
+	private int    depth;              //0: ëŒ“ê¸€, 1:ëŒ€ëŒ“ê¸€
+	private Integer parent;           //ëŒ€ëŒ“ê¸€ ìƒìœ„ ëŒ“ê¸€ ë²ˆí˜¸
+	private List<LowCommentDto> lowCommentDtoList; //ëŒ€ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -67,5 +71,23 @@ public class CommentDto {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public int getDepth() {
+		return depth;
+	}
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+	public List<LowCommentDto> getLowCommentDtoList() {
+		return lowCommentDtoList;
+	}
+	public void setLowCommentDtoList(List<LowCommentDto> lowCommentDtoList) {
+		this.lowCommentDtoList = lowCommentDtoList;
+	}
+	public Integer getParent() {
+		return parent;
+	}
+	public void setParent(Integer parent) {
+		this.parent = parent;
 	}
 }

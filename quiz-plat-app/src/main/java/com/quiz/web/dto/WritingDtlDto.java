@@ -21,6 +21,8 @@ public class WritingDtlDto {
 	private int    sum_vote;          //총 투표수
 	private int    sum_comment;       //총 댓글수
 	private double popularity;        //인기도
+	private int    fir_vote_no;       //첫번째 투표 수
+	private int    sec_vote_no;       //두번째 투표 수
 	private int    fir_vote_perc;     //첫번째 투표 퍼센트
 	private int    sec_vote_perc;     //두번째 투표 퍼센트
 	private int    vote_diff;         //투표율 차이
@@ -153,5 +155,17 @@ public class WritingDtlDto {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public int getFir_vote_no() {
+		return fir_vote_no;
+	}
+	public void setFir_vote_no(int fir_vote_no) {
+		this.fir_vote_no = fir_vote_no;
+	}
+	public int getSec_vote_no() {
+		return sec_vote_no;
+	}
+	public void setSec_vote_no(int sec_vote_no) {
+		this.sec_vote_no = sec_vote_no;
 	}
 }
