@@ -5,13 +5,14 @@
  
 <mapper namespace="com.quiz.mapper.commentMapper">
 
- 	<select id="insertComment" parameterType="commentDto">
+ 	<insert id="insertComment" parameterType="commentDto">
 		INSERT INTO COMMENT(WRITING_NO, COMMENT_CONTENT, RECOM_NO, REGPE_ID, REG_DTS, MOD_DTS) 
 		VALUES(#{writing_no}, #{comment_content}, #{recom_no}, #{regpe_id}, now(), now())
-    </select>
+    </insert>
     
     <select id="getCommentDtoList" parameterType="int" resultType="commentDto">
-        SELECT  C.COMMENT_CONTENT
+        SELECT  C.WRITING_NO
+              , C.COMMENT_CONTENT
 			  , C.RECOM_NO
 	          , C.REGPE_ID
 	          , C.REG_DTS
@@ -24,6 +25,5 @@
         AND     C.REGPE_ID = U.USER_ID
         ORDER BY C.REG_DTS ASC
     </select>
-    
     
 </mapper>

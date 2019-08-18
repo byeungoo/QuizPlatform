@@ -42,13 +42,12 @@
     <select id="getTextWriting" parameterType="int" resultType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.getTextWriting */
     	SELECT  W.WRITING_NO
-    	      , W.QUES_TYPE_DIV_CD
 		      , W.FIR_WRIT_CONTENT
       		  , W.SEC_WRIT_CONTENT
       		  , W.CONTENT
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
-      		  , W.REGPE_ID
+      		  , W.REG_DTS
       		  , W.HITS
       		  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
       	   	  , (
@@ -60,9 +59,13 @@
 	          , ROUND((W.FIR_VOTE_NO/(W.FIR_VOTE_NO+W.SEC_VOTE_NO))*100) AS FIR_VOTE_PERC
 			  , ROUND((W.SEC_VOTE_NO/(W.FIR_VOTE_NO+W.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 			  , WV.VOTE
+			  , ROUND((ABS((W.FIR_VOTE_NO-W.SEC_VOTE_NO))/(W.FIR_VOTE_NO+W.SEC_VOTE_NO)*100)) 'VOTE_DIFF'
+			  , U.NICKNAME
      	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
+     	      , USER U
      	WHERE   1 = 1
      	AND     W.WRITING_NO = #{writing_no}
+     	AND		U.USER_ID    = W.REGPE_ID
     </select>
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
@@ -167,6 +170,7 @@
 		SELECT  B.*
 		FROM    (
 				SELECT  A.*
+				      , WVE.VOTE
 				FROM   (
 						SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 						      , T.*
@@ -178,6 +182,7 @@
 						      , ROUND((T.SEC_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 						FROM   (
 								SELECT	W.WRITING_NO
+								      , W.CONTENT
 								      , W.FIR_WRIT_CONTENT
 								      , W.SEC_WRIT_CONTENT
 								      , W.FIR_VOTE_NO
@@ -189,25 +194,28 @@
 									        WHERE  1            = 1
 									        AND    C.WRITING_NO = W.WRITING_NO
 									    ) SUM_COMMENT
+									  , U.NICKNAME
 									  , W.REG_DTS
 								FROM    WRITING W
 								      , (
-									    SELECT  TW.WRITING_NO
-									    FROM    WRITING_VOTE TWV RIGHT OUTER JOIN WRITING TW 
-										    ON TWV.WRITING_NO = TW.WRITING_NO AND TWV.USER_ID   != #{user_id}
-									    WHERE   1 = 1
-									    GROUP BY TW.WRITING_NO
-									) WV
+									        SELECT  TW.WRITING_NO
+									        FROM    WRITING_VOTE TWV RIGHT OUTER JOIN WRITING TW 
+										            ON TWV.WRITING_NO = TW.WRITING_NO AND TWV.USER_ID   != #{user_id}
+									        WHERE   1 = 1
+									        GROUP BY TW.WRITING_NO
+									    ) WV
+									  , USER U
 								WHERE   1 = 1
 								AND     W.USE_YN = 'Y'
 								AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
-								AND     WV.WRITING_NO = W.WRITING_NO
+								AND     WV.WRITING_NO  = W.WRITING_NO
+								AND		U.USER_ID      = W.REGPE_ID
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
 						WHERE 1 = 1
 						ORDER BY  POPULARITY DESC
 						        , REG_DTS DESC
-				       ) A
+				       ) A LEFT OUTER JOIN WRITING_VOTE WVE ON WVE.WRITING_NO = A.WRITING_NO AND WVE.USER_ID = #{user_id}
 				WHERE 1 = 1
 				AND   A.RNUM <=#{end}
 			) B

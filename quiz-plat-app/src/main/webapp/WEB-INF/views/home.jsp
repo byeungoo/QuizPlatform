@@ -46,34 +46,7 @@
   </div>
 
   <div class="wrapper m-scene">
-    <section class="main-sec">
-      <ul class="main-sec__list">
-        <c:forEach items="${writingPopulDtoList}" var="writingPopulDto">
-          <li class="main-sec__list-item">
-            <div class="card">
-              <a href="/detail?writing_no=${writingPopulDto.writing_no}">
-                <span class="card__desc">${writingPopulDto.fir_writ_content}</span>
-                <div class="card__vsimg">
-                  <img src="resources/img/vs.png" alt="vs이미지">
-                </div>
-                <span class="card__desc ellipsis">${writingPopulDto.sec_writ_content}</span>
-                <div class="card__info-wrap">
-                  <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                    <span class="card__icon-desc font_blue">${writingPopulDto.sum_vote}</span>
-                  </div>
-                  <div class="card__info-area">
-                    <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                    <span class="card__icon-desc font_yellow">${writingPopulDto.sum_comment}</span>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </li>
-        </c:forEach>
-      </ul>
-    </section>
-    <c:if test="${toastOn == 'Y'}">
+	<c:if test="${toastOn == 'Y'}">
       <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
     </c:if>
     <a href="/write.html" class="fab">
