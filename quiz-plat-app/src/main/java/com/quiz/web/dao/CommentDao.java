@@ -24,6 +24,5 @@ public class CommentDao {
 	
 	public List<CommentDto> getCommentDtoList(int writing_no) throws Exception{
 		return sqlSession.selectList(Namespace+".getCommentDtoList", writing_no);
-	}
-	
+	}	
 }

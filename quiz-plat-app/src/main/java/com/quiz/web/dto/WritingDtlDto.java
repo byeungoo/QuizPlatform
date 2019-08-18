@@ -5,28 +5,27 @@ import java.util.List;
 
 public class WritingDtlDto {
 	
-private int    writing_no;        //寃뚯떆湲�踰덊샇
-	private String ques_type_div_cd;  //吏덈Ц�쑀�삎援щ텇肄붾뱶, 10: �뀓�뒪�듃, 20: �씠誘몄�
-	private String content;           //蹂몃Ц
-	private String fir_writ_content;  //鍮꾧탳 吏덈Ц 泥ル쾲吏� �옉�꽦�궡�슜 
-	private String sec_writ_content;  //鍮꾧탳 吏덈Ц �몢踰덉㎏ �옉�꽦�궡�슜
-	private String fir_writ_img_path; //鍮꾧탳 吏덈Ц 泥ル쾲吏� �옉�꽦 �씠誘몄� 寃쎈줈
-	private String sec_writ_img_path; //鍮꾧탳 吏덈Ц �몢踰덉㎏ �옉�꽦 �씠誘몄� 寃쎈줈
-	private int    fir_vote_no;       //泥ル쾲吏� �닾�몴 �닔
-	private int    sec_vote_no;       //�몢踰덉㎏ �닾�몴 �닔
-	private String regpe_id;          //�옉�꽦�옄
-	private String modpe_id;          //�닔�젙�옄
-	private Date   reg_dts;           //�벑濡앹씪�떆
-	private Date   mod_dts;           //�닔�젙�씪�떆
-	private int    hits;              //議고쉶�닔
-	private int    sum_vote;          //珥� �닾�몴 �닔
-	private int    sum_comment;       //珥� �뙎湲� �닔
-	private double popularity;        //�씤湲곕룄
-	private int    fir_vote_perc;     //泥ル쾲吏� �닾�몴 鍮꾩쑉
-	private int    sec_vote_perc;     //�몢踰덉㎏ �닾�몴 鍮꾩쑉
-	private int    vote_diff;
-	private Integer vote;              // 위 컨텐츠 투표시 1, 아래 컨텐츠 투표 시 2, 투표값 없으면 null
-	private List<CommentDto> detailCommentList; //�뙎湲�由ъ뒪�듃
+	private int    writing_no;        //게시글번호
+	private String ques_type_div_cd;  //글타입
+	private String content;           //본문 내용
+	private String fir_writ_content;  //첫번째 투표 내용 
+	private String sec_writ_content;  //두번째 투표 내용
+	private String fir_writ_img_path; //첫번째 이미지 경로
+	private String sec_writ_img_path; //두번째 이미지 경로
+	private String regpe_id;          //등록자
+	private String modpe_id;          //변경자
+	private String nickname;          //닉네임
+	private Date   reg_dts;           //등록일
+	private Date   mod_dts;           //변경일
+	private int    hits;              //조회수
+	private int    sum_vote;          //총 투표수
+	private int    sum_comment;       //총 댓글수
+	private double popularity;        //인기도
+	private int    fir_vote_perc;     //첫번째 투표 퍼센트
+	private int    sec_vote_perc;     //두번째 투표 퍼센트
+	private int    vote_diff;         //투표율 차이
+	private Integer vote;             // 위 컨텐츠 투표시 1, 아래 컨텐츠 투표 시 2, 투표값 없으면 null
+	private List<CommentDto> detailCommentList; //댓글 리스트
 
 	public int getWriting_no() {
 		return writing_no;
@@ -69,18 +68,6 @@ private int    writing_no;        //寃뚯떆湲�踰덊샇
 	}
 	public void setSec_writ_img_path(String sec_writ_img_path) {
 		this.sec_writ_img_path = sec_writ_img_path;
-	}
-	public int getFir_vote_no() {
-		return fir_vote_no;
-	}
-	public void setFir_vote_no(int fir_vote_no) {
-		this.fir_vote_no = fir_vote_no;
-	}
-	public int getSec_vote_no() {
-		return sec_vote_no;
-	}
-	public void setSec_vote_no(int sec_vote_no) {
-		this.sec_vote_no = sec_vote_no;
 	}
 	public String getRegpe_id() {
 		return regpe_id;
@@ -160,5 +147,11 @@ private int    writing_no;        //寃뚯떆湲�踰덊샇
 	}
 	public void setVote(Integer vote) {
 		this.vote = vote;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }

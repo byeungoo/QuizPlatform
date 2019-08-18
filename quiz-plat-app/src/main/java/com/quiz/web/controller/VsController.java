@@ -57,11 +57,13 @@ public class VsController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
  
+    	/*
     	PagingDto pagingDto = new PagingDto();
     	pagingDto.setPage_num(1);
     	pagingDto.setMainCategory(0);
     	List<WritingDtlDto> writingPopulDtoList = writingDtlService.getTextWritingList(pagingDto);
     	model.addAttribute("writingPopulDtoList", writingPopulDtoList);
+    	*/
     	
         return "home";
     }
@@ -143,6 +145,7 @@ public class VsController {
     /*
      ** 상세페이지 이동, 클릭한 글과 인기 컨텐츠 데이터 전송
      */
+    /*
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(HttpServletRequest request, Model model) throws Exception{
     	
@@ -197,7 +200,37 @@ public class VsController {
     	
         return "detail";
     }
-
+    */
+    /*
+     ** 상세페이지 이동, 클릭한 글과 인기 컨텐츠 데이터 전송
+     */
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(HttpServletRequest request, Model model) throws Exception{
+    	
+    	model.addAttribute("writing_no", request.getParameter("writing_no"));
+    
+        return "detail";
+    }
+    
+    /*
+     ** 상세 페이지 게시글 조회 비동기 처리 
+     */
+    @Transactional
+    @CrossOrigin
+    @RequestMapping(value = "getWritingDtlDto", method = RequestMethod.GET)
+    public @ResponseBody WritingDtlDto getWritingDtlDto(HttpSession session, HttpServletRequest request
+    		                  , @RequestParam(value="writingNo") int writing_no) throws Exception{
+    	
+    	session    = request.getSession();
+    	  
+        //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
+	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+	    
+	    writingDtlDto.setDetailCommentList(commentService.getCommentDtoList(writing_no));
+    
+    	return writingDtlDto;
+    }    
+    
     /*
      ** 상세 페이지 비동기 처리 페이징 조회
      */

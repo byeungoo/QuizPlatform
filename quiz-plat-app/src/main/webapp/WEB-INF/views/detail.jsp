@@ -42,83 +42,9 @@
         <div class="header_right"></div>
       </header>
 
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <c:forEach items="${detailDto.detailWritingList}" var="detailWriting">
-          <div class="swiper-slide" id=slide${detailWriting.writing_no}>
-            <section class="detail">
-              <button type="button" class="detail__119">
-              </button>
-              <div class="card__info-wrap">
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/vote_count.png" width="16px" height="16px" alt="투표수아이콘">
-                  <span class="card__icon-desc font_blue">${detailWriting.sum_vote}</span>
-                </div>
-                <div class="card__info-area">
-                  <img class="card__icon" src="resources/img/comment.png" width="16px" height="16px" alt="댓글수아이콘">
-                  <span class="card__icon-desc font_yellow">${detailWriting.sum_comment}</span>
-                </div>
-              </div>
-              <div class="detail_top card_wrap mt-2">
-                <div class="card card--single">
-                  <label for="before">
-                    <p class="card__descwrap">
-                      <span class="card__desc">
-                        ${detailWriting.fir_writ_content}
-                      </span>
-                    </p>
-                    <span class="card_subdesc">
-                      나를 포함한 141명의 선택
-                    </span>
-                    <span class="card__prtg">${detailWriting.fir_vote_perc}%</span>
-                  </label>
-                </div>
-                <span class="detail_vs"></span>
-                <div class="card card--single mt-1">
-                  <label for="after">
-                    <p class="card__descwrap">
-                      <span class="card__desc">
-                        ${detailWriting.sec_writ_content}
-                      </span>
-                    </p>
-                    <span class="card_subdesc later">
-                      나를 제외한 243명의 선택
-                    </span>
-                    <span class="card__prtg later">${detailWriting.sec_vote_perc}%</span>
-                  </label>
-                </div>
-              </div>
-              <div class="detail_bottom">
-                <button class="detail_btn">본문 펼치기</button>
-                <div class="detail_txtareawrap">
-                  <div class="detail_txtarea">
-                    ${detailWriting.content}
-                  </div>
-                </div>
-                <div class="detail_replyarea">
-                  <ul class="detail_replylist">
-                    <c:forEach items="${detailDto.detailCommentList}" var="entry" varStatus="status">
-                      <c:if test="${entry.key eq detailWriting.writing_no}">
-                        <li class="detail_replyitem">
-						  <c:forEach items="${entry.value}" var="item" varStatus="status">
-						    <span class="detail_replytit">${item.nickname}</span>
-                            <span class="detail_replycont">
-                              ${item.comment_content}
-                            </span>
-						  </c:forEach>
-                        </li>
-                      </c:if>
-                    </c:forEach>
-                  </ul>
-                </div>
-              </div>
-            </section>
-          </div>
-          </c:forEach>
-        </div>
-      </div>
     </div>
   </div>
+
   <div class="reply_inputwrap">
     <input type="text" class="reply_input" placeholder="댓글을 입력하세요">
     <button type="button" class="reply_submit">제출</button>
