@@ -28,8 +28,8 @@ public class WritingDtlDao {
         return sqlSession.selectList(Namespace+".getTextWritingList", pagingDto);
     }
     
-    public WritingDtlDto getTextWriting(int writing_no) throws Exception{
-        return sqlSession.selectOne(Namespace+".getTextWriting", writing_no);
+    public WritingDtlDto getTextWriting(ParamDto paramDto) throws Exception{
+        return sqlSession.selectOne(Namespace+".getTextWriting", paramDto);
     }
     
     public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{

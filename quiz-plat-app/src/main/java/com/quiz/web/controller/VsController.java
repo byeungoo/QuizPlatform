@@ -56,14 +56,6 @@ public class VsController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(Model model) throws Exception{
- 
-    	/*
-    	PagingDto pagingDto = new PagingDto();
-    	pagingDto.setPage_num(1);
-    	pagingDto.setMainCategory(0);
-    	List<WritingDtlDto> writingPopulDtoList = writingDtlService.getTextWritingList(pagingDto);
-    	model.addAttribute("writingPopulDtoList", writingPopulDtoList);
-    	*/
     	
         return "home";
     }
@@ -119,7 +111,7 @@ public class VsController {
     	writingDtlDto.setRegpe_id(session.toString());
     	writingDtlDto.setModpe_id(session.toString());
     	
-    	//비회원 여부 체크
+    	//비회원 여부 체크  -> 20체크 로직 추가
     	if(userService.chekUserId(session.toString()) == 0) {
     		UserDto userDto = new UserDto();
         	userDto.setUser_id(session.toString());
@@ -149,7 +141,7 @@ public class VsController {
     public String detail(HttpServletRequest request, Model model) throws Exception{
     	
     	model.addAttribute("writing_no", request.getParameter("writing_no"));
-    
+
         return "detail";
     }
     
@@ -164,12 +156,16 @@ public class VsController {
     	
     	session    = request.getSession();
     	
+    	//유저정보 획득
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	
     	ParamDto paramDto = new ParamDto();
     	paramDto.setWriting_no(writing_no);
     	paramDto.setDepth(0);  //댓글조회를 위해 0으로 세팅
+    	paramDto.setUser_id(userDto.getUser_id());
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
-	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(writing_no);
+	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(paramDto);
 	    List<CommentDto> commendDtoList = commentService.getCommentDtoList(paramDto);  
 	    
 	    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
@@ -177,6 +173,7 @@ public class VsController {
 	    for(CommentDto tempCommentDto : commendDtoList) {
 	    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
 	    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto));
+	    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size());  //대댓글 개수 세팅
 	    }
 	    
 	    writingDtlDto.setDetailCommentList(commendDtoList);
@@ -225,6 +222,7 @@ public class VsController {
 		    for(CommentDto tempCommentDto : commentListDto) {
 		    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
 		    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto));
+		    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size()); //대댓글 개수 세팅
 		    }
 	    }	
 
@@ -279,7 +277,7 @@ public class VsController {
     	    	
     	UserDto userDto = userService.getUesrSettingDto(session, request);
     	
-    	if(userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
+    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
         	userDto.setNickname(userService.getNickname());
         	userService.insertUser(userDto);
         	userService.updateNickname(userDto.getNickname());
@@ -296,16 +294,15 @@ public class VsController {
     	commentDto.setNickname(userDto.getNickname());
     	commentDto.setDepth(depth);
     	commentDto.setParent(parent);
-    	commentService.insertComment(commentDto);
-    	
-    	//대댓글 조회 파라미터 설정
+    	commentService.insertComment(commentDto);  //INSERT 후 COMMENT_NO 자동세팅
+    
+    	//댓글, 대댓글 조회 파라미터 설정
     	ParamDto paramDto = new ParamDto();
     	paramDto.setWriting_no(writing_no);
-    	paramDto.setDepth(depth);
-    	paramDto.setParent(parent);
+    	paramDto.setComment_no(commentDto.getComment_no());
     	
-    	commentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto)); //대댓글 세팅
-
+    	commentDto = commentService.getCommentDto(paramDto);
+    	
     	return commentDto;
     }    
 }

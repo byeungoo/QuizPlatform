@@ -7,6 +7,7 @@ public class ParamDto {
 	private Integer vote;        //1: 첫번쨰 컨텐츠 투표, 2: 두번째 컨텐츠 투표
 	private int     depth;       //0: 댓글, 1: 대댓글
 	private Integer parent;      //대댓글 상위 댓글번호
+	private int     comment_no;  //댓글번호
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -37,6 +38,12 @@ public class ParamDto {
 	}
 	public void setParent(Integer parent) {
 		this.parent = parent;
+	}
+	public int getComment_no() {
+		return comment_no;
+	}
+	public void setComment_no(int comment_no) {
+		this.comment_no = comment_no;
 	}
 	
 }

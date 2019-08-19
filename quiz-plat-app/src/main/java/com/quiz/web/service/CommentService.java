@@ -27,5 +27,9 @@ public class CommentService {
 	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto) throws Exception{
 		return commentDao.getLowCommentDtoList(paramDto);
 	}
+	
+	public CommentDto getCommentDto(ParamDto paramDto) throws Exception{
+		return commentDao.getCommentDto(paramDto);
+	}
 
 }

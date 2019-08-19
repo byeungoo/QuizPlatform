@@ -60,9 +60,9 @@ public class WritingDtlService {
     /*
      ** 占쌉시깍옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙회
      */
-    public WritingDtlDto getWritingDtl(int writing_no) throws Exception{
+    public WritingDtlDto getWritingDtl(ParamDto paramDto) throws Exception{
     	
-    	WritingDtlDto writingDtlDto = writingDtlDao.getTextWriting(writing_no);
+    	WritingDtlDto writingDtlDto = writingDtlDao.getTextWriting(paramDto);
     	
     	return writingDtlDto;
     }

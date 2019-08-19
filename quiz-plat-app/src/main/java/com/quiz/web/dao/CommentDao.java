@@ -37,4 +37,11 @@ public class CommentDao {
 	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto) throws Exception{
 		return sqlSession.selectList(Namespace+".getLowCommentDtoList", paramDto);
 	}
+	
+	/*
+	 ** 댓글 조회 
+	 */
+	public CommentDto getCommentDto(ParamDto paramDto) throws Exception{
+		return sqlSession.selectOne(Namespace+".getCommentDto", paramDto);
+	}
 }

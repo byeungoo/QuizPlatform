@@ -15,9 +15,17 @@ public class CommentDto {
 	private Date   mod_dts;            //변경일
 	private String nickname;           //닉네임
 	private int    depth;              //0: 댓글, 1:대댓글
-	private Integer parent;           //대댓글 상위 댓글 번호
+	private Integer parent;            //대댓글 상위 댓글 번호
+	private Integer vote;              //1:첫번째 투표, 2: 두번째 투표
 	private List<LowCommentDto> lowCommentDtoList; //대댓글 리스트
+	private int    low_comment_num;    //대댓글 개수
 	
+	public Integer getVote() {
+		return vote;
+	}
+	public void setVote(Integer vote) {
+		this.vote = vote;
+	}
 	public int getWriting_no() {
 		return writing_no;
 	}
@@ -89,5 +97,11 @@ public class CommentDto {
 	}
 	public void setParent(Integer parent) {
 		this.parent = parent;
+	}
+	public int getLow_comment_num() {
+		return low_comment_num;
+	}
+	public void setLow_comment_num(int low_comment_num) {
+		this.low_comment_num = low_comment_num;
 	}
 }
