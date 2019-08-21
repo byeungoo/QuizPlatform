@@ -164,6 +164,12 @@ $(function() {
   //멘션
   $("body").on("click", ".detail_replytit", function(e) {
     var mention = makeMention($(e.target).text());
+    var comment_no = getNumberInStr(
+      $(e.target)
+        .closest(".detail_replyitem")
+        .attr("id")
+    );
+    mention.find('input[type="hidden"]').val(comment_no);
     var inputArea = $(".reply_inputctn");
     !inputArea.children(".reply_mention").length && inputArea.prepend(mention);
   });
@@ -186,26 +192,6 @@ function copyToClipboard(url) {
   $temp.remove();
 }
 
-//토스트
-function makeToast(str) {
-  return `<div class="toast scene_element">${str}</div>`;
-}
-
-function showToast(str) {
-  if ($(".toast").length) return false;
-  var toast = $(makeToast(str));
-  $(".wrapper").append(toast);
-  toast.addClass("scene_element--fadein");
-  toast.removeClass("scene_element--fadeout");
-  setTimeout(() => {
-    toast.removeClass("scene_element--fadein");
-    toast.addClass("scene_element--fadeout");
-    setTimeout(() => {
-      toast.remove();
-    }, 500);
-  }, 2000);
-}
-
 var toggleInputBdr = function(target) {
   var len = target
     .find("input, textarea")
@@ -225,6 +211,7 @@ function toggleTab(e) {
 function makeMention(str) {
   return $(`
   <div class="reply_mention">${str}
+    <input type="hidden" value=""></input>
     <button class="sp00 close" onclick="$(this).parent().remove()"></button>
   </div>
   `);
@@ -232,6 +219,7 @@ function makeMention(str) {
 
 var ID_TMPL_SLIDE = "#slideTmpl";
 var ID_TMPL_REPLY = "#replyTmpl";
+var ID_TMPL_SUBREPLY = "#subReplyTmpl";
 
 var URL_BASE = "http://pickvs.com";
 var URL_CREATE_COMMENT = URL_BASE + "/writeComment";
@@ -257,8 +245,8 @@ ssj.util.ajax.prototype = {
     this.method = "GET";
     this.paging = new Map(); // 비동기 요청 종류에 따라 페이지 위치 기억
   },
-  sendRequest(url, data, tmplId, pageName, method) {
-    this.setMetaData(url, data, tmplId, pageName, method);
+  sendRequest(url, data, tmplId, method, pageName) {
+    this.setMetaData(url, data, tmplId, method, pageName);
     var oSelf = this;
     return new Promise(function(resolve, reject) {
       $.ajax({
@@ -287,7 +275,7 @@ ssj.util.ajax.prototype = {
   isPageEmpty(pageName) {
     return !this.paging.get(pageName);
   },
-  setMetaData(url, data, tmplId, pageName, method) {
+  setMetaData(url, data, tmplId, method, pageName) {
     this.setUrl(url);
     this.setMethod(method);
     this.setData(data);
@@ -373,10 +361,55 @@ ssj.util.swiper.prototype = {
   }
 };
 
+ssj.util.toast = function(options) {
+  $.extend(this, options);
+  this.init();
+};
+
+ssj.util.toast.prototype = {
+  init() {
+    this.assignElements();
+  },
+  assignElements() {
+    this.toast = $(`<div class="toast scene_element"></div>`);
+  },
+  show(message, duration) {
+    this.toast.text(message);
+    this.duration = duration;
+    $(".m-scene").append(this.toast);
+    this.activateFadeEffect();
+  },
+  hide() {
+    this.toast.detach();
+  },
+  activateFadeEffect() {
+    oSelf = this;
+    oSelf.toast.addClass("scene_element--fadein");
+    oSelf.toast.removeClass("scene_element--fadeout");
+    setTimeout(() => {
+      oSelf.toast.removeClass("scene_element--fadein");
+      oSelf.toast.addClass("scene_element--fadeout");
+      setTimeout(() => {
+        oSelf.hide();
+      }, 500);
+    }, oSelf.duration);
+  }
+};
+
+function showToast(str) {
+  if ($(".toast").length) return false;
+  var toast = $(makeToast(str));
+  $(".wrapper").append(toast);
+}
+
 function getNumberInStr(str) {
   return str.replace(/[^0-9]/g, "");
 }
 
 function scrollToBottom(target) {
   $(target).animate({ scrollTop: $(document).height() }, 0);
+}
+
+function scrollToTarget(target) {
+  $(target).animate({ scrollTop: $(target).offset().top }, 0);
 }
