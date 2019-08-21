@@ -140,21 +140,21 @@
           {{if vote}}
             {{if vote==1}}
               <span class="detail_replyinfos up">
-                <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+                <span class="detail_replyuptx">추천 <span class="count">{{:recom_num}}</span></span>
                 <button type="button" class="sp00 up on"></button>
                 <button type="button" class="sp00 down"></button>
               </span>
             {{/if}}
             {{if vote==2}}
               <span class="detail_replyinfos down">
-                <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+                <span class="detail_replyuptx">추천 <span class="count">{{:recom_num}}</span></span>
                 <button type="button" class="sp00 up"></button>
                 <button type="button" class="sp00 down on"></button>
               </span>
             {{/if}}
             {{else}}
             <span class="detail_replyinfos">
-              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_num}}</span></span>
               <button type="button" class="sp00 up"></button>
               <button type="button" class="sp00 down"></button>
             </span>
@@ -187,21 +187,21 @@
         {{if vote}}
           {{if vote==1}}
             <span class="detail_replyinfos up">
-              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_num}}</span></span>
               <button type="button" class="sp00 up on"></button>
               <button type="button" class="sp00 down"></button>
             </span>
           {{/if}}
           {{if vote==2}}
             <span class="detail_replyinfos down">
-              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_num}}</span></span>
               <button type="button" class="sp00 up"></button>
               <button type="button" class="sp00 down on"></button>
             </span>
           {{/if}}
           {{else}}
             <span class="detail_replyinfos">
-              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_num}}</span></span>
               <button type="button" class="sp00 up"></button>
               <button type="button" class="sp00 down"></button>
             </span>
