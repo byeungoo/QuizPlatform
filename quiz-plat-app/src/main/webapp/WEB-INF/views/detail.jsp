@@ -49,7 +49,7 @@
     <div class="reply_inputctn">
       <input type="text" class="reply_input"
         onkeyup="$(this).val().length? $(this).siblings('.pencil').addClass('on') : $(this).siblings('.pencil').removeClass('on');">
-      <button type="button" class="sp24 pencil"></button>
+      <button type="button" class="sp24 pencil reply_submit"></button>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
@@ -78,6 +78,7 @@
         </div>
       </div>
       <div class="detail_top card_wrap mt-2">
+        <input type="hidden" value="{{:vote}}" class="whereYouVote"></input>
         <div class="card card--single">
           <label for="before">
             <p class="card__descwrap">
@@ -86,10 +87,10 @@
               </span>
             </p>
             <p class="card_subdesc">
-              <span class="prtg">{{:fir_vote_perc}}%</span>, 나를 제외한 <span class="count">{{:fir_vote_no}}</span>명의 선택
+              <span class="prtg percentage">{{:fir_vote_perc}}</span>%, 나를 제외한 <span class="count">{{:fir_vote_no}}</span>명의 선택
             </p>
             <div class="card__prtg">
-              <span class="card__prtgmain">{{:fir_vote_perc}}</span>
+              <span class="card__prtgmain percentage">{{:fir_vote_perc}}</span>
               <span class="card__prtgsub"><span class="count">{{:fir_vote_no}}</span>명의선택</span>
             </div>
           </label>
@@ -103,10 +104,10 @@
               </span>
             </p>
             <p class="card_subdesc">
-              <span class="prtg">{{:sec_vote_perc}}%</span>, 나를 제외한 <span class="count">{{:sec_vote_no}}</span>명의 선택
+              <span class="prtg percentage">{{:sec_vote_perc}}</span>%, 나를 제외한 <span class="count">{{:sec_vote_no}}</span>명의 선택
             </p>
             <div class="card__prtg">
-              <span class="card__prtgmain">{{:sec_vote_perc}}</span>
+              <span class="card__prtgmain percentage">{{:sec_vote_perc}}</span>
               <span class="card__prtgsub"><span class="count">{{:sec_vote_no}}</span>명의선택</span>
             </div>
           </label>
@@ -166,37 +167,7 @@
       <div class="detail_reply_subarea acdo accordion" data-accordion>
         <ul class="detail_reply_subitems acdo_cont" data-content>
           {{for lowCommentDtoList }}
-            <li class="detail_reply_subitem" id="lowComment{{:comment_no}}">
-              <button type="button" class="detail_replytit">{{:nickname}}</button>
-              <span class="detail_reply_subtitarea">
-                <span class="detail_replytime">2019.11.27 17:01:45</span>
-                {{if vote}}
-                  {{if vote==1}}
-                    <span class="detail_replyinfos up">
-                      <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
-                      <button type="button" class="sp00 up on"></button>
-                      <button type="button" class="sp00 down"></button>
-                    </span>
-                  {{/if}}
-                  {{if vote==2}}
-                    <span class="detail_replyinfos down">
-                      <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
-                      <button type="button" class="sp00 up"></button>
-                      <button type="button" class="sp00 down on"></button>
-                    </span>
-                  {{/if}}
-                  {{else}}
-                    <span class="detail_replyinfos">
-                      <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
-                      <button type="button" class="sp00 up"></button>
-                      <button type="button" class="sp00 down"></button>
-                    </span>
-                {{/if}}
-              </span>
-              <span class="detail_replycont">
-                {{:comment_content}}
-              </span>
-            </li>
+            {{include tmpl="#subReplyTmpl"/}}
           {{/for}}
         </ul>
         <div class="detail_reply_morewrap acdo_open" data-control>
@@ -208,16 +179,50 @@
       </div>
     </li>
   </script>
+  <script id="subReplyTmpl" type="text/x-jsrender">
+    <li class="detail_reply_subitem" id="lowComment{{:comment_no}}">
+      <button type="button" class="detail_replytit">{{:nickname}}</button>
+      <span class="detail_reply_subtitarea">
+        <span class="detail_replytime">2019.11.27 17:01:45</span>
+        {{if vote}}
+          {{if vote==1}}
+            <span class="detail_replyinfos up">
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <button type="button" class="sp00 up on"></button>
+              <button type="button" class="sp00 down"></button>
+            </span>
+          {{/if}}
+          {{if vote==2}}
+            <span class="detail_replyinfos down">
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <button type="button" class="sp00 up"></button>
+              <button type="button" class="sp00 down on"></button>
+            </span>
+          {{/if}}
+          {{else}}
+            <span class="detail_replyinfos">
+              <span class="detail_replyuptx">추천 <span class="count">{{:recom_no}}</span></span>
+              <button type="button" class="sp00 up"></button>
+              <button type="button" class="sp00 down"></button>
+            </span>
+        {{/if}}
+      </span>
+      <span class="detail_replycont">
+        {{:comment_content}}
+      </span>
+    </li>
+  </script>
   <script type="text/javascript">
 
     //한 페이지 내에서 카드 정보 업데이트
     var updateCardsData = function (cards, json) {
       cards.map(function (index, item) {
-        var prtg = $(item).find('.card__prtgmain');
+        var prtg = $(item).find('.percentage');
         var count = $(item).find('.count');
         prtg.text(json.votePerc[index]);
         count.text(json.voteNoArr[index]);
       });
+      console.log(json);
       cards.closest('.swiper-slide').find('.vote').next('.card__icon-desc').text(json.totalVoteNum);
     }
 
@@ -260,8 +265,11 @@
     });
 
     $(function () {
+      var mainWritingNo = getNumberInStr(window.location.search);
       var oAjax = new ssj.util.ajax();
       var oSpinner = new ssj.util.spinner();
+      var oToast = new ssj.util.toast();
+
       oSpinner.setTarget($('.swiper-container'));
       oSpinner.show(); //페이지 처음 진입시 스피너
       //무한 스와이프
@@ -281,7 +289,7 @@
                 oSwiper.appendItem(items);
               });
             }
-            activateAccordionInSlide(oSwiper.getActiveSlide());
+            activateAccordion(oSwiper.getActiveSlide());
           }
         }
       });
@@ -290,73 +298,101 @@
         makeFirstItem()
           .then((item) => {
             oSwiper.appendItem(item);
-            activateAccordionInSlide(oSwiper.getActiveSlide());
+            activateAccordion(oSwiper.getActiveSlide());
+            alreadyVoted();
             return makeSlideItems();
           })
           .then((item) => {
             oSwiper.appendItem(item);
+            alreadyVoted();
           });
       }
 
 
       function makeFirstItem() {
-        var mainWritingNo = getNumberInStr(window.location.search);
         var requestData = { writingNo: mainWritingNo }
-        return oAjax.sendRequest(URL_READ_FIRST_SLIDE_DATA, requestData, ID_TMPL_SLIDE);
+        return oAjax.sendRequest(URL_READ_FIRST_SLIDE_DATA, requestData, ID_TMPL_SLIDE, 'GET');
       }
 
       function makeSlideItems() {
-        var writing_no = getNumberInStr(window.location.search);
         var page = oAjax.getCurrentPageNum(PAGE_NAME_SWIPE);
-        var requestData = { page, writing_no };
-        return oAjax.sendRequest(URL_READ_SLIDE_DATA, requestData, ID_TMPL_SLIDE, PAGE_NAME_SWIPE);
+        var requestData = { page, writing_no: mainWritingNo };
+        return oAjax.sendRequest(URL_READ_SLIDE_DATA, requestData, ID_TMPL_SLIDE, 'GET', PAGE_NAME_SWIPE);
       }
 
-      //현재 슬라이드 내 대댓글 펼침 기능 활성화
-      function activateAccordionInSlide(slide) {
-        $(slide).find('.accordion').accordion({
-          "transitionSpeed": 700,
-          "transitionEasing": "cubic-bezier(0.23, 1, 0.32, 1)"
-        });
+      function alreadyVoted() {
+        var slide = oSwiper.getActiveSlide();
+        var vote = parseInt($(slide).find('.whereYouVote').val(), 10) - 1;
+        var cards = $(slide).find('.card');
+        if (vote >= 0) cards.get(vote).click();
       }
 
-    });
 
-
-    /* 본문 펼치기 */
-    $('.swiper-wrapper').on('click', '.detail_btn', function (e) {
-      $(this).siblings('.detail_txtareawrap').toggle();
-    })
-
-    /* 댓글 비동기 입력*/
-    $('.reply_submit').on('click', function (e) {
-      var input = $(this).siblings('.reply_input');
-      var target = $('.detail_replylist');
-      var replytx = input.val();
-      loadData()
-      $.ajax({
-        url: URL_CREATE_COMMENT,
-        data: replytx,
-        success: function (data) {
-          var tmpl = $.templates('#replyTmpl');
-          var html = tmpl.render(data);
-          target.append(html);
-        },
-        error: function (data) {
-          console.log(data);
+      /* 댓글 비동기 입력*/
+      $('body').on('click', '.reply_submit', function (e) {
+        var replytx = $(e.currentTarget).siblings('.reply_input').val();
+        if (!replytx.length) {
+          oToast.show('댓글을 입력해주세요', 2000);
+          return false;
         }
+        var mention = $(e.currentTarget).siblings('.reply_mention');
+        var depth = mention.length;
+        var parent = mention.find('input[type="hidden"]').val();
+        var requestData = { writingNo: mainWritingNo, replytx, depth, parent };
+        var slide = $(oSwiper.getActiveSlide());
+        var comment = slide.find(`#comment${parent}`);
+        var lowCommentWrap = comment.find('.detail_reply_subitems');
+        var target = !depth ? comment.parent() : lowCommentWrap;
+        var moreBtn = comment.find('.detail_reply_more');
+        var accordion = comment.find('.accordion');
+        var replyCnt = moreBtn.find('.detail_reply_count');
+        oAjax.sendRequest(URL_CREATE_COMMENT, requestData, ID_TMPL_SUBREPLY, 'POST')
+          .then((html) => {
+            target.append(html);
+            replyCnt.text(parseInt(replyCnt.text(), 10) + 1);
+            activateAccordion(comment);
+            if (!accordion.hasClass('open')) {
+              moreBtn.trigger('click');
+            } else {
+              accordion.on('accordion.refresh', function (e) {
+                debugger;
+                $(this).find('.acdo_cont').css('max-height', $(this).height() + 64);
+              })
+              accordion.trigger('accordion.refresh');
+            }
+
+            scrollToTarget(lowCommentWrap);
+
+          });
+      });
+
+
+
+
+      /* 본문 펼치기 */
+      $('.swiper-wrapper').on('click', '.detail_btn', function (e) {
+        $(this).siblings('.detail_txtareawrap').toggle();
       })
 
-      scrollToBottom($('.swiper-container'));
-      input.val('');
+
+      // scrollToBottom($('.swiper-container'));
+      // input.val('');
     })
 
-    //댓글 펼치기 : UI변경
+    //대댓글 펼치기 : 버튼 UI 변경
     $('body').on('click', 'button.detail_reply_more', function (e) {
       if ($(e.currentTarget).children('.detail_reply_count').text() == 0) { return false; }
       $(e.currentTarget).toggleClass('on');
       $(e.currentTarget).children('.comment').toggleClass('yellow');
     });
+
+    //대댓글 펼침 기능 활성화
+    function activateAccordion(target) {
+      $(target).find('.accordion').accordion({
+        "transitionSpeed": 700,
+        "transitionEasing": "cubic-bezier(0.23, 1, 0.32, 1)"
+      });
+    }
 
     //업버튼, 다운버튼 UI변경
     $('body').on('click', '.detail_replyinfos', function (e) {
