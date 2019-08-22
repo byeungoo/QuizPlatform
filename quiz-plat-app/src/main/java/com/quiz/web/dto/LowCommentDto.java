@@ -1,14 +1,13 @@
 package com.quiz.web.dto;
 
 import java.util.Date;
-import java.util.List;
 
-public class CommentDto {
-	
+public class LowCommentDto {
+
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
-	private int    recom_num;          //추천수
+	private int    recom_no;           //추천수
 	private String regpe_id;           //등록자
 	private String modpe_id;           //변경자
 	private Date   reg_dts;            //등록일
@@ -16,9 +15,7 @@ public class CommentDto {
 	private String nickname;           //닉네임
 	private int    depth;              //0: 댓글, 1:대댓글
 	private Integer parent;            //대댓글 상위 댓글 번호
-	private Integer vote;              //1:첫번째 투표, 2: 두번째 투표
-	private List<LowCommentDto> lowCommentDtoList; //대댓글 리스트
-	private int    low_comment_num;    //대댓글 개수
+	private	Integer vote;              //1:첫번째 투표, 2:두번째투표
 	
 	public Integer getVote() {
 		return vote;
@@ -43,6 +40,12 @@ public class CommentDto {
 	}
 	public void setComment_content(String comment_content) {
 		this.comment_content = comment_content;
+	}
+	public int getRecom_no() {
+		return recom_no;
+	}
+	public void setRecom_no(int recom_no) {
+		this.recom_no = recom_no;
 	}
 	public String getRegpe_id() {
 		return regpe_id;
@@ -80,28 +83,10 @@ public class CommentDto {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-	public List<LowCommentDto> getLowCommentDtoList() {
-		return lowCommentDtoList;
-	}
-	public void setLowCommentDtoList(List<LowCommentDto> lowCommentDtoList) {
-		this.lowCommentDtoList = lowCommentDtoList;
-	}
 	public Integer getParent() {
 		return parent;
 	}
 	public void setParent(Integer parent) {
 		this.parent = parent;
-	}
-	public int getLow_comment_num() {
-		return low_comment_num;
-	}
-	public void setLow_comment_num(int low_comment_num) {
-		this.low_comment_num = low_comment_num;
-	}
-	public int getRecom_num() {
-		return recom_num;
-	}
-	public void setRecom_num(int recom_num) {
-		this.recom_num = recom_num;
 	}
 }

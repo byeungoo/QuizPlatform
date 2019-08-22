@@ -7,8 +7,8 @@
 
  	<insert id="insertComment" parameterType="commentDto">
  		/* com.quiz.mapper.commentMapper.insertComment */
-		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NO, REGPE_ID, MOD_DTS) 
-		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_no}, #{regpe_id}, now())
+		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NUM, REGPE_ID, MOD_DTS) 
+		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_num}, #{regpe_id}, NOW())
 		<selectKey keyProperty="comment_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>
@@ -24,7 +24,7 @@
               		  , C.PARENT
               		  , C.COMMENT_CONTENT
               		  , C.DEPTH
-			  		  , C.RECOM_NO
+			  		  , C.RECOM_NUM
 	          		  , C.REGPE_ID
 	          	      , C.REG_DTS
 	          		  , C.MOD_DTS
@@ -49,7 +49,7 @@
                           , C.PARENT
               			  , C.COMMENT_CONTENT
               			  , C.DEPTH
-			  			  , C.RECOM_NO
+			  			  , C.RECOM_NUM
 	          			  , C.REGPE_ID
 	          			  , C.REG_DTS
 	          			  , C.MOD_DTS
@@ -75,7 +75,7 @@
               		  , C.PARENT
               		  , C.COMMENT_CONTENT
               		  , C.DEPTH
-			  		  , C.RECOM_NO
+			  		  , C.RECOM_NUM
 	          		  , C.REGPE_ID
 	          	      , C.REG_DTS
 	          		  , C.MOD_DTS
@@ -90,5 +90,41 @@
         	 ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
        WHERE 1    = 1
     </select>
+    
+ 	<update id="updateCommentPrefer" parameterType="commentPrefer">
+ 		/* com.quiz.mapper.commentMapper.updateCommentPrefer */
+    	UPDATE  COMMENT
+    	SET     RECOM_NUM   = RECOM_NUM + #{like}
+    	      , HATE_NUM	= HATE_NUM + #{hate}
+    	      , MOD_DTS     = now()   
+    	WHERE   WRITING_NO  = #{writing_no}
+    	AND		COMMENT_NO  = #{comment_no}
+    </update>
+    
+    <insert id="insertCommentPrefer" parameterType="commentPrefer">
+    	/* com.quiz.mapper.commentMapper.insertCommentPrefer */
+    	INSERT INTO COMMENT_PREFER(WRITING_NO, COMMENT_NO, USER_ID, PREFER, REGPE_ID, REG_DTS, MOD_DTS) 
+    	VALUES(#{writing_no}, #{comment_no}, #{user_id}, #{prefer}, #{user_id}, NOW(), NOW()) 
+    </insert>
+    
+    
+    <select id="getCommentPrefer" parameterType="commentPrefer" resultType="commentPrefer">
+        /* com.quiz.mapper.commentMapper.getCommentPrefer */
+        SELECT  CP.WRITING_NO
+      		  , CP.COMMENT_NO
+      		  , CP.USER_ID
+      		  , CP.PREFER
+      		  , C.RECOM_NUM
+      		  , C.HATE_NUM
+      		  , CP.REG_DTS
+      		  , CP.MOD_DTS
+		FROM	COMMENT_PREFER CP
+		      , COMMENT C
+		WHERE	1 = 1
+		AND	CP.WRITING_NO = #{writing_no}
+		AND	CP.COMMENT_NO = #{comment_no}
+		AND	CP.USER_ID    = #{user_id}
+		AND	C.COMMENT_NO  = CP.COMMENT_NO 
+    </select>    
     
 </mapper>

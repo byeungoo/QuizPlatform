@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.quiz.web.dto.CommentDto;
+import com.quiz.web.dto.CommentPrefer;
 import com.quiz.web.dto.DetailDto;
 import com.quiz.web.dto.ParamDto;
 import com.quiz.web.dto.UserDto;
@@ -55,7 +56,7 @@ public class VsController {
      * 인기순 조회(메인)
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main(Model model) throws Exception{
+    public String main(HttpSession session, HttpServletRequest request) throws Exception{
     	
         return "home";
     }
@@ -232,35 +233,39 @@ public class VsController {
     /*
      ** 상세페이지 투표 비동기 처리
      */
-    @Transactional
+    @Transactional	
     @CrossOrigin
     @RequestMapping(value = "vote", method = RequestMethod.POST)
     public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="voteNum") int voteNum , @RequestParam(value="writingNo") int writingNo) throws Exception{
 
     	session = request.getSession();
-    	    	
-    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	WritingVoteDto writingVoteDto = new WritingVoteDto();
     	
-    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록 및 닉네임 사용여부 Y변경
-        	userDto.setNickname(userService.getNickname());
-        	userService.insertUser(userDto);
-        	userService.updateNickname(userDto.getNickname());
+    	try {
+	    	UserDto userDto = userService.getUesrSettingDto(session, request);
+	    	
+	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록 및 닉네임 사용여부 Y변경
+	        	userDto.setNickname(userService.getNickname());
+	        	userService.insertUser(userDto);
+	        	userService.updateNickname(userDto.getNickname());
+	    	}
+	    	
+	    	ParamDto paramDto = new ParamDto();
+	    	paramDto.setWriting_no(writingNo);
+	    	paramDto.setVote(voteNum);
+	    	paramDto.setUser_id(userDto.getUser_id());
+	    	    	
+	    	//작성글 투표수 증가 
+	    	writingDtlService.updateVote(paramDto); 	
+	    	
+	    	//게시글 투표 정보 추가
+	    	writingVoteService.insertWritingVoteDto(paramDto);
+	    	
+	    	//투표 정보 조회 및 반환
+	    	writingVoteDto = writingVoteService.getWritingVoteDto(paramDto);
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
     	}
-    	
-    	ParamDto paramDto = new ParamDto();
-    	paramDto.setWriting_no(writingNo);
-    	paramDto.setVote(voteNum);
-    	paramDto.setUser_id(userDto.getUser_id());
-    	    	
-    	//작성글 투표수 증가 
-    	writingDtlService.updateVote(paramDto); 	
-    	
-    	//게시글 투표 정보 추가
-    	writingVoteService.insertWritingVoteDto(paramDto);
-    	
-    	//투표 정보 조회 및 반환
-    	WritingVoteDto writingVoteDto = writingVoteService.getWritingVoteDto(paramDto);
-    	
     	return writingVoteDto;
     } 
     
@@ -269,7 +274,7 @@ public class VsController {
      */
     @Transactional
     @CrossOrigin
-    @RequestMapping(value = "writeComment", method = RequestMethod.GET)
+    @RequestMapping(value = "writeComment", method = RequestMethod.POST)
     public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") int writing_no
     		                                     , @RequestParam(value="depth") int depth, @RequestParam(value="parent") Integer parent) throws Exception{
 
@@ -285,11 +290,11 @@ public class VsController {
     	
     	//댓글 저장 후 반환
     	String comment_content = replytx;
-    	int recom_no = 0;
+    	int recom_num = 0;
     	CommentDto commentDto = new CommentDto();
     	commentDto.setWriting_no(writing_no);
     	commentDto.setComment_content(comment_content);
-    	commentDto.setRecom_no(recom_no);
+    	commentDto.setRecom_num(recom_num);
     	commentDto.setRegpe_id(userDto.getUser_id());
     	commentDto.setNickname(userDto.getNickname());
     	commentDto.setDepth(depth);
@@ -305,4 +310,36 @@ public class VsController {
     	
     	return commentDto;
     }    
+    
+    /*
+     ** 댓글 좋아요, 싫어요 업데이트
+     */
+    @Transactional
+    @CrossOrigin
+    @RequestMapping(value = "commentPreferUpdate", method = RequestMethod.POST)
+    public @ResponseBody CommentPrefer commentPrefer(HttpSession session, HttpServletRequest request, @RequestParam(value="comment_no") int comment_no, @RequestParam(value="prefer") String prefer
+    		                                     , @RequestParam(value="writing_no") int writing_no) throws Exception{
+
+    	session    = request.getSession();
+    	
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	String  userId  = userDto.getUser_id();
+    	CommentPrefer commentPrefer = new CommentPrefer();
+    	commentPrefer.setWriting_no(writing_no);
+    	commentPrefer.setComment_no(comment_no);
+    	commentPrefer.setPrefer(prefer);
+    	commentPrefer.setUser_id(userId);
+    	
+    	try {
+	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
+	        	userDto.setNickname(userService.getNickname());
+	        	userService.insertUser(userDto);
+	        	userService.updateNickname(userDto.getNickname());
+	    	}
+	    	commentPrefer = commentService.commentPreferUpdate(commentPrefer);
+    	} catch(Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return commentPrefer;
+    }
 }

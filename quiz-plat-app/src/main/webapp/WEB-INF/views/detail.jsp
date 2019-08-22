@@ -256,6 +256,8 @@
         },
         dataType: "json",
         success: function (data) {
+          console.log("데이타");
+          console.log(data);
           updateCardsData(cards, data);
         },
         error: function (request, status, error) {

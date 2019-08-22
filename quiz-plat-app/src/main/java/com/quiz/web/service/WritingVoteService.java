@@ -22,6 +22,7 @@ public class WritingVoteService {
     	
     	List<Integer> voteNoArr =  new ArrayList<Integer>();
     	List<Integer> votePerc =  new ArrayList<Integer>();
+    	int totalVoteNum = writingVoteDto.getFir_vote_no() + writingVoteDto.getSec_vote_no();
     	voteNoArr.add(writingVoteDto.getFir_vote_no());
     	voteNoArr.add(writingVoteDto.getSec_vote_no());
     	votePerc.add(writingVoteDto.getFir_vote_perc());
@@ -29,6 +30,7 @@ public class WritingVoteService {
     	
     	writingVoteDto.setVoteNoArr(voteNoArr);
     	writingVoteDto.setVotePerc(votePerc);
+    	writingVoteDto.setTotalVoteNum(totalVoteNum);
     	
     	return writingVoteDto;
     }
