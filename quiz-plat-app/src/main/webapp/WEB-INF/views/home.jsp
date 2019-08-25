@@ -46,7 +46,7 @@
   </div>
 
   <div class="wrapper m-scene">
-	<c:if test="${toastOn == 'Y'}">
+    <c:if test="${toastOn == 'Y'}">
       <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>
     </c:if>
     <a href="/write.html" class="fab">
@@ -55,6 +55,7 @@
   </div>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
+  <script src="resources/js/constant.js"></script>
   <script src="resources/js/common.js"></script>
   <script src="resources/js/jsrender.min.js"></script>
   <script id="cardTmpl" type="text/jsrender">
@@ -173,7 +174,7 @@
         var sendData = { "page": mainDatas[cateNum].curPage, "mainCategory": cateNum };
         showSpinner(mainCardList);
         $.ajax({
-          url: '<c:url value='/getPagingList' />',	
+          url: '<c:url value=' / getPagingList' />',
           type: 'GET',
           dataType: 'json',
           data: sendData,
