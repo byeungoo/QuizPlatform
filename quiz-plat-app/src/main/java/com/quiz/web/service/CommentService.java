@@ -22,11 +22,33 @@ public class CommentService {
 	}
 	
 	public List<CommentDto> getCommentDtoList (ParamDto paramDto) throws Exception{
-		return commentDao.getCommentDtoList(paramDto);
+		
+		List<CommentDto> commendDtoList = commentDao.getCommentDtoList(paramDto);
+		
+	    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
+	    //대댓글 값 세팅
+	    for(CommentDto tempCommentDto : commendDtoList) {
+	    	int sum_prefer = tempCommentDto.getRecom_num() - tempCommentDto.getHate_num();
+	    	tempCommentDto.setSum_prefer(sum_prefer);
+	    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
+	    	tempCommentDto.setLowCommentDtoList(getLowCommentDtoList(paramDto));
+	    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size());  //대댓글 개수 세팅
+	    }
+	    
+		return commendDtoList;
 	}
 	
 	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto) throws Exception{
-		return commentDao.getLowCommentDtoList(paramDto);
+		
+		List<LowCommentDto> lowCommentDtoList = commentDao.getLowCommentDtoList(paramDto);
+		
+		//좋아요-싫어요 수 세팅
+		for(LowCommentDto tempLowCommentDto : lowCommentDtoList) {
+			int sum_prefer = tempLowCommentDto.getRecom_num() - tempLowCommentDto.getHate_num();
+			tempLowCommentDto.setSum_prefer(sum_prefer);
+		}
+		
+		return lowCommentDtoList;
 	}
 	
 	public CommentDto getCommentDto(ParamDto paramDto) throws Exception{

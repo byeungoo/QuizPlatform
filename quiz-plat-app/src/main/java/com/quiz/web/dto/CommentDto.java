@@ -8,7 +8,8 @@ public class CommentDto {
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
-	private int    recom_num;          //추천수
+	private int    recom_num;          //좋아요수
+	private int    hate_num;           //싫어요수
 	private String regpe_id;           //등록자
 	private String modpe_id;           //변경자
 	private Date   reg_dts;            //등록일
@@ -19,6 +20,7 @@ public class CommentDto {
 	private Integer vote;              //1:첫번째 투표, 2: 두번째 투표
 	private List<LowCommentDto> lowCommentDtoList; //대댓글 리스트
 	private int    low_comment_num;    //대댓글 개수
+	private int    sum_prefer;         //좋아요 수 - 싫어요 수
 	
 	public Integer getVote() {
 		return vote;
@@ -103,5 +105,17 @@ public class CommentDto {
 	}
 	public void setRecom_num(int recom_num) {
 		this.recom_num = recom_num;
+	}
+	public int getHate_num() {
+		return hate_num;
+	}
+	public void setHate_num(int hate_num) {
+		this.hate_num = hate_num;
+	}
+	public int getSum_prefer() {
+		return sum_prefer;
+	}
+	public void setSum_prefer(int sum_prefer) {
+		this.sum_prefer = sum_prefer;
 	}
 }

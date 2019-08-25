@@ -12,9 +12,10 @@
             <typeAlias type="com.quiz.web.dto.LoginCommand" alias="loginCommand"/>
             <typeAlias type="com.quiz.web.dto.ParamDto" alias="paramDto"/>
             <typeAlias type="com.quiz.web.dto.LowCommentDto" alias="lowCommentDto"/>
+            <typeAlias type="com.quiz.web.dto.CommentPrefer" alias="commentPrefer"/>
             <typeAlias type="common.AuthInfo" alias="authInfo"/>
             <typeAlias type="common.paging.dto.PagingDto" alias="pagingDto"/>
             <typeAlias type="common.paging.dto.WritingDtlPagingDto" alias="writingDtlPagingDto"/>
         </typeAliases>
-        
+
     </configuration>

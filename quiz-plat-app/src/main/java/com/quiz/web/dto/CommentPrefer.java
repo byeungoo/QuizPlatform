@@ -7,7 +7,7 @@ public class CommentPrefer {
 	private int    hate_num;
 	private String user_id;
 	private String prefer;
-	private int    sum_prefer;
+	private int    sum_prefer;  //좋아요 - 싫어요 수 합
 	private int    like;
 	private int    hate;
 	public int getLike() {

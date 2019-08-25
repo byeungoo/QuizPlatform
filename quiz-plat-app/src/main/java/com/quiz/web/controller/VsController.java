@@ -120,7 +120,7 @@ public class VsController {
         	userDto.setNickname(userService.getNickname());
         	userDto.setReg_div_cd("20");
         	userService.insertUser(userDto);
-        	userService.updateNickname(userDto.getNickname());
+        	//userService.updateNickname(userDto.getNickname());
     	} 
     	
     	writingDtlService.insertWritingDtl(writingDtlDto);
@@ -168,14 +168,6 @@ public class VsController {
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(paramDto);
 	    List<CommentDto> commendDtoList = commentService.getCommentDtoList(paramDto);  
-	    
-	    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
-	    //대댓글 값 세팅
-	    for(CommentDto tempCommentDto : commendDtoList) {
-	    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
-	    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto));
-	    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size());  //대댓글 개수 세팅
-	    }
 	    
 	    writingDtlDto.setDetailCommentList(commendDtoList);
     
@@ -247,7 +239,7 @@ public class VsController {
 	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록 및 닉네임 사용여부 Y변경
 	        	userDto.setNickname(userService.getNickname());
 	        	userService.insertUser(userDto);
-	        	userService.updateNickname(userDto.getNickname());
+	        	//userService.updateNickname(userDto.getNickname());
 	    	}
 	    	
 	    	ParamDto paramDto = new ParamDto();
@@ -285,7 +277,7 @@ public class VsController {
     	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
         	userDto.setNickname(userService.getNickname());
         	userService.insertUser(userDto);
-        	userService.updateNickname(userDto.getNickname());
+        	//userService.updateNickname(userDto.getNickname());
     	}
     	
     	//댓글 저장 후 반환
@@ -334,7 +326,7 @@ public class VsController {
 	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(session.toString()) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
 	        	userDto.setNickname(userService.getNickname());
 	        	userService.insertUser(userDto);
-	        	userService.updateNickname(userDto.getNickname());
+	        	//userService.updateNickname(userDto.getNickname());
 	    	}
 	    	commentPrefer = commentService.commentPreferUpdate(commentPrefer);
     	} catch(Exception e) {

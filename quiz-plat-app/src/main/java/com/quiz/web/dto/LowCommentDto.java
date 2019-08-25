@@ -7,7 +7,8 @@ public class LowCommentDto {
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
-	private int    recom_no;           //추천수
+	private int    recom_num;          //좋아요수
+	private int    hate_num;           //싫어요수
 	private String regpe_id;           //등록자
 	private String modpe_id;           //변경자
 	private Date   reg_dts;            //등록일
@@ -16,7 +17,14 @@ public class LowCommentDto {
 	private int    depth;              //0: 댓글, 1:대댓글
 	private Integer parent;            //대댓글 상위 댓글 번호
 	private	Integer vote;              //1:첫번째 투표, 2:두번째투표
+	private int    sum_prefer;         //좋아요 - 싫어요 수 합
 	
+	public int getSum_prefer() {
+		return sum_prefer;
+	}
+	public void setSum_prefer(int sum_prefer) {
+		this.sum_prefer = sum_prefer;
+	}
 	public Integer getVote() {
 		return vote;
 	}
@@ -40,12 +48,6 @@ public class LowCommentDto {
 	}
 	public void setComment_content(String comment_content) {
 		this.comment_content = comment_content;
-	}
-	public int getRecom_no() {
-		return recom_no;
-	}
-	public void setRecom_no(int recom_no) {
-		this.recom_no = recom_no;
 	}
 	public String getRegpe_id() {
 		return regpe_id;
@@ -88,5 +90,17 @@ public class LowCommentDto {
 	}
 	public void setParent(Integer parent) {
 		this.parent = parent;
+	}
+	public int getRecom_num() {
+		return recom_num;
+	}
+	public void setRecom_num(int recom_num) {
+		this.recom_num = recom_num;
+	}
+	public int getHate_num() {
+		return hate_num;
+	}
+	public void setHate_num(int hate_num) {
+		this.hate_num = hate_num;
 	}
 }
