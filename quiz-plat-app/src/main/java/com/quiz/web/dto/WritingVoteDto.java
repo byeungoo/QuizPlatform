@@ -18,6 +18,7 @@ public class WritingVoteDto {
 	private Integer sec_vote_perc;      //�ι�° ���� �ۼ�Ʈ
 	private List<Integer> voteNoArr;    //컨텐츠 투표 수 리스트
 	private List<Integer> votePerc;     //컨텐츠 투표 비율 리스트
+	private	int     totalVoteNum;       //총투표수 
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -96,5 +97,11 @@ public class WritingVoteDto {
 	}
 	public void setVotePerc(List<Integer> votePerc) {
 		this.votePerc = votePerc;
+	}
+	public int getTotalVoteNum() {
+		return totalVoteNum;
+	}
+	public void setTotalVoteNum(int totalVoteNum) {
+		this.totalVoteNum = totalVoteNum;
 	}
 }

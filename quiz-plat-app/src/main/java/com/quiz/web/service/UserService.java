@@ -26,56 +26,56 @@ public class UserService {
 	private static final Logger logger = LoggerFactory.getLogger(VsController.class);
 	
     /*
-     ** 占쏙옙占쏙옙 占쏙옙占�  
+     ** 유저 등록
      */
     public void insertUser(UserDto userDto) throws Exception{
     	userDao.insertUser(userDto);
     }
     
     /*
-     ** 占싻놂옙占쏙옙 획占쏙옙
+     ** 닉네임 획득
      */
     public String getNickname() throws Exception{
     	return userDao.getNickname();
     }
     
     /*
-     ** 占쏙옙회占쏙옙 占쏙옙占쏙옙 占쏙옙占싱듸옙 확占쏙옙
+     ** 가입된 회원인지 체크
      */
     public int chekUserId(String user_id) throws Exception{
     	return userDao.chekUserId(user_id);
     }
     
     /*
-     ** 회占쏙옙 占쏙옙占쏙옙 占쏙옙占싱듸옙 확占쏙옙
+     ** 유저 로그인 성공시 true, 실패시 false 반환
      */
     public boolean chekOurUser(LoginCommand loginCommand) throws Exception{
     	return userDao.chekOurUser(loginCommand);
     }
     
     /*
-     ** 占싻놂옙占쏙옙 占쏙옙肉⑼옙占� 'Y' 占쏙옙占쏙옙占쏙옙트 
+     ** 닉네임 사용여부 업데이트
      */
     public void updateNickname(String nickname) throws Exception{
     	userDao.updateNickname(nickname);
     }
     
     /*
-     ** 占싻놂옙占쏙옙 占쏙옙肉⑼옙占� 'Y' 占쏙옙占쏙옙占쏙옙트 
+     ** 닉네임 사용여부 체크
      */
     public boolean chekNickname(String nickname) throws Exception{
     	return userDao.chekNickname(nickname);
     }
     
     /*
-     ** 占싻놂옙占쏙옙 占쌩곤옙 
+     ** 닉네임 삽입
      */
     public void insertNickname(String nickname) throws Exception{
     	userDao.insertNickname(nickname);
     }
     
     /*
-     ** 占싸깍옙占쏙옙 占쏙옙占쏙옙 
+     ** 로그인 유지
      */
     public void keepLogin(String user_id, String session_id, Date session_limit) {
     	AuthInfo authInfo = new AuthInfo();
@@ -87,32 +87,32 @@ public class UserService {
     }
     
     /*
-     ** 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙 占쏙옙 占쌍댐옙占쏙옙 체크
+     ** 세션키를 이용하여 닉네임, 유저 아이디 반환
      */
     public UserDto checkLoginBefore(String session_id) {
     	return userDao.checkLoginBefore(session_id);
     }
     
     /*
-     ** 회占쏙옙占쏙옙체 占쏙옙회
+     ** 유저 정보 조회
      */
     public UserDto getUserDto(String user_id) {
     	return userDao.getUserDto(user_id);
     }
     
     /*
-     ** userId 占쏙옙占쏙옙 占쏙옙체 획占쏙옙
+     ** userId 로그인 정보 획득
      */
     public UserDto getUesrSettingDto(HttpSession session, HttpServletRequest request) {
     	
     	Object userDto = session.getAttribute("login");
     	
     	UserDto user = new UserDto();
-        if(userDto!=null) {  //占싸깍옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙, 占쏙옙占쏙옙 占쏙옙占싱듸옙 占쏙옙占쏙옙
+        if(userDto!=null) {  //로그인 되있음
         	user = (UserDto) userDto;
         	user.setRegpe_id(user.getUser_id());
         	user.setReg_div_cd("10");
-        } else {            //占싸깍옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占�(占쏙옙회占쏙옙), 占쏙옙占쏙옙 占쏙옙占싱듸옙 占쏙옙占쏙옙
+        } else {            //비회원 정보 세팅
         	session = request.getSession();
         	user.setUser_id(session.toString());
         	user.setRegpe_id(session.toString());

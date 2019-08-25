@@ -22,18 +22,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     UserService userService;
 
-    // ±âÁ¸ÀÇ session Á¤º¸ ÃÊ±âÈ­
+    //ë¡œê·¸ì¸ ì¸í„°ì…‰í„° 
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {
-        // session °ª
+        // sessionê°’ ì„¸íŒ…
         HttpSession session = request.getSession();
         
         Cookie cookie = WebUtils.getCookie(request, "remember");
 
         if(cookie!=null) {
-        	UserDto userDto = userService.checkLoginBefore(cookie.getValue());
+        	UserDto userDto = userService.checkLoginBefore(cookie.getValue());  //ë¡œê·¸ì¸ ê¸°ì–µí•˜ê¸° ì²´í¬
 
         	if(userDto!=null) {
         		session.setAttribute("login", userDto);

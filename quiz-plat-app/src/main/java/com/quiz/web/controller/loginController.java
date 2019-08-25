@@ -32,7 +32,7 @@ public class loginController {
 	    private UserService userService;
 	    
 	    /*
-	     ** È¸¿ø°¡ÀÔ ÆäÀÌÁö ÀÌµ¿
+	     ** íšŒì› ê°€ì… í˜ì´ì§€ ì´ë™
 	     */
 	    @RequestMapping(value = "/enrollForm", method = RequestMethod.GET)
 	    public String enrollForm(Model model) throws Exception{
@@ -44,7 +44,7 @@ public class loginController {
 	    }
 	    
 	    /*
-	     ** È¸¿øµî·Ï
+	     ** íšŒì› ê°€ì…
 	     */
 	    @RequestMapping(value = "/enroll", method = RequestMethod.POST)
 	    public String enroll(HttpServletRequest request, Model model) throws Exception{
@@ -62,7 +62,7 @@ public class loginController {
 	    	userDto.setReg_div_cd(reg_div_cd);
 	    	userDto.setRegpe_id(user_id);
 	    	
-	    	//ÀÌ¹Ì È¸¿ø°¡ÀÔµÇ ÀÖ´Â °æ¿ì
+	    	//ï¿½Ì¹ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	    	if(userService.chekUserId(user_id) != 0) {
 	    		model.addAttribute("enrollFlag", 0);
 	    		model.addAttribute("nickname", nickname);
@@ -81,7 +81,7 @@ public class loginController {
 	    }
 	    
 	    /*
-	     ** ·Î±×ÀÎ ÆäÀÌÁö ÀÌµ¿
+	     ** 
 	     */
 	    @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
 	    public String loginForm(HttpServletRequest request, Model model) throws Exception{
@@ -90,7 +90,7 @@ public class loginController {
 	    }
 	    
 	    /*
-	     ** ·Î±×ÀÎ Ã³¸®
+	     ** ë¡œê·¸ì¸ ì²˜ë¦¬
 	     */
 	    @RequestMapping(value = "/login", method = RequestMethod.POST)
 	    public String login(HttpServletResponse response, HttpServletRequest request, HttpSession session, 
@@ -102,16 +102,16 @@ public class loginController {
 	    	String pwd = sha256.getSHA256(loginCommand.getPwd());
 	    	loginCommand.setPwd(pwd);
 	    	
-	    	//È¸¿ø°¡ÀÔ Á¤º¸ È®ÀÎ
-	    	if(userService.chekOurUser(loginCommand) == true) { //·Î±×ÀÎ ¼º°ø
+	    	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+	    	if(userService.chekOurUser(loginCommand) == true) { //ë¡œê·¸ì¸ ì„±ê³µ ì²´í¬
 	    		  		
 	    		if(loginCommand.isRememberId()) {
 	    			
-	    			// ÀÚµ¿·Î±×ÀÎ Äí±â ¼ÂÆÃ
-	    			int cookieMaxTime = 28*24*60*60; // ÄíÅ°¸¸·á ½Ã°£ 4ÁÖ
+	    			// ï¿½Úµï¿½ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	    			int cookieMaxTime = 28*24*60*60; // ì¿ í‚¤ ë§Œë£Œ ì‹œê°„ ì§€ì •
 	    			
 		            Cookie cookie = new Cookie("remember", session.getId());
-		            cookie.setPath("/"); // ¸ğµç °æ·Î¿¡¼­ Á¢±Ù °¡´É ÇÏµµ·Ï ¼³Á¤
+		            cookie.setPath("/"); // ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		            cookie.setMaxAge(cookieMaxTime);
 		            response.addCookie(cookie); 
 		            
@@ -119,14 +119,14 @@ public class loginController {
 		            Date now = new Date();
 		            calendar.add(Calendar.SECOND, cookieMaxTime);
 		            
-		            //ÄíÅ°Á¤º¸ µğºñ ÀúÀå
+		            //ï¿½ï¿½Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		            userService.keepLogin(loginCommand.getUser_id(), session.getId(),  calendar.getTime());
 	    		}
 	    		
 	            UserDto userDto = userService.getUserDto(loginCommand.getUser_id());
 	            
 	            session.setAttribute("login", userDto);	
-	    	} else { //·Î±×ÀÎ ½ÇÆĞ
+	    	} else { //ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	    		return "loginForm";
 	    	} 
 	    	
@@ -134,23 +134,23 @@ public class loginController {
 	    }
 	    
 	    /*
-	     ** ·Î±×¾Æ¿ô Ã³¸®
+	     ** ë¡œê·¸ì•„ì›ƒ
 	     */
 	    @RequestMapping(value="/logout", method = RequestMethod.GET)
 	    public String logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
 	    	
 	    	Cookie cookie = WebUtils.getCookie(request, "remember");
 	    	if(cookie!=null) {
-	    		cookie.setMaxAge(0); // ÄíÅ°ÀÇ expiration Å¸ÀÓÀ» 0À¸·Î ÇÏ¿© ¾ø¾Ø´Ù.
-		        cookie.setPath("/"); // ¸ğµç °æ·Î¿¡¼­ »èÁ¦ ‰çÀ½À» ¾Ë¸°´Ù.
+	    		cookie.setMaxAge(0); // ï¿½ï¿½Å°ï¿½ï¿½ expiration Å¸ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
+		        cookie.setPath("/"); // ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½.
 		        response.addCookie(cookie);
 	    	}
 	        
 	        Object userDto = session.getAttribute("login");
 	        if(userDto!=null) {
 	        	UserDto user = (UserDto) userDto;
-	        	//session.invalidate(); //ÀüÃ¼¼¼¼ÇÇØÁ¦
-		        session.removeAttribute("login"); // ÇÏ³ª¾¿ ÇÏ·Á¸é ÀÌ·¸°Ô ÇØµµ µÊ.
+	        	//session.invalidate(); //ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		        session.removeAttribute("login"); // ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Øµï¿½ ï¿½ï¿½.
 		        userService.keepLogin(user.getUser_id(), "none", new Date());
 	        }
 	        
