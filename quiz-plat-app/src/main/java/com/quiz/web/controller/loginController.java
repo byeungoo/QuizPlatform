@@ -2,6 +2,7 @@ package com.quiz.web.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +14,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
 import com.quiz.web.dto.LoginCommand;
 import com.quiz.web.dto.UserDto;
+import com.quiz.web.dto.WritingDtlDto;
 import com.quiz.web.service.UserService;
 
 import common.SHA256;
+import common.paging.dto.PagingDto;
 
 @Controller
 public class loginController {
@@ -32,22 +38,22 @@ public class loginController {
 	    private UserService userService;
 	    
 	    /*
-	     ** 회원 가입 페이지 이동
+	     ** 닉네임 조회
 	     */
-	    @RequestMapping(value = "/enrollForm", method = RequestMethod.GET)
-	    public String enrollForm(Model model) throws Exception{
+	    @RequestMapping(value = "/getNickname", method = RequestMethod.GET)
+	    public @ResponseBody String getNickname() throws Exception{
 	    	
 	    	String nickname = userService.getNickname();
-	    	model.addAttribute("nickname", nickname);
+	    	//userService.updateNickname(nickname);
 	    	
-	        return "member_modal";
+	        return nickname;
 	    }
 	    
 	    /*
 	     ** 회원 가입
 	     */
 	    @RequestMapping(value = "/enroll", method = RequestMethod.POST)
-	    public String enroll(HttpServletRequest request, Model model) throws Exception{
+	    public @ResponseBody UserDto enroll(HttpServletRequest request) throws Exception{
 	    	SHA256 sha256 = new SHA256();
 	    	
 	    	String user_id = request.getParameter("join1");
@@ -62,12 +68,13 @@ public class loginController {
 	    	userDto.setReg_div_cd(reg_div_cd);
 	    	userDto.setRegpe_id(user_id);
 	    	
-	    	//�̹� ȸ�����Ե� �ִ� ���
+	    	//회원가입되있을 경우
+	    	/*
 	    	if(userService.chekUserId(user_id) != 0) {
-	    		model.addAttribute("enrollFlag", 0);
-	    		model.addAttribute("nickname", nickname);
+	    		userDto
 	    		return "member_modal";
 	    	}
+	    	*/
 	    	
 	    	userService.insertUser(userDto);
 	    	
@@ -77,41 +84,33 @@ public class loginController {
 	    		userService.insertNickname(nickname);
 	    	}
 	    	
-	        return "redirect:/";
+	        return userDto;
 	    }
-	    
-	    /*
-	     ** 
-	     */
-	    @RequestMapping(value = "/loginForm", method = RequestMethod.GET)
-	    public String loginForm(HttpServletRequest request, Model model) throws Exception{
-	    	
-	        return "member_modal";
-	    }
-	    
+	    	    
 	    /*
 	     ** 로그인 처리
 	     */
+	    @CrossOrigin
 	    @RequestMapping(value = "/login", method = RequestMethod.POST)
-	    public String login(HttpServletResponse response, HttpServletRequest request, HttpSession session, 
-	    		            Model model, LoginCommand loginCommand) throws Exception{
+	    public @ResponseBody UserDto login(HttpServletResponse response, HttpServletRequest request, HttpSession session, 
+	    		             LoginCommand loginCommand) throws Exception{
 
 	    	session = request.getSession();
 	    	
 	    	SHA256 sha256 = new SHA256();
 	    	String pwd = sha256.getSHA256(loginCommand.getPwd());
 	    	loginCommand.setPwd(pwd);
-	    	
-	    	//ȸ������ ���� Ȯ��
+	    	UserDto userDto = new UserDto();
+	    
 	    	if(userService.chekOurUser(loginCommand) == true) { //로그인 성공 체크
 	    		  		
+	    		//로그인 상태 유지
 	    		if(loginCommand.isRememberId()) {
-	    			
-	    			// �ڵ��α��� ��� ����
+		            
 	    			int cookieMaxTime = 28*24*60*60; // 쿠키 만료 시간 지정
 	    			
 		            Cookie cookie = new Cookie("remember", session.getId());
-		            cookie.setPath("/"); // ��� ��ο��� ���� ���� �ϵ��� ����
+		            cookie.setPath("/"); //모든 경로에서 접근 가능하도록 세팅
 		            cookie.setMaxAge(cookieMaxTime);
 		            response.addCookie(cookie); 
 		            
@@ -119,41 +118,72 @@ public class loginController {
 		            Date now = new Date();
 		            calendar.add(Calendar.SECOND, cookieMaxTime);
 		            
-		            //��Ű���� ��� ����
 		            userService.keepLogin(loginCommand.getUser_id(), session.getId(),  calendar.getTime());
 	    		}
 	    		
-	            UserDto userDto = userService.getUserDto(loginCommand.getUser_id());
-	            
+	            userDto = userService.getUserDto(loginCommand.getUser_id());
+	            userDto.setLogin(true);
 	            session.setAttribute("login", userDto);	
-	    	} else { //�α��� ����
-	    		return "loginForm";
+	    	} else { //로그인 실패
+	    		userDto.setLogin(false);
 	    	} 
 	    	
-	        return "redirect:/";
+	        return userDto;
 	    }
 	    
 	    /*
 	     ** 로그아웃
 	     */
-	    @RequestMapping(value="/logout", method = RequestMethod.GET)
-	    public String logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
+	    @CrossOrigin
+	    @RequestMapping(value="/logout", method = RequestMethod.POST)
+	    public @ResponseBody UserDto logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
 	    	
 	    	Cookie cookie = WebUtils.getCookie(request, "remember");
 	    	if(cookie!=null) {
-	    		cookie.setMaxAge(0); // ��Ű�� expiration Ÿ���� 0���� �Ͽ� ���ش�.
-		        cookie.setPath("/"); // ��� ��ο��� ���� ������ �˸���.
+	    		cookie.setMaxAge(0); // 쿠키만료
+		        cookie.setPath("/"); // 모든 경로에서 접근 가능하도록 세팅
 		        response.addCookie(cookie);
 	    	}
 	        
-	        Object userDto = session.getAttribute("login");
-	        if(userDto!=null) {
-	        	UserDto user = (UserDto) userDto;
-	        	//session.invalidate(); //��ü��������
-		        session.removeAttribute("login"); // �ϳ��� �Ϸ��� �̷��� �ص� ��.
-		        userService.keepLogin(user.getUser_id(), "none", new Date());
-	        }
-	        
-	    	return "redirect:/";
+	        //유저정보 획득
+	    	UserDto userDto = userService.getUesrSettingDto(session, request);
+	        //session.invalidate(); //세션값 전부 삭제
+		    session.removeAttribute("login"); //세션에 login으로 저장된 값 삭제
+		    userService.keepLogin(userDto.getUser_id(), "none", new Date());
+
+	    	return userDto;
+	    }
+	    
+	    /*
+	     ** 로그인 유저 정보 조회
+	     */    
+	    @CrossOrigin
+	    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+	    public @ResponseBody UserDto getUserInfo(HttpSession session, HttpServletRequest request) throws Exception{
+	    	
+	    	//유저정보 획득
+	    	UserDto userDto = userService.getUesrSettingDto(session, request);
+	    	
+	        return userDto;
+	    }
+	    
+	    /*
+	     ** 아이디 중복 체크
+	     */    
+	    @CrossOrigin
+	    @RequestMapping(value = "/chekUserId", method = RequestMethod.GET)
+	    public @ResponseBody boolean chekUserId(
+	    										@RequestParam(value="user_id") String user_id) throws Exception{
+	    	
+	    	//유저정보 획득
+	    	UserDto userDto =  userDto = userService.getUserDto(user_id);
+	    	boolean isUserIdRepetit;
+	    	if(userDto != null) {
+	    		isUserIdRepetit = true;
+	    	} else {
+	    		isUserIdRepetit = false;
+	    	}
+	    	
+	        return isUserIdRepetit;
 	    }
 }

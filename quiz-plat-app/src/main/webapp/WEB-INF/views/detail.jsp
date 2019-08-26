@@ -19,15 +19,23 @@
 </head>
 
 <body>
+
   <div>
     <c:choose>
-      <c:when test="${cookie.remember.value != null}">
-        <ul>
-          ${cookie.remember.value}
-        </ul>
+      <c:when test="${empty login }">
+        <li>
+          <a href="#">로그인</a>
+        </li>
+        <li>
+          <a href="#">회원가입</a>
+        </li>
+        <li>
+          ${login}
+        </li>
       </c:when>
       <c:otherwise>
-        쿠키 없음
+        <p>${login.user_id}님, 반갑습니다!</p>
+        <p>${cookie.remember.value}님, 반갑습니다!</p>
       </c:otherwise>
     </c:choose>
   </div>

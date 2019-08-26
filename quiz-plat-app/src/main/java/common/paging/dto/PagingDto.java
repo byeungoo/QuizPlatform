@@ -2,12 +2,12 @@ package common.paging.dto;
 
 public class PagingDto {
 
-	private int page_num;         //������ ��ȣ
-	private int page_size;        //�ѹ��� ó���� ������ ����
-	private String user_id;        //�����? ���̵�
-	private Integer mainCategory; //���������� �α�,�ű�,Ȱ�� ī�װ� ��
-	private int start;            //����¡ ���� ��ȣ
-	private int end;              //하이하이
+	private int page_num;         //가지고올 페이지 번호
+	private int page_size;        //페이지 사이즈
+	private String user_id;        //유저아이디
+	private Integer mainCategory; //메인카테고리, 1:인기, 2:최신, 3:나의활동내역
+	private int start;            //가지고올 번호 시작 다음
+	private int end;              //가지고올 번호 마지막
 	
 	public PagingDto(){
 		this.page_size = 10;

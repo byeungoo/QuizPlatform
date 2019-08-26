@@ -2,11 +2,14 @@ package com.quiz.web.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.quiz.web.dao.WritingDtlDao;
 import com.quiz.web.dto.ParamDto;
+import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.paging.dto.PagingDto;
@@ -19,7 +22,7 @@ public class WritingDtlService {
     private WritingDtlDao writingDtlDao;
     
     /*
-     ** 占쌍쏙옙 占쌉신깍옙 占쏙옙占쏙옙트 占쏙옙회
+     ** 메인페이지 게시글 조회
      */
     public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
     	
@@ -32,11 +35,11 @@ public class WritingDtlService {
     	pagingDto.setStart(start);
     	pagingDto.setEnd(end);
     	
-    	if(mainCategory == 0) { //占싸깍옙占� 占쏙옙회
+    	if(mainCategory == 0) { //인기글 리스트 조회
     		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
-    	} else if(mainCategory == 1){ //占쌍신쇽옙 占쏙옙회
+    	} else if(mainCategory == 1){ //최근글 리스트 조회
     		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
-    	} else { //占쏙옙占쏙옙 활占쏙옙占쏙옙占쏙옙 占쏙옙회(3)
+    	} else { //나의 활동 내역 조회
     		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
     	}
     	
@@ -58,7 +61,7 @@ public class WritingDtlService {
     }
     
     /*
-     ** 占쌉시깍옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙회
+     ** 게시글 1개 상세 조회
      */
     public WritingDtlDto getWritingDtl(ParamDto paramDto) throws Exception{
     	
@@ -107,4 +110,20 @@ public class WritingDtlService {
     	return writingDtlDao.getPopulWritingDtoList(writingDtlPagingDto);
     }
     
+    /*
+     ** 게시글 신고 처리
+     */
+    public boolean reportWriting(HttpSession session, ParamDto paramDto) throws Exception{
+    	
+    	boolean report = true; //true:신고
+    	paramDto.setReport(report);
+    	try{
+    		writingDtlDao.reportWriting(paramDto); //신고 테이블 insert
+    	} catch(Exception e) {
+    		report = false;     //게시글 신고 실패
+    		System.err.println(e.getMessage());
+    	}
+    	
+    	return report;
+    }
 }

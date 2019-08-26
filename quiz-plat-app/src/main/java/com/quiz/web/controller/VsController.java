@@ -63,8 +63,7 @@ public class VsController {
     
     /*
      ** 메인페이지 비동기 페이징 처리
-     */
-    
+     */    
     @CrossOrigin
     @RequestMapping(value = "/getPagingList", method = RequestMethod.GET)
     public @ResponseBody List<WritingDtlDto> getPagingList(HttpSession session, HttpServletRequest request
@@ -82,14 +81,6 @@ public class VsController {
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getTextWritingList(pagingDto);
 
         return writingDtlDtoList;
-    }
-    
-    /*
-     ** 글작성 페이지 이동
-     */
-    @RequestMapping(value="write", method = RequestMethod.GET)
-    public String write(Model model) throws Exception{
-    	return "write";
     }
     
     /*
@@ -333,5 +324,22 @@ public class VsController {
     		System.out.println(e.getMessage());
     	}
     	return commentPrefer;
+    }
+    
+    /*
+     ** 신고하기 업데이트
+     */
+    @Transactional
+    @CrossOrigin
+    @RequestMapping(value = "reportWriting", method = RequestMethod.POST)
+    public @ResponseBody boolean reportWriting(HttpSession session, HttpServletRequest request, ParamDto paramDto) throws Exception{
+    	
+    	session = request.getSession(); 
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	paramDto.setUser_id(userDto.getUser_id());
+    	
+    	boolean report = writingDtlService.reportWriting(session, paramDto); //게시글 신고
+    	
+    	return report;
     }
 }

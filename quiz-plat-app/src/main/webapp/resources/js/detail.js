@@ -164,7 +164,7 @@ $(function() {
       ) - 1;
     var cards = $(slide).find(".card");
     if (vote >= 0) {
-      cards.get(vote).trigger("update");
+      $(cards.get(vote)).trigger("update");
     }
   }
 

@@ -22,7 +22,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     UserService userService;
 
-    //로그인 인터셉터 
+    //로그인 인터셉터
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
@@ -32,6 +32,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         
         Cookie cookie = WebUtils.getCookie(request, "remember");
 
+        //쿠키값에 있는 값과 서버에 저장된 값 비교, 만약 2개가 같다면 session에 로그인 값 세팅
         if(cookie!=null) {
         	UserDto userDto = userService.checkLoginBefore(cookie.getValue());  //로그인 기억하기 체크
 
