@@ -28,8 +28,8 @@
       opts = self.options;
 
     var $accordion = $(self.element),
-      $controls = $accordion.find("> " + opts.controlElement),
-      $content = $accordion.find("> " + opts.contentElement);
+      $controls = $accordion.find(opts.controlElement),
+      $content = $accordion.find(opts.contentElement);
 
     var accordionParentsQty = $accordion.parents("[data-accordion]").length,
       accordionHasParent = accordionParentsQty > 0;
@@ -94,13 +94,8 @@
     function toggleTransition($el, remove) {
       if (!remove) {
         $content.css({
-          "-webkit-transition":
-            "max-height " +
-            opts.transitionSpeed +
-            "ms " +
-            opts.transitionEasing,
-          transition:
-            "max-height " + opts.transitionSpeed + "ms " + opts.transitionEasing
+          "-webkit-transition": "max-height " + opts.transitionSpeed + "ms " + opts.transitionEasing,
+          transition: "max-height " + opts.transitionSpeed + "ms " + opts.transitionEasing
         });
       } else {
         $content.css({
@@ -120,22 +115,13 @@
       $el.data("oHeight", height);
     }
 
-    function updateParentHeight(
-      $parentAccordion,
-      $currentAccordion,
-      qty,
-      operation
-    ) {
-      var $content = $parentAccordion.filter(".open").find("> [data-content]"),
-        $childs = $content.find("[data-accordion].open > [data-content]"),
+    function updateParentHeight($parentAccordion, $currentAccordion, qty, operation) {
+      var $content = $parentAccordion.filter(".open").find("[data-content]"),
+        $childs = $content.find("[data-accordion].open [data-content]"),
         $matched;
 
       if (!opts.singleOpen) {
-        $childs = $childs.not(
-          $currentAccordion
-            .siblings("[data-accordion].open")
-            .find("> [data-content]")
-        );
+        $childs = $childs.not($currentAccordion.siblings("[data-accordion].open").find("[data-content]"));
       }
 
       $matched = $content.add($childs);
@@ -162,8 +148,8 @@
 
     function refreshHeight($accordion) {
       if ($accordion.hasClass("open")) {
-        var $content = $accordion.find("> [data-content]"),
-          $childs = $content.find("[data-accordion].open > [data-content]"),
+        var $content = $accordion.find(" [data-content]"),
+          $childs = $content.find("[data-accordion].open  [data-content]"),
           $matched = $content.add($childs);
 
         calculateHeight($matched);
@@ -179,12 +165,7 @@
         if (accordionHasParent) {
           var $parentAccordions = $accordion.parents("[data-accordion]");
 
-          updateParentHeight(
-            $parentAccordions,
-            $accordion,
-            $content.data("oHeight"),
-            "-"
-          );
+          updateParentHeight($parentAccordions, $accordion, $content.data("oHeight"), "-");
         }
 
         $content.css(closedCSS);
@@ -201,25 +182,22 @@
 
     function openAccordion($accordion, $content) {
       $accordion.trigger("accordion.open");
+      var $accordionContent = $accordion.find("[data-content]");
       if (CSStransitions) {
         toggleTransition($content);
 
         if (accordionHasParent) {
           var $parentAccordions = $accordion.parents("[data-accordion]");
 
-          updateParentHeight(
-            $parentAccordions,
-            $accordion,
-            $content.data("oHeight"),
-            "+"
-          );
+          updateParentHeight($parentAccordions, $accordion, $content.data("oHeight"), "+");
         }
 
         requestAnimFrame(function() {
           $content.css("max-height", $content.data("oHeight"));
         });
 
-        $accordion.addClass("open");
+        if($accordionContent.children().length > 0)
+          $accordion.addClass("open");
       } else {
         $content.animate(
           {
@@ -230,8 +208,8 @@
             $content.css({ "max-height": "none" });
           }
         );
-
-        $accordion.addClass("open");
+        if ($accordionContent.children().length > 0)
+          $accordion.addClass("open");
       }
     }
 
@@ -254,9 +232,7 @@
     }
 
     function toggleAccordion() {
-      var isAccordionGroup = opts.singleOpen
-        ? $accordion.parents(opts.groupElement).length > 0
-        : false;
+      var isAccordionGroup = opts.singleOpen ? $accordion.parents(opts.groupElement).length > 0 : false;
 
       calculateHeight($content);
 
@@ -265,7 +241,7 @@
       }
 
       if ($accordion.hasClass("open")) {
-        closeAccordion($accordion, $content);
+        //closeAccordion($accordion, $content);
       } else {
         openAccordion($accordion, $content);
       }
