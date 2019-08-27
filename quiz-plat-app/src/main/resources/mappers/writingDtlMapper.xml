@@ -61,6 +61,13 @@
 			  , WV.VOTE
 			  , ROUND((ABS((W.FIR_VOTE_NO-W.SEC_VOTE_NO))/(W.FIR_VOTE_NO+W.SEC_VOTE_NO)*100)) 'VOTE_DIFF'
 			  , U.NICKNAME
+			  , (
+			  		SELECT REPORT
+			  		FROM   WRITING_REPORT WR
+			  		WHERE  1 = 1
+			  		AND    WR.WRITING_NO = #{writing_no}
+			  		AND	   WR.USER_ID    = #{user_id} 
+			    ) AS REPORT
      	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
      	      , USER U
      	WHERE   1 = 1
@@ -168,6 +175,13 @@
     	/* com.quiz.mapper.writingDtlMapper.getPopulWritingDtoList */
     	<![CDATA[
 		SELECT  B.*
+			  , (
+			  		SELECT REPORT
+			  		FROM   WRITING_REPORT WR
+			  		WHERE  1 = 1
+			  		AND    WR.WRITING_NO = B.WRITING_NO
+			  		AND	   WR.USER_ID    = #{user_id} 
+			    ) AS REPORT
 		FROM    (
 				SELECT  A.*
 				      , WVE.VOTE
@@ -196,19 +210,16 @@
 									    ) SUM_COMMENT
 									  , U.NICKNAME
 									  , W.REG_DTS
-								FROM    WRITING W
-								      , (
-									        SELECT  TW.WRITING_NO
-									        FROM    WRITING_VOTE TWV RIGHT OUTER JOIN WRITING TW 
-										            ON TWV.WRITING_NO = TW.WRITING_NO AND TWV.USER_ID   != #{user_id}
-									        WHERE   1 = 1
-									        GROUP BY TW.WRITING_NO
-									    ) WV
+								FROM    WRITING W 
 									  , USER U
 								WHERE   1 = 1
 								AND     W.USE_YN = 'Y'
 								AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
-								AND     WV.WRITING_NO  = W.WRITING_NO
+								AND	W.WRITING_NO NOT IN (
+														    SELECT WRITING_NO
+															FROM   WRITING_VOTE WV
+															WHERE  WV.USER_ID = #{user_id}
+											            )	
 								AND		U.USER_ID      = W.REGPE_ID
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
@@ -241,5 +252,11 @@
     	      , MOD_DTS     = now()   
     	WHERE   WRITING_NO  = #{writing_no}
     </update>
+    
+    <insert id="reportWriting" parameterType="paramDto">
+    	/* com.quiz.mapper.writingDtlMapper.reportWriting */
+    	INSERT INTO WRITING_REPORT(WRITING_NO, USER_ID, REPORT, REGPE_ID, REG_DTS, MOD_DTS)
+    	VALUES(#{writing_no}, #{user_id}, #{report}, #{user_id}, now(), now())
+    </insert>
     
 </mapper>

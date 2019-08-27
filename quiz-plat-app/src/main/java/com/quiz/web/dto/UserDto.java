@@ -4,13 +4,14 @@ import java.util.Date;
 
 public class UserDto {
 
-	private String user_id;  //»ç¿ëÀÚID
-	private String nickname; //´Ğ³×ÀÓ
-	private String regpe_id; //µî·ÏÀÚ
-	private String pwd;
-	private String reg_div_cd;
-	private Date   reg_dts;  //µî·ÏÀÏ
-	private Date   mod_dts;  //º¯°æÀÏ
+	private String user_id;  //ìœ ì €ì•„ì´ë””
+	private String nickname; //ë‹‰ë„¤ì„
+	private String regpe_id; //ë“±ë¡ì
+	private String pwd;      //íŒ¨ìŠ¤ì›Œë“œ
+	private String reg_div_cd; //ë“±ë¡ êµ¬ë¶„ ì½”ë“œ :10 íšŒì›, 20 ë¹„íšŒì›
+	private Date   reg_dts;  //ë“±ë¡ì¼
+	private Date   mod_dts;  //ë³€ê²½ì¼
+	private boolean isLogin; //trueë©´ ë¡œê·¸ì¸, falseë©´ ë¡œê·¸ì¸x
 	
 	public String getUser_id() {
 		return user_id;
@@ -53,5 +54,11 @@ public class UserDto {
 	}
 	public void setReg_div_cd(String reg_div_cd) {
 		this.reg_div_cd = reg_div_cd;
+	}
+	public boolean isLogin() {
+		return isLogin;
+	}
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
 	}
 }

@@ -4,7 +4,7 @@ public class LoginCommand {
     
     private String  user_id;
     private String  pwd;
-    private boolean rememberId;
+    private boolean rememberId; //로그인 기억하기 flag
     
 	public String getUser_id() {
 		return user_id;

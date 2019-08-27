@@ -23,7 +23,6 @@ public class WritingDtlDao {
     
     private static final String Namespace = "com.quiz.mapper.writingDtlMapper";
     
-    //占쌍신쇽옙 占쏙옙占쏙옙징 占쏙옙占쏙옙트 占쏙옙회
     public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
         return sqlSession.selectList(Namespace+".getTextWritingList", pagingDto);
     }
@@ -40,28 +39,30 @@ public class WritingDtlDao {
     	sqlSession.update(Namespace+".updateHits", writing_no);
     }
     
-    //�씤湲곌� 由ъ뒪�듃 議고쉶
     public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
         return sqlSession.selectList(Namespace+".getHotTextWritingList", pagingDto);
     }
     
-    //�쉶�썝�씠 �닾�몴�븳 由ъ뒪�듃 議고쉶
     public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
     	return sqlSession.selectList(Namespace+".getMyVote", pagingDto);
     }
     
-    //
     public List<WritingDtlDto> getPopulWritingDtoList(WritingDtlPagingDto writingDtlPagingDto) throws Exception{
     	return sqlSession.selectList(Namespace+".getPopulWritingDtoList", writingDtlPagingDto);
     }
     
-    //투표수 업데이트
+    //첫번째 투표수 업데이트
     public void updateFirVote(ParamDto paramDto) throws Exception{
     	sqlSession.update(Namespace+".updateFirVote", paramDto);
     }
     
-    //투표수 업데이트
+    //두번째 투표수 업데이트
     public void updateSecVote(ParamDto paramDto) throws Exception{
     	sqlSession.update(Namespace+".updateSecVote", paramDto);
+    }
+    
+    //게시글 신고
+    public void reportWriting(ParamDto paramDto) throws Exception{
+    	sqlSession.insert(Namespace+".reportWriting", paramDto);
     }
 }

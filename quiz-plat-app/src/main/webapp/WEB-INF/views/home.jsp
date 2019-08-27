@@ -44,7 +44,7 @@
       </c:otherwise>
     </c:choose>
   </div>
-
+  
   <div class="wrapper m-scene">
     <c:if test="${toastOn == 'Y'}">
       <div class="toast scene_element">새로운 투표가 만들어졌습니다</div>

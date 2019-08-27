@@ -26,6 +26,7 @@ public class WritingDtlDto {
 	private int    fir_vote_perc;     //첫번째 투표 퍼센트
 	private int    sec_vote_perc;     //두번째 투표 퍼센트
 	private int    vote_diff;         //투표율 차이
+	private boolean report;           //0:신고x, 1:신고
 	private Integer vote;             // 위 컨텐츠 투표시 1, 아래 컨텐츠 투표 시 2, 투표값 없으면 null
 	private List<CommentDto> detailCommentList; //댓글 리스트
 
@@ -167,5 +168,11 @@ public class WritingDtlDto {
 	}
 	public void setSec_vote_no(int sec_vote_no) {
 		this.sec_vote_no = sec_vote_no;
+	}
+	public boolean isReport() {
+		return report;
+	}
+	public void setReport(boolean report) {
+		this.report = report;
 	}
 }

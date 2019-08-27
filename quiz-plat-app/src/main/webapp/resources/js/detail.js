@@ -244,7 +244,7 @@ $(function () {
 			clearComment();
 		});
 	}
-
+  
 	function addLowComment(requestData, commentList) {
 		oAjax.sendRequest(URL_CREATE_COMMENT, requestData, ID_TMPL_SUBREPLY, "POST").then(comment => {
 			commentList.append(comment);
@@ -257,7 +257,7 @@ $(function () {
 			clearComment();
 		});
 	}
-
+  
 	function refreshLowCommentList(commentList) {
 		var accordion = $(commentList).closest(".accordion");
 		var replyCount = accordion.find(".detail_reply_count");
