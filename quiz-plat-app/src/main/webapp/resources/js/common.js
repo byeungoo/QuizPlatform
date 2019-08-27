@@ -41,16 +41,29 @@ function getNumberInStr(str) {
   return str.replace(/[^0-9]/g, "");
 }
 
-function scrollToBottom(target) {
-  $(target).animate({ scrollTop: $(document).height() }, 0);
+function scrollToBottom(target = $(document.body), duration = 0) {
+  $("html, body").animate({ scrollTop: $(target).innerHeight() }, duration);
 }
 
-function scrollToTarget(target) {
+function scrollToTop(duration = 0) {
+  $("html, body").animate({ scrollTop: 0}, duration);
+}
+
+function scrollToCommentTarget(target, duration = 300) {
   $("body,html").animate(
     {
-      scrollTop: $(target).offset().top - $(target).height() * 3
+      scrollTop: $(target).offset().top - $(window).height()/2
     },
-    300
+    duration
+  );
+}
+
+function scrollToTarget(target, duration = 300) {
+  $("body,html").animate(
+    {
+      scrollTop: $(target).offset().top - $(window).height() / 5
+    },
+    duration
   );
 }
 
@@ -81,7 +94,11 @@ ssj.util.ajax.prototype = {
         success: function(data) {
           console.log(data);
           oSelf.increasePageNum(pageName);
-          resolve(oSelf.makeHtml(data));
+          if(tmplId === null){
+            resolve(data);
+          }else{
+            resolve(oSelf.makeHtml(data));
+          }
         },
         error: function(data) {
           reject(data);
@@ -206,6 +223,17 @@ ssj.util.swiper.prototype = {
   },
   getTotalCount() {
     return this.swiper.slides.length;
+  },
+  getActiveSlideId(){
+    return getNumberInStr($(this.getActiveSlide()).attr('id'));
+  },
+  refreshSlideHeight(){
+    var footHeight = $('.reply_inputwrap').innerHeight();
+    var slideHeight = $(this.getActiveSlide()).find('section').innerHeight();
+    $('.swiper-container').css({
+      'height': slideHeight + footHeight,
+      'overflow': 'hidden'
+    });
   }
 };
 
@@ -221,7 +249,7 @@ ssj.util.toast.prototype = {
   assignElements() {
     this.toast = $(`<div class="toast scene_element"></div>`);
   },
-  show(message, duration) {
+  show(message, duration = 2000) {
     this.toast.text(message);
     this.duration = duration;
     $(".m-scene").append(this.toast);

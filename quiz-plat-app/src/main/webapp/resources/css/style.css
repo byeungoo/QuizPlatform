@@ -229,7 +229,9 @@ textarea {
   height: 59px;
   text-align: center;
 }
-
+.card__prtgmain {
+  white-space: nowrap;
+}
 .card__prtgmain:after {
   content: "%";
   font-size: 31px;
@@ -407,7 +409,7 @@ textarea {
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom:20px;
   box-sizing: border-box;
 }
 
@@ -696,9 +698,17 @@ textarea {
   z-index: 1;
 }
 
-.detail_reply_more.on {
+.accordion .sp00.comment {
+  background-position: -12px -47px;
+}
+
+.accordion.open .detail_reply_more {
   background: #ffc907;
   border: 1px solid black;
+}
+
+.accordion.open .sp00.comment {
+  background-position: -12px -93px;
 }
 
 .detail_reply_count {
