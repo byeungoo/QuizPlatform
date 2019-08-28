@@ -6,7 +6,7 @@
 <mapper namespace="com.quiz.mapper.userMapper">
 
  	<select id="insertUser" parameterType="userDto">
-		INSERT INTO USER(USER_ID, NICKNAME, PWD, REG_DIV_CD, REGPE_ID, REG_DTS, MOD_DTS) VALUES(#{user_id}, #{nickname}, #{pwd}, #{reg_div_cd}, #{regpe_id}, now(), now())
+		INSERT INTO USER(USER_ID, NICKNAME, PWD, REG_DIV_CD, REGPE_ID, REG_DTS, MOD_DTS) VALUES(#{user_id}, #{nickname}, #{pwd}, #{reg_div_cd}, #{user_id}, now(), now())
     </select>
     
     <select id="getNickname" resultType="String">
@@ -17,7 +17,7 @@
 		ORDER BY RAND() LIMIT 1
     </select>    
     
-    <select id="chekUserId" parameterType="String" resultType="int">
+    <select id="chekUserId" parameterType="userDto" resultType="int">
     	SELECT COUNT(USER_ID)
 		FROM   USER
 		WHERE  1 = 1

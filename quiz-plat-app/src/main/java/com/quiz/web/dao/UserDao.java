@@ -26,8 +26,8 @@ public class UserDao {
     	return sqlSession.selectOne(Namespace+".getNickname");
     }
     
-    public int chekUserId(String user_id) throws Exception{
-    	return sqlSession.selectOne(Namespace+".chekUserId", user_id);
+    public int chekUserId(UserDto userDto) throws Exception{
+    	return sqlSession.selectOne(Namespace+".chekUserId", userDto);
     }
     
     public boolean chekOurUser(LoginCommand loginCommand) throws Exception{

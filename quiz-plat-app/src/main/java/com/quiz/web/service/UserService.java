@@ -54,9 +54,8 @@ public class UserService {
     /*
      ** 가입된 회원인지 체크
      */
-    public int chekUserId(String user_id) throws Exception{
-    	
-    	return userDao.chekUserId(user_id);
+    public int chekUserId(UserDto userDto) throws Exception{  	
+    	return userDao.chekUserId(userDto);
     }
     
     /*

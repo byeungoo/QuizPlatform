@@ -97,7 +97,7 @@ public class WritingDtlService {
     public WritingDtlDto insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	try {
     		writingDtlDao.insertWritingDtl(writingDtlDto);
-    		writingDtlDto = writingDtlDao.getMainWritingDtlDto(writingDtlDto);
+    		writingDtlDto = writingDtlDao.getMainWritingDtlDto(writingDtlDto); //작성한 게시글 정보 조회
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
     	}
