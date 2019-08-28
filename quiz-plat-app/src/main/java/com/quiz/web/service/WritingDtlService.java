@@ -1,12 +1,16 @@
 package com.quiz.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.quiz.web.controller.MainController;
 import com.quiz.web.dao.WritingDtlDao;
 import com.quiz.web.dto.ParamDto;
 import com.quiz.web.dto.UserDto;
@@ -18,46 +22,42 @@ import common.paging.dto.WritingDtlPagingDto;
 @Service
 public class WritingDtlService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(WritingDtlService.class);
+	
     @Autowired
     private WritingDtlDao writingDtlDao;
     
     /*
-     ** 메인페이지 게시글 조회
+     ** 메인페이지 카테고리에따른 게시글 조회
      */
-    public List<WritingDtlDto> getTextWritingList(PagingDto pagingDto) throws Exception{
+    public List<WritingDtlDto> getMainPageWritingList(PagingDto pagingDto) throws Exception{
     	
     	int start = (pagingDto.getPage_num()-1)*pagingDto.getPage_size();
     	int end = pagingDto.getPage_num()*pagingDto.getPage_size();
     	Integer mainCategory = pagingDto.getMainCategory();
     	
-    	List<WritingDtlDto> pagingWritingDtlDtoList;
+    	List<WritingDtlDto> pagingWritingDtlDtoList = new ArrayList<WritingDtlDto>();
     
     	pagingDto.setStart(start);
     	pagingDto.setEnd(end);
     	
-    	if(mainCategory == 0) { //인기글 리스트 조회
-    		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
-    	} else if(mainCategory == 1){ //최근글 리스트 조회
-    		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
-    	} else { //나의 활동 내역 조회
-    		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
+    	try {
+        	if(mainCategory == 0) { 	  //인기글 리스트 조회
+        		pagingWritingDtlDtoList = writingDtlDao.getHotTextWritingList(pagingDto);
+        	} else if(mainCategory == 1){ //최근글 리스트 조회
+        		pagingWritingDtlDtoList = writingDtlDao.getTextWritingList(pagingDto);
+        	} else if(mainCategory == 2){ //투표 게시글 조회
+        		pagingWritingDtlDtoList = writingDtlDao.getMyVote(pagingDto);
+        	} else if(mainCategory == 3) { //투표+댓글단 게시글 조회
+        		pagingWritingDtlDtoList = writingDtlDao.getMyCommentWritingList(pagingDto);
+        	} else if(mainCategory == 4) { //내가 작성한 게시글 조회
+        		pagingWritingDtlDtoList = writingDtlDao.getMyWritingList(pagingDto);
+        	}
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
     	}
     	
     	return pagingWritingDtlDtoList;
-    }
-    
-    /*
-     ** 占싸깍옙 占쌉시깍옙 占쏙옙占쏙옙트 占쏙옙회
-     */  
-    public List<WritingDtlDto> getHotTextWritingList(PagingDto pagingDto) throws Exception{
-    	return writingDtlDao.getHotTextWritingList(pagingDto);
-    }
-    
-    /*
-     ** 占쏙옙占쏙옙 占쏙옙표 占쏙옙占쏙옙트 占쏙옙회
-     */  
-    public List<WritingDtlDto> getMyVote(PagingDto pagingDto) throws Exception{
-    	return writingDtlDao.getMyVote(pagingDto);
     }
     
     /*
@@ -65,7 +65,13 @@ public class WritingDtlService {
      */
     public WritingDtlDto getWritingDtl(ParamDto paramDto) throws Exception{
     	
-    	WritingDtlDto writingDtlDto = writingDtlDao.getTextWriting(paramDto);
+    	WritingDtlDto writingDtlDto = new WritingDtlDto();
+    	
+    	try {
+    		writingDtlDto = writingDtlDao.getTextWriting(paramDto);
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
+    	}
     	
     	return writingDtlDto;
     }
@@ -74,40 +80,62 @@ public class WritingDtlService {
      ** 게시글 투표 수 업데이트
      */  
     public void updateVote(ParamDto paramDto) throws Exception{
-    	
-    	if(paramDto.getVote() == 1) {
-    		writingDtlDao.updateFirVote(paramDto);
-    	} else if(paramDto.getVote() == 2) {
-    		writingDtlDao.updateSecVote(paramDto);
+    	try {
+        	if(paramDto.getVote() == 1) {
+        		writingDtlDao.updateFirVote(paramDto);
+        	} else if(paramDto.getVote() == 2) {
+        		writingDtlDao.updateSecVote(paramDto);
+        	}
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
     	}
     }
     
     /*
-     ** 占쌉시깍옙 占쌜쇽옙  
+     ** 게시글 작성
      */
-    public void insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
-    	writingDtlDao.insertWritingDtl(writingDtlDto);
+    public WritingDtlDto insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
+    	try {
+    		writingDtlDao.insertWritingDtl(writingDtlDto);
+    		writingDtlDto = writingDtlDao.getMainWritingDtlDto(writingDtlDto);
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
+    	}
+    	
+    	return writingDtlDto;
     }
     
     /*
      ** 글 조회 수 업데이트
      */
     public void updateHits(int writing_no) throws Exception{
-    	writingDtlDao.updateHits(writing_no);
+    	try {
+    		writingDtlDao.updateHits(writing_no);
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
+    	}
     }
     
     /*
      ** 인기리스트 페이징 조회
      */
     public List<WritingDtlDto> getPopulWritingDtoList(WritingDtlPagingDto writingDtlPagingDto) throws Exception{
-    	
+ 
     	int start = (writingDtlPagingDto.getPage_num()-1)*writingDtlPagingDto.getPage_size();
     	int end = writingDtlPagingDto.getPage_num()*writingDtlPagingDto.getPage_size();
     	
     	writingDtlPagingDto.setStart(start);
     	writingDtlPagingDto.setEnd(end);
     	
-    	return writingDtlDao.getPopulWritingDtoList(writingDtlPagingDto);
+    	List<WritingDtlDto> writingDtlListDto = new ArrayList<WritingDtlDto>();
+    	
+    	try {
+    		writingDtlListDto = writingDtlDao.getPopulWritingDtoList(writingDtlPagingDto);
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
+    	} 
+    	
+    	return writingDtlListDto;
     }
     
     /*

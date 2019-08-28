@@ -78,7 +78,10 @@
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
     	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS)
-    	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{regpe_id}, #{modpe_id}, now(), now(), 0)
+    	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0)
+		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
+    		SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     
     <update id="updateHits" parameterType="int">
@@ -258,5 +261,103 @@
     	INSERT INTO WRITING_REPORT(WRITING_NO, USER_ID, REPORT, REGPE_ID, REG_DTS, MOD_DTS)
     	VALUES(#{writing_no}, #{user_id}, #{report}, #{user_id}, now(), now())
     </insert>
+    
+	<select id="getMyCommentWritingList" parameterType="pagingDto" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.getMyCommentWritingList */
+ 		<![CDATA[
+		SELECT  *
+		FROM    (
+				SELECT  *
+				FROM    (
+						SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
+						      , W.WRITING_NO
+						      , W.FIR_WRIT_CONTENT
+						      , W.SEC_WRIT_CONTENT
+						      , W.FIR_VOTE_NO
+						      , W.SEC_VOTE_NO
+						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , (
+								SELECT COUNT(C.WRITING_NO)
+								FROM   COMMENT C
+								WHERE  1 = 1
+								AND    C.WRITING_NO = W.WRITING_NO
+								) SUM_COMMENT
+						FROM    WRITING W
+						      , ( SELECT @ROWNUM := 0 ) R
+						WHERE   1 = 1
+						AND     W.USE_YN = 'Y'
+						AND     EXISTS (
+										   SELECT C.WRITING_NO
+										   FROM   COMMENT C
+										   WHERE  1      	   = 1
+										   AND    C.WRITING_NO = W.WRITING_NO
+										   AND    C.REGPE_ID   = #{user_id}
+									   )
+						ORDER BY W.REG_DTS DESC
+					) A
+				WHERE 1 = 1
+				AND    A.RNUM <= #{end}
+			) B
+		WHERE 1 = 1
+		AND   B.RNUM > #{start}
+		]]>
+    </select>
+
+	<select id="getMyWritingList" parameterType="pagingDto" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.getMyWritingList */
+ 		<![CDATA[
+		SELECT  *
+		FROM    (
+				SELECT  *
+				FROM    (
+						SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
+						      , W.WRITING_NO
+						      , W.FIR_WRIT_CONTENT
+						      , W.SEC_WRIT_CONTENT
+						      , W.FIR_VOTE_NO
+						      , W.SEC_VOTE_NO
+						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , (
+								SELECT COUNT(C.WRITING_NO)
+								FROM   COMMENT C
+								WHERE  1 = 1
+								AND    C.WRITING_NO = W.WRITING_NO
+								) SUM_COMMENT
+						FROM    WRITING W
+						      , ( SELECT @ROWNUM := 0 ) R
+						WHERE   1          = 1
+						AND     W.USE_YN   = 'Y'
+						AND     W.REGPE_ID = #{user_id}
+						ORDER BY W.REG_DTS DESC
+					) A
+				WHERE 1 = 1
+				AND    A.RNUM <= #{end}
+			) B
+		WHERE 1 = 1
+		AND   B.RNUM > #{start}
+		]]>
+    </select>
+    
+	<select id="getMainWritingDtlDto" parameterType="writingDtlDto" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.getMainWritingDtlDto */
+ 		<![CDATA[
+		SELECT  W.WRITING_NO
+			  , W.FIR_WRIT_CONTENT
+			  , W.SEC_WRIT_CONTENT
+			  , W.FIR_VOTE_NO
+			  , W.SEC_VOTE_NO
+			  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+			  , (
+					SELECT COUNT(C.WRITING_NO)
+					FROM   COMMENT C
+					WHERE  1 = 1
+				    AND    C.WRITING_NO = W.WRITING_NO
+				) SUM_COMMENT
+		FROM    WRITING W
+		WHERE   1 = 1
+		AND     W.USE_YN     = 'Y'
+		AND		W.WRITING_NO = #{writing_no}
+		]]>
+    </select>
     
 </mapper>

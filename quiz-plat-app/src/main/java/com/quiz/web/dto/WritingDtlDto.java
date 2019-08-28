@@ -12,6 +12,7 @@ public class WritingDtlDto {
 	private String sec_writ_content;  //두번째 투표 내용
 	private String fir_writ_img_path; //첫번째 이미지 경로
 	private String sec_writ_img_path; //두번째 이미지 경로
+	private String user_id;           //유저아이디
 	private String regpe_id;          //등록자
 	private String modpe_id;          //변경자
 	private String nickname;          //닉네임
@@ -174,5 +175,11 @@ public class WritingDtlDto {
 	}
 	public void setReport(boolean report) {
 		this.report = report;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 }
