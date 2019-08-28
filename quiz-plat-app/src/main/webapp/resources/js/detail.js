@@ -1,8 +1,5 @@
 $(function () {
 	var mainWritingNo = getNumberInStr(window.location.search);
-	var oAjax = new ssj.util.ajax();
-	var oSpinner = new ssj.util.spinner();
-	var oToast = new ssj.util.toast();
 	var Footer = $(".reply_inputwrap");
 	oSpinner.setTarget($(".swiper-container"));
 	oSpinner.show(); //페이지 처음 진입시 스피너
@@ -97,6 +94,7 @@ $(function () {
 				oSwiper.appendItem(item);
 				activateAccordion($(oSwiper.getActiveSlide()).find(".accordion"));
 				setInitialVoteState();
+				setInitialHeaderState(oAjax.getResponseJson());
 				return makeSlideItems();
 			})
 			.then(item => {
@@ -174,16 +172,19 @@ $(function () {
 
 	function setInitialVoteState() {
 		var slide = oSwiper.getActiveSlide();
-		var vote =
-			parseInt(
-				$(slide)
-					.find(".whereYouVote")
-					.val(),
-				10
-			) - 1;
+		var vote = parseInt($(slide).find(".whereYouVote").val(), 10) - 1;
 		var cards = $(slide).find(".card");
 		if (vote >= 0) {
 			$(cards.get(vote)).trigger("update");
+		}
+	}
+
+	function setInitialHeaderState(response) {
+		if (response.report) {
+			$('.complain').addClass('on');
+			$('.complain').on('click', function () {
+				oToast.show('이미 신고된 게시글입니다');
+			});
 		}
 	}
 
@@ -199,11 +200,11 @@ $(function () {
 	function getActiveCommentId(e) {
 		var commentWrap =
 			$(e.target)
-				.closest(".detail_reply_subitem")
-				.get(0) ||
+			.closest(".detail_reply_subitem")
+			.get(0) ||
 			$(e.target)
-				.closest(".detail_replyitem")
-				.get(0);
+			.closest(".detail_replyitem")
+			.get(0);
 		return getNumberInStr($(commentWrap).attr("id"));
 	}
 
@@ -223,14 +224,24 @@ $(function () {
 		if (!depth) {
 			//댓글 입력
 			var commentList = $(".detail_replylist");
-			requestData = {writingNo,replytx,depth,parent: null};
+			requestData = {
+				writingNo,
+				replytx,
+				depth,
+				parent: null
+			};
 			addComment(requestData, commentList);
 		} else {
 			//대댓글 입력
 			var parent = mention.find('input[type="hidden"]').val();
 			var comment = slide.find(`#comment${parent}`);
 			var lowCommentList = comment.find(".detail_reply_subitems");
-			requestData = {writingNo,replytx,depth,parent};
+			requestData = {
+				writingNo,
+				replytx,
+				depth,
+				parent
+			};
 			addLowComment(requestData, lowCommentList);
 		}
 	});
@@ -244,7 +255,7 @@ $(function () {
 			clearComment();
 		});
 	}
-  
+
 	function addLowComment(requestData, commentList) {
 		oAjax.sendRequest(URL_CREATE_COMMENT, requestData, ID_TMPL_SUBREPLY, "POST").then(comment => {
 			commentList.append(comment);
@@ -257,7 +268,7 @@ $(function () {
 			clearComment();
 		});
 	}
-  
+
 	function refreshLowCommentList(commentList) {
 		var accordion = $(commentList).closest(".accordion");
 		var replyCount = accordion.find(".detail_reply_count");
@@ -274,10 +285,10 @@ $(function () {
 				"max-height",
 				$(this).height() +
 				$(this)
-					.find(".detail_reply_subitems")
-					.children()
-					.last()
-					.height()
+				.find(".detail_reply_subitems")
+				.children()
+				.last()
+				.height()
 			);
 	});
 	//좋아요, 싫어요 비동기처리
@@ -291,7 +302,11 @@ $(function () {
 		var prefer = $(e.target).hasClass("up") ? 0 : 1;
 		var recomWrap = $(e.target).parent();
 		var recomCount = recomWrap.find(".count");
-		var requestData = {writing_no,comment_no,prefer};
+		var requestData = {
+			writing_no,
+			comment_no,
+			prefer
+		};
 		oAjax
 			.sendUpdateRequest(URL_UPDATE_RECOMCOUNT, requestData, "POST")
 			.then(data => {
@@ -358,7 +373,7 @@ $(function () {
 		});
 
 	/* 상단 토스트메세지 */
-	$(".header_wrap").on("click", ".airplain",function (e) {
+	$(".header_wrap").on("click", ".airplain", function (e) {
 		var str = "URL이 복사되었습니다";
 		oToast.show(str);
 	});
@@ -367,11 +382,13 @@ $(function () {
 	$('body').on('click', '.complain', function () {
 		var slide = $(oSwiper.getActiveSlide());
 		var writing_no = getNumberInStr(slide.attr('id'));
-		oAjax.sendRequest(URL_CREATE_COMPLAIN,{writing_no},null,'POST').then( (data) => {
-			if(data === true){
+		oAjax.sendRequest(URL_CREATE_COMPLAIN, {
+			writing_no
+		}, null, 'POST').then((data) => {
+			if (data === true) {
 				$(this).prop('disabled', true);
 				oToast.show("신고되었습니다");
-			}else{
+			} else {
 				oToast.show("신고가 처리되지 못했습니다.");
 			}
 		}).catch(e => {

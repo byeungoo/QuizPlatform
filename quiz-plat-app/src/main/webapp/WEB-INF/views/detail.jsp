@@ -133,34 +133,13 @@
           <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
           <span class="detail_reply_subtitarea">
             <span class="detail_replytime">{{:mod_dts}}</span>
-            {{if vote}}
-              {{if vote==1}}
-                <span class="detail_replyinfos up">
-                  {{if sum_prefer > 0 }}
-                    {{include tmpl="#recomCountTx"/}}
-                  {{/if}}
-                  <button type="button" class="recommend sp00 up on"></button>
-                  <button type="button" class="recommend sp00 down"></button>
-                </span>
-              {{/if}}
-              {{if vote==2}}
-                <span class="detail_replyinfos down">
-                  {{if sum_prefer > 0 }}
-                    {{include tmpl="#recomCountTx"/}}
-                  {{/if}}
-                  <button type="button" class="recommend sp00 up"></button>
-                  <button type="button" class="recommend sp00 down on"></button>
-                </span>
-              {{/if}}
-              {{else}}
               <span class="detail_replyinfos">
                 {{if sum_prefer > 0 }}
                   {{include tmpl="#recomCountTx"/}}
                 {{/if}}
-                <button type="button" class="recommend sp00 up"></button>
+                <button type="button" class="recommend sp00 up "></button>
                 <button type="button" class="recommend sp00 down"></button>
               </span>
-            {{/if}}
           </span>
         </div>
         <span class="detail_replycont">
@@ -188,34 +167,13 @@
         <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
         <span class="detail_reply_subtitarea">
           <span class="detail_replytime">2019.11.27 17:01:45</span>
-          {{if vote}}
-            {{if vote==1}}
-              <span class="detail_replyinfos up">
-                {{if sum_prefer > 0 }}
-                  {{include tmpl="#recomCountTx"/}}
-                {{/if}}
-                <button type="button" class="recommend sp00 up on"></button>
-                <button type="button" class="recommend sp00 down"></button>
-              </span>
-            {{/if}}
-            {{if vote==2}}
-              <span class="detail_replyinfos down">
-                {{if sum_prefer > 0 }}
-                  {{include tmpl="#recomCountTx"/}}
-                {{/if}}
-                <button type="button" class="recommend sp00 up"></button>
-                <button type="button" class="recommend sp00 down on"></button>
-              </span>
-            {{/if}}
-            {{else}}
-              <span class="detail_replyinfos">
-                {{if sum_prefer > 0 }}
-                  {{include tmpl="#recomCountTx"/}}
-                {{/if}}
-                <button type="button" class="recommend sp00 up"></button>
-                <button type="button" class="recommend sp00 down"></button>
-              </span>
-          {{/if}}
+            <span class="detail_replyinfos">
+              {{if sum_prefer > 0 }}
+                {{include tmpl="#recomCountTx"/}}
+              {{/if}}
+              <button type="button" class="recommend sp00 up"></button>
+              <button type="button" class="recommend sp00 down"></button>
+            </span>
         </span>
         <span class="detail_replycont">
           {{:comment_content}}
