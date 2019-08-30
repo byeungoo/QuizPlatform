@@ -5,7 +5,8 @@ var oAjax, oSpinner, oToast;
 (function($){
   $.scrollLock = function (lock) {
     var $body = $('body');
-    lock ? $body.css('position', "fixed") : $body.removeAttr('style');
+    var style = {position:'fixed',top:0,left:0,right:0,bottom:0};
+    lock ? $body.css(style) : $body.removeAttr('style');
     return this;
   };
 })(jQuery);
@@ -29,19 +30,23 @@ function copyToClipboard(url) {
 }
 
 function toggleInputBdr(target) {
-  var len = target
-    .find("input, textarea")
-    .val()
-    .trim().length;
-  if (len > 0) target.addClass("on");
-  else if (len == 0) target.removeClass("on");
+  var len = $(target).find("input, textarea").val().trim().length;
+  if (len > 0) $(target).addClass("on");
+  else if (len == 0) $(target).removeClass("on");
 }
 
-function toggleTab(e) {
-  $(e.delegateTarget)
-    .children()
-    .removeClass("on");
-  $(e.target).addClass("on");
+function toggleTab(index) {
+  var target;
+  if(index>=2){
+    target = $('.mypage');
+    $($('.home_header_navlist').children()).removeClass('on');
+    $($('.home_header_navlist').children().eq(2)).addClass('on');
+    index -= 2;
+  }else{
+    target = $('.home_header_navlist');
+  }
+  $(target.children()).removeClass("on");
+  $(target.children().eq(index)).addClass("on");
 }
 
 function showToast(str) {
@@ -416,7 +421,7 @@ ssj.view.infiniteScroll.prototype = {
     return this.saved[categoryNum];
   },
   getTotalCateCount() {
-    return this.headerWrap.children().length;
+    return this.headerWrap.children().length + $('.mypage').children().length - 1;
   },
   getCurrentCateNum() {
     return this.headerWrap.find('.on').val();
@@ -492,76 +497,10 @@ $(function () {
     smoothState = $page.smoothState(options).data("smoothState");
 
   $(".result__write").on("keyup", function () {
-    if (
-      $(this)
-      .val()
-      .trim().length > 0
-    ) {
-      $(this)
-        .siblings("i")
-        .addClass("on");
+    if ($(this).val().trim().length > 0) {
+      $(this).siblings("i").addClass("on");
     } else {
-      $(this)
-        .siblings("i")
-        .removeClass("on");
-    }
-  });
-
-  $(".modal").on("keyup", ".modal_inp", function (e) {
-    if (
-      $(this)
-      .val()
-      .trim().length === 0
-    ) {
-      //누구든 입력이 없으면 보더 삭제
-      $(this).removeClass("on");
-      $(this).removeClass("wrong");
-    } else {
-      $(this).addClass("on");
-    }
-  });
-
-  //회원가입 비밀번호 중복 체크
-  $("#join").on("keyup", "input[type = 'password']", function (e) {
-    var pwdInputs = $(e.delegateTarget).find("input[type='password']");
-    var index = pwdInputs.index($(this));
-    var me = $(this);
-    var other = $(pwdInputs[Number(!index)]);
-    var str1 = me.val();
-    var str2 = other.val();
-    if (!str1) {
-      me.removeClass("on");
-      me.removeClass("wrong");
-      return;
-    } else if (!str2) {
-      me.addClass("on");
-      return;
-    }
-
-    if (str1.length !== str2.length) {
-      //다른인풋이 비어있지 않을땐 길이가 같을때만 파랑 -> 빨강 보더
-      pwdInputs.removeClass("on");
-      pwdInputs.addClass("wrong");
-    } else {
-      if (str1 === str2) {
-        pwdInputs.removeClass("wrong");
-        pwdInputs.addClass("on");
-      } else {
-        $(this).removeClass("on");
-      }
-    }
-  });
-
-  //modal 제출 버튼 클릭시
-  $(".modal").on("click", ".modal_submit", function (e) {
-    var group = $(e.delegateTarget).find(".modal_inp");
-    var index = areNotCompleted(group);
-    if (index !== -1) {
-      setTimeout(function () {
-        $(group[index]).prop("placeholder", "항목을 입력해주세요.");
-        $(group[index]).focus();
-      }, 0);
-      return false;
+      $(this).siblings("i").removeClass("on");
     }
   });
 
@@ -596,3 +535,4 @@ $(function () {
     wrapper.toggleClass("on");
   });
 });
+

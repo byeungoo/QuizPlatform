@@ -9,7 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>PickVS</title>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
@@ -26,8 +25,35 @@
   </header>
   <div class="wrapper m-scene">
     <section class="main-sec">
+      <div class="mypage" style="display:none;">
+        <button type="button" class="mypage_myvote rdo_toggle" value="2">내가 투표한 글</button>
+        <button type="button" class="mypage_mycomment rdo_toggle" value="3">내가 댓글단 글</button>
+        <button type="button" class="mypage_mycomment rdo_toggle" value="4">내 게시글</button>
+      </div>
       <ul class="main-sec__list">
       </ul>
+    </section>
+    <section class="main-sec write" style="display:none;">
+      <form onsubmit="createWrite();return false;">
+        <div class="write_area">
+          <input type="text" class="write_inp" id="_write_front">
+          <label for="_write_front" class="write_tit">닥전 : 최대 50자</label>
+        </div>
+        <div class="write_area">
+          <input type="text" class="write_inp" id="_write_back">
+          <label for="_write_back" class="write_tit">닥후 : 최대 50자</label>
+        </div>
+        <div class="write_area ty_wide">
+          <textarea class="write_inp " id="_write_textarea" rows="30"></textarea>
+          <label for="_write_textarea">
+            <h2 class="write_tit">설명</h2>
+            <span class="write_cont">타인에게 불쾌감을 주는 글은 작성자의 동의 없이 삭제될 수 있으며 작성자는
+              서비스 이용이 정지될 수 있습니다.
+            </span>
+          </label>
+        </div>
+        <button class="write_submit" onclick="$(this).toggleClass('on');">만들기</button>
+      </form>
     </section>
   </div>
   <footer>
@@ -38,68 +64,78 @@
       </button>
       <button type="button" class="bottom_navbaritem sp42 lock toggle_on_off">
       </button>
+      <button type="button" class="bottom_navbaritem sp42 person toggle_on_off" style="display:none;">
+      </button>
     </div>
   </footer>
   <!-- 회원 가입 모달창-->
-  <div class="modal" id="join" style="display:none;width:85vw;">
-    <form action="http://pickvs.com/login">
-      <button class="modal_close"><i class="fas fa-times fa-2x"></i></button>
-      <div class="modal_cont">
-        <div class="modal_inparea">
-          <label for="join1" class="modal_inp_tit">아이디</label>
-          <input type="text" class="modal_inp" placeholder="아이디를 입력해주세요" name="user_id" id="join1">
+  <div class="modal" id="join" style="display:none;width:95vw;">
+    <form id="_join_form">
+      <div class="modal_ctn">
+        <div class="modal_header">
+          <h1 class="modal_header_tit">회원가입</h1>
         </div>
-        <div class="modal_inparea">
-          <label for="join2" class="modal_inp_tit">닉네임</label>
-          <input type="text" class="modal_inp" placeholder="행복한 돼지" name="" id="join2">
+        <div class="modal_cont">
+            <div class="modal_inp_wrap">
+              <input type="text" class="modal_inp" placeholder="닉네임" name="nickname" value="노래하는키큰다람쥐">
+              <span class="sp00 check"></span>
+            </div>
+            <div class="modal_inp_wrap">
+              <input type="text" class="modal_inp" placeholder="아이디" name="user_id">
+              <span class="sp00 check"></span>
+            </div>
+            <div class="modal_inp_wrap">
+              <input type="password" class="modal_inp" placeholder="비밀번호" name="pwd" autocomplete="new-password">
+              <span class="sp00 check"></span>
+            </div>
+            <div class="modal_inp_wrap">
+              <input type="password" class="modal_inp" placeholder="비밀번호 확인" autocomplete="new-password">
+              <span class="sp00 check"></span>
+            </div>
         </div>
-        <div class="modal_inparea">
-          <label for="join3" class="modal_inp_tit">비밀번호</label>
-          <input type="password" class="modal_inp" placeholder="비밀번호" id="join3">
+        <div class="modal_footer">
+            <button class="modal_submit modal_footbtn">필수 항목을 작성해주세요</button>
         </div>
-        <div class="modal_inparea">
-          <label for="join4" class="modal_inp_tit">비밀번호 확인</label>
-          <input type="password" class="modal_inp" placeholder="한번 더 입력해주세요" id="join4">
-        </div>
-        <button class="modal_submit modal_footbtn">회원가입</button>
       </div>
+      <button class="modal_close ico_close"></button>
     </form>
   </div>
   <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
 
   <!-- 로그인 모달창-->
-  <div class="modal" id="login" style="display:none;width:85vw;">
+  <div class="modal" id="login" style="display:none;width:95vw;">
     <button class="modal_close"><i class="fas fa-times fa-2x"></i></button>
-    <form action="http://pickvs.com/login" method="POST">
-      <div class="modal_cont">
-        <div class="modal_inparea">
-          <label for="login1" class="modal_inp_tit">아이디</label>
-          <input type="text" class="modal_inp" placeholder="아이디를 입력해주세요" name="user_id" id="login1">
+    <form id="_login_form">
+      <div class="modal_ctn">
+        <div class="modal_header">
+          <h1 class="modal_header_tit">로그인</h1>
+          <button type="button" class="modal_header_tittx">회원가입<span class="sp00 arrow_right_blue"></span></button>
         </div>
-        <div class="modal_inparea">
-          <label for="login2" class="modal_inp_tit">비밀번호</label>
-          <input type="password" class="modal_inp" placeholder="비밀번호" name="pwd" id="login2">
+        <div class="modal_cont">
+          <div class="modal_inp_wrap">
+            <input type="text" class="modal_inp" placeholder="아이디" name="user_id">
+            <span class="sp00 check"></span>
+          </div>
+          <div class="modal_inp_wrap">
+            <input type="password" class="modal_inp" placeholder="비밀번호" name="pwd" autocomplete="new-password">
+            <span class="sp00 check"></span>
+          </div>
+          <!-- <div class="modal_inparea">
+            <input type="checkbox" class="modal_chk" name="login_chk" name="rememberId">
+            <label for="login_chk" class="modal_chk_tit">자동로그인</label>
+          </div> -->
         </div>
-        <div class="modal_inparea">
-          <input type="checkbox" class="modal_chk" id="login_chk" name="rememberId">
-          <label for="login_chk" class="modal_chk_tit">자동로그인</label>
+        <div class="modal_footer">
+          <button class="modal_submit modal_footbtn">필수 항목을 작성해주세요</button>
         </div>
-        <button class="modal_footbtn modal_submit">로그인</button>
-        <button class="modal_footbtn" onclick="$('.modal_close').click(); $('#join_trigger').click();">회원가입</button>
       </div>
+      <button class="modal_close ico_close"></button>
     </form>
   </div>
-  <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
-  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-  <script src="resources/js/smoothState.js"></script>
-  <script src="resources/js/jquery.leanModal.min.js"></script>
-  <script src="resources/js/constant.js"></script>
-  <script src="resources/js/common.js"></script>
-  <script src="resources/js/jsrender.min.js"></script>
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
       <div class="card">
-        <a href="/detail?writing_no={{:writing_no}}">
+        <a href="/detail.html?writing_no={{:writing_no}}">
           <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
           <div class="card__vsimg">
             <span class="sp00 vs"></span>
@@ -119,12 +155,178 @@
       </div>
     </li>
   </script>
+  <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+  <script src="resources/js/smoothState.js"></script>
+  <script src="resources/js/jquery.leanModal.min.js"></script>
+  <script src="resources/js/constant.js"></script>
+  <script src="resources/js/common.js"></script>
+  <script src="resources/js/jsrender.min.js"></script>
   <script>
+
+    function createWrite(){
+      var fir_writ_content = $('#_write_front').val();
+      var sec_writ_content = $('#_write_back').val();
+      var content = $('#_write_textarea').val();
+      var data = { fir_writ_content, sec_writ_content, content}
+      oAjax.sendRequest(URL_CREATE_VOTE,data, ID_TMPL_MAIN_CARD,'POST',null).then( html => {
+        $($('.home_header_navlist').children().eq(1)).click();
+        $('.main-sec__list.on').prepend(html);
+        resetBottomNavbar();
+        $('html,body').animate({scrollTop:0},0);
+        $('.write_inp').val('').siblings('label').show();
+        $('.write_submit').removeClass('on');
+      })
+    }
+
+    function resetBottomNavbar(){
+      $($('.bottom_navbar').children()).removeClass('on').removeClass('off');
+    }
+
+    $('.home_header_navlist').on('click',function(){
+      var section = $('.main-sec');
+      resetBottomNavbar();
+      $(section.eq(0)).show();
+      $(section.eq(1)).hide();
+    });
+
+    $('.bottom_navbar').on('click','.plus',function(e){
+      var section = $('.main-sec');
+      var plus = $(e.currentTarget);
+      section.toggle();
+    })
+
+    $('.write_inp').on('blur',function(e){
+      $(this).siblings('label').hide();
+    }).on('keyup',function(e){
+      var label = $(this).siblings('label')
+      !$(this).val().length ? label.show() : label.hide();
+    })
+
+    $('#login .modal_header_tittx').on('click',function(){
+      $('#join').find('.modal_close').click();
+      $('#join_trigger').click();
+    });
+
+    var joinForm = $('#join');
+    var joinInpGroup = joinForm.find('.modal_inp');
+    var pwdGroup = joinForm.find('input[type="password"].modal_inp');
+    var firstPwd = pwdGroup.eq(0);
+    var secondPwd = pwdGroup.eq(1);
+    var joinFootBtn = joinForm.find('.modal_footbtn');
+    var joinClose = joinForm.find('.modal_close');
+    var total = joinInpGroup.length;
+    joinInpGroup.on('keyup',function(e){
+      if($(e.target).val().length){
+        $(this).addClass('on');
+      }else{
+        $(this).removeClass('on');
+      }
+      if(isCompleteForm(joinInpGroup)) {
+        joinFootBtn.addClass('on').text('회원가입');
+      }else{
+        joinFootBtn.removeClass('on').text('필수 항목을 작성해주세요');
+      }
+    });
+    secondPwd.on('keyup',function(e){
+      if(!secondPwd.val().length){
+        secondPwd.removeClass('wrong');
+      }
+      else if(firstPwd.val() != secondPwd.val()) {
+        secondPwd.addClass('wrong').removeClass('on'); 
+      }else{
+        secondPwd.addClass('on').removeClass('wrong'); 
+      }
+    });
+
+    var loginForm = $('#login');
+    var loginInpGroup = loginForm.find('.modal_inp');
+    var loginFootBtn = loginForm.find('.modal_footbtn');
+    loginInpGroup.on('keyup',function(e){
+      if ($(e.target).val().length) {
+        $(this).addClass('on').removeClass('wrong');
+      } else {
+        $(this).removeClass('on');
+      }
+      if (isCompleteForm(loginInpGroup)) {
+        loginFootBtn.addClass('on').text('로그인');
+      } else {
+        loginFootBtn.removeClass('on').text('필수 항목을 작성해주세요');
+      }
+    });
+
+    $('.person').on('click',function(){
+      oAjax.sendRequest(URL_REMOVE_SESSION,null,null,'POST',null).then( json => {
+        if(!json.login){
+          oToast.show('로그아웃 되었습니다');
+          $('.person').hide();
+          $('.lock').show();
+        }
+      });
+    });
+
+    $("#_join_form").on('submit',function(e){
+      e.preventDefault();
+      var nickname = joinInpGroup.eq(0).val();
+      var user_id = joinInpGroup.eq(1).val();
+      var pwd = joinInpGroup.eq(2).val();
+      var data = {user_id,pwd,nickname}
+      createMember(data);
+    });
+
+    $("#_login_form").on('submit',function(e){
+      e.preventDefault();
+      var user_id = loginInpGroup.eq(0).val();
+      var pwd = loginInpGroup.eq(1).val();
+      var rememberId = false;
+      data = { user_id, pwd, rememberId };
+      requestLogin(data);
+    });
+
+    function requestLogin(data){
+      oAjax.sendRequest(URL_CREATE_SESSION,data,null,'POST',null).then( json => {
+        if(json.login){
+          oToast.show(json.nickname+"님 환영합니다");
+          loginForm.find('.modal_close').click();
+          $('.lock').hide();
+          $('.person').show();
+        }else{
+          loginInpGroup.addClass('wrong').removeClass('on');
+        }
+      });
+    }
+
+    function createMember(data) {
+      oAjax.sendRequest(URL_CREATE_MEMBER,data,null,'POST',null).then( json => {
+        if(json.login){
+          oToast.show(json.nickname + "님 환영합니다");
+          var storage = window.sessionStorage;
+          storage.setItem('userId',json.user_id);
+          storage.setItem('nickname', json.nickname);
+          storage.setItem('type', json.reg_div_cd);
+          joinClose.click();
+          $('.lock').hide();
+          $('.person').show();
+        }else{
+          oToast.show("이미 존재하는 회원입니다");
+        }
+      });
+    }
+
+    function isCompleteForm(inpGroup) {
+      for (var i = 0; i < inpGroup.length; i++) {
+        if (!inpGroup.eq(i).hasClass('on')) return false;
+      }
+      return true;
+    }
 
     $('.bottom_navbaritem.lock').on('click',function(){
       $('#login_trigger').click();
       $.scrollLock(true);
     });
+    $('#join_trigger').on('click',function(){
+      $.scrollLock(true);
+    })
     $('body').on('click','.modal_close',function(){
       $.scrollLock(false);
       $('.bottom_navbar').children().removeClass('on').removeClass('off');
@@ -158,18 +360,36 @@
         e.preventDefault();
       });
       window.onpopstate = function (e) {
-        $('body').find('.iframe_wrapper').remove();
-        $('body').children().show();
+        var $body = $('body');
+        $body.find('.iframe_wrapper').remove();
+        $body.find('header').show();
+        $body.find('.wrapper').show();
+        $body.find('footer').show();
       }
 
       oSsjViewInfinite = new ssj.view.infiniteScroll();
       //인피니티 스크롤 : 탭 전환시 스크롤 위치 기억
       $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
+        var mypage = $('.mypage');
+        if($(e.currentTarget).text() == "활동"){
+          mypage.show().children('button').eq(0).click();
+          return false;
+        }else{
+          mypage.hide();
+        }
         oSsjViewInfinite.saveCurrentState();
-        toggleTab(e);
+        toggleTab($(e.currentTarget).val());
         oSsjViewInfinite.switchCategory();
         scrollByPosition(oSsjViewInfinite.getCurrentScrollTop());
       });
+
+      $('.mypage').on('click','button',function(e){
+        oSsjViewInfinite.saveCurrentState();
+        toggleTab($(e.currentTarget).val());
+        oSsjViewInfinite.switchCategory();
+        scrollByPosition(oSsjViewInfinite.getCurrentScrollTop());
+      });
+
     });
     
   </script>

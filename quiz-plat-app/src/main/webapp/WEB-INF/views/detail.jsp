@@ -19,20 +19,7 @@
 </head>
 
 <body>
-  <div>
-    <c:choose>
-      <c:when test="${cookie.remember.value != null}">
-        <ul>
-          ${cookie.remember.value}
-        </ul>
-      </c:when>
-      <c:otherwise>
-        쿠키 없음
-      </c:otherwise>
-    </c:choose>
-  </div>
-
-  <div class="wrapper detail_wrap wrapper--white m-scene" id="main">
+  <section class="wrapper detail_wrap wrapper--white m-scene" id="main">
     <div class="page scene_element scene_element--fadeinright">
       <header class="header_wrap">
         <button class="sp24 back" type="button" onclick="window.history.back(-1);"></button>
