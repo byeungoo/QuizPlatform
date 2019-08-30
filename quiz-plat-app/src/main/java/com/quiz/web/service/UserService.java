@@ -159,23 +159,7 @@ public class UserService {
     	Object userDto = session.getAttribute("login");
     	
     	UserDto user = new UserDto();
-    	
-    	try {
-	        if(userDto!=null) {  //로그인 되있음
-	        	user = (UserDto) userDto;
-	        	user.setRegpe_id(user.getUser_id());
-	        	user.setLogin(true);
-	        	user.setReg_div_cd("10");
-	        } else {            //비회원 정보 세팅
-	        	session = request.getSession();
-	        	user.setUser_id(session.toString());
-	        	user.setRegpe_id(session.toString());
-	        	user.setLogin(false);
-	        	user.setReg_div_cd("20");
-	        }
-    	} catch(Exception e) {
-    		System.err.println(e.getMessage());
-    	}
+    	user = (UserDto) userDto;
     	
     	return user;
     }

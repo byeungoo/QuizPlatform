@@ -117,6 +117,7 @@ public class LoginController {
     		
             userDto = userService.getUserDto(loginCommand.getUser_id());
             userDto.setLogin(true);
+            session.removeAttribute("login");
             session.setAttribute("login", userDto);	
     	} else { //로그인 실패
     		userDto.setLogin(false);
@@ -129,7 +130,7 @@ public class LoginController {
      ** 로그아웃
      */
     @CrossOrigin
-    @RequestMapping(value="/logout", method = RequestMethod.POST)
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
     public @ResponseBody UserDto logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
     	
     	Cookie cookie = WebUtils.getCookie(request, "remember");

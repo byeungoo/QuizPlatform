@@ -10,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.quiz.web.controller.MainController;
 import com.quiz.web.dao.WritingDtlDao;
 import com.quiz.web.dto.ParamDto;
-import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.paging.dto.PagingDto;

@@ -360,4 +360,43 @@
 		]]>
     </select>
     
+  	<select id="searchWrtingList" parameterType="searchDto" resultType="writingDtlDto">
+ 		/* com.quiz.mapper.writingDtlMapper.searchWrtingList */
+ 		<![CDATA[
+		SELECT  *
+		FROM    (
+				SELECT  *
+				FROM    (
+						SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
+						      , W.WRITING_NO
+						      , W.FIR_WRIT_CONTENT
+						      , W.SEC_WRIT_CONTENT
+						      , W.FIR_VOTE_NO
+						      , W.SEC_VOTE_NO
+						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , (
+								    SELECT COUNT(C.WRITING_NO)
+									FROM   COMMENT C
+									WHERE  1 = 1
+									AND    C.WRITING_NO = W.WRITING_NO
+								) SUM_COMMENT
+						FROM    WRITING W
+						      , ( SELECT @ROWNUM := 0 ) R
+						WHERE   1 = 1
+						AND     W.USE_YN = 'Y'
+						AND	    (
+						            MATCH(W.FIR_WRIT_CONTENT, W.SEC_WRIT_CONTENT) AGAINST (#{srch_word}) 
+						            OR W.FIR_WRIT_CONTENT LIKE CONCAT('%',#{srch_word},'%')
+						            OR W.SEC_WRIT_CONTENT LIKE CONCAT('%',#{srch_word},'%')
+						        )
+						ORDER BY W.REG_DTS DESC
+					) A
+				WHERE 1 = 1
+				AND    A.RNUM <= #{end}
+			) B
+		WHERE 1 = 1
+		AND   B.RNUM > #{start}
+		]]>
+    </select>
+    
 </mapper>

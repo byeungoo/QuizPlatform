@@ -72,6 +72,8 @@
     <select id="checkLoginBefore" resultType="userDto">
     	SELECT  USER_ID
     	      , NICKNAME
+    	      , REG_DIV_CD
+    	      , REGPE_ID
     	FROM    USER
     	WHERE   SESSION_KEY = #{session_id}
     </select>
@@ -79,6 +81,8 @@
     <select id="getUserDto" resultType="userDto">
     	SELECT  USER_ID
     	      , NICKNAME
+    	      , REG_DIV_CD
+    	      , REGPE_ID
     	FROM    USER
     	WHERE   1 = 1
     	AND     USER_ID = #{user_id}

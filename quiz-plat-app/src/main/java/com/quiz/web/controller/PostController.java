@@ -67,6 +67,7 @@ public class PostController {
     	writingDtlDto.setUser_id(userDto.getUser_id());
 
     	writingDtlDto = writingDtlService.insertWritingDtl(writingDtlDto);
+    	userService.insertUser(userDto);
     	
     	return writingDtlDto;
     }

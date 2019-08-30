@@ -3,13 +3,11 @@ package com.quiz.web.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import org.apache.ibatis.session.SqlSession;
-
 import com.quiz.web.dto.ParamDto;
-import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
 
 import common.paging.dto.PagingDto;

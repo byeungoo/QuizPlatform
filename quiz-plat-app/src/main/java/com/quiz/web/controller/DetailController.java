@@ -87,9 +87,9 @@ public class DetailController {
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(paramDto);
-	    List<CommentDto> commendDtoList = commentService.getCommentDtoList(paramDto);  
+	    List<CommentDto> commentDtoList = commentService.getCommentDtoList(paramDto);  
 	    
-	    writingDtlDto.setDetailCommentList(commendDtoList);
+	    writingDtlDto.setDetailCommentList(commentDtoList);
     
     	return writingDtlDto;
     }    
@@ -157,9 +157,7 @@ public class DetailController {
 	    	UserDto userDto = userService.getUesrSettingDto(session, request);
 	    	
 	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(userDto) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록 및 닉네임 사용여부 Y변경
-	        	userDto.setNickname(userService.getNickname());
 	        	userService.insertUser(userDto);
-	        	//userService.updateNickname(userDto.getNickname());
 	    	}
 	    	
 	    	ParamDto paramDto = new ParamDto();
@@ -195,9 +193,7 @@ public class DetailController {
     	UserDto userDto = userService.getUesrSettingDto(session, request);
     	
     	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(userDto) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
-        	userDto.setNickname(userService.getNickname());
         	userService.insertUser(userDto);
-        	//userService.updateNickname(userDto.getNickname());
     	}
     	
     	//댓글 저장 후 반환
@@ -244,9 +240,7 @@ public class DetailController {
     	
     	try {
 	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(userDto) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
-	        	userDto.setNickname(userService.getNickname());
 	        	userService.insertUser(userDto);
-	        	//userService.updateNickname(userDto.getNickname());
 	    	}
 	    	commentPrefer = commentService.commentPreferUpdate(commentPrefer);
     	} catch(Exception e) {

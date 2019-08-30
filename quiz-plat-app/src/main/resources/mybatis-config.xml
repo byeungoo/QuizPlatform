@@ -16,6 +16,7 @@
             <typeAlias type="common.AuthInfo" alias="authInfo"/>
             <typeAlias type="common.paging.dto.PagingDto" alias="pagingDto"/>
             <typeAlias type="common.paging.dto.WritingDtlPagingDto" alias="writingDtlPagingDto"/>
+            <typeAlias type="common.search.dto.SearchDto" alias="searchDto"/>
         </typeAliases>
 
     </configuration>

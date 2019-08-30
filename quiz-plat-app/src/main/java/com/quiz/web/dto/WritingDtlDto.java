@@ -3,6 +3,8 @@ package com.quiz.web.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class WritingDtlDto {
 	
 	private int    writing_no;        //게시글번호
@@ -16,7 +18,9 @@ public class WritingDtlDto {
 	private String regpe_id;          //등록자
 	private String modpe_id;          //변경자
 	private String nickname;          //닉네임
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date   reg_dts;           //등록일
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date   mod_dts;           //변경일
 	private int    hits;              //조회수
 	private int    sum_vote;          //총 투표수

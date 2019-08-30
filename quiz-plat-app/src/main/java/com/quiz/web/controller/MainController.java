@@ -21,6 +21,8 @@ import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 
 import common.paging.dto.PagingDto;
+import common.search.dto.SearchDto;
+import common.search.service.SearchService;
 
 /**
  * 메인페이지 컨트롤러
@@ -37,6 +39,9 @@ public class MainController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private SearchService searchService;
     
     /**
      * 인기순 조회(메인)
@@ -67,5 +72,19 @@ public class MainController {
     	List<WritingDtlDto> writingDtlDtoList = writingDtlService.getMainPageWritingList(pagingDto);
 
         return writingDtlDtoList;
-    }
+    }   
+    
+    /*
+     ** 메인페이지 게시글 검색 구현
+     */    
+    @CrossOrigin
+    @RequestMapping(value = "/searchWrtingList", method = RequestMethod.GET)
+    public @ResponseBody List<WritingDtlDto> searchWrting(HttpSession session, HttpServletRequest request
+    		          , SearchDto searchDto) throws Exception{
+    	
+    	List<WritingDtlDto> writingDtlDtoList = searchService.searchWrtingList(searchDto);
+
+        return writingDtlDtoList;
+    }  
+    
 }
