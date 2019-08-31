@@ -18,7 +18,9 @@ var URL_UPDATE_RECOMCOUNT = URL_BASE + "commentPreferUpdate";
 var URL_READ_SLIDE_DATA = URL_BASE + "getDetailDtoList";
 var URL_READ_FIRST_SLIDE_DATA = URL_BASE + "getWritingDtlDto";
 var URL_READ_MAIN_CARD_DATA = URL_BASE + "getPagingList";
+var URL_READ_SEARCH_CARD_DATA = URL_BASE + "searchWrtingList";
 
 var URL_REMOVE_SESSION = URL_BASE + "logout";
 
 var PAGE_NAME_SWIPE = "swipe";
+var PAGE_NAME_SEARCH = "search";

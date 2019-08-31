@@ -3,7 +3,6 @@ $(function () {
 	var Footer = $(".reply_inputwrap");
 	oSpinner.setTarget($(".swiper-container"));
 	oSpinner.show(); //페이지 처음 진입시 스피너
-
 	//무한 스와이프
 	var oSwiper = new ssj.util.swiper({
 		direction: "horizontal",
@@ -25,14 +24,25 @@ $(function () {
 				oSwiper.refreshSlideHeight();
 				toggleFooter();
 				scrollToTop();
+				setHeaderState();
+				resetAddress();
 			}
 		}
 	});
 
+	function resetAddress(){
+		var id = getNumberInStr($(oSwiper.getActiveSlide()).attr('id'));
+		var url = window.location.origin + window.location.pathname + "?writing_no=" + id;
+		window.history.replaceState(null,null,url);
+	}
 	function toggleFooter() {
 		isAlreadyVoted() ? Footer.show() : Footer.hide();
 	}
 	toggleFooter();
+
+	function toggleHeader(){
+
+	}
 
 	//한 페이지 내에서 카드 정보 업데이트
 	function updateCardsData(cards, json) {
@@ -94,7 +104,7 @@ $(function () {
 				oSwiper.appendItem(item);
 				activateAccordion($(oSwiper.getActiveSlide()).find(".accordion"));
 				setInitialVoteState();
-				setInitialHeaderState(oAjax.getResponseJson());
+				setHeaderState();
 				return makeSlideItems();
 			})
 			.then(item => {
@@ -179,12 +189,13 @@ $(function () {
 		}
 	}
 
-	function setInitialHeaderState(response) {
-		if (response.report) {
-			$('.complain').addClass('on');
-			$('.complain').on('click', function () {
-				oToast.show('이미 신고된 게시글입니다');
-			});
+	function setHeaderState() {
+		var slide = $(oSwiper.getActiveSlide());
+		var isComplained = slide.find('.isComplained').val() === 'true';
+		if (isComplained) {
+			$('.complain').addClass('on').prop('disabled',true);
+		}else{
+			$('.complain').removeClass('on').prop('disabled',false);
 		}
 	}
 
@@ -223,7 +234,7 @@ $(function () {
 		var requestData;
 		if (!depth) {
 			//댓글 입력
-			var commentList = $(".detail_replylist");
+			var commentList = slide.find(".detail_replylist");
 			requestData = {
 				writingNo,
 				replytx,
@@ -380,21 +391,30 @@ $(function () {
 
 	// 신고
 	$('body').on('click', '.complain', function () {
+		Complain();
+	});
+
+	function Complain(){
 		var slide = $(oSwiper.getActiveSlide());
 		var writing_no = getNumberInStr(slide.attr('id'));
+		var btn = $('.complain');
 		oAjax.sendRequest(URL_CREATE_COMPLAIN, {
 			writing_no
 		}, null, 'POST').then((data) => {
 			if (data === true) {
-				$(this).prop('disabled', true);
+				btn.addClass('on').prop('disabled', true);
 				oToast.show("신고되었습니다");
 			} else {
-				oToast.show("신고가 처리되지 못했습니다.");
+				oToast.show("이미 신고된 게시글입니다.");
 			}
 		}).catch(e => {
 			oToast.show("신고가 처리되지 못했습니다.");
 			console.log(e);
 		});
-	});
+	}
 
+	$('.airplain').on('click',function(e){
+		e.preventDefault();
+		copyToClipboard(window.location.href);
+	})
 });

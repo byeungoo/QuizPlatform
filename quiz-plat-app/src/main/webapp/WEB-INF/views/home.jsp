@@ -32,6 +32,9 @@
       </div>
       <ul class="main-sec__list">
       </ul>
+      <ul class="main-sec__searchlist">
+        
+      </ul>
     </section>
     <section class="main-sec write" style="display:none;">
       <form onsubmit="createWrite();return false;">
@@ -44,7 +47,7 @@
           <label for="_write_back" class="write_tit">닥후 : 최대 50자</label>
         </div>
         <div class="write_area ty_wide">
-          <textarea class="write_inp " id="_write_textarea" rows="30"></textarea>
+          <textarea class="write_inp " id="_write_textarea" rows="20"></textarea>
           <label for="_write_textarea">
             <h2 class="write_tit">설명</h2>
             <span class="write_cont">타인에게 불쾌감을 주는 글은 작성자의 동의 없이 삭제될 수 있으며 작성자는
@@ -104,7 +107,6 @@
 
   <!-- 로그인 모달창-->
   <div class="modal" id="login" style="display:none;width:95vw;">
-    <button class="modal_close"><i class="fas fa-times fa-2x"></i></button>
     <form id="_login_form">
       <div class="modal_ctn">
         <div class="modal_header">
@@ -132,6 +134,19 @@
       <button class="modal_close ico_close"></button>
     </form>
   </div>
+
+  <!-- 검색창 -->
+  <a href="#_searchbar" id="_searchbar_trigger" class="blind" rel="leanModal">검색창</a>
+  <div class="modal ty_search" id="_searchbar" style="display:none;width:100vw;">
+    <div class="modal_ctn">
+      <div class="modal_cont">
+        <input type="text" class="modal_inp">
+        <span class="sp42 search"></span>
+      </div>
+    </div>
+    <button class="modal_close ico_close blind"></button>
+  </div>
+
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
       <div class="card">
@@ -155,6 +170,7 @@
       </div>
     </li>
   </script>
+  
   <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
@@ -194,6 +210,28 @@
       var section = $('.main-sec');
       var plus = $(e.currentTarget);
       section.toggle();
+    }).on('click','.search',function(e){
+      $('#_searchbar_trigger').click();
+      $('.home_header_navlist').hide();
+      $('.main-sec__list').hide();
+      $('.main-sec__searchlist').show();
+      $('.main-sec.write').hide();
+    });
+
+    $('#_searchbar').on('click','.search',function(e){
+      var $input = $(e.delegateTarget).find('input');
+      //var page_num = oAjax.getCurrentPageNum(PAGE_NAME_SEARCH);
+      var srch_word = $input.val();
+      var srch_type_div_cd = 0;
+      var data = {page_num : 1,srch_word,srch_type_div_cd};
+      console.log(data);
+      oAjax.sendRequest(URL_READ_SEARCH_CARD_DATA,data, ID_TMPL_MAIN_CARD,'GET').then( html => { 
+        $('.main-sec__searchlist').empty().append(html).show();
+        $('.main-sec').show();
+        $('.main-sec.write').hide();
+        $input.val('');
+        $(e.delegateTarget).find('.modal_close').click();
+      });
     })
 
     $('.write_inp').on('blur',function(e){
@@ -207,6 +245,7 @@
       $('#join').find('.modal_close').click();
       $('#join_trigger').click();
     });
+
 
     var joinForm = $('#join');
     var joinInpGroup = joinForm.find('.modal_inp');
@@ -333,7 +372,7 @@
     });
     var oSsjViewInfinite;
     $(function () {
-      $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join' }); //a태그에 모달 켜기 기능 추가
+      $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join', topfix:'#_searchbar' }); //a태그에 모달 켜기 기능 추가
       //$("#login_trigger").click();
       //인피니티 스크롤 위치 기억
       $('.main-sec__list').on('click', 'a', function (e) {
@@ -350,7 +389,8 @@
           scrolling: 'yes',
           css: {
             height: "100vh",
-            width: "100vw"
+            width: "100vw",
+            '-webkit-backface-visibility': hidden
           }
         });
         ifrWrapper.append(iframe);
@@ -370,6 +410,8 @@
       oSsjViewInfinite = new ssj.view.infiniteScroll();
       //인피니티 스크롤 : 탭 전환시 스크롤 위치 기억
       $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
+        $('.main-sec__list').show();
+        $('.main-sec__searchlist').hide();
         var mypage = $('.mypage');
         if($(e.currentTarget).text() == "활동"){
           mypage.show().children('button').eq(0).click();

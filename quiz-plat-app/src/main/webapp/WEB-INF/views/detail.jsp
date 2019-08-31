@@ -23,7 +23,7 @@
     <div class="page scene_element scene_element--fadeinright">
       <header class="header_wrap">
         <button class="sp24 back" type="button" onclick="window.history.back(-1);"></button>
-        <button class="sp24 complain" type="button" onclick="$(this).addClass('on');"></button>
+        <button class="sp24 complain" type="button" ></button>
         <button class="sp24 airplain" type="button"></button>
       </header>
       <div class="swiper-container">
@@ -43,6 +43,7 @@
   </footer>
   <script id="slideTmpl" type="text/x-jsrender">
     <div class="swiper-slide" id="slide{{:writing_no}}">
+      <input type="hidden" value={{:report}} class="isComplained">
       <section class="detail">
         <div class="card__info-wrap">
           <div class="card__info-left">
@@ -177,9 +178,9 @@
   <script src="resources/js/swiper.js"></script>
   <script src="resources/js/jsrender.min.js"></script>
   <script src="resources/js/constant.js"></script>
+  <script src="resources/js/jquery-accordion.js"></script>
   <script src="resources/js/common.js"></script>
   <script src="resources/js/detail.js"></script>
-  <script src="resources/js/jquery-accordion.js"></script>
   <script type="text/javascript">
   $(function(){
   });

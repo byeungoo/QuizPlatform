@@ -20,14 +20,72 @@ function areNotCompleted(group) {
   return -1;
 }
 
-function copyToClipboard(url) {
-  showToast($(".toast"));
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val(url).select();
-  document.execCommand("copy");
-  $temp.remove();
+function copyToClipboard(string) {
+  let textarea;
+  let result;
+
+  try {
+    textarea = document.createElement('textarea');
+    textarea.setAttribute('readonly', true);
+    textarea.setAttribute('contenteditable', true);
+    textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
+    textarea.value = string;
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+    textarea.select();
+
+    const range = document.createRange();
+    range.selectNodeContents(textarea);
+
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+    textarea.setSelectionRange(0, textarea.value.length);
+    result = document.execCommand('copy');
+  } catch (err) {
+    console.error(err);
+    result = null;
+  } finally {
+    document.body.removeChild(textarea);
+  }
+
+  // manual copy fallback using prompt
+  if (!result) {
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const copyHotkey = isMac ? '⌘C' : 'CTRL+C';
+    result = prompt(`Press ${copyHotkey}`, string); // eslint-disable-line no-alert
+    if (!result) {
+      return false;
+    }
+  }
+  return true;
 }
+
+// function copyToClipboard(url) {
+//   var $input = $("<input>");
+//   $input.val(url);
+//   if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
+//     var el = $input.get(0);
+//     var editable = el.contentEditable;
+//     var readOnly = el.readOnly;
+//     el.contentEditable = true;
+//     el.readOnly = false;
+//     var range = document.createRange();
+//     range.selectNodeContents(el);
+//     var sel = window.getSelection();
+//     sel.removeAllRanges();
+//     sel.addRange(range);
+//     el.setSelectionRange(0, 999999);
+//     el.contentEditable = editable;
+//     el.readOnly = readOnly;
+//   } else {
+//     $input.select();
+//   }
+//   document.execCommand("copy");
+// }
 
 function toggleInputBdr(target) {
   var len = $(target).find("input, textarea").val().trim().length;
@@ -36,14 +94,15 @@ function toggleInputBdr(target) {
 }
 
 function toggleTab(index) {
-  var target;
+  var navlist = $('.home_header_navlist');
+  var target = navlist;
+  var active = $(navlist.children().eq(2));
   if(index>=2){
     target = $('.mypage');
-    $($('.home_header_navlist').children()).removeClass('on');
-    $($('.home_header_navlist').children().eq(2)).addClass('on');
+    $(navlist.children()).removeClass('on');
+    active.addClass('on');
+    active.val(index);
     index -= 2;
-  }else{
-    target = $('.home_header_navlist');
   }
   $(target.children()).removeClass("on");
   $(target.children().eq(index)).addClass("on");
