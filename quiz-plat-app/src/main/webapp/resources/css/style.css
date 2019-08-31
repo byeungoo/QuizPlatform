@@ -1381,6 +1381,14 @@ input:-webkit-autofill.modal_inp.wrong {
   background: white;
 }
 
+.bottom_navbar.on button{
+  opacity: 0.4;
+}
+
+.bottom_navbar.on .on{
+  opacity:1;
+}
+
 .bottom_navbar:before{
   content:"";
   position:absolute;
@@ -1502,9 +1510,6 @@ input:-webkit-autofill.modal_inp.wrong {
   background-size: 42px auto;
 }
 
-.sp42.off {
-  opacity: 0.4;
-}
 
 .sp42.lock {
   background-position-y: 0px;
