@@ -456,7 +456,7 @@
         var data = {page : 1, mainCategory: cateNum};
         console.log(data);
         var cardList = $('.main-sec__list');
-        oAjax.sendRequest(URL_READ_SEARCH_CARD_DATA,data,ID_TMPL_MAIN_CARD,'GET').then( html => {
+        oAjax.sendRequest(URL_READ_MAIN_CARD_DATA,data,ID_TMPL_MAIN_CARD,'GET').then( html => {
           cardList.empty().append(html);
         })
       });
