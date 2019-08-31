@@ -144,11 +144,13 @@ public class LoginController {
 	        response.addCookie(cookie);
     	}
         
-        //유저정보 획득
+    	//유저정보 획득
     	UserDto userDto = userService.getUesrSettingDto(session, request);
-        //session.invalidate(); //세션값 전부 삭제
-	    session.removeAttribute("login"); //세션에 login으로 저장된 값 삭제
+        
 	    userService.keepLogin(userDto.getUser_id(), "none", new Date());
+	    
+    	session.removeAttribute("login"); //세션에 login으로 저장된 값 삭제
+    	userDto.setLogin(false);
 
     	return userDto;
     }

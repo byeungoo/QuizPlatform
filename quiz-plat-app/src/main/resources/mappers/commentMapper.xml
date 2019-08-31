@@ -60,9 +60,9 @@
               			  , USER U
        	 			WHERE   1 = 1
         			AND     C.WRITING_NO = #{writing_no}
-        			AND     C.REGPE_ID   = U.USER_ID
         			AND     C.DEPTH      = #{depth}
-        			AND      C.PARENT     = #{parent}
+        			AND     C.PARENT     = #{parent}
+        			AND		U.USER_ID    = C.REGPE_ID
         			ORDER BY C.REG_DTS ASC
         	   ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
     </select>
