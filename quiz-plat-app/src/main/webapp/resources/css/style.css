@@ -140,13 +140,12 @@ textarea {
 .mypage{
   display:flex;
   align-items: center;
-  overflow-x:auto;
-  flex-wrap: nowrap;
+  overflow:auto hidden;
   -webkit-overflow-scrolling: touch;
 }
 
 .mypage::-webkit-scrollbar, 
-.mypage::-webkit-scrollbar-thumb { width: 0 !important ;background:white !important;}
+.mypage::-webkit-scrollbar-thumb { width: 0 !important ;height:0;background:white !important;}
 
 .mypage button:first-child{
     margin-left:115px;
@@ -166,6 +165,10 @@ textarea {
 
 .mypage button + button{
   margin-left:14px;
+}
+
+.mypage button{
+  display:block;
 }
 
 /*main*/
@@ -1354,6 +1357,17 @@ input:-webkit-autofill.modal_inp.wrong {
   height: 52px;
   padding: 0 43px;
   background: white;
+}
+
+.bottom_navbar:before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left:0;
+  right:0;
+  height:8px;
+  display:block;
+  background-image:linear-gradient(to top,rgba(0,0,0,0.05),rgba(0,0,0,0));
 }
 
 /* sprite 규격 없음 */

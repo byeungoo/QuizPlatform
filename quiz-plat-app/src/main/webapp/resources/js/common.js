@@ -94,16 +94,7 @@ function toggleInputBdr(target) {
 }
 
 function toggleTab(index) {
-  var navlist = $('.home_header_navlist');
-  var target = navlist;
-  var active = $(navlist.children().eq(2));
-  if(index>=2){
-    target = $('.mypage');
-    $(navlist.children()).removeClass('on');
-    active.addClass('on');
-    active.val(index);
-    index -= 2;
-  }
+  var target = $('.home_header_navlist');
   $(target.children()).removeClass("on");
   $(target.children().eq(index)).addClass("on");
 }
@@ -168,7 +159,7 @@ ssj.util.ajax.prototype = {
     return new Promise(function (resolve, reject) {
       $.ajax({
         url: oSelf.url,
-        method: oSelf.method,
+        method: oSelf.method, 
         data: oSelf.data,
         success: function (data) {
           console.log(data);
@@ -423,7 +414,7 @@ ssj.view.infiniteScroll.prototype = {
       console.log(e);
     });
   },
-  switchCategory(){
+  switchCategory(){ //배열에 데이터가 있으면 복구, 없으면 요청
     if (this.isEmptyCardList()){
       this._setInitialCards();
     }else{

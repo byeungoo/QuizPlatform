@@ -67,7 +67,7 @@
       </button>
       <button type="button" class="bottom_navbaritem sp42 lock toggle_on_off">
       </button>
-      <button type="button" class="bottom_navbaritem sp42 person toggle_on_off" style="display:none;">
+      <button type="button" class="bottom_navbaritem sp42 person" style="display:none;">
       </button>
     </div>
   </footer>
@@ -80,7 +80,7 @@
         </div>
         <div class="modal_cont">
             <div class="modal_inp_wrap">
-              <input type="text" class="modal_inp" placeholder="닉네임" name="nickname" value="노래하는키큰다람쥐">
+              <input type="text" class="modal_inp nickname" placeholder="닉네임" name="nickname" value="">
               <span class="sp00 check"></span>
             </div>
             <div class="modal_inp_wrap">
@@ -97,7 +97,7 @@
             </div>
         </div>
         <div class="modal_footer">
-            <button class="modal_submit modal_footbtn">필수 항목을 작성해주세요</button>
+            <button class="modal_submit modal_footbtn" disabled="true">필수 항목을 작성해주세요</button>
         </div>
       </div>
       <button class="modal_close ico_close"></button>
@@ -243,40 +243,55 @@
 
     $('#login .modal_header_tittx').on('click',function(){
       $('#join').find('.modal_close').click();
-      $('#join_trigger').click();
+      oAjax.sendRequest(URL_READ_NICKNAME,null,null,'GET',null).then( json => {
+        console.log(json);
+        $('.modal_inp.nickname').val(json.nickname).addClass('on');
+        $('#join_trigger').click();
+      }).catch( error => {
+        console.log(error);
+        console.log("서버에서 닉네임을 못받아왔습니다.");
+      });
     });
 
 
     var joinForm = $('#join');
     var joinInpGroup = joinForm.find('.modal_inp');
     var pwdGroup = joinForm.find('input[type="password"].modal_inp');
-    var firstPwd = pwdGroup.eq(0);
-    var secondPwd = pwdGroup.eq(1);
     var joinFootBtn = joinForm.find('.modal_footbtn');
     var joinClose = joinForm.find('.modal_close');
     var total = joinInpGroup.length;
+    var passCheck = joinForm.find('.check');
     joinInpGroup.on('keyup',function(e){
-      if($(e.target).val().length){
-        $(this).addClass('on');
-      }else{
-        $(this).removeClass('on');
+      //모든 필드에 적용
+      $(this).val().length ?
+        $(this).addClass('on').removeClass('wrong') :
+        $(this).removeClass('wrong').removeClass('on');
+       
+      var curIdx = $(pwdGroup).index($(this));
+      if(curIdx >= 0){ //패스워드 입력시 비밀번호 확인
+        var my = curIdx ? $(pwdGroup).eq(curIdx) : null;
+        var other = $(pwdGroup).eq(!curIdx);
+        if($(other).val().length && $(my).val().length){//패스워드1,2 둘다 입력시 비밀번호 비교 
+          if($(my).val() !== $(other).val()){
+            $(pwdGroup).addClass('wrong').removeClass('on');
+          }else{
+            $(pwdGroup).addClass('on').removeClass('wrong');
+          }
+        }
       }
       if(isCompleteForm(joinInpGroup)) {
-        joinFootBtn.addClass('on').text('회원가입');
+        joinFootBtn.addClass('on').prop('disabled',false).text('회원가입');
       }else{
-        joinFootBtn.removeClass('on').text('필수 항목을 작성해주세요');
+        joinFootBtn.removeClass('on').prop('disabled', true).text('필수 항목을 작성해주세요');
       }
     });
-    secondPwd.on('keyup',function(e){
-      if(!secondPwd.val().length){
-        secondPwd.removeClass('wrong');
-      }
-      else if(firstPwd.val() != secondPwd.val()) {
-        secondPwd.addClass('wrong').removeClass('on'); 
-      }else{
-        secondPwd.addClass('on').removeClass('wrong'); 
-      }
-    });
+    // passCheck.on('keyup',function(e){
+    //   if($(e.target).val() != firstPwd.val()){
+    //     $(this).addClass('wrong').removeClass('on');
+    //   }else{
+    //     $(this).addClass('on').removeClass('wrong');
+    //   }
+    // })
 
     var loginForm = $('#login');
     var loginInpGroup = loginForm.find('.modal_inp');
@@ -300,16 +315,21 @@
           oToast.show('로그아웃 되었습니다');
           $('.person').hide();
           $('.lock').show();
+          $('bottom_navbar').children().removeClass('off');
         }
+      }).catch( error => {
+        oToast.show('로그아웃에 실패했습니다.');
+        return false;
       });
     });
 
+    //회원가입 버튼 클릭 시
     $("#_join_form").on('submit',function(e){
       e.preventDefault();
       var nickname = joinInpGroup.eq(0).val();
       var user_id = joinInpGroup.eq(1).val();
       var pwd = joinInpGroup.eq(2).val();
-      var data = {user_id,pwd,nickname}
+      var data = {user_id,pwd,nickname};
       createMember(data);
     });
 
@@ -344,6 +364,8 @@
           storage.setItem('nickname', json.nickname);
           storage.setItem('type', json.reg_div_cd);
           joinClose.click();
+          $("#join .modal_inp").removeClass('on').val('');
+          $('#join .modal_footbtn').prop('disabled',true).text('필수 항목을 작성해주세요').removeClass('on');
           $('.lock').hide();
           $('.person').show();
         }else{
@@ -413,23 +435,34 @@
         $('.main-sec__list').show();
         $('.main-sec__searchlist').hide();
         var mypage = $('.mypage');
-        if($(e.currentTarget).text() == "활동"){
+        var nowCateNum = $(e.delegateTarget).find('.on').val();
+        var nextCateNum = $(e.currentTarget).val();
+        if (nowCateNum<2 && nextCateNum == 2) { //인기,신규에서 활동 탭을 눌렀을때
+          oSsjViewInfinite.saveCurrentState();
+          toggleTab(nextCateNum);
           mypage.show().children('button').eq(0).click();
           return false;
-        }else{
+        } else if(nowCateNum==2 && nextCateNum <2) { //활동에서 인기,신규를 눌렀을때
+          toggleTab(nextCateNum);
+          oSsjViewInfinite.switchCategory();
+          scrollByPosition(oSsjViewInfinite.getCurrentScrollTop());
           mypage.hide();
+        }else{ // 인기, 신규 간 전환
+          oSsjViewInfinite.saveCurrentState();
+          toggleTab(nextCateNum);
+          oSsjViewInfinite.switchCategory();
+          scrollByPosition(oSsjViewInfinite.getCurrentScrollTop());
         }
-        oSsjViewInfinite.saveCurrentState();
-        toggleTab($(e.currentTarget).val());
-        oSsjViewInfinite.switchCategory();
-        scrollByPosition(oSsjViewInfinite.getCurrentScrollTop());
       });
 
       $('.mypage').on('click','button',function(e){
-        oSsjViewInfinite.saveCurrentState();
-        toggleTab($(e.currentTarget).val());
-        oSsjViewInfinite.switchCategory();
-        scrollByPosition(oSsjViewInfinite.getCurrentScrollTop());
+        var $subList = $(e.currentTarget);
+        var cateNum = $subList.val();
+        var data = {page : 1, mainCategory: cateNum};
+        var cardList = $('.main-sec__list');
+        oAjax.sendRequest(URL_READ_SEARCH_CARD_DATA,data,ID_TMPL_MAIN_CARD,'GET').then( html => {
+          cardList.empty().append(html);
+        })
       });
 
     });
