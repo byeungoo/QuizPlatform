@@ -285,13 +285,6 @@
         joinFootBtn.removeClass('on').prop('disabled', true).text('필수 항목을 작성해주세요');
       }
     });
-    // passCheck.on('keyup',function(e){
-    //   if($(e.target).val() != firstPwd.val()){
-    //     $(this).addClass('wrong').removeClass('on');
-    //   }else{
-    //     $(this).addClass('on').removeClass('wrong');
-    //   }
-    // })
 
     var loginForm = $('#login');
     var loginInpGroup = loginForm.find('.modal_inp');
@@ -412,7 +405,7 @@
           css: {
             height: "100vh",
             width: "100vw",
-            '-webkit-backface-visibility': hidden
+            '-webkit-backface-visibility': 'hidden'
           }
         });
         ifrWrapper.append(iframe);
@@ -435,8 +428,10 @@
         $('.main-sec__list').show();
         $('.main-sec__searchlist').hide();
         var mypage = $('.mypage');
-        var nowCateNum = $(e.delegateTarget).find('.on').val();
+        var nowCateNum = $(e.delegateTarget).children('.on').val();
         var nextCateNum = $(e.currentTarget).val();
+        console.log(nowCateNum);
+        console.log(nextCateNum);
         if (nowCateNum<2 && nextCateNum == 2) { //인기,신규에서 활동 탭을 눌렀을때
           oSsjViewInfinite.saveCurrentState();
           toggleTab(nextCateNum);
@@ -459,6 +454,7 @@
         var $subList = $(e.currentTarget);
         var cateNum = $subList.val();
         var data = {page : 1, mainCategory: cateNum};
+        console.log(data);
         var cardList = $('.main-sec__list');
         oAjax.sendRequest(URL_READ_SEARCH_CARD_DATA,data,ID_TMPL_MAIN_CARD,'GET').then( html => {
           cardList.empty().append(html);
