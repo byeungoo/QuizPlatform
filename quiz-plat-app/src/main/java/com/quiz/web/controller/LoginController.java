@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
 import com.quiz.web.dto.LoginCommand;
+import com.quiz.web.dto.NicknameDto;
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.service.UserService;
 
@@ -41,13 +42,16 @@ public class LoginController {
     /*
      ** 닉네임 조회
      */
-    @RequestMapping(value = "/getNickname", method = RequestMethod.GET)
-    public @ResponseBody String getNickname() throws Exception{
+    @RequestMapping(value = "/getNickname", produces = "application/json; charset=utf8", method = RequestMethod.GET)
+    public @ResponseBody NicknameDto getNickname() throws Exception{
     	
     	String nickname = userService.getNickname();
     	//userService.updateNickname(nickname);
+  
+    	NicknameDto nicknameDto = new NicknameDto();
+    	nicknameDto.setNickname(nickname);
     	
-        return nickname;
+        return nicknameDto;
     }
     
     /*
@@ -130,7 +134,7 @@ public class LoginController {
      ** 로그아웃
      */
     @CrossOrigin
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    @RequestMapping(value="/logout", method = RequestMethod.POST)
     public @ResponseBody UserDto logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
     	
     	Cookie cookie = WebUtils.getCookie(request, "remember");

@@ -155,11 +155,7 @@ public class DetailController {
     	
     	try {
 	    	UserDto userDto = userService.getUesrSettingDto(session, request);
-	    	
-	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(userDto) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록 및 닉네임 사용여부 Y변경
-	        	userService.insertUser(userDto);
-	    	}
-	    	
+	    
 	    	ParamDto paramDto = new ParamDto();
 	    	paramDto.setWriting_no(writingNo);
 	    	paramDto.setVote(voteNum);
@@ -191,10 +187,6 @@ public class DetailController {
     	session    = request.getSession();
     	    	
     	UserDto userDto = userService.getUesrSettingDto(session, request);
-    	
-    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(userDto) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
-        	userService.insertUser(userDto);
-    	}
     	
     	//댓글 저장 후 반환
     	String comment_content = replytx;
@@ -239,9 +231,6 @@ public class DetailController {
     	commentPrefer.setUser_id(userId);
     	
     	try {
-	    	if(userDto.getReg_div_cd().equals("20") && userService.chekUserId(userDto) == 0) {  //비회원 작성 시 회원테이블에 세션값없으면 등록
-	        	userService.insertUser(userDto);
-	    	}
 	    	commentPrefer = commentService.commentPreferUpdate(commentPrefer);
     	} catch(Exception e) {
     		System.out.println(e.getMessage());

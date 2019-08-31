@@ -128,6 +128,9 @@ public class UserService {
     	
     	try {
     		userDto = userDao.checkLoginBefore(session_id);
+    		if(userDto !=null) {
+    			userDto.setLogin(true);
+    		}	
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
     	}

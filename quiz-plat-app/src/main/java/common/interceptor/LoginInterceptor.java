@@ -72,13 +72,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         	} else if(nonUserDto != null) {  //현재 세션 연결중(비회원 로그인상태로 간주)
         		nonUserDto.setLogin(false);
          		session.setAttribute("login", nonUserDto); 
-         	} else {
+         	} else { //비회원 회원가입 및 비회원 로그인 정보 세팅
          		
          		nonUserDto = new UserDto();
          		
          		//서버로부터 닉네임 받아오고, 사용여부 'N' 업데이트
          		String nickname = userService.getNickname();
-         		userService.updateNickname(nickname);
+         		//userService.updateNickname(nickname);
          		
          		//세션이 처음 연결될 경우 비회원 유저 정보 생성
          		nonUserDto.setUser_id(session.toString());
