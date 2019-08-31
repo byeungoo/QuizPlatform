@@ -122,10 +122,11 @@
             <input type="password" class="modal_inp" placeholder="비밀번호" name="pwd" autocomplete="new-password">
             <span class="sp00 check"></span>
           </div>
-          <!-- <div class="modal_inparea">
-            <input type="checkbox" class="modal_chk" name="login_chk" name="rememberId">
-            <label for="login_chk" class="modal_chk_tit">자동로그인</label>
-          </div> -->
+          <div class="modal_chk_wrap">
+            <span class="sp00 check_fill"></span>
+            <label for="_chk_auto_login" onclick="$(this).siblings('.check_fill').toggleClass('on');">자동로그인</label>
+            <input type="checkbox" id="_chk_auto_login" name="rememberId" class="blind">
+          </div>
         </div>
         <div class="modal_footer">
           <button class="modal_submit modal_footbtn">필수 항목을 작성해주세요</button>

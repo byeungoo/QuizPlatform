@@ -1204,6 +1204,30 @@ textarea {
   font-size: 18px;
 }
 
+.modal_chk_wrap{
+  margin-top:40px;
+  position:relative;
+}
+
+.modal_chk_wrap .check_fill{
+  position:absolute;
+  left:0;
+}
+
+.modal_chk_wrap .check_fill.on + label{
+  color:#0f7bff;  
+}
+
+.modal_chk_wrap label{
+  margin-left:5px;
+  font-size:16px;
+  vertical-align:top;
+  margin-top:4px;
+  padding-left:25px;
+}
+
+
+
 .modal_ctn {
   padding: 30px 50px 0;
   color:#B5B5B5;
@@ -1239,10 +1263,7 @@ textarea {
   margin-top: 30px;
 }
 #login .modal_inp_wrap + .modal_inp_wrap{
-  margin-top:40px;
-}
-#login .modal_inp_wrap:first-child{
-  margin-top:50px;
+  margin-top:38px;
 }
 #login .modal_inp_wrap:last-child{
   margin-bottom:100px;
@@ -1382,53 +1403,63 @@ input:-webkit-autofill.modal_inp.wrong {
 }
 
 .sp00.fire {
-  background-position: -12px 0;
+  background-position: 0 0;
 }
 
 .sp00.vote {
-  background-position: -12px -24px;
+  background-position: -1px -24px;
 }
 .sp00.comment.yellow {
-  background-position: -12px -47px;
+  background-position: -1px -47px;
 }
 .sp00.comment.gray {
-  background-position: -12px -69px;
+  background-position: -1px -69px;
 }
 .sp00.comment {
-  background-position: -12px -93px;
+  background-position: -1px -93px;
 }
 .sp00.vs {
-  background-position: 0 -116px;
+  background-position: -1px -116px;
   width: 40px;
   height: 19px;
 }
 .sp00.up {
-  background-position: -12px -142px;
+  background-position: -1px -142px;
 }
 .sp00.up.on {
-  background-position: -12px -165px;
+  background-position: -1px -165px;
 }
 .sp00.down {
-  background-position: -12px -188px;
+  background-position: -1px -188px;
 }
 .sp00.down.on {
-  background-position: -12px -211px;
+  background-position: -1px -211px;
 }
 .sp00.close {
-  background-position: -12px -234px;
+  background-position: -1px -234px;
   width: 18px;
   height: 18px;
 }
 .sp00.check{
-  background-position: -12px -257px;
+  background-position: -1px -257px;
 }
 .sp00.close_blk {
-  background-position: -12px -282px;
+  background-position: -1px -282px;
   width: 18px;
   height: 18px;
 }
 .sp00.arrow_right_blue {
-  background-position: -12px -308px;
+  background-position: -1px -307px;
+  width: 18px;
+  height: 18px;
+}
+.sp00.check_fill.on{
+  background-position: -1px -334px;
+}
+.sp00.check_fill{
+  background-position: -1px -363px;
+  width:22px;
+  height:22px;
 }
 
 /* sprite 이미지 24x24 여백포함 */
