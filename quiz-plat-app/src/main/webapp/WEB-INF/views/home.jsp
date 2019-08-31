@@ -181,6 +181,8 @@
   <script>
 
     function createWrite(){
+      var plusBtn = $('.bottom_navbaritem.plus');
+      plusBtn.prop('disabled',true);
       var fir_writ_content = $('#_write_front').val();
       var sec_writ_content = $('#_write_back').val();
       var content = $('#_write_textarea').val();
@@ -192,6 +194,10 @@
         $('html,body').animate({scrollTop:0},0);
         $('.write_inp').val('').siblings('label').show();
         $('.write_submit').removeClass('on');
+        plusBtn.prop('disabled', false);
+      }).catch( e => {
+        console.log(e);
+        plusBtn.prop('disabled', false);
       })
     }
 
@@ -430,8 +436,6 @@
         var mypage = $('.mypage');
         var nowCateNum = $(e.delegateTarget).children('.on').val();
         var nextCateNum = $(e.currentTarget).val();
-        console.log(nowCateNum);
-        console.log(nextCateNum);
         if (nowCateNum<2 && nextCateNum == 2) { //인기,신규에서 활동 탭을 눌렀을때
           oSsjViewInfinite.saveCurrentState();
           toggleTab(nextCateNum);
