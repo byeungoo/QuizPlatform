@@ -1066,6 +1066,10 @@ textarea {
   height:250px;
 }
 
+.write_area.ty_wide textarea{
+  height:100%;
+}
+
 .write_area.ty_wide label{
   line-height:1.3;
 }

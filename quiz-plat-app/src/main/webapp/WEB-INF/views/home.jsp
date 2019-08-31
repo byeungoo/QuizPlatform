@@ -47,7 +47,7 @@
           <label for="_write_back" class="write_tit">닥후 : 최대 50자</label>
         </div>
         <div class="write_area ty_wide">
-          <textarea class="write_inp " id="_write_textarea" rows="20"></textarea>
+          <textarea class="write_inp " id="_write_textarea"></textarea>
           <label for="_write_textarea">
             <h2 class="write_tit">설명</h2>
             <span class="write_cont">타인에게 불쾌감을 주는 글은 작성자의 동의 없이 삭제될 수 있으며 작성자는
@@ -187,7 +187,7 @@
       var data = { fir_writ_content, sec_writ_content, content}
       oAjax.sendRequest(URL_CREATE_VOTE,data, ID_TMPL_MAIN_CARD,'POST',null).then( html => {
         $($('.home_header_navlist').children().eq(1)).click();
-        $('.main-sec__list.on').prepend(html);
+        $('.main-sec__list').prepend(html);
         resetBottomNavbar();
         $('html,body').animate({scrollTop:0},0);
         $('.write_inp').val('').siblings('label').show();
