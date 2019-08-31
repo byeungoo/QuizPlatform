@@ -61,11 +61,11 @@
   </div>
   <footer>
     <div class="bottom_navbar">
-      <button type="button" class="bottom_navbaritem sp42 search toggle_on_off">
+      <button type="button" class="bottom_navbaritem sp42 search ">
       </button>
-      <button type="button" class="bottom_navbaritem sp42 plus toggle_on_off">
+      <button type="button" class="bottom_navbaritem sp42 plus ">
       </button>
-      <button type="button" class="bottom_navbaritem sp42 lock toggle_on_off">
+      <button type="button" class="bottom_navbaritem sp42 lock ">
       </button>
       <button type="button" class="bottom_navbaritem sp42 person" style="display:none;">
       </button>
@@ -203,7 +203,7 @@
     }
 
     function resetBottomNavbar(){
-      $($('.bottom_navbar').children()).removeClass('on').removeClass('off');
+      $($('.bottom_navbar').children()).removeClass('on');
     }
 
     $('.home_header_navlist').on('click',function(){
@@ -223,6 +223,17 @@
       $('.main-sec__list').hide();
       $('.main-sec__searchlist').show();
       $('.main-sec.write').hide();
+    });
+
+    $('.bottom_navbar').on('click','.bottom_navbaritem',function(e){
+      if($(e.currentTarget).hasClass('on')) {
+        $(e.delegateTarget).removeClass('on');
+        $(e.currentTarget).removeClass('on');
+        return;
+      }
+      $(e.delegateTarget).addClass('on');
+      resetBottomNavbar();
+      $(e.currentTarget).addClass('on');
     });
 
     $('#_searchbar').on('click','.search',function(e){

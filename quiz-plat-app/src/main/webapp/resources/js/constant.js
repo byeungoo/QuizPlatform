@@ -4,7 +4,7 @@ var ID_TMPL_MAIN_CARD = "#cardTmpl";
 var ID_TMPL_SUBREPLY = "#subReplyTmpl";
 var ID_TMPL_RECOMCOUNTTX = "#recomCountTx";
 
-var URL_BASE = "http://pickvs.com/";
+var URL_BASE = "/";
 
 var URL_CREATE_COMMENT = URL_BASE + "writeComment";
 var URL_CREATE_COMPLAIN = URL_BASE + "reportWriting";
