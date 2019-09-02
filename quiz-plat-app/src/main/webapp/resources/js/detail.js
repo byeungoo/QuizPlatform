@@ -191,12 +191,15 @@ $(function () {
 
 	function setHeaderState() {
 		var slide = $(oSwiper.getActiveSlide());
+		var header = $('.header_wrap');
+		var firstBtnGroup = header.find('.forfistpage');
 		var isComplained = slide.find('.isComplained').val() === 'true';
 		if (isComplained) {
 			$('.complain').addClass('on').prop('disabled',true);
 		}else{
 			$('.complain').removeClass('on').prop('disabled',false);
 		}
+		!oSwiper.getActiveIndex() ? firstBtnGroup.show() : firstBtnGroup.hide();
 	}
 
 	function clearComment() {

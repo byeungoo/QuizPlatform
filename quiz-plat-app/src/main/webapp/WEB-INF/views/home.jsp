@@ -13,6 +13,15 @@
   <link rel="stylesheet" href="resources/css/keyframes.css">
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146761641-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-146761641-1');
+  </script>
 </head>
 
 <body>
@@ -36,34 +45,12 @@
         
       </ul>
     </section>
-    <section class="main-sec write" style="display:none;">
-      <form onsubmit="createWrite();return false;">
-        <div class="write_area">
-          <input type="text" class="write_inp" id="_write_front">
-          <label for="_write_front" class="write_tit">닥전 : 최대 50자</label>
-        </div>
-        <div class="write_area">
-          <input type="text" class="write_inp" id="_write_back">
-          <label for="_write_back" class="write_tit">닥후 : 최대 50자</label>
-        </div>
-        <div class="write_area ty_wide">
-          <textarea class="write_inp " id="_write_textarea"></textarea>
-          <label for="_write_textarea">
-            <h2 class="write_tit">설명</h2>
-            <span class="write_cont">타인에게 불쾌감을 주는 글은 작성자의 동의 없이 삭제될 수 있으며 작성자는
-              서비스 이용이 정지될 수 있습니다.
-            </span>
-          </label>
-        </div>
-        <button class="write_submit" onclick="$(this).toggleClass('on');">만들기</button>
-      </form>
-    </section>
   </div>
   <footer>
     <div class="bottom_navbar">
       <button type="button" class="bottom_navbaritem sp42 search ">
       </button>
-      <button type="button" class="bottom_navbaritem sp42 plus ">
+      <button type="button" class="bottom_navbaritem sp42 plus" onclick="$('#_write_trigger').click();">
       </button>
       <button type="button" class="bottom_navbaritem sp42 lock ">
       </button>
@@ -71,6 +58,7 @@
       </button>
     </div>
   </footer>
+
   <!-- 회원 가입 모달창-->
   <div class="modal" id="join" style="display:none;width:95vw;">
     <form id="_join_form">
@@ -148,15 +136,42 @@
     <button class="modal_close ico_close blind"></button>
   </div>
 
+  <!-- 글작성창-->
+  <a href="#_write" id="_write_trigger" class="blind" rel="leanModal">글작성창</a>
+  <div class="modal ty_write" id="_write" style="display:none;width:100vw;height:100vh">
+    <div class="modal_ctn">
+      <div class="modal_cont">
+        <form onsubmit="createWrite();return false;">
+          <div class="write_area">
+            <input type="text" class="write_inp" id="_write_front" maxlength="50">
+            <label for="_write_front" class="write_tit">닥전 : 최대 50자</label>
+          </div>
+          <div class="write_area">
+            <input type="text" class="write_inp" id="_write_back" maxlength="50">
+            <label for="_write_back" class="write_tit">닥후 : 최대 50자</label>
+          </div>
+          <div class="write_area ty_wide">
+            <textarea class="write_inp " id="_write_textarea"></textarea>
+            <label for="_write_textarea">
+              <h2 class="write_tit">설명</h2>
+              <span class="write_cont">타인에게 불쾌감을 주는 글은 작성자의 동의 없이 삭제될 수 있으며 작성자는
+                서비스 이용이 정지될 수 있습니다.
+              </span>
+            </label>
+          </div>
+          <button class="write_submit" onclick="$(this).toggleClass('on');">만들기</button>
+        </form>
+        <button class="modal_close ico_close" style="top:18px;right:11px;"></button>
+      </div>
+    </div>
+    <button class="modal_close ico_close blind"></button>
+  </div>
+
+
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
-      <div class="card">
-        <a href="/detail.html?writing_no={{:writing_no}}">
-          <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
-          <div class="card__vsimg">
-            <span class="sp00 vs"></span>
-          </div>
-          <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
+      <a href="/detail.html?writing_no={{:writing_no}}">
+        <div class="card">
           <div class="card__info-wrap">
             <div class="card__info-area">
               <span class="sp00 vote"></span>
@@ -167,8 +182,13 @@
               <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
             </div>
           </div>
-        </a>
-      </div>
+          <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
+          <div class="card__vsimg">
+            <span class="sp00 vs"></span>
+          </div>
+          <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
+        </div>
+      </a>
     </li>
   </script>
   
@@ -193,6 +213,7 @@
         $('.main-sec__list').prepend(html);
         resetBottomNavbar();
         $('html,body').animate({scrollTop:0},0);
+        $('#_write').find('.modal_close').click();
         $('.write_inp').val('').siblings('label').show();
         $('.write_submit').removeClass('on');
         plusBtn.prop('disabled', false);
@@ -213,11 +234,7 @@
       $(section.eq(1)).hide();
     });
 
-    $('.bottom_navbar').on('click','.plus',function(e){
-      var section = $('.main-sec');
-      var plus = $(e.currentTarget);
-      section.toggle();
-    }).on('click','.search',function(e){
+    $('.bottom_navbar').on('click','.search',function(e){
       $('#_searchbar_trigger').click();
       $('.home_header_navlist').hide();
       $('.main-sec__list').hide();
@@ -226,6 +243,7 @@
     });
 
     $('.bottom_navbar').on('click','.bottom_navbaritem',function(e){
+      if($(this).hasClass('person')) return;
       if($(e.currentTarget).hasClass('on')) {
         $(e.delegateTarget).removeClass('on');
         $(e.currentTarget).removeClass('on');
@@ -326,13 +344,18 @@
           oToast.show('로그아웃 되었습니다');
           $('.person').hide();
           $('.lock').show();
-          $('bottom_navbar').children().removeClass('off');
         }
       }).catch( error => {
         oToast.show('로그아웃에 실패했습니다.');
         return false;
       });
     });
+
+    $('body').on('chkSession',function(){
+      oAjax.sendRequest(URL_READ_USERINFO,null,null,'GET',null).then( json => {
+        console.log(json);
+      })
+    })
 
     //회원가입 버튼 클릭 시
     $("#_join_form").on('submit',function(e){
@@ -356,6 +379,8 @@
     function requestLogin(data){
       oAjax.sendRequest(URL_CREATE_SESSION,data,null,'POST',null).then( json => {
         if(json.login){
+          console.log('로그인성공');
+          console.log(json);
           oToast.show(json.nickname+"님 환영합니다");
           loginForm.find('.modal_close').click();
           $('.lock').hide();
@@ -370,17 +395,13 @@
       oAjax.sendRequest(URL_CREATE_MEMBER,data,null,'POST',null).then( json => {
         if(json.login){
           oToast.show(json.nickname + "님 환영합니다");
-          var storage = window.sessionStorage;
-          storage.setItem('userId',json.user_id);
-          storage.setItem('nickname', json.nickname);
-          storage.setItem('type', json.reg_div_cd);
           joinClose.click();
           $("#join .modal_inp").removeClass('on').val('');
           $('#join .modal_footbtn').prop('disabled',true).text('필수 항목을 작성해주세요').removeClass('on');
           $('.lock').hide();
           $('.person').show();
         }else{
-          oToast.show("이미 존재하는 회원입니다");
+          oToast.show("이미 존재하는 닉네임입니다");
         }
       });
     }
@@ -405,7 +426,7 @@
     });
     var oSsjViewInfinite;
     $(function () {
-      $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join', topfix:'#_searchbar' }); //a태그에 모달 켜기 기능 추가
+      $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join', topfix:['#_searchbar','#_write']}); //a태그에 모달 켜기 기능 추가
       //$("#login_trigger").click();
       //인피니티 스크롤 위치 기억
       $('.main-sec__list').on('click', 'a', function (e) {
@@ -423,8 +444,9 @@
           css: {
             height: "100vh",
             width: "100vw",
-            '-webkit-backface-visibility': 'hidden'
-          }
+            '-webkit-backface-visibility': hidden
+          },
+          sandbox : 'allow-same-origin'
         });
         ifrWrapper.append(iframe);
         $('body').children().hide();
@@ -452,6 +474,7 @@
           oSsjViewInfinite.saveCurrentState();
           toggleTab(nextCateNum);
           mypage.show().children('button').eq(0).click();
+          scrollToTop();
           return false;
         } else if(nowCateNum==2 && nextCateNum <2) { //활동에서 인기,신규를 눌렀을때
           toggleTab(nextCateNum);
