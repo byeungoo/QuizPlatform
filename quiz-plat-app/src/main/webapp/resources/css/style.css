@@ -761,7 +761,7 @@ textarea {
 }
 
 .accordion.open .sp00.comment {
-  background-position: -1px -93px;
+  background-position: -2px -93px;
 }
 
 .detail_reply_count {
@@ -1426,8 +1426,8 @@ input:-webkit-autofill.modal_inp.wrong {
   background-image: url(../img/sprite00.png);
   background-repeat: no-repeat;
   background-size: 40px auto;
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
 .sp00.fire {
@@ -1441,55 +1441,51 @@ input:-webkit-autofill.modal_inp.wrong {
 }
 .sp00.comment.yellow {
   background-position: -2px -47px;
-  width:15px;
-  height:15px;
 }
 .sp00.comment.gray {
-  background-position: -1px -69px;
+  background-position: -2px -69px;
 }
 .sp00.comment {
-  background-position: -1px -93px;
+  background-position: -2px -93px;
 }
 .sp00.vs {
-  background-position: -1px -116px;
+  background-position: -2px -116px;
   width: 40px;
   height: 19px;
 }
 .sp00.up {
-  background-position: -1px -142px;
+  background-position: -2px -142px;
 }
 .sp00.up.on {
-  background-position: -1px -165px;
+  background-position: -2px -165px;
 }
 .sp00.down {
-  background-position: -1px -188px;
+  background-position: -2px -188px;
 }
 .sp00.down.on {
-  background-position: -1px -211px;
+  background-position: -2px -211px;
 }
 .sp00.close {
-  background-position: -1px -234px;
-  width: 16px;
-  height: 16px;
+  background-position: -2px -234px;
 }
 .sp00.check{
-  background-position: -1px -257px;
+  background-position: -2px -257px;
 }
 .sp00.close_blk {
-  background-position: -1px -282px;
+  background-position: -2px -282px;
   width: 18px;
   height: 18px;
 }
 .sp00.arrow_right_blue {
-  background-position: -1px -307px;
+  background-position: -2px -307px;
   width: 18px;
   height: 18px;
 }
 .sp00.check_fill.on{
-  background-position: -1px -334px;
+  background-position: -2px -334px;
 }
 .sp00.check_fill{
-  background-position: -1px -363px;
+  background-position: -2px -363px;
   width:22px;
   height:22px;
 }
