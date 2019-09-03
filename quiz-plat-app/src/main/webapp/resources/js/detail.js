@@ -192,7 +192,7 @@ $(function () {
 		var slide = $(oSwiper.getActiveSlide());
 		var header = $('.header_wrap');
 		var firstBtnGroup = header.find('.forfistpage');
-		var isComplained = slide.find('.isComplained').val() === 'true';
+		var isComplained = slide.find('.isComplained').val() == 'true';
 		if (isComplained) {
 			$('.complain').addClass('on').prop('disabled',true);
 		}else{
@@ -237,24 +237,14 @@ $(function () {
 		if (!depth) {
 			//댓글 입력
 			var commentList = slide.find(".detail_replylist");
-			requestData = {
-				writingNo,
-				replytx,
-				depth,
-				parent: null
-			};
+			requestData = {writingNo,replytx,depth,parent: null};
 			addComment(requestData, commentList);
 		} else {
 			//대댓글 입력
 			var parent = mention.find('input[type="hidden"]').val();
 			var comment = slide.find(`#comment${parent}`);
 			var lowCommentList = comment.find(".detail_reply_subitems");
-			requestData = {
-				writingNo,
-				replytx,
-				depth,
-				parent
-			};
+			requestData = {writingNo,replytx,depth,parent};
 			addLowComment(requestData, lowCommentList);
 		}
 	});
@@ -262,7 +252,6 @@ $(function () {
 	function addComment(requestData, commentList) {
 		oAjax.sendRequest(URL_CREATE_COMMENT, requestData, ID_TMPL_REPLY, "POST").then(comment => {
 			commentList.append(comment);
-			var accordion = $(commentList).closest(".accordion");
 			oSwiper.refreshSlideHeight();
 			scrollToBottom();
 			clearComment();
@@ -292,17 +281,8 @@ $(function () {
 
 	// 대댓글 아코디언탭 높이 재계산
 	$("body").on("accordion.refresh", ".accordion", function () {
-		$(this)
-			.find(".acdo_cont")
-			.css(
-				"max-height",
-				$(this).height() +
-				$(this)
-				.find(".detail_reply_subitems")
-				.children()
-				.last()
-				.height()
-			);
+		$(this).find(".acdo_cont").css("max-height",$(this).height() +
+				$(this).find(".detail_reply_subitems").children().last().height());
 	});
 	//좋아요, 싫어요 비동기처리
 	$("body").on("click", ".recommend", function (e) {
@@ -347,7 +327,9 @@ $(function () {
 		var accordion = btn.closest(".accordion");
 		activateAccordion(accordion);
 		addMention(e);
-		oSwiper.refreshSlideHeight();
+		setTimeout( () => {
+			oSwiper.refreshSlideHeight();
+		},200);
 	});
 	/* 본문 펼치기 */
 	$(".swiper-wrapper").on("click", ".detail_btn ", function (e) {
