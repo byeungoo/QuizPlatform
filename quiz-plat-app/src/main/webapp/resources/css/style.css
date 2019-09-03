@@ -704,8 +704,8 @@ textarea {
   color: #b6b6b6;
 }
 
-.detail_replytit.my {
-  color: #117bff;
+.detail_replytit.on {
+  color: #0F7BFF;
 }
 
 .detail_replycont {
@@ -1482,10 +1482,10 @@ input:-webkit-autofill.modal_inp.wrong {
   height: 18px;
 }
 .sp00.check_fill.on{
-  background-position: -2px -334px;
+  background-position: -1px -334px;
 }
 .sp00.check_fill{
-  background-position: -2px -363px;
+  background-position: -1px -363px;
   width:22px;
   height:22px;
 }

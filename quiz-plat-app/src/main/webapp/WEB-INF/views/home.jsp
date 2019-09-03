@@ -234,13 +234,6 @@
       $(section.eq(1)).hide();
     });
 
-    $('.bottom_navbar').on('click','.search',function(e){
-      $('#_searchbar_trigger').click();
-      $('.home_header_navlist').hide();
-      $('.main-sec__list').hide();
-      $('.main-sec__searchlist').show();
-      $('.main-sec.write').hide();
-    });
 
     $('.bottom_navbar').on('click','.bottom_navbaritem',function(e){
       if($(this).hasClass('person')) return;
@@ -254,19 +247,36 @@
       $(e.currentTarget).addClass('on');
     });
 
+  // var prevScrollTop = $(window).scrollTop();
+  // var navlist = $('.home_header_navlist');
+  // navlist.children('.on').click();
+  // $('html, body').animate({ scrollTop: options.scrollTop }, 0);
+
+
+    $('.bottom_navbar').on('click', '.search', function (e) {
+      $().leanModal.scrollTop = $(window).scrollTop();
+      $('#_searchbar_trigger').click();
+      $('.home_header_navlist').hide();
+      $('.main-sec__list').hide();
+      $('.main-sec__searchlist').show();
+      $('.main-sec.write').hide();
+    });
+
     $('#_searchbar').on('click','.search',function(e){
       var $input = $(e.delegateTarget).find('input');
-      //var page_num = oAjax.getCurrentPageNum(PAGE_NAME_SEARCH);
       var srch_word = $input.val();
       var srch_type_div_cd = 0;
       var data = {page_num : 1,srch_word,srch_type_div_cd};
       console.log(data);
       oAjax.sendRequest(URL_READ_SEARCH_CARD_DATA,data, ID_TMPL_MAIN_CARD,'GET').then( html => { 
+        if(!html.length){
+          oToast.show('검색 결과가 없습니다');
+          return;
+        }
+        $(e.delegateTarget).find('.modal_close').click();
         $('.main-sec__searchlist').empty().append(html).show();
         $('.main-sec').show();
-        $('.main-sec.write').hide();
         $input.val('');
-        $(e.delegateTarget).find('.modal_close').click();
       });
     })
 
