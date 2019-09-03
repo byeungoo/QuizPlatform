@@ -144,7 +144,7 @@ textarea {
   display:flex;
   align-items: center;
   overflow:auto hidden;
-  padding-bottom:10px;
+  padding-bottom:15px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1175,7 +1175,7 @@ textarea {
   text-align: center;
   font-size: 18px;
   white-space: nowrap;
-  z-index:9999;
+  z-index:999999;
 }
 
 .modal {

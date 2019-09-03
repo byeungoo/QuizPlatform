@@ -237,24 +237,14 @@ $(function () {
 		if (!depth) {
 			//댓글 입력
 			var commentList = slide.find(".detail_replylist");
-			requestData = {
-				writingNo,
-				replytx,
-				depth,
-				parent: null
-			};
+			requestData = {writingNo,replytx,depth,parent: null};
 			addComment(requestData, commentList);
 		} else {
 			//대댓글 입력
 			var parent = mention.find('input[type="hidden"]').val();
 			var comment = slide.find(`#comment${parent}`);
 			var lowCommentList = comment.find(".detail_reply_subitems");
-			requestData = {
-				writingNo,
-				replytx,
-				depth,
-				parent
-			};
+			requestData = {writingNo,replytx,depth,parent};
 			addLowComment(requestData, lowCommentList);
 		}
 	});
