@@ -305,7 +305,7 @@ ssj.util.swiper.prototype = {
     var footHeight = $('.reply_inputwrap').innerHeight();
     var slideHeight = $(this.getActiveSlide()).find('section').innerHeight();
     $('.swiper-container').css({
-      'height': slideHeight + footHeight,
+      'height': slideHeight + footHeight * 2,
       'overflow': 'hidden'
     });
   }
