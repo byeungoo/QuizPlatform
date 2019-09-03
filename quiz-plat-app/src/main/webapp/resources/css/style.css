@@ -128,8 +128,11 @@ textarea {
 }
 
 .header_wrap .airplain,
-.header_wrap .complain {
+.header_wrap .complain,
+.header_wrap .modify,
+.header_wrap .delete {
   float: right;
+  margin-left:23px;
 }
 
 .header_wrap .airplain {
@@ -180,9 +183,7 @@ textarea {
 
 .main-sec .card__info-wrap {
   display: flex;
-  top: 15px;
-  right: 25px;
-  position: absolute;
+  justify-content: flex-end;
 }
 
 @-webkit-keyframes rotate {
@@ -235,12 +236,33 @@ textarea {
 
 /* card block */
 .card {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height:200px;
   background: #fff;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px 0px;
   position: relative;
-  padding: 15px 0;
+  padding: 15px 23px;
+}
+
+.card__desc {
+  position: relative;
+  display:block;
+  font-size: 16px;
+  line-height: 130%;
+  word-break: break-all;
+  text-align: center;
+  color: black;
+  margin:12px 0;
+}
+
+.card__desc:after{
+  content:"";
+  height:100%;
+  display:inline-block;
+  vertical-align: middle;
 }
 
 .mt-1 {
@@ -297,8 +319,12 @@ textarea {
   padding: 0;
 }
 
+.card.card--single .card__desc:after{
+  display:none;
+}
+
 .ellipsis {
-  overflow: hidden;
+  overflow-x:hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -316,18 +342,7 @@ textarea {
   text-align: center;
 }
 
-.card__desc {
-  position: relative;
-  font-size: 16px;
-  line-height: 130%;
-  margin: 10px 25px;
-  text-align: center;
-  color: black;
-}
 
-.main-sec .card__desc:first-child {
-  margin-top: 28px;
-}
 
 .detail_vs {
   display: inline-block;
@@ -689,8 +704,8 @@ textarea {
   color: #b6b6b6;
 }
 
-.detail_replytit.my {
-  color: #117bff;
+.detail_replytit.on {
+  color: #0F7BFF;
 }
 
 .detail_replycont {
@@ -735,7 +750,9 @@ textarea {
 }
 
 .accordion .sp00.comment {
-  background-position: -12px -47px;
+  background-position: -2px -47px;
+  width:15px;
+  height:15px;
 }
 
 .accordion.open .detail_reply_more {
@@ -744,7 +761,7 @@ textarea {
 }
 
 .accordion.open .sp00.comment {
-  background-position: -12px -93px;
+  background-position: -2px -93px;
 }
 
 .detail_reply_count {
@@ -811,7 +828,7 @@ textarea {
   width: 100%;
   z-index: 1;
   border-radius: 8px;
-  padding: 32px 30px 11px;
+  padding: 32px 24px 11px;
   box-sizing: border-box;
 }
 
@@ -822,7 +839,6 @@ textarea {
   height: 72px;
   font-size: 19px;
   margin: 0;
-  font-weight: bold;
   text-align: center;
   line-height: 1.3;
 }
@@ -1067,7 +1083,7 @@ textarea {
 }
 
 .write_area.ty_wide{
-  height:250px;
+  height:50vh;
 }
 
 .write_area.ty_wide textarea{
@@ -1166,6 +1182,10 @@ textarea {
   background: #fff;
   border-radius:8px;
   overflow:hidden;
+}
+
+.modal.ty_write .modal_ctn{
+  padding:54px 15px 0;
 }
 
 .modal.ty_search{
@@ -1406,8 +1426,8 @@ input:-webkit-autofill.modal_inp.wrong {
   background-image: url(../img/sprite00.png);
   background-repeat: no-repeat;
   background-size: 40px auto;
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
 .sp00.fire {
@@ -1415,49 +1435,49 @@ input:-webkit-autofill.modal_inp.wrong {
 }
 
 .sp00.vote {
-  background-position: -1px -24px;
+  background-position: -2px -24px;
+  width:15px;
+  height:15px;
 }
 .sp00.comment.yellow {
-  background-position: -1px -47px;
+  background-position: -2px -47px;
 }
 .sp00.comment.gray {
-  background-position: -1px -69px;
+  background-position: -2px -69px;
 }
 .sp00.comment {
-  background-position: -1px -93px;
+  background-position: -2px -93px;
 }
 .sp00.vs {
-  background-position: -1px -116px;
+  background-position: -2px -116px;
   width: 40px;
   height: 19px;
 }
 .sp00.up {
-  background-position: -1px -142px;
+  background-position: -2px -142px;
 }
 .sp00.up.on {
-  background-position: -1px -165px;
+  background-position: -2px -165px;
 }
 .sp00.down {
-  background-position: -1px -188px;
+  background-position: -2px -188px;
 }
 .sp00.down.on {
-  background-position: -1px -211px;
+  background-position: -2px -211px;
 }
 .sp00.close {
-  background-position: -1px -234px;
-  width: 18px;
-  height: 18px;
+  background-position: -2px -234px;
 }
 .sp00.check{
-  background-position: -1px -257px;
+  background-position: -2px -257px;
 }
 .sp00.close_blk {
-  background-position: -1px -282px;
+  background-position: -2px -282px;
   width: 18px;
   height: 18px;
 }
 .sp00.arrow_right_blue {
-  background-position: -1px -307px;
+  background-position: -2px -307px;
   width: 18px;
   height: 18px;
 }
@@ -1499,6 +1519,12 @@ input:-webkit-autofill.modal_inp.wrong {
 }
 .sp24.pencil.on {
   background-position-y: -120px;
+}
+.sp24.modify{
+  background-position-y: -144px;
+}
+.sp24.delete{
+  background-position-y: -168px;
 }
 /* sprite 이미지 42x42 여백포함 */
 .sp42 {

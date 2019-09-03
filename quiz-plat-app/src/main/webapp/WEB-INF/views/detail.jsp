@@ -16,6 +16,15 @@
   <link rel="stylesheet" href="resources/css/swiper.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700,700i&display=swap"
     rel="stylesheet">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146761641-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-146761641-1');
+  </script>
 </head>
 
 <body>
@@ -23,8 +32,9 @@
     <div class="page scene_element scene_element--fadeinright">
       <header class="header_wrap">
         <button class="sp24 back" type="button" onclick="window.history.back(-1);"></button>
-        <button class="sp24 complain" type="button" ></button>
-        <button class="sp24 airplain" type="button"></button>
+        <button class="sp24 complain" type="button"></button>
+        <button class="sp24 delete forfistpage" type="button"></button>
+        <button class="sp24 modify forfistpage" type="button"></button>
       </header>
       <div class="swiper-container">
         <div class="swiper-wrapper">

@@ -74,11 +74,10 @@ $(function () {
 		card.addClass("on");
 		toggleFooter();
 
-		// TODO : 아군 표시 기능 잘 되는지 확인하기
-		$(document).on('update.team', '.detail_replytit', function (e) {
-			$(this).val() === whereYouVote ? $(this).addClass('on') : null;
+		//아군 표시
+		slide.find('.detail_replytit').map( (index,item) => {
+			if($(item).val() == whereYouVote) $(item).addClass('on');
 		});
-		$('.detail_replytit').trigger('update.team');
 	}
 
 	//대댓글 펼침 기능 활성화
@@ -191,12 +190,15 @@ $(function () {
 
 	function setHeaderState() {
 		var slide = $(oSwiper.getActiveSlide());
+		var header = $('.header_wrap');
+		var firstBtnGroup = header.find('.forfistpage');
 		var isComplained = slide.find('.isComplained').val() === 'true';
 		if (isComplained) {
 			$('.complain').addClass('on').prop('disabled',true);
 		}else{
 			$('.complain').removeClass('on').prop('disabled',false);
 		}
+		!oSwiper.getActiveIndex() ? firstBtnGroup.show() : firstBtnGroup.hide();
 	}
 
 	function clearComment() {

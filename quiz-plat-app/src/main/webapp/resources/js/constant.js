@@ -20,6 +20,7 @@ var URL_READ_FIRST_SLIDE_DATA = URL_BASE + "getWritingDtlDto";
 var URL_READ_MAIN_CARD_DATA = URL_BASE + "getPagingList";
 var URL_READ_SEARCH_CARD_DATA = URL_BASE + "searchWrtingList";
 var URL_READ_NICKNAME = URL_BASE + 'getNickname';
+var URL_READ_USERINFO = URL_BASE + "getUserInfo";
 
 var URL_REMOVE_SESSION = URL_BASE + "logout";
 
