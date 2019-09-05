@@ -148,8 +148,7 @@ $('.person').on('click',function(){
   oAjax.sendRequest(URL_REMOVE_SESSION,null,null,'POST',null).then( json => {
     if(!json.login){
       oToast.show('로그아웃 되었습니다');
-      $('.person').hide();
-      $('.lock').show();
+      setLoginIcon(json.login);
     }
   }).catch( error => {
     oToast.show('로그아웃에 실패했습니다.');
@@ -157,11 +156,16 @@ $('.person').on('click',function(){
   });
 });
 
-$('body').on('chkSession',function(){
-  oAjax.sendRequest(URL_READ_USERINFO,null,null,'GET',null).then( json => {
-    console.log(json);
-  })
-})
+function isLogin(){
+  return oAjax.sendRequest(URL_READ_USERINFO, null, null, 'GET', null).then(json => {
+    return json.login;
+  });
+}
+
+function setLoginIcon(login){
+  $('.person').toggle(login);
+  $('.lock').toggle(!login);
+}
 
 //회원가입 버튼 클릭 시
 $("#_join_form").on('submit',function(e){
@@ -309,6 +313,10 @@ $(function () {
 
   $('.modal_chk_wrap').on('click','input',function(e){
     $(e.currentTarget).toggleClass('on');
+  })
+
+  isLogin().then( login => {
+    setLoginIcon(login);
   })
 
 });
