@@ -274,6 +274,7 @@ $(function () {
 			moreBtn.click();
 			oSwiper.refreshSlideHeight();
 			clearComment();
+			checkMyteam(oSwiper.getActiveSlide());
 		});
 	}
 
