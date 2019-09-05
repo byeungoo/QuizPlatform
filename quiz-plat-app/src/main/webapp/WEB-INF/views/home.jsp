@@ -120,9 +120,8 @@
             <span class="sp00 check"></span>
           </div>
           <div class="modal_chk_wrap">
-            <span class="sp00 check_fill"></span>
-            <label for="_chk_auto_login" onclick="$(this).siblings('.check_fill').toggleClass('on');">자동로그인</label>
-            <input type="checkbox" id="_chk_auto_login" name="rememberId" class="blind">
+            <input type="checkbox" id="_chk_auto_login" name="rememberId" class="sp00 check_fill">
+            <label for="_chk_auto_login">자동로그인</label>
           </div>
         </div>
         <div class="modal_footer">
@@ -179,33 +178,25 @@
 
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
-      <div class="card">
-        <a href="/detail.html?writing_no={{:writing_no}}">
-          <div class="card__info-wrap">
-            <div class="card__info-area">
-              <span class="sp00 vote"></span>
-              <span class="card__icon-desc font_blue">{{:sum_vote}}</span>
+      <a href="/detail.html?writing_no={{:writing_no}}">
+        <div class="card">
+            <div class="card__info-wrap">
+              <div class="card__info-area">
+                <span class="sp00 vote"></span>
+                <span class="card__icon-desc font_blue">{{:sum_vote}}</span>
+              </div>
+              <div class="card__info-area">
+                <span class="sp00 comment yellow"></span>
+                <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
+              </div>
             </div>
-            <div class="card__info-area">
-              <span class="sp00 comment yellow"></span>
-              <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
+            <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
+            <div class="card__vsimg">
+              <span class="sp00 vs"></span>
             </div>
-          </div>
-          <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
-          <div class="card__vsimg">
-            <span class="sp00 vs"></span>
-          </div>
-          <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
-        </a>
-        <div class="card__footer">
-          <button type="button" class="card__modify">
-            <i class="sp42 modify"></i>
-          </button>
-          <button type="button" class="card__delete">
-            <i class="sp42 delete"></i>
-          </button>
+            <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
         </div>
-      </div>
+      </a>
     </li>
   </script>
   

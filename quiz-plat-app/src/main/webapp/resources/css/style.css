@@ -274,33 +274,6 @@ textarea {
   vertical-align: middle;
 }
 
-.card__footer{
-  display:flex;
-  height:42px;
-  margin:12px -23px -15px -23px;
-  background:#F2F2F2;
-  position:relative;
-}
-
-.card__footer:after{
-  content:'';
-  display:block;
-  background:#E8E8E8;
-  position:absolute;
-  width:2px;
-  height:21px;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  -webkit-transform:translate(-50%,-50%);
-}
-
-.card__footer .card__modify,
-.card__footer .card__delete{
-  flex:1;
-}
-
-
 .mt-1 {
   margin-top: 40px;
 }
@@ -360,7 +333,7 @@ textarea {
 }
 
 .ellipsis {
-  overflow-x:hidden;
+  overflow:hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -1265,11 +1238,6 @@ textarea {
   position:relative;
 }
 
-.modal_chk_wrap .check_fill{
-  position:absolute;
-  left:0;
-}
-
 .modal_chk_wrap .check_fill.on + label{
   color:#0f7bff;  
 }
@@ -1279,7 +1247,6 @@ textarea {
   font-size:16px;
   vertical-align:top;
   margin-top:4px;
-  padding-left:25px;
 }
 
 

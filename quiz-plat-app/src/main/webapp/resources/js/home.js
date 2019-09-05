@@ -177,7 +177,7 @@ $("#_login_form").on('submit',function(e){
   e.preventDefault();
   var user_id = loginInpGroup.eq(0).val();
   var pwd = loginInpGroup.eq(1).val();
-  var rememberId = false;
+  var rememberId = loginForm.find('input[type="checkbox"]').prop('checked');
   data = { user_id, pwd, rememberId };
   requestLogin(data);
 });
@@ -306,5 +306,9 @@ $(function () {
       cardList.empty().append(html);
     })
   });
+
+  $('.modal_chk_wrap').on('click','input',function(e){
+    $(e.currentTarget).toggleClass('on');
+  })
 
 });
