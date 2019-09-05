@@ -91,7 +91,7 @@ textarea {
 
 /*header*/
 .home_header {
-  padding: 20px 25px 15px;
+  padding: 20px 25px 0;
   margin-bottom: 1px;
   position: sticky;
   position: -webkit-sticky;
@@ -143,17 +143,31 @@ textarea {
 .mypage{
   display:flex;
   align-items: center;
-  overflow:auto hidden;
-  padding-bottom:15px;
+  position:relative;
+  overflow:hidden;
+  overflow-x:auto;
+  padding:15px 0;
+  padding-left:15px;
   -webkit-overflow-scrolling: touch;
 }
 
-.mypage::-webkit-scrollbar, 
-.mypage::-webkit-scrollbar-thumb { width: 0 !important ;height:0;background:white !important;}
-
-.mypage button:first-child{
-    margin-left:115px;
+.row_scroll{
+  position:relative;
+  overflow:hidden;
 }
+
+.row_scroll:after{
+  content:'';
+  display:block;
+  position:absolute;
+  width:100%;
+  bottom:0;
+  height:15px;
+  background:white;
+}
+
+.mypage::-webkit-scrollbar, 
+.mypage::-webkit-scrollbar-thumb { width: 0 !important ;height:0;background:transparent !important;}
 
 .mypage button{
   flex: 0 0 auto;
@@ -230,16 +244,11 @@ textarea {
   margin: 16px 0;
 }
 
-.main-sec__list-item:first-child {
-  margin-top: 0;
-}
-
 /* card block */
 .card {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height:200px;
   background: #fff;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 7px 0px;
@@ -264,6 +273,33 @@ textarea {
   display:inline-block;
   vertical-align: middle;
 }
+
+.card__footer{
+  display:flex;
+  height:42px;
+  margin:12px -23px -15px -23px;
+  background:#F2F2F2;
+  position:relative;
+}
+
+.card__footer:after{
+  content:'';
+  display:block;
+  background:#E8E8E8;
+  position:absolute;
+  width:2px;
+  height:21px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  -webkit-transform:translate(-50%,-50%);
+}
+
+.card__footer .card__modify,
+.card__footer .card__delete{
+  flex:1;
+}
+
 
 .mt-1 {
   margin-top: 40px;
@@ -1567,4 +1603,20 @@ input:-webkit-autofill.modal_inp.wrong {
 
 .sp42.search.on {
   background-position-y: -294px;
+}
+
+.sp42.modify{
+  background-position-y: -336px;
+}
+
+.sp42.modify.on{
+  background-position-y: -378px;
+}
+
+.sp42.delete{
+  background-position-y: -420px;
+}
+
+.sp42.delete.on{
+  background-position-y: -462px;
 }

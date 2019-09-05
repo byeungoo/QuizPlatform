@@ -22,6 +22,13 @@
 
     gtag('config', 'UA-146761641-1');
   </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-3747891131925558",
+      enable_page_level_ads: true
+    });
+  </script>
 </head>
 
 <body>
@@ -31,14 +38,16 @@
       <li class="home_header_navitem" value="1">신규</li>
       <li class="home_header_navitem" value="2">활동</li>
     </ul>
-  </header>
-  <div class="wrapper m-scene">
-    <section class="main-sec">
+    <div class="row_scroll">
       <div class="mypage" style="display:none;">
         <button type="button" class="mypage_myvote rdo_toggle" value="2">내가 투표한 글</button>
         <button type="button" class="mypage_mycomment rdo_toggle" value="3">내가 댓글단 글</button>
         <button type="button" class="mypage_mycomment rdo_toggle" value="4">내 게시글</button>
       </div>
+    </div>
+  </header>
+  <div class="wrapper m-scene">
+    <section class="main-sec">
       <ul class="main-sec__list">
       </ul>
       <ul class="main-sec__searchlist">
@@ -170,8 +179,8 @@
 
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
-      <a href="/detail.html?writing_no={{:writing_no}}">
-        <div class="card">
+      <div class="card">
+        <a href="/detail.html?writing_no={{:writing_no}}">
           <div class="card__info-wrap">
             <div class="card__info-area">
               <span class="sp00 vote"></span>
@@ -187,8 +196,16 @@
             <span class="sp00 vs"></span>
           </div>
           <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
+        </a>
+        <div class="card__footer">
+          <button type="button" class="card__modify">
+            <i class="sp42 modify"></i>
+          </button>
+          <button type="button" class="card__delete">
+            <i class="sp42 delete"></i>
+          </button>
         </div>
-      </a>
+      </div>
     </li>
   </script>
   

@@ -25,6 +25,13 @@
 
     gtag('config', 'UA-146761641-1');
   </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-3747891131925558",
+      enable_page_level_ads: true
+    });
+  </script>
 </head>
 
 <body>
@@ -36,7 +43,7 @@
         <button class="sp24 delete forfistpage" type="button"></button>
         <button class="sp24 modify forfistpage" type="button"></button>
       </header>
-      <div class="swiper-container">
+      <div class="swiper-container" style="max-width:100vw;">
         <div class="swiper-wrapper">
         </div>
       </div>

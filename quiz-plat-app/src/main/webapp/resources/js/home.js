@@ -249,10 +249,9 @@ $(function () {
       scrolling: 'yes',
       css: {
         height: "100vh",
-        width: "100vw",
-        '-webkit-backface-visibility': hidden
+        width: "100vw"
       },
-      sandbox : 'allow-same-origin'
+      sandbox : 'allow-same-origin allow-scripts'
     });
     ifrWrapper.append(iframe);
     $('body').children().hide();
@@ -260,6 +259,7 @@ $(function () {
     window.history.pushState('', '', nextPage);
     e.preventDefault();
   });
+
   window.onpopstate = function (e) {
     var $body = $('body');
     $body.find('.iframe_wrapper').remove();
