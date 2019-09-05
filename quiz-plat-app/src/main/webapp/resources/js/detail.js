@@ -67,16 +67,21 @@ $(function () {
 		var cards = cardwrap.find(".card");
 		var bottomInfo = cardwrap.siblings(".detail_bottom");
 		var slide = $(oSwiper.getActiveSlide());
-		var whereYouVote = cards.eq(0).hasClass('on') ? 1 : 2;
 		cardwrap.addClass("on");
 		bottomInfo.addClass("on");
 		cards.removeClass("on");
 		card.addClass("on");
 		toggleFooter();
+		checkMyteam(slide);
+	}
 
-		//아군 표시
-		slide.find('.detail_replytit').map( (index,item) => {
-			if($(item).val() == whereYouVote) $(item).addClass('on');
+	//아군 표시
+	function checkMyteam(slide) {
+		var cards = $(slide).find('.card');
+		var currentCard = $(slide).find('.card.on');
+		var whereYouVote = $(cards).index(currentCard) + 1;
+		$(slide).find('.detail_replytit').map((index, item) => {
+			if ($(item).val() == whereYouVote) $(item).addClass('on');
 		});
 	}
 
@@ -255,6 +260,7 @@ $(function () {
 			oSwiper.refreshSlideHeight();
 			scrollToBottom();
 			clearComment();
+			checkMyteam(oSwiper.getActiveSlide());
 		});
 	}
 
