@@ -146,7 +146,7 @@
 
   <!-- 글작성창-->
   <a href="#_write" id="_write_trigger" class="blind" rel="leanModal">글작성창</a>
-  <div class="modal ty_write" id="_write" style="display:none;width:100vw;height:100vh">
+  <div class="modal ty_write" id="_write" style="display:none;">
     <div class="modal_ctn">
       <div class="modal_cont">
         <form onsubmit="createWrite();return false;">

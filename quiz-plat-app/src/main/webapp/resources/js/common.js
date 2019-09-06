@@ -140,6 +140,14 @@ function scrollByPosition(scrollTop){
   $('html, body').animate({scrollTop},0);
 }
 
+function isAndroid(){
+  return $('body').hasClass('body_and');
+}
+
+function isIos(){
+  return $('body').hasClass('body_ios');
+}
+
 ssj.util.ajax = function (options) {
   $.extend(this, options);
   this.init();
@@ -486,6 +494,12 @@ ssj.view.infiniteScroll.prototype = {
 }
 
 $(function () {
+  var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+  if (varUA.match('android') != null) {
+    $('body').addClass('body_and');
+  } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
+    $('body').addClass('body_ios');
+  } 
   oAjax = new ssj.util.ajax();
   oSpinner = new ssj.util.spinner();
   oToast = new ssj.util.toast();

@@ -1193,8 +1193,16 @@ textarea {
   overflow:hidden;
 }
 
+.modal.ty_write{
+  margin:60px 10px 0;
+  left:0;
+  right:0;
+  height:100vh;
+}
+
 .modal.ty_write .modal_ctn{
   padding:54px 15px 0;
+  height:100%;
 }
 
 .modal.ty_search{

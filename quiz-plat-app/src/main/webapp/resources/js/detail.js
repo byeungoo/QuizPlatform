@@ -156,6 +156,7 @@ $(function () {
 		if (!isExist) {
 			mention = makeMention(nickname, comment_no);
 			inputArea.prepend(mention);
+			isIos() && scrollToBottom();
 		} else {
 			changeMention(nickname, comment_no);
 		}
@@ -336,6 +337,7 @@ $(function () {
 		addMention(e);
 		setTimeout( () => {
 			oSwiper.refreshSlideHeight();
+			isIos() && scrollToBottom();
 		},200);
 	});
 	/* 본문 펼치기 */

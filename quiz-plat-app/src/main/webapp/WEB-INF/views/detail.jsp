@@ -40,8 +40,6 @@
       <header class="header_wrap">
         <button class="sp24 back" type="button" onclick="window.history.back(-1);"></button>
         <button class="sp24 complain" type="button"></button>
-        <button class="sp24 delete forfistpage" type="button"></button>
-        <button class="sp24 modify forfistpage" type="button"></button>
       </header>
       <div class="swiper-container" style="max-width:100vw;">
         <div class="swiper-wrapper">
