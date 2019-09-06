@@ -12,7 +12,6 @@ function createWrite(){
   var data = { fir_writ_content, sec_writ_content, content}
   oAjax.sendRequest(URL_CREATE_VOTE,data, ID_TMPL_MAIN_CARD,'POST',null).then( html => {
     $($('.home_header_navlist').children().eq(1)).click();
-    $('.main-sec__list').prepend(html);
     resetBottomNavbar();
     $('html,body').animate({scrollTop:0},0);
     $('#_write').find('.modal_close').click();
