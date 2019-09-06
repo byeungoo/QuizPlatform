@@ -1310,12 +1310,12 @@ textarea {
 }
 
 .modal_inp.wrong {
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid #FE2469;
   color:red;
 }
 
 input:-webkit-autofill.modal_inp.wrong {
-    -webkit-text-fill-color: red !important;
+    -webkit-text-fill-color: FE2469 !important;
 }
 
 
@@ -1332,6 +1332,10 @@ input:-webkit-autofill.modal_inp.wrong {
 }
 .modal_footbtn.on{
   background-color:#0f7bff;
+  color:white;
+}
+.modal_footbtn.wrong{
+  background-color:#FE2469;
   color:white;
 }
 .modal_header{margin-top:40px;}

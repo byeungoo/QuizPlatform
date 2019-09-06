@@ -133,15 +133,15 @@ var loginForm = $('#login');
 var loginInpGroup = loginForm.find('.modal_inp');
 var loginFootBtn = loginForm.find('.modal_footbtn');
 loginInpGroup.on('keyup',function(e){
-  if ($(e.target).val().length) {
+  if ($(e.target).val().length > 0) {
     $(this).addClass('on').removeClass('wrong');
   } else {
-    $(this).removeClass('on');
+    $(this).removeClass('on').removeClass('wrong');
   }
   if (isCompleteForm(loginInpGroup)) {
     loginFootBtn.addClass('on').text('로그인');
   } else {
-    loginFootBtn.removeClass('on').text('필수 항목을 작성해주세요');
+    loginFootBtn.removeClass('on').removeClass('wrong').text('필수 항목을 작성해주세요');
   }
 });
 
@@ -196,8 +196,9 @@ function requestLogin(data){
       loginForm.find('.modal_close').click();
       $('.lock').hide();
       $('.person').show();
-    }else{
-      loginInpGroup.addClass('wrong').removeClass('on');
+    }else{ //로그인 실패
+      loginInpGroup.removeClass('wrong').removeClass('on').val('');
+      loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다');
     }
   });
 }
