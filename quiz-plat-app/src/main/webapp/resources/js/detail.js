@@ -282,6 +282,7 @@ $(function () {
 			oSwiper.refreshSlideHeight();
 			clearComment();
 			checkMyteam(oSwiper.getActiveSlide());
+			activateModal();
 		});
 	}
 
@@ -338,28 +339,43 @@ $(function () {
 	//시스템 모달 안으로 댓글 아이디 가져오기 및 내 댓글인지 여부에 따라 삭제버튼 disable
 	$(document).on('click','.dot3',function(){
 		var modal = $('#_system_modal');
-		var comment = $(this).closest('.detail_replyitem');
-		var comment_id = comment.prop('id');
+		var low_comment = $(this).closest('.detail_reply_subitem');
+		var comment = low_comment.length > 0 ? low_comment : $(this).closest('.detail_replyitem');
+		var comment_no = comment.prop('id');
+		var isCommentWrite = comment_no.slice(0, 3) != 'low';
+		var delBtn = modal.find('.delete');
+		var writeBtn = modal.find('.write');
 		var isMine = comment.find('.ismine').val() == true;
-		var deleteBtn = modal.find('.delete');
-		deleteBtn.prop('disabled',!isMine);
-		modal.find('input[type="hidden"]').val(comment_id);
+		var isDeleted = comment.find('.isdeleted').val() == 'N';
+		debugger;
+		modal.find('.comment_no').val(comment_no);
+		delBtn.prop('disabled', isDeleted || !isMine);
+		if (isCommentWrite){ //댓글에서 햄버거 버튼 클릭시
+			delBtn.text('댓글 삭제');
+			writeBtn.text('대댓글 작성').show();
+		}else { //대댓글에서 햄버거 버튼 클릭시
+			delBtn.text('대댓글 삭제');
+			writeBtn.hide();
+		}
 	});
 
 	$('#_system_modal').on('click', '.modal_btn', function (e) {
 		var writing_no = oSwiper.getActiveSlideId();
-		var comment_no = getNumberInStr($(e.delegateTarget).find('.comment_no').val());
 		var slide = $(oSwiper.getActiveSlide());
-		var comment = slide.find('#comment' + comment_no);
-		var modalClose = $(e.delegateTarget).find('.modal_close');
-		if( $(this).hasClass('write') ){ //대댓글 작성
+		var modal = $(e.delegateTarget);
+		var comment_no = modal.find('.comment_no').val();
+		var comment = slide.find("#" + comment_no);
+		var modalClose = modal.find('.modal_close');
+		comment_no = getNumberInStr(comment_no);
+		if ($(this).hasClass('write')) { //대댓글 작성
 			comment.find('.detail_reply_more').click();
-		}else if($(this).hasClass('delete')){ //댓글 삭제
-			oAjax.sendRequest(URL_REMOVE_COMMENT,{writing_no,comment_no},null,'POST',null).then( json => {
-				if(json.success){
+		} else if ($(this).hasClass('delete')) { //댓글 삭제
+			oAjax.sendRequest(URL_REMOVE_COMMENT, { writing_no, comment_no }, null, 'POST', null).then(json => {
+				if (json.success) {
 					var contents = comment.find('.detail_replycont');
 					contents.eq(0).text('삭제된 댓글입니다');
-				}else{
+					comment.find('.isdeleted').val('N');
+				} else {
 					oToast.show('댓글삭제에 실패했습니다')
 				}
 			});

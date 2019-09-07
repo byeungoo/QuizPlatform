@@ -49,7 +49,6 @@
       <!-- 대댓글메뉴버튼 -->
       <div class="modal ty2" id="_system_modal" style="display:none;">
         <input type="hidden" class="comment_no">
-        <input type="hidden" class="mycomment">
         <div class="modal_ctn">
           <div class="modal_cont">
               <button class="modal_btn write">대댓글 작성</button>
@@ -148,6 +147,7 @@
       <li class="detail_replyitem accordion" id="comment{{:comment_no}}" data-accordion>
         <div class="detail_replyheader">
           <input type="hidden" class="ismine" value="{{:mine}}">
+          <input type="hidden" class="isdeleted" value="{{:use_yn}}">
           <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
           <span class="detail_reply_subtitarea">
             <span class="detail_replytime">{{:mod_dts}}</span>
@@ -187,6 +187,8 @@
     </script>
   <script id="subReplyTmpl" type="text/x-jsrender">
       <li class="detail_reply_subitem" id="lowComment{{:comment_no}}">
+        <input type="hidden" class="ismine" value="{{:mine}}">
+        <input type="hidden" class="isdeleted" value="{{:use_yn}}">
         <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
         <span class="detail_reply_subtitarea">
           <span class="detail_replytime">2019.11.27 17:01:45</span>
@@ -196,10 +198,15 @@
               {{/if}}
               <button type="button" class="recommend sp00 up"></button>
               <button type="button" class="recommend sp00 down"></button>
+              <a href="#_system_modal" id="_system_modal_trigger" class="sp00 dot3" rel="leanModal"></a>
             </span>
         </span>
         <span class="detail_replycont">
-          {{:comment_content}}
+          {{if use_yn == 'N'}}
+              삭제된 댓글입니다
+            {{else }}
+              {{:comment_content}}
+          {{/if}}
         </span>
       </li>
     </script>
