@@ -46,6 +46,19 @@
         </div>
       </div>
     </div>
+      <!-- 대댓글메뉴버튼 -->
+      <div class="modal ty2" id="_system_modal" style="display:none;">
+        <input type="hidden" class="comment_no">
+        <div class="modal_ctn">
+          <div class="modal_cont">
+              <button class="modal_btn write" onclick="$(this).toggleClass('on');">대댓글 작성</button>
+              <button class="modal_btn delete" onclick="$(this).toggleClass('on');">댓글 삭제</button>
+            </form>
+            <button class="modal_close ico_close" style="top:22px;right:25px;"></button>
+          </div>
+        </div>
+        <button class="modal_close ico_close blind"></button>
+      </div>
   </section>
   <footer>
     <div class="reply_inputwrap">
@@ -142,6 +155,7 @@
                 {{/if}}
                 <button type="button" class="recommend sp00 up "></button>
                 <button type="button" class="recommend sp00 down"></button>
+                <a href="#_system_modal" id="_system_modal_trigger" class="sp00 dot3" rel="leanModal"></a>
               </span>
           </span>
         </div>
@@ -189,16 +203,15 @@
       </span>
     </script>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+  <script src="resources/js/common.js"></script>
+  <script src="resources/js/jquery.leanModal.min.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/swiper.js"></script>
   <script src="resources/js/jsrender.min.js"></script>
   <script src="resources/js/constant.js"></script>
   <script src="resources/js/jquery-accordion.js"></script>
-  <script src="resources/js/common.js"></script>
   <script src="resources/js/detail.js"></script>
   <script type="text/javascript">
-  $(function(){
-  });
   </script>
 </body>
 

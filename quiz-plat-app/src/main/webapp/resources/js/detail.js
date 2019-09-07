@@ -26,6 +26,7 @@ $(function () {
 				scrollToTop();
 				setHeaderState();
 				resetAddress();
+				$().leanModal();
 			}
 		}
 	});
@@ -73,6 +74,11 @@ $(function () {
 		card.addClass("on");
 		toggleFooter();
 		checkMyteam(slide);
+		activateModal();
+	}
+
+	function activateModal(){
+		$("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: '_system_modal' ,top: '55vh'});
 	}
 
 	//아군 표시
@@ -156,7 +162,6 @@ $(function () {
 		if (!isExist) {
 			mention = makeMention(nickname, comment_no);
 			inputArea.prepend(mention);
-			isIos() && scrollToBottom();
 		} else {
 			changeMention(nickname, comment_no);
 		}
@@ -329,6 +334,27 @@ $(function () {
 			});
 	});
 
+	//시스템 모달 안으로 댓글 아이디 가져오기
+	$(document).on('click','.dot3',function(){
+		var modal = $('#_system_modal');
+		var comment_id = $(this).closest('.detail_replyitem').prop('id');
+		modal.find('input[type="hidden"]').val(comment_id);
+	});
+
+	//대댓글 모달 내 대댓글작성, 댓글 삭제버튼 클릭시
+	$('.modal.ty2').on('click','.modal_btn',function(e){
+		var comment_id = $(e.delegateTarget).find('input[type="hidden"]').val();
+		var slide = $(oSwiper.getActiveSlide());
+		var comment = slide.find('#' + comment_id);
+		var modalClose = $(e.delegateTarget).find('.modal_close');
+		if( $(this).hasClass('write') ){
+			comment.find('.detail_reply_more').click();
+			modalClose.click();
+		}else if($(this).hasClass('delete')){
+
+		}
+	});
+
 	//대댓글 펼치기 : 버튼 UI 변경
 	$("body").on("click", "button.detail_reply_more", function (e) {
 		var btn = $(e.currentTarget);
@@ -337,7 +363,6 @@ $(function () {
 		addMention(e);
 		setTimeout( () => {
 			oSwiper.refreshSlideHeight();
-			isIos() && scrollToBottom();
 		},200);
 	});
 	/* 본문 펼치기 */

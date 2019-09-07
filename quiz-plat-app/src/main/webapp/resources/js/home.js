@@ -1,4 +1,7 @@
 
+$('#_write').on('keyup change','.write_area',function(e){
+    $(e.currentTarget).toggleClass('on', $(e.target).val().length > 0);
+})
 function createWrite(){
   var plusBtn = $('.bottom_navbaritem.plus');
   var fir_writ_content = $('#_write_front').val();
@@ -6,6 +9,7 @@ function createWrite(){
   var content = $('#_write_textarea').val();
   if(!fir_writ_content || !sec_writ_content || !content){
     oToast.show('모두 입력해주세요');
+    $('.write_submit').removeClass('on');
     return false;
   }
   plusBtn.prop('disabled', true);
@@ -19,6 +23,7 @@ function createWrite(){
     $('#_write').find('.modal_close').click();
     $('.write_inp').val('').siblings('label').show();
     $('.write_submit').removeClass('on');
+    $('.write_area').removeClass('on');
     plusBtn.prop('disabled', false);
   }).catch( e => {
     console.log(e);
@@ -194,8 +199,10 @@ function requestLogin(data){
       console.log(json);
       oToast.show(json.nickname+"님 환영합니다");
       loginForm.find('.modal_close').click();
-      $('.lock').hide();
-      $('.person').show();
+      isLogin().then(login => {
+        debugger;
+        setLoginIcon(login);
+      })
     }else{ //로그인 실패
       loginInpGroup.removeClass('wrong').removeClass('on').val('');
       loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다');
@@ -210,8 +217,9 @@ function createMember(data) {
       joinClose.click();
       $("#join .modal_inp").removeClass('on').val('');
       $('#join .modal_footbtn').prop('disabled',true).text('필수 항목을 작성해주세요').removeClass('on');
-      $('.lock').hide();
-      $('.person').show();
+      isLogin().then(login => {
+        setLoginIcon(login);
+      })
     }else{
       oToast.show("이미 존재하는 닉네임입니다");
     }
@@ -238,7 +246,7 @@ $('body').on('click','.modal_close',function(){
 });
 var oSsjViewInfinite;
 $(function () {
-  $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join', topfix:['#_searchbar','#_write']}); //a태그에 모달 켜기 기능 추가
+  $("a[rel*=leanModal]").leanModal({  overlay: 0.4, slideinUp: 'join', topfix:['#_searchbar','#_write']}); //a태그에 모달 켜기 기능 추가
   //$("#login_trigger").click();
   //인피니티 스크롤 위치 기억
   $('.main-sec__list').on('click', 'a', function (e) {
@@ -257,7 +265,7 @@ $(function () {
         height: "100vh",
         width: "100vw"
       },
-      sandbox : 'allow-same-origin allow-scripts'
+      allowfullscreen
     });
     ifrWrapper.append(iframe);
     $('body').children().hide();

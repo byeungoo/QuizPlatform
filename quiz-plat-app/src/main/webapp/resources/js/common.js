@@ -3,12 +3,16 @@ ssj.util = ssj.util || {};
 ssj.view = ssj.view || {};
 var oAjax, oSpinner, oToast;
 (function($){
-  $.scrollLock = function (lock) {
-    var $body = $('body');
-    var style = {position:'fixed',top:0,left:0,right:0,bottom:0};
-    lock ? $body.css(style) : $body.removeAttr('style');
-    return this;
-  };
+  function prevent(e){
+    e.preventDefault();
+  }
+  $.extend({
+    scrollLock : function (lock) {
+      lock ? 
+        document.addEventListener('touchmove', prevent, { passive: false }) :
+        document.removeEventListener('touchmove', prevent, { passive: false })
+    }
+  });
 })(jQuery);
 
 
@@ -109,9 +113,9 @@ function getNumberInStr(str) {
   return str.replace(/[^0-9]/g, "");
 }
 
-function scrollToBottom(target = $(document.body), duration = 0) {
+function scrollToBottom(target = $(document), duration = 0) {
   $("html, body").animate({
-    scrollTop: $(target).innerHeight()
+    scrollTop: $(target).height()
   }, duration);
 }
 

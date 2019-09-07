@@ -146,7 +146,7 @@
 
   <!-- 글작성창-->
   <a href="#_write" id="_write_trigger" class="blind" rel="leanModal">글작성창</a>
-  <div class="modal ty_write" id="_write" style="display:none;">
+  <div class="modal ty2" id="_write" style="display:none;">
     <div class="modal_ctn">
       <div class="modal_cont">
         <form onsubmit="createWrite();return false;">
@@ -169,7 +169,7 @@
           </div>
           <button class="write_submit" onclick="$(this).toggleClass('on');">만들기</button>
         </form>
-        <button class="modal_close ico_close" style="top:18px;right:11px;"></button>
+        <button class="modal_close ico_close" style="top:21px;right:25px;"></button>
       </div>
     </div>
     <button class="modal_close ico_close blind"></button>
@@ -203,9 +203,9 @@
   <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
+  <script src="resources/js/common.js"></script>
   <script src="resources/js/jquery.leanModal.min.js"></script>
   <script src="resources/js/constant.js"></script>
-  <script src="resources/js/common.js"></script>
   <script src="resources/js/jsrender.min.js"></script>
   <script src="resources/js/home.js"></script>
 </body>

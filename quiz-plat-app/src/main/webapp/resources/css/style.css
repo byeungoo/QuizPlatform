@@ -787,7 +787,8 @@ textarea {
   padding-right: 10px;
 }
 
-.detail_replyinfos > button {
+.detail_replyinfos > button,
+.detail_replyinfos > a {
   margin-left: 14px;
 }
 
@@ -1092,7 +1093,7 @@ textarea {
 }
 
 .write_area.ty_wide{
-  height:50vh;
+  height:40vh;
 }
 
 .write_area.ty_wide textarea{
@@ -1130,7 +1131,7 @@ textarea {
   width:100%;
   height:100%;
   line-height:38px;
-  padding-left:15px;
+  padding:0 15px;
 }
 
 .write_area:first-child{
@@ -1169,6 +1170,19 @@ textarea {
   color:white;
 }
 
+.btn.ty_1{
+  display:block;
+  width:120px;
+  height:34px;
+  margin:auto;
+  border-radius:18px;
+  border:1px solid #E8E8E8;
+  text-align:center;
+  line-height:34px;
+  color:#B5B5B5;
+  font-size:14px;
+  margin-top:12px;
+}
 
 .toast {
   display: inline-block;
@@ -1193,16 +1207,20 @@ textarea {
   overflow:hidden;
 }
 
-.modal.ty_write{
+.modal.ty2{
   margin:60px 10px 0;
   left:0;
   right:0;
   height:100vh;
 }
 
-.modal.ty_write .modal_ctn{
+.modal.ty2 .modal_ctn{
   padding:54px 15px 0;
   height:100%;
+}
+
+.modal.ty2 .write_area.on{
+  border:2px solid #0F7BFF;
 }
 
 .modal.ty_search{
@@ -1234,6 +1252,20 @@ textarea {
   color:#222;
   border-radius:8px;
   padding-right:40px;
+}
+
+
+.modal.ty2 .modal_btn{
+  display:block;
+  margin:auto;
+  width:265px;
+  height:34px;
+  border-radius:18px;
+  border:1px solid #E8E8E8;
+}
+
+.modal.ty2 .modal_btn + .modal_btn{
+  margin-top:10px;
 }
 
 .modal_chk_tit {
@@ -1503,6 +1535,11 @@ input:-webkit-autofill.modal_inp.wrong {
   background-position: -1px -363px;
   width:22px;
   height:22px;
+}
+.sp00.dot3{
+  background-position: -1px -392px;
+  width:16px;
+  height:16px;
 }
 
 /* sprite 이미지 24x24 여백포함 */
