@@ -136,7 +136,7 @@
           <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
           <span class="detail_reply_subtitarea">
             <span class="detail_replytime">{{:mod_dts}}</span>
-              <span class="detail_replyinfos">
+              <span class="detail_replyinfos {{if prefer}}{{if prefer == 0}}down{{else}}up{{/if}}{{else}}{{/if}}">
                 {{if sum_prefer > 0 }}
                   {{include tmpl="#recomCountTx"/}}
                 {{/if}}
@@ -170,7 +170,7 @@
         <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
         <span class="detail_reply_subtitarea">
           <span class="detail_replytime">2019.11.27 17:01:45</span>
-            <span class="detail_replyinfos">
+            <span class="detail_replyinfos {{if prefer}}{{if prefer == 0}}down{{else}}up{{/if}}{{else}}{{/if}}">
               {{if sum_prefer > 0 }}
                 {{include tmpl="#recomCountTx"/}}
               {{/if}}
