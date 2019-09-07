@@ -785,11 +785,18 @@ textarea {
   font-size: 11px;
   color: #b6b6b6;
   padding-right: 10px;
+  border-radius:15px;
+  background:#F7F7F7;
+  padding: 4px 15px;
 }
 
 .detail_replyinfos > button,
 .detail_replyinfos > a {
   margin-left: 14px;
+}
+
+.detail_replyinfos .recommend:first-child{
+  margin:0;
 }
 
 .detail_replyup {
@@ -1262,10 +1269,15 @@ textarea {
   height:34px;
   border-radius:18px;
   border:1px solid #E8E8E8;
+  color:#B5B5B5;
 }
 
 .modal.ty2 .modal_btn + .modal_btn{
   margin-top:10px;
+}
+
+.modal_btn:disabled{
+  background:#E8E8E8;
 }
 
 .modal_chk_tit {

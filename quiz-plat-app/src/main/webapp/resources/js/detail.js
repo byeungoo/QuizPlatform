@@ -26,7 +26,6 @@ $(function () {
 				scrollToTop();
 				setHeaderState();
 				resetAddress();
-				$().leanModal();
 			}
 		}
 	});
@@ -215,6 +214,7 @@ $(function () {
 	function clearComment() {
 		$(".reply_input").val("");
 		$('.reply_mention').remove();
+		$('.reply_submit').removeClass('on');
 	}
 
 	function getActiveWritingId() {
@@ -232,7 +232,7 @@ $(function () {
 		return getNumberInStr($(commentWrap).attr("id"));
 	}
 
-	/* 댓글 비동기 입력*/
+	/* 댓글 비동기 작성*/
 	$("body").on("click", ".reply_submit", function (e) {
 		var replytx = $(e.currentTarget).siblings(".reply_input").val();
 		if (!replytx.length) {
@@ -267,6 +267,7 @@ $(function () {
 			scrollToBottom();
 			clearComment();
 			checkMyteam(oSwiper.getActiveSlide());
+			activateModal();
 		});
 	}
 
@@ -334,25 +335,36 @@ $(function () {
 			});
 	});
 
-	//시스템 모달 안으로 댓글 아이디 가져오기
+	//시스템 모달 안으로 댓글 아이디 가져오기 및 내 댓글인지 여부에 따라 삭제버튼 disable
 	$(document).on('click','.dot3',function(){
 		var modal = $('#_system_modal');
-		var comment_id = $(this).closest('.detail_replyitem').prop('id');
+		var comment = $(this).closest('.detail_replyitem');
+		var comment_id = comment.prop('id');
+		var isMine = comment.find('.ismine').val() == true;
+		var deleteBtn = modal.find('.delete');
+		deleteBtn.prop('disabled',!isMine);
 		modal.find('input[type="hidden"]').val(comment_id);
 	});
 
-	//대댓글 모달 내 대댓글작성, 댓글 삭제버튼 클릭시
-	$('.modal.ty2').on('click','.modal_btn',function(e){
-		var comment_id = $(e.delegateTarget).find('input[type="hidden"]').val();
+	$('#_system_modal').on('click', '.modal_btn', function (e) {
+		var writing_no = oSwiper.getActiveSlideId();
+		var comment_no = getNumberInStr($(e.delegateTarget).find('.comment_no').val());
 		var slide = $(oSwiper.getActiveSlide());
-		var comment = slide.find('#' + comment_id);
+		var comment = slide.find('#comment' + comment_no);
 		var modalClose = $(e.delegateTarget).find('.modal_close');
-		if( $(this).hasClass('write') ){
+		if( $(this).hasClass('write') ){ //대댓글 작성
 			comment.find('.detail_reply_more').click();
-			modalClose.click();
-		}else if($(this).hasClass('delete')){
-
+		}else if($(this).hasClass('delete')){ //댓글 삭제
+			oAjax.sendRequest(URL_REMOVE_COMMENT,{writing_no,comment_no},null,'POST',null).then( json => {
+				if(json.success){
+					var contents = comment.find('.detail_replycont');
+					contents.eq(0).text('삭제된 댓글입니다');
+				}else{
+					oToast.show('댓글삭제에 실패했습니다')
+				}
+			});
 		}
+		modalClose.click();
 	});
 
 	//대댓글 펼치기 : 버튼 UI 변경

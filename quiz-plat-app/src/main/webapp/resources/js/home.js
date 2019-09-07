@@ -185,14 +185,14 @@ $("#_join_form").on('submit',function(e){
 
 $("#_login_form").on('submit',function(e){
   e.preventDefault();
+  requestLogin();
+});
+
+function requestLogin() {
   var user_id = loginInpGroup.eq(0).val();
   var pwd = loginInpGroup.eq(1).val();
   var rememberId = loginForm.find('input[type="checkbox"]').prop('checked');
   data = { user_id, pwd, rememberId };
-  requestLogin(data);
-});
-
-function requestLogin(data){
   oAjax.sendRequest(URL_CREATE_SESSION,data,null,'POST',null).then( json => {
     if(json.login){
       console.log('로그인성공');
@@ -200,7 +200,6 @@ function requestLogin(data){
       oToast.show(json.nickname+"님 환영합니다");
       loginForm.find('.modal_close').click();
       isLogin().then(login => {
-        debugger;
         setLoginIcon(login);
       })
     }else{ //로그인 실패
@@ -213,13 +212,10 @@ function requestLogin(data){
 function createMember(data) {
   oAjax.sendRequest(URL_CREATE_MEMBER,data,null,'POST',null).then( json => {
     if(json.login){
-      oToast.show(json.nickname + "님 환영합니다");
       joinClose.click();
       $("#join .modal_inp").removeClass('on').val('');
       $('#join .modal_footbtn').prop('disabled',true).text('필수 항목을 작성해주세요').removeClass('on');
-      isLogin().then(login => {
-        setLoginIcon(login);
-      })
+      requestLogin();
     }else{
       oToast.show("이미 존재하는 닉네임입니다");
     }

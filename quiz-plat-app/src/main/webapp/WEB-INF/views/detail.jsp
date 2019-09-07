@@ -49,10 +49,11 @@
       <!-- 대댓글메뉴버튼 -->
       <div class="modal ty2" id="_system_modal" style="display:none;">
         <input type="hidden" class="comment_no">
+        <input type="hidden" class="mycomment">
         <div class="modal_ctn">
           <div class="modal_cont">
-              <button class="modal_btn write" onclick="$(this).toggleClass('on');">대댓글 작성</button>
-              <button class="modal_btn delete" onclick="$(this).toggleClass('on');">댓글 삭제</button>
+              <button class="modal_btn write">대댓글 작성</button>
+              <button class="modal_btn delete">댓글 삭제</button>
             </form>
             <button class="modal_close ico_close" style="top:22px;right:25px;"></button>
           </div>
@@ -146,6 +147,7 @@
   <script id="replyTmpl" type="text/x-jsrender">
       <li class="detail_replyitem accordion" id="comment{{:comment_no}}" data-accordion>
         <div class="detail_replyheader">
+          <input type="hidden" class="ismine" value="{{:mine}}">
           <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
           <span class="detail_reply_subtitarea">
             <span class="detail_replytime">{{:mod_dts}}</span>
@@ -160,7 +162,11 @@
           </span>
         </div>
         <span class="detail_replycont">
-          {{:comment_content}}
+          {{if use_yn == 'N'}}
+              삭제된 댓글입니다
+            {{else }}
+              {{:comment_content}}
+          {{/if}}
         </span>
         <div class="detail_reply_subarea acdo">
           <ul class="detail_reply_subitems acdo_cont" data-content>

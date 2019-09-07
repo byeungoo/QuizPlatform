@@ -23,6 +23,7 @@ var URL_READ_NICKNAME = URL_BASE + 'getNickname';
 var URL_READ_USERINFO = URL_BASE + "getUserInfo";
 
 var URL_REMOVE_SESSION = URL_BASE + "logout";
+var URL_REMOVE_COMMENT = URL_BASE + "deleteComment";
 
 var PAGE_NAME_SWIPE = "swipe";
 var PAGE_NAME_SEARCH = "search";
