@@ -144,7 +144,7 @@ loginInpGroup.on('keyup',function(e){
     $(this).removeClass('on').removeClass('wrong');
   }
   if (isCompleteForm(loginInpGroup)) {
-    loginFootBtn.addClass('on').text('로그인');
+    loginFootBtn.addClass('on').prop('disabled',false).text('로그인');
   } else {
     loginFootBtn.removeClass('on').removeClass('wrong').text('필수 항목을 작성해주세요');
   }
@@ -204,7 +204,7 @@ function requestLogin() {
       })
     }else{ //로그인 실패
       loginInpGroup.removeClass('wrong').removeClass('on').val('');
-      loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다');
+      loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다').prop('disabled',true);
     }
   });
 }
@@ -277,6 +277,7 @@ $(function () {
     $body.find('header').show();
     $body.find('.wrapper').show();
     $body.find('footer').show();
+    requestLogin();
   }
 
   oSsjViewInfinite = new ssj.view.infiniteScroll();
