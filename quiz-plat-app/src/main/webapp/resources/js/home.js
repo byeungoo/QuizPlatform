@@ -195,13 +195,9 @@ function requestLogin() {
   data = { user_id, pwd, rememberId };
   oAjax.sendRequest(URL_CREATE_SESSION,data,null,'POST',null).then( json => {
     if(json.login){
-      console.log('로그인성공');
-      console.log(json);
       oToast.show(json.nickname+"님 환영합니다");
       loginForm.find('.modal_close').click();
-      isLogin().then(login => {
-        setLoginIcon(login);
-      })
+      setLoginIcon(json.login);
     }else{ //로그인 실패
       loginInpGroup.removeClass('wrong').removeClass('on').val('');
       loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다').prop('disabled',true);
