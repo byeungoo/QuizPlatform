@@ -69,7 +69,7 @@
   </footer>
 
   <!-- 회원 가입 모달창-->
-  <div class="modal" id="join" style="display:none;left:10px;right:10px;">
+  <div class="modal" id="join" style="display:none;left:10px;right:10px;top:50%;margin-top:-70%;">
     <form id="_join_form">
       <div class="modal_ctn">
         <div class="modal_header">
@@ -103,7 +103,8 @@
   <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
 
   <!-- 로그인 모달창-->
-  <div class="modal" id="login" style="display:none;left:10px;right:10px;">
+  <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
+  <div class="modal" id="login" style="display:none;left:10px;right:10px;top:50%;margin-top:-70%">
     <form id="_login_form">
       <div class="modal_ctn">
         <div class="modal_header">
@@ -134,7 +135,7 @@
 
   <!-- 검색창 -->
   <a href="#_searchbar" id="_searchbar_trigger" class="blind" rel="leanModal">검색창</a>
-  <div class="modal ty_search" id="_searchbar" style="display:none;width:100vw;">
+  <div class="modal ty_search" id="_searchbar" style="display:none;width:100vw; top:0;">
     <div class="modal_ctn">
       <div class="modal_cont">
         <input type="text" class="modal_inp">
@@ -146,7 +147,7 @@
 
   <!-- 글작성창-->
   <a href="#_write" id="_write_trigger" class="blind" rel="leanModal">글작성창</a>
-  <div class="modal ty2" id="_write" style="display:none;">
+  <div class="modal ty2" id="_write" style="display:none; top:5vh">
     <div class="modal_ctn">
       <div class="modal_cont">
         <form onsubmit="createWrite();return false;">
@@ -200,7 +201,6 @@
     </li>
   </script>
   
-  <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>

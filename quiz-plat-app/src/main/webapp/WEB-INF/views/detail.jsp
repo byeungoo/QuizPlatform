@@ -47,7 +47,7 @@
       </div>
     </div>
       <!-- 대댓글메뉴버튼 -->
-      <div class="modal ty2" id="_system_modal" style="display:none;">
+      <div class="modal ty2" id="_system_modal" style="display:none;top:55vh;">
         <input type="hidden" class="comment_no">
         <div class="modal_ctn">
           <div class="modal_cont">

@@ -243,7 +243,7 @@ $('body').on('click','.modal_close',function(){
 });
 var oSsjViewInfinite;
 $(function () {
-  $("a[rel*=leanModal]").leanModal({  overlay: 0.4, slideinUp: 'join', topfix:['#_searchbar','#_write']}); //a태그에 모달 켜기 기능 추가
+  $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join', topfix:['#_searchbar','#_write']}); //a태그에 모달 켜기 기능 추가
   //$("#login_trigger").click();
   //인피니티 스크롤 위치 기억
   $('.main-sec__list').on('click', 'a', function (e) {

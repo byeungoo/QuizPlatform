@@ -77,7 +77,7 @@ $(function () {
 	}
 
 	function activateModal(){
-		$("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: '_system_modal' ,top: '55vh'});
+		$("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: '_system_modal'});
 	}
 
 	//아군 표시
