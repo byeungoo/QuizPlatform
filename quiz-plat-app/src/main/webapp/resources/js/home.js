@@ -217,7 +217,8 @@ function createMember(data) {
       $('#join .modal_footbtn').prop('disabled',true).text('필수 항목을 작성해주세요').removeClass('on');
       requestLogin();
     }else{
-      oToast.show("이미 존재하는 닉네임입니다");
+      oToast.show("이미 존재하는 ID입니다");
+      $('#_join_id').val('').removeClass('on').addClass('wrong');
     }
   });
 }

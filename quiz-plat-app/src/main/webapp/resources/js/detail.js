@@ -345,7 +345,7 @@ $(function () {
 		var isCommentWrite = comment_no.slice(0, 3) != 'low';
 		var delBtn = modal.find('.delete');
 		var writeBtn = modal.find('.write');
-		var isMine = comment.find('.ismine').val() == true;
+		var isMine = comment.find('.ismine').val() == "true";
 		var isDeleted = comment.find('.isdeleted').val() == 'N';
 		modal.find('.comment_no').val(comment_no);
 		delBtn.prop('disabled', isDeleted || !isMine);
