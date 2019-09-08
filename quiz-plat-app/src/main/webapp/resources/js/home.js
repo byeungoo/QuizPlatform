@@ -164,6 +164,7 @@ $('.person').on('click',function(){
 
 function isLogin(){
   return oAjax.sendRequest(URL_READ_USERINFO, null, null, 'GET', null).then(json => {
+    console.log(json);
     return json.login;
   });
 }
@@ -257,8 +258,7 @@ $(function () {
       css: {
         height: "100vh",
         width: "100vw"
-      },
-      allowfullscreen
+      }
     });
     ifrWrapper.append(iframe);
     $('body').children().hide();
