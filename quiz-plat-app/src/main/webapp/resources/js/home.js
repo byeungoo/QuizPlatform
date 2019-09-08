@@ -273,7 +273,9 @@ $(function () {
     $body.find('header').show();
     $body.find('.wrapper').show();
     $body.find('footer').show();
-    requestLogin();
+    isLogin().then(login => {
+      setLoginIcon(login);
+    })
   }
 
   oSsjViewInfinite = new ssj.view.infiniteScroll();
