@@ -151,12 +151,14 @@
           <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
           <span class="detail_reply_subtitarea">
             <span class="detail_replytime">{{:mod_dts}}</span>
-              <span class="detail_replyinfos {{if prefer}}{{if prefer == 0}}down{{else}}up{{/if}}{{else}}{{/if}}">
+              <span class="detail_replyinfos {{if prefer == 0}}up{{else prefer == 1}}down{{/if}}">
                 {{if sum_prefer > 0 }}
                   {{include tmpl="#recomCountTx"/}}
                 {{/if}}
-                <button type="button" class="recommend sp00 up "></button>
-                <button type="button" class="recommend sp00 down"></button>
+                <button type="button" class="recommend sp00 up 
+                  {{if prefer==0}} on{{/if}}"></button>
+                <button type="button" class="recommend sp00 down
+                  {{if prefer==1}} on{{/if}}"></button>
                 <a href="#_system_modal" id="_system_modal_trigger" class="sp00 dot3" rel="leanModal"></a>
               </span>
           </span>
@@ -192,12 +194,14 @@
         <button type="button" class="detail_replytit" value={{:vote}}>{{:nickname}}</button>
         <span class="detail_reply_subtitarea">
           <span class="detail_replytime">2019.11.27 17:01:45</span>
-            <span class="detail_replyinfos {{if prefer}}{{if prefer == 0}}down{{else}}up{{/if}}{{else}}{{/if}}">
+            <span class="detail_replyinfos {{if prefer == 0}}up{{else prefer == 1}}down{{/if}}">
               {{if sum_prefer > 0 }}
                 {{include tmpl="#recomCountTx"/}}
               {{/if}}
-              <button type="button" class="recommend sp00 up"></button>
-              <button type="button" class="recommend sp00 down"></button>
+              <button type="button" class="recommend sp00 up 
+                {{if prefer==0}} on{{/if}}"></button>
+              <button type="button" class="recommend sp00 down
+                {{if prefer==1}} on{{/if}}"></button>
               <a href="#_system_modal" id="_system_modal_trigger" class="sp00 dot3" rel="leanModal"></a>
             </span>
         </span>

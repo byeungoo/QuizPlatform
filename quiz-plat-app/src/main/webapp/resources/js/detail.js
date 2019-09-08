@@ -303,8 +303,8 @@ $(function () {
 	$("body").on("click", ".recommend", function (e) {
 		var btnWrap = $(e.target).closest(".detail_replyinfos");
 		var isVoted = btnWrap.hasClass("up") || btnWrap.hasClass("down");
-		$(e.target).prop("disabled", true);
 		if (isVoted) return false;
+		$(e.target).prop("disabled", true);
 		var writing_no = getActiveWritingId();
 		var comment_no = getActiveCommentId(e);
 		var prefer = $(e.target).hasClass("up") ? 0 : 1;
@@ -347,7 +347,6 @@ $(function () {
 		var writeBtn = modal.find('.write');
 		var isMine = comment.find('.ismine').val() == true;
 		var isDeleted = comment.find('.isdeleted').val() == 'N';
-		debugger;
 		modal.find('.comment_no').val(comment_no);
 		delBtn.prop('disabled', isDeleted || !isMine);
 		if (isCommentWrite){ //댓글에서 햄버거 버튼 클릭시
