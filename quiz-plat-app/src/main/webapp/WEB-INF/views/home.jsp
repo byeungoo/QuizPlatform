@@ -97,7 +97,7 @@
             <button class="modal_submit modal_footbtn" disabled="true">필수 항목을 작성해주세요</button>
         </div>
       </div>
-      <button class="modal_close ico_close"></button>
+      <button type="button" class="modal_close ico_close"></button>
     </form>
   </div>
   <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
@@ -129,7 +129,7 @@
           <button class="modal_submit modal_footbtn">필수 항목을 작성해주세요</button>
         </div>
       </div>
-      <button class="modal_close ico_close"></button>
+      <button type="button" class="modal_close ico_close"></button>
     </form>
   </div>
 
@@ -142,7 +142,7 @@
         <span class="sp42 search"></span>
       </div>
     </div>
-    <button class="modal_close ico_close blind"></button>
+    <button type="button" class="modal_close ico_close blind"></button>
   </div>
 
   <!-- 글작성창-->
@@ -170,10 +170,9 @@
           </div>
           <button class="write_submit" onclick="$(this).toggleClass('on');">만들기</button>
         </form>
-        <button class="modal_close ico_close" style="top:21px;right:25px;"></button>
+        <button type="button" class="modal_close ico_close" style="top:21px;right:25px;"></button>
       </div>
     </div>
-    <button class="modal_close ico_close blind"></button>
   </div>
 
 

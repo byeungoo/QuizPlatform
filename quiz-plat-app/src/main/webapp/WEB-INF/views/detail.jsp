@@ -51,13 +51,12 @@
         <input type="hidden" class="comment_no">
         <div class="modal_ctn">
           <div class="modal_cont">
-              <button class="modal_btn write">대댓글 작성</button>
-              <button class="modal_btn delete">댓글 삭제</button>
+              <button type="button" class="modal_btn write">대댓글 작성</button>
+              <button type="button" class="modal_btn delete">댓글 삭제</button>
             </form>
-            <button class="modal_close ico_close" style="top:22px;right:25px;"></button>
+            <button type="button" class="modal_close ico_close" style="top:22px;right:25px;"></button>
           </div>
         </div>
-        <button class="modal_close ico_close blind"></button>
       </div>
   </section>
   <footer>
@@ -126,7 +125,7 @@
           </div>
         </div>
         <div class="detail_bottom">
-          <button class="detail_btn">본문 펼치기</button>
+          <button type="button" class="detail_btn">본문 펼치기</button>
           <div class="detail_txtareawrap">
             <div class="detail_txtarea">
               {{:content}}
