@@ -38,7 +38,7 @@
   <section class="wrapper detail_wrap wrapper--white m-scene" id="main">
     <div class="page scene_element scene_element--fadeinright">
       <header class="header_wrap">
-        <button class="sp24 back" type="button" onclick="window.history.back(-1);"></button>
+        <button class="sp24 back" type="button" onclick="window.history.back();"></button>
         <button class="sp24 complain" type="button"></button>
       </header>
       <div class="swiper-container" style="max-width:100vw;">
