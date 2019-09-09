@@ -70,7 +70,8 @@
   </footer>
 
   <!-- 회원 가입 모달창-->
-  <div class="modal" id="join" style="display:none;left:10px;right:10px;top:50%;margin-top:-70%;">
+  <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
+  <div class="modal" id="join" style="display:none;left:10px;right:10px;top:100px;">
     <form id="_join_form">
       <div class="modal_ctn">
         <div class="modal_header">
@@ -101,11 +102,10 @@
       <button type="button" class="modal_close ico_close"></button>
     </form>
   </div>
-  <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
 
   <!-- 로그인 모달창-->
   <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
-  <div class="modal" id="login" style="display:none;left:10px;right:10px;top:50%;margin-top:-70%">
+  <div class="modal" id="login" style="display:none;left:10px;right:10px;top:100px;">
     <form id="_login_form">
       <div class="modal_ctn">
         <div class="modal_header">
