@@ -672,7 +672,8 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
+  position:relative;
 }
 
 .detail_replyitem {
@@ -708,6 +709,7 @@ textarea {
   display: inline-block;
   font-size: 14px;
   color: #b6b6b6;
+  margin-bottom:7px;
 }
 
 .detail_replytit.on {
@@ -785,6 +787,9 @@ textarea {
   border-radius:15px;
   background:#F7F7F7;
   padding: 4px 15px;
+  position:absolute;
+  top:-12px;
+  right:0;
 }
 
 .detail_replyinfos > button,
@@ -1546,9 +1551,9 @@ input:-webkit-autofill.modal_inp.wrong {
   height:22px;
 }
 .sp00.dot3{
-  background-position: -1px -392px;
-  width:16px;
-  height:16px;
+  background-position: -2px -392px;
+  width:14px;
+  height:14px;
 }
 
 /* sprite 이ㅈ지 24x24 여백포함 */
