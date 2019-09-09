@@ -59,7 +59,7 @@
     <div class="bottom_navbar">
       <button type="button" class="bottom_navbaritem sp42 search ">
       </button>
-      <button type="button" class="bottom_navbaritem sp42 plus" onclick="$('#_write_trigger').click();">
+      <button type="button" class="bottom_navbaritem sp42 plus">
       </button>
       <button type="button" class="bottom_navbaritem sp42 lock ">
       </button>

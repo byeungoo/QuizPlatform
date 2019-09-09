@@ -260,6 +260,7 @@ $(function () {
 		}
 	});
 
+	//댓글 추가
 	function addComment(requestData, commentList) {
 		oAjax.sendRequest(URL_CREATE_COMMENT, requestData, ID_TMPL_REPLY, "POST").then(comment => {
 			commentList.append(comment);
@@ -271,6 +272,7 @@ $(function () {
 		});
 	}
 
+	//대댓글 추가
 	function addLowComment(requestData, commentList) {
 		oAjax.sendRequest(URL_CREATE_COMMENT, requestData, ID_TMPL_SUBREPLY, "POST").then(comment => {
 			commentList.append(comment);
@@ -299,6 +301,8 @@ $(function () {
 		$(this).find(".acdo_cont").css("max-height",$(this).height() +
 				$(this).find(".detail_reply_subitems").children().last().height());
 	});
+
+	//	댓글, 대댓글
 	//좋아요, 싫어요 비동기처리
 	$("body").on("click", ".recommend", function (e) {
 		var btnWrap = $(e.target).closest(".detail_replyinfos");
@@ -336,6 +340,7 @@ $(function () {
 			});
 	});
 
+	// 대댓글 시스템 메뉴
 	//시스템 모달 안으로 댓글 아이디 가져오기 및 내 댓글인지 여부에 따라 삭제버튼 disable
 	$(document).on('click','.dot3',function(){
 		var modal = $('#_system_modal');

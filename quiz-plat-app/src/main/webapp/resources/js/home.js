@@ -43,25 +43,35 @@ $('.home_header_navlist').on('click',function(){
 });
 
 
+//하단 네비게이션바
 $('.bottom_navbar').on('click','.bottom_navbaritem',function(e){
   if($(this).hasClass('person')) return;
+  else if($(this).hasClass('plus')){
+    isLogin().then( login => {
+      if(login){
+        $('#_write_trigger').click();
+      }else{
+        $('#login_trigger').click();
+      }
+    });
+  }else if($(this).hasClass('search')){
+    $().leanModal.scrollTop = $(window).scrollTop();
+    $('#_searchbar_trigger').click();
+    $('.home_header_navlist').hide();
+    $('.main-sec__list').hide();
+    $('.main-sec__searchlist').show();
+    $('.main-sec.write').hide();
+  }
+
   if($(e.currentTarget).hasClass('on')) {
     $(e.delegateTarget).removeClass('on');
     $(e.currentTarget).removeClass('on');
     return;
   }
+
   $(e.delegateTarget).addClass('on');
   resetBottomNavbar();
   $(e.currentTarget).addClass('on');
-});
-
-$('.bottom_navbar').on('click', '.search', function (e) {
-  $().leanModal.scrollTop = $(window).scrollTop();
-  $('#_searchbar_trigger').click();
-  $('.home_header_navlist').hide();
-  $('.main-sec__list').hide();
-  $('.main-sec__searchlist').show();
-  $('.main-sec.write').hide();
 });
 
 $('#_searchbar').on('click','.search',function(e){
@@ -114,7 +124,6 @@ joinInpGroup.on('keyup',function(e){
   $(this).val().length ?
     $(this).addClass('on').removeClass('wrong') :
     $(this).removeClass('wrong').removeClass('on');
-    
   var curIdx = $(pwdGroup).index($(this));
   if(curIdx >= 0){ //패스워드 입력시 비밀번호 확인
     var my = curIdx ? $(pwdGroup).eq(curIdx) : null;
@@ -186,15 +195,15 @@ $("#_join_form").on('submit',function(e){
 
 $("#_login_form").on('submit',function(e){
   e.preventDefault();
-  requestLogin();
-});
-
-function requestLogin() {
   var user_id = loginInpGroup.eq(0).val();
   var pwd = loginInpGroup.eq(1).val();
   var rememberId = loginForm.find('input[type="checkbox"]').prop('checked');
-  data = { user_id, pwd, rememberId };
-  oAjax.sendRequest(URL_CREATE_SESSION,data,null,'POST',null).then( json => {
+  var data = { user_id, pwd, rememberId };
+  requestLogin(data);
+});
+
+function requestLogin(sendData) {
+  oAjax.sendRequest(URL_CREATE_SESSION, sendData,null,'POST',null).then( json => {
     if(json.login){
       oToast.show(json.nickname+"님 환영합니다");
       loginForm.find('.modal_close').click();
@@ -210,9 +219,13 @@ function createMember(data) {
   oAjax.sendRequest(URL_CREATE_MEMBER,data,null,'POST',null).then( json => {
     if(json.login){
       joinClose.click();
+      var user_id = joinInpGroup.eq(1).val();
+      var pwd = joinInpGroup.eq(2).val();
+      var rememberId = undefined; 
+      var data = { user_id, pwd, rememberId };
+      requestLogin(data);
       $("#join .modal_inp").removeClass('on').val('');
-      $('#join .modal_footbtn').prop('disabled',true).text('필수 항목을 작성해주세요').removeClass('on');
-      requestLogin();
+      $('#join .modal_footbtn').prop('disabled', true).text('필수 항목을 작성해주세요').removeClass('on');
     }else{
       oToast.show("이미 존재하는 ID입니다");
       $('#_join_id').val('').removeClass('on').addClass('wrong');
