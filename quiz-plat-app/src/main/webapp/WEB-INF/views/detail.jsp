@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
+  <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="resources/css/swiper.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700,700i&display=swap"
     rel="stylesheet">
@@ -38,8 +39,9 @@
   <section class="wrapper detail_wrap wrapper--white m-scene" id="main">
     <div class="page scene_element scene_element--fadeinright">
       <header class="header_wrap">
-        <button class="sp24 back" type="button" onclick="window.history.back();"></button>
+        <button class="sp24 back" type="button"></button>
         <button class="sp24 complain" type="button"></button>
+        <button class="sp24 airplain" type="button"></button>
       </header>
       <div class="swiper-container" style="max-width:100vw;">
         <div class="swiper-wrapper">

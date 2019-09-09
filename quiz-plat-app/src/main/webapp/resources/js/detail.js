@@ -1,4 +1,13 @@
 $(function () {
+	//뒤로가기
+	$('.header_wrap').on('click','.back',function(e){
+		var prevPage = window.location.href;
+		if(document.referrer === ""){
+			window.location.href = "http://pickvs.com";
+		}else{
+			window.history.back();
+		}
+	});	
 	var mainWritingNo = getNumberInStr(window.location.search);
 	var Footer = $(".reply_inputwrap");
 	oSpinner.setTarget($(".swiper-container"));

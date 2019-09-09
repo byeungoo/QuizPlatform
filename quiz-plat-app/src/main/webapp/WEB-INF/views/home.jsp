@@ -11,6 +11,7 @@
   <title>닥전닥후(pickvs.com)</title>
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
+  <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Roboto:400,500,700&display=swap" rel="stylesheet">
   <!-- Global site tag (gtag.js) - Google Analytics -->
