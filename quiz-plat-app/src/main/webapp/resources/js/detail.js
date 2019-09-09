@@ -387,7 +387,7 @@ $(function () {
 				if (json.success) {
 					var contents = comment.find('.detail_replycont');
 					contents.eq(0).text('삭제된 댓글입니다');
-					comment.find('.isdeleted').val('N');
+					comment.find('.isdeleted:first-child').val('N');
 				} else {
 					oToast.show('댓글삭제에 실패했습니다')
 				}
