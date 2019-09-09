@@ -35,10 +35,14 @@ $(function () {
 				scrollToTop();
 				setHeaderState();
 				resetAddress();
+				resetMention();
 			}
 		}
 	});
-
+	function resetMention(){
+		$('.reply_mention').remove();
+	}
+	
 	function resetAddress(){
 		var id = getNumberInStr($(oSwiper.getActiveSlide()).attr('id'));
 		var url = window.location.origin + window.location.pathname + "?writing_no=" + id;
@@ -48,10 +52,6 @@ $(function () {
 		isAlreadyVoted() ? Footer.show() : Footer.hide();
 	}
 	toggleFooter();
-
-	function toggleHeader(){
-
-	}
 
 	//한 페이지 내에서 카드 정보 업데이트
 	function updateCardsData(cards, json) {
