@@ -26,6 +26,10 @@ public class CommentDto {
 	private List<LowCommentDto> lowCommentDtoList; //대댓글 리스트
 	private int    low_comment_num;    //대댓글 개수
 	private int    sum_prefer;         //좋아요 수 - 싫어요 수
+	private boolean isMine;            //내가 쓴 댓글일 경우 true, 아니면 false
+	private String prefer;             //0:댓글좋아요, 1:댓글싫어요, null: 선호 선택x
+	private String use_yn;             //댓글 사용여부
+	private boolean isSuccess;         //댓글 삭제 성공 여부
 	
 	public Integer getVote() {
 		return vote;
@@ -122,5 +126,29 @@ public class CommentDto {
 	}
 	public void setSum_prefer(int sum_prefer) {
 		this.sum_prefer = sum_prefer;
+	}
+	public boolean isMine() {
+		return isMine;
+	}
+	public void setMine(boolean isMine) {
+		this.isMine = isMine;
+	}
+	public String getPrefer() {
+		return prefer;
+	}
+	public void setPrefer(String prefer) {
+		this.prefer = prefer;
+	}
+	public String getUse_yn() {
+		return use_yn;
+	}
+	public void setUse_yn(String use_yn) {
+		this.use_yn = use_yn;
+	}
+	public boolean isSuccess() {
+		return isSuccess;
+	}
+	public void setSuccess(boolean isSuccess) {
+		this.isSuccess = isSuccess;
 	}
 }

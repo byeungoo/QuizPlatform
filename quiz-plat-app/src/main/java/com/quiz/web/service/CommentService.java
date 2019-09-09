@@ -3,6 +3,8 @@ package com.quiz.web.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import com.quiz.web.dto.CommentDto;
 import com.quiz.web.dto.CommentPrefer;
 import com.quiz.web.dto.LowCommentDto;
 import com.quiz.web.dto.ParamDto;
+import com.quiz.web.dto.UserDto;
+import com.quiz.web.dto.WritingDtlDto;
 
 @Service
 public class CommentService {
@@ -32,7 +36,7 @@ public class CommentService {
     /*
      ** 댓글 리스트 조회
      */
-	public List<CommentDto> getCommentDtoList (ParamDto paramDto) throws Exception{
+	public List<CommentDto> getCommentDtoList (ParamDto paramDto, UserDto userDto) throws Exception{
 		
 		List<CommentDto> commentDtoList = new ArrayList<CommentDto>();
 		
@@ -46,8 +50,14 @@ public class CommentService {
 		    	int sum_prefer = tempCommentDto.getRecom_num() - tempCommentDto.getHate_num();
 		    	tempCommentDto.setSum_prefer(sum_prefer);
 		    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
-		    	tempCommentDto.setLowCommentDtoList(getLowCommentDtoList(paramDto));
+		    	tempCommentDto.setLowCommentDtoList(getLowCommentDtoList(paramDto, userDto));
 		    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size());  //대댓글 개수 세팅
+		    	
+		    	//내가 쓴 댓글인지 판단
+			    if(tempCommentDto.getRegpe_id().equals(userDto.getUser_id())) {
+			    	tempCommentDto.setMine(true);
+			    }
+		    	
 		    }
 		} catch(Exception e) {
     		System.err.println(e.getMessage());
@@ -59,7 +69,7 @@ public class CommentService {
     /*
      ** 대댓글 리스트 조회
      */
-	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto) throws Exception{
+	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto, UserDto userDto) throws Exception{
 		
 		List<LowCommentDto> lowCommentDtoList = new ArrayList<LowCommentDto>();
 		
@@ -71,6 +81,12 @@ public class CommentService {
 			for(LowCommentDto tempLowCommentDto : lowCommentDtoList) {
 				int sum_prefer = tempLowCommentDto.getRecom_num() - tempLowCommentDto.getHate_num();
 				tempLowCommentDto.setSum_prefer(sum_prefer);
+				
+		    	//내가 쓴 댓글인지 판단
+			    if(tempLowCommentDto.getRegpe_id().equals(userDto.getUser_id())) {
+			    	tempLowCommentDto.setMine(true);
+			    }
+				
 			}
 		} catch(Exception e) {
     		System.err.println(e.getMessage());
@@ -88,6 +104,7 @@ public class CommentService {
 		
 		try {
 			commentDto = commentDao.getCommentDto(paramDto);
+			commentDto.setMine(true);
 		} catch(Exception e) {
     		System.err.println(e.getMessage());
     	} 
@@ -121,4 +138,21 @@ public class CommentService {
 		
 		return commentPrefer;
 	}
+	
+	
+    /*
+    ** 댓글 삭제하기, 사용여부 'N' 변경
+    */
+    public CommentDto deleteComment(HttpSession session, CommentDto commentDto) throws Exception{
+    	
+
+    	try{
+    		commentDao.updateCommentUseYn(commentDto); //댓글 사용여부 'N' 변경
+    		commentDto.setSuccess(true);
+    	} catch(Exception e) {
+    		System.err.println(e.getMessage());
+    	}
+    	
+    	return commentDto;
+    }
 }

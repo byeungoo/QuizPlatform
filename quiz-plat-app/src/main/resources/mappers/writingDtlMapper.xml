@@ -26,6 +26,7 @@
 						       AND    C.WRITING_NO = W.WRITING_NO
 						    ) SUM_COMMENT
 						  , WV.VOTE  
+						  , W.REGPE_ID
 					FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
 						  , ( SELECT @ROWNUM := 0 ) R
 					WHERE   1 = 1
@@ -61,6 +62,7 @@
 			  , WV.VOTE
 			  , ROUND((ABS((W.FIR_VOTE_NO-W.SEC_VOTE_NO))/(W.FIR_VOTE_NO+W.SEC_VOTE_NO)*100)) 'VOTE_DIFF'
 			  , U.NICKNAME
+			  , W.REGPE_ID
 			  , (
 			  		SELECT REPORT
 			  		FROM   WRITING_REPORT WR
@@ -100,9 +102,7 @@
 				FROM    (
 						SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 						      , T.*
-						      ,  CASE WHEN T.FIR_VOTE_NO - T.SEC_VOTE_NO = 0 THEN (T.SUM_VOTE+3*SUM_COMMENT)
-							     ELSE ROUND((T.SUM_VOTE+3*SUM_COMMENT)/(ABS(T.FIR_VOTE_NO - T.SEC_VOTE_NO)/(T.FIR_VOTE_NO+T.SEC_VOTE_NO)*100))
-							     END AS POPULARITY
+						      , T.SUM_VOTE+3*SUM_COMMENT AS POPULARITY
 						      , ROUND((ABS((T.FIR_VOTE_NO-T.SEC_VOTE_NO))/(T.FIR_VOTE_NO+T.SEC_VOTE_NO)*100)) 'VOTE_DIFF'
 						FROM   (
 								SELECT	W.WRITING_NO
@@ -110,6 +110,7 @@
 								      , W.SEC_WRIT_CONTENT
 								      , W.FIR_VOTE_NO
 								      , W.SEC_VOTE_NO
+								      , W.REGPE_ID
 								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 								      , (
 									    SELECT COUNT(C.WRITING_NO)
@@ -147,6 +148,7 @@
 						      , W.FIR_VOTE_NO
 						      , W.SEC_VOTE_NO
 						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , W.REGPE_ID
 						      , (
 								SELECT COUNT(C.WRITING_NO)
 								FROM   COMMENT C
@@ -213,6 +215,7 @@
 									    ) SUM_COMMENT
 									  , U.NICKNAME
 									  , W.REG_DTS
+									  , W.REGPE_ID
 								FROM    WRITING W 
 									  , USER U
 								WHERE   1 = 1
@@ -276,6 +279,7 @@
 						      , W.FIR_VOTE_NO
 						      , W.SEC_VOTE_NO
 						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , W.REGPE_ID
 						      , (
 								SELECT COUNT(C.WRITING_NO)
 								FROM   COMMENT C
@@ -317,6 +321,7 @@
 						      , W.FIR_VOTE_NO
 						      , W.SEC_VOTE_NO
 						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , W.REGPE_ID
 						      , (
 								SELECT COUNT(C.WRITING_NO)
 								FROM   COMMENT C
@@ -347,6 +352,7 @@
 			  , W.FIR_VOTE_NO
 			  , W.SEC_VOTE_NO
 			  , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+			  , W.REGPE_ID
 			  , (
 					SELECT COUNT(C.WRITING_NO)
 					FROM   COMMENT C
@@ -374,6 +380,7 @@
 						      , W.FIR_VOTE_NO
 						      , W.SEC_VOTE_NO
 						      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+						      , W.REGPE_ID
 						      , (
 								    SELECT COUNT(C.WRITING_NO)
 									FROM   COMMENT C
@@ -398,5 +405,38 @@
 		AND   B.RNUM > #{start}
 		]]>
     </select>
+    
+    <update id="updateWritingUseYn" parameterType="writingDtlDto">
+    	/* com.quiz.mapper.writingDtlMapper.updateWritingUseYn */
+    	UPDATE  WRITING
+    	SET     USE_YN      = 'N'
+    	      , MODPE_ID    = #{user_id}
+    	      , MOD_DTS     = now()   
+    	WHERE   1			= 1
+    	AND	    WRITING_NO  = #{writing_no}
+    	AND		REGPE_ID    = #{user_id}
+    </update>
+    
+    <update id="reportWritingApply">
+    	/* com.quiz.mapper.writingDtlMapper.reportWritingApply */
+    	UPDATE  WRITING
+    	SET     USE_YN      = 'N'
+    	      , MODPE_ID    = 'SYSTEM'
+    	      , MOD_DTS     = now()   
+    	WHERE   1			= 1
+    	AND	    WRITING_NO  IN (
+								   SELECT  T.WRITING_NO
+								   FROM    (
+								   			   SELECT  W.WRITING_NO
+      									             , COUNT(W.WRITING_NO) AS "COUNT"
+								               FROM	   WRITING W
+                                                     , WRITING_REPORT WR
+                                               WHERE	1 = 1
+                                               AND     W.WRITING_NO = WR.WRITING_NO
+                                               GROUP BY W.WRITING_NO
+								           ) T
+								   WHERE T.COUNT >= 5
+    						   )
+    </update>
     
 </mapper>

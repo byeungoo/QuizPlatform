@@ -69,6 +69,7 @@ public class LoginController {
     	//회원가입되있을 경우
     	if(userService.chekUserId(userDto) != 0) {
     		userDto.setLogin(false); //로그인 값 false
+    		return userDto;
     	}
 
     	userService.insertUser(userDto);
@@ -81,6 +82,7 @@ public class LoginController {
     	}
     	
     	userDto.setLogin(true); //로그인 값 true
+    	userDto.setPwd(""); //암호화 비번 해제
     	
         return userDto;
     }
@@ -173,17 +175,21 @@ public class LoginController {
      */    
     @CrossOrigin
     @RequestMapping(value = "/chekUserId", method = RequestMethod.GET)
-    public @ResponseBody boolean chekUserId(@RequestParam(value="user_id") String user_id) throws Exception{
+    public @ResponseBody UserDto chekUserId(@RequestParam(value="user_id") String user_id) throws Exception{
     	
     	//유저정보 획득
     	UserDto userDto = userService.getUserDto(user_id);
-    	boolean isUserIdRepetit;
+
     	if(userDto != null) {
-    		isUserIdRepetit = true;
+    		userDto.setExis(true);
     	} else {
-    		isUserIdRepetit = false;
+    		userDto.setExis(false);
     	}
     	
-        return isUserIdRepetit;
+		userDto.setNickname("");
+		userDto.setReg_div_cd("");
+		userDto.setRegpe_id("");
+    	
+        return userDto;
     }
 }

@@ -84,4 +84,15 @@ public class WritingDtlDao {
     public WritingDtlDto getMainWritingDtlDto(WritingDtlDto writingDtlDto) throws Exception{
     	return sqlSession.selectOne(Namespace+".getMainWritingDtlDto", writingDtlDto);
     }
+    
+    //게시글 사용여부 'N' 변경
+    public void updateWritingUseYn(WritingDtlDto writingDtlDto) throws Exception{
+    	sqlSession.update(Namespace+".updateWritingUseYn", writingDtlDto);
+    }
+    
+    //신고 게시글 사용여부 'N' 일괄 변경
+    public void reportWritingApply() throws Exception{
+    	sqlSession.update(Namespace+".reportWritingApply");
+    }
+    
 }

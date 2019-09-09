@@ -12,6 +12,7 @@ public class UserDto {
 	private Date   reg_dts;  //등록일
 	private Date   mod_dts;  //변경일
 	private boolean isLogin; //true면 로그인, false면 로그인x
+	private boolean isExis;  //존재하면 true 아니면 false
 	
 	public String getUser_id() {
 		return user_id;
@@ -60,5 +61,11 @@ public class UserDto {
 	}
 	public void setLogin(boolean isLogin) {
 		this.isLogin = isLogin;
+	}
+	public boolean isExis() {
+		return isExis;
+	}
+	public void setExis(boolean isExis) {
+		this.isExis = isExis;
 	}
 }

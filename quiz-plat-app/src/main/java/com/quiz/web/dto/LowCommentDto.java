@@ -18,6 +18,10 @@ public class LowCommentDto {
 	private Integer parent;            //대댓글 상위 댓글 번호
 	private	Integer vote;              //1:첫번째 투표, 2:두번째투표
 	private int    sum_prefer;         //좋아요 - 싫어요 수 합
+	private boolean isMine;            //내가쓴 댓글일경우 true, 아니면 false
+	private String prefer;             //0:댓글좋아요, 1:댓글싫어요, null: 선호 선택x
+	private String use_yn;             //댓글 사용여부
+	private boolean isSuccess;         //댓글 삭제 성공여부
 	
 	public int getSum_prefer() {
 		return sum_prefer;
@@ -102,5 +106,29 @@ public class LowCommentDto {
 	}
 	public void setHate_num(int hate_num) {
 		this.hate_num = hate_num;
+	}
+	public boolean isMine() {
+		return isMine;
+	}
+	public void setMine(boolean isMine) {
+		this.isMine = isMine;
+	}
+	public String getPrefer() {
+		return prefer;
+	}
+	public void setPrefer(String prefer) {
+		this.prefer = prefer;
+	}
+	public String getUse_yn() {
+		return use_yn;
+	}
+	public void setUse_yn(String use_yn) {
+		this.use_yn = use_yn;
+	}
+	public boolean isSuccess() {
+		return isSuccess;
+	}
+	public void setSuccess(boolean isSuccess) {
+		this.isSuccess = isSuccess;
 	}
 }

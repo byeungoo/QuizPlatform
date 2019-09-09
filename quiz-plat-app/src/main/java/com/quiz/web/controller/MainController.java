@@ -87,4 +87,16 @@ public class MainController {
         return writingDtlDtoList;
     }  
     
+    /*
+     ** 게시글 신고 사용여부 내리기
+     */    
+    @CrossOrigin
+    @RequestMapping(value = "/reportWritingApply", method = RequestMethod.GET)
+    public @ResponseBody boolean searchWrting(HttpSession session, HttpServletRequest request) throws Exception{
+    	
+    	boolean isSuccess = writingDtlService.reportWritingApply();
+
+        return isSuccess;
+    } 
+    
 }

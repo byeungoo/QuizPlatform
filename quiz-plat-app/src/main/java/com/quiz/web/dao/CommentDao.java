@@ -59,11 +59,19 @@ public class CommentDao {
 	public CommentPrefer getCommentPrefer(CommentPrefer commentPrefer) throws Exception{
 		return sqlSession.selectOne(Namespace+".getCommentPrefer", commentPrefer);
 	}
+	
 	/*
-	 ** 
+	 ** 댓글 선호 좋아요 싫어요 추가
 	 */
 	public void insertCommentPrefer(CommentPrefer commentPrefer) throws Exception{
 		sqlSession.insert(Namespace+".insertCommentPrefer", commentPrefer);
 	}
 	
+	
+	/*
+	 ** 댓글 사용여부 'N' 변경
+	 */
+	public void updateCommentUseYn(CommentDto commentDto) throws Exception{
+		sqlSession.update(Namespace+".updateCommentUseYn", commentDto);
+	}
 }

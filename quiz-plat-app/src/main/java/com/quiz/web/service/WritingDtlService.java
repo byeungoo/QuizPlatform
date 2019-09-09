@@ -137,8 +137,8 @@ public class WritingDtlService {
     }
     
     /*
-     ** 게시글 신고 처리
-     */
+    ** 게시글 신고 처리
+    */
     public boolean reportWriting(HttpSession session, ParamDto paramDto) throws Exception{
     	
     	boolean report = true; //true:신고
@@ -152,4 +152,38 @@ public class WritingDtlService {
     	
     	return report;
     }
+    
+    /*
+    ** 게시글 삭제하기, 사용여부만 'N'으로 설정
+    */
+    public boolean deleteWriting(HttpSession session, WritingDtlDto writingDtlDto) throws Exception{
+    	
+    	boolean isSuccess = true; //true:신고
+
+    	try{
+    		writingDtlDao.updateWritingUseYn(writingDtlDto); //게시글 사용여부 'N' 변경
+    	} catch(Exception e) {
+    		isSuccess = false;     //게시글 신고 실패
+    		System.err.println(e.getMessage());
+    	}
+    	
+    	return isSuccess;
+    }
+    
+    /*
+    ** 게시글 신고당한거 USE_YN 'N' 일괄 변경
+    */
+   public boolean reportWritingApply() throws Exception{
+	   boolean isSuccess = true; //true:신고
+	   
+	   try {
+		   writingDtlDao.reportWritingApply();
+	   } catch(Exception e) {
+   			isSuccess = false;     //게시글 신고 실패
+   			System.err.println(e.getMessage());
+   		} 
+	   
+	   return isSuccess;
+   }
+    
 }

@@ -7,8 +7,8 @@
 
  	<insert id="insertComment" parameterType="commentDto">
  		/* com.quiz.mapper.commentMapper.insertComment */
-		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NUM, REGPE_ID, MOD_DTS) 
-		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_num}, #{regpe_id}, NOW())
+		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NUM, REGPE_ID, MOD_DTS, USE_YN) 
+		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_num}, #{regpe_id}, NOW(), 'Y')
 		<selectKey keyProperty="comment_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>
@@ -18,6 +18,14 @@
         /* com.quiz.mapper.commentMapper.getCommentDtoList */
         SELECT  A.*
               , WV.VOTE
+              , (
+              		SELECT  CP.PREFER
+              		FROM	COMMENT_PREFER CP
+              		WHERE	1 = 1
+              		AND		CP.WRITING_NO = A.WRITING_NO
+              		AND		CP.COMMENT_NO = A.COMMENT_NO
+              		AND		CP.USER_ID    = #{user_id}
+                ) AS "PREFER"
         FROM	(
                     SELECT  C.WRITING_NO
               		      , C.COMMENT_NO
@@ -30,6 +38,7 @@
 	          	      	  , C.REG_DTS
 	          		  	  , C.MOD_DTS
 	          	 	  	  , U.NICKNAME
+	          	 	  	  , C.USE_YN
         			FROM    COMMENT C
               		  	  , USER U
         			WHERE   1 = 1
@@ -44,6 +53,14 @@
     	/* com.quiz.mapper.commentMapper.getLowCommentDtoList */
         SELECT  A.*
               , WV.VOTE
+              , (
+              		SELECT  CP.PREFER
+              		FROM	COMMENT_PREFER CP
+              		WHERE	1 = 1
+              		AND		CP.WRITING_NO = A.WRITING_NO
+              		AND		CP.COMMENT_NO = A.COMMENT_NO
+              		AND		CP.USER_ID    = #{user_id}
+                ) AS "PREFER"
         FROM   (
         			SELECT  C.WRITING_NO
               			  , C.COMMENT_NO
@@ -56,6 +73,7 @@
 	          			  , C.REG_DTS
 	          			  , C.MOD_DTS
 	          			  , U.NICKNAME
+	          			  , C.USE_YN
         			FROM    COMMENT C
               			  , USER U
        	 			WHERE   1 = 1
@@ -128,5 +146,15 @@
 		AND	CP.USER_ID    = #{user_id}
 		AND	C.COMMENT_NO  = CP.COMMENT_NO 
     </select>    
+    
+    <update id="updateCommentUseYn" parameterType="commentDto">
+    	/* com.quiz.mapper.commentMapper.updateCommentUseYn */
+    	UPDATE  COMMENT
+    	SET     USE_YN      = 'N'
+    	      , MOD_DTS     = now()   
+    	WHERE   1			= 1
+    	AND	    WRITING_NO  = #{writing_no}
+    	AND		COMMENT_NO  = #{comment_no}
+    </update>
     
 </mapper>

@@ -87,7 +87,11 @@ public class DetailController {
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(paramDto);
-	    List<CommentDto> commentDtoList = commentService.getCommentDtoList(paramDto);  
+	    List<CommentDto> commentDtoList = commentService.getCommentDtoList(paramDto, userDto);  
+	    
+	    if(writingDtlDto.getRegpe_id().equals(userDto.getUser_id())) {
+	    	writingDtlDto.setMine(true);
+	    }
 	    
 	    writingDtlDto.setDetailCommentList(commentDtoList);
     
@@ -126,7 +130,12 @@ public class DetailController {
 	    for(WritingDtlDto detailDto :detailWritingList) {
 	    	paramDto.setDepth(0);  //댓글조회를 위해 0으로 세팅
 	    	paramDto.setWriting_no(detailDto.getWriting_no());
-	    	detailDto.setDetailCommentList(commentService.getCommentDtoList(paramDto));  //댓글 세팅
+	    	detailDto.setDetailCommentList(commentService.getCommentDtoList(paramDto, user));  //댓글 세팅
+	    	
+	    	//내가 쓴 글일경우 isMins True
+		    if(detailDto.getRegpe_id().equals(user.getUser_id())) {
+		    	detailDto.setMine(true);
+		    }
 	    	
 		    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
 		    List<CommentDto> commentListDto = detailDto.getDetailCommentList();
@@ -134,7 +143,7 @@ public class DetailController {
 		    //대댓글 값 세팅
 		    for(CommentDto tempCommentDto : commentListDto) {
 		    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
-		    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto));
+		    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto, user));
 		    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size()); //대댓글 개수 세팅
 		    }
 	    }	
@@ -253,6 +262,39 @@ public class DetailController {
     	boolean report = writingDtlService.reportWriting(session, paramDto); //게시글 신고
     	
     	return report;
+    }
+    
+    /*
+     ** 게시글 삭제하기, 사용여부만 'N'으로 설정
+     */
+    @Transactional
+    @CrossOrigin
+    @RequestMapping(value = "deleteWriting", method = RequestMethod.POST)
+    public @ResponseBody boolean deleteWriting(HttpSession session, HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
+    	
+    	session = request.getSession(); 
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	writingDtlDto.setUser_id(userDto.getUser_id());
+    	
+    	boolean report = writingDtlService.deleteWriting(session, writingDtlDto);
+    	
+    	return report;
+    }
+    
+    /*
+     ** 댓글 삭제하기, 사용여부 'N' 변경
+     */
+    @Transactional
+    @CrossOrigin
+    @RequestMapping(value = "deleteComment", method = RequestMethod.POST)
+    public @ResponseBody CommentDto deleteComment(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{
+    	
+    	session = request.getSession(); 
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	commentDto.setModpe_id(userDto.getUser_id());
+    	commentDto = commentService.deleteComment(session, commentDto);
+    	
+    	return commentDto;
     }
     
 }
