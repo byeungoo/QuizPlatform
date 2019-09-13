@@ -13,6 +13,10 @@
         <org.aspectj-version>1.6.10</org.aspectj-version>
         <org.slf4j-version>1.6.6</org.slf4j-version>
         <jackson.version>2.9.2</jackson.version>
+        
+        <!-- Jenkins에서 사용하는 부분 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <dependencies>
         <!-- Spring -->
@@ -115,6 +119,12 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
  
         <!-- Test -->
         <dependency>
@@ -181,6 +191,32 @@
         </dependency>
 
     </dependencies>
+    
+    <!-- Jenkins에서 사용하는 부분 -->
+	<profiles>
+		<profile>
+			<id>production</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/src/main/resources</directory>
+						<excludes>
+							<exclude>**/*.java</exclude>
+						</excludes>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<configuration>
+							<encoding>UTF-8</encoding>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
     
     <build>
         <plugins>
