@@ -261,7 +261,7 @@
 			    <artifactId>tomcat-maven-plugin</artifactId>
 			    <configuration>
 			        <url>http://localhost:8080/manager/text</url>
-			        <path>/hmgWebapp</path>
+			        <path>/</path>
 					<username>ssgAvengers</username>
 					<password>2019ssg!</password>
 			    </configuration>
