@@ -254,7 +254,18 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
-
+            
+ 			<!-- Jenkins에서 사용하는 부분 -->
+			<plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>tomcat-maven-plugin</artifactId>
+			    <configuration>
+			        <url>http://localhost:8080/manager/text</url>
+			        <path>/hmgWebapp</path>
+					<username>ssgAvengers</username>
+					<password>2019ssg!</password>
+			    </configuration>
+			</plugin>
         </plugins>
     </build>
 </project>
