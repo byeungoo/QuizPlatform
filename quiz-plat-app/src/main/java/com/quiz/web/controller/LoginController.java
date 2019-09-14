@@ -192,4 +192,18 @@ public class LoginController {
     	
         return userDto;
     }
+    
+    /*
+     ** 로그인 유저 정보 조회
+     */    
+    @CrossOrigin
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public @ResponseBody UserDto test(HttpSession session, HttpServletRequest request) throws Exception{
+    	
+    	//유저정보 획득
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	
+        return userDto;
+    }
+    
 }
