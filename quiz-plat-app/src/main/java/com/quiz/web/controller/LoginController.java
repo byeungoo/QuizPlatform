@@ -198,12 +198,12 @@ public class LoginController {
      */    
     @CrossOrigin
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public @ResponseBody UserDto test(HttpSession session, HttpServletRequest request) throws Exception{
+    public @ResponseBody String test(HttpSession session, HttpServletRequest request) throws Exception{
     	
     	//유저정보 획득
-    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	String test = "test";
     	
-        return userDto;
+        return test;
     }
     
 }
