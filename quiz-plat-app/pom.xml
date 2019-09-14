@@ -272,7 +272,7 @@
 			    <artifactId>tomcat-maven-plugin</artifactId>
 			    <configuration>
 			        <url>http://15.164.84.243/manager/html</url>
-			        <path>/</path>
+			        <path>/quiz-plat-app</path>
 					<username>ssgAvengers</username>
 					<password>2019ssg!</password>
 			    </configuration>
