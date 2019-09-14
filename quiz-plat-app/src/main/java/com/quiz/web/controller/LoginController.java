@@ -191,19 +191,5 @@ public class LoginController {
 		userDto.setRegpe_id("");
     	
         return userDto;
-    }
-    
-    /*
-     ** 로그인 유저 정보 조회
-     */    
-    @CrossOrigin
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public @ResponseBody String test(HttpSession session, HttpServletRequest request) throws Exception{
-    	
-    	//유저정보 획득
-    	String test = "test";
-    	
-        return test;
-    }
-    
+    } 
 }
