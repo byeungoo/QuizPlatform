@@ -255,6 +255,7 @@
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -272,7 +273,7 @@
 			    <artifactId>tomcat-maven-plugin</artifactId>
 			    <configuration>
 			        <url>http://15.164.84.243/manager/html</url>
-			        <path>/quiz-plat-app</path>
+			        <path>/</path>
 					<username>ssgAvengers</username>
 					<password>2019ssg!</password>
 			    </configuration>
