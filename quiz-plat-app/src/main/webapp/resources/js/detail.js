@@ -1,3 +1,65 @@
+var ssj = ssj || {};
+ssj.View = ssj.View || {};
+ssj.View.mention = function(options) {
+	const df = {};
+	$.extend(this, options, df);
+	this.init();
+}
+
+ssj.View.mention.prototype = $.extend({
+	init() {
+		this._assignElements();
+		this._attachEventHandlers();
+	},
+	_assignElements() {
+		this.$addTarget = $('.reply_inputctn');
+		this.$input = $('.reply_input');
+		this.$inputSubmitBtn = this.$input.siblings('.reply_submit');
+		this.$mention = this._makeMention();
+		this.$mentionNickname = this.$mention.find('.reply_mention_tx');
+		this.$mentionCloseBtn = this.$mention.find('.sp00.close');
+		this.$mentionCommentNo = this.$mention.find('.comment_no');
+	},
+	_attachEventHandlers() {
+		this.$mentionCloseBtn.on('click',this._onClose.bind(this));
+		this.on('show', (e,{nickname, commentNo}) => this.show.call(this,nickname, commentNo));
+	},
+	show(nickname, commentNo) {
+		this.addNickname(nickname);
+		this.addCommentNo(commentNo);
+		this.addMention();
+		this.applyAnimation();
+	},
+	_onClose() {
+		this.removeMention();
+	},
+	_makeMention(nickname) {
+		return $(`
+      <div class="reply_mention">
+        <span class="reply_mention_tx">${nickname}</span>
+        <button class="sp00 close" onclick="$(this).parent().remove()"></button>
+      </div>
+      `);
+	},
+	applyAnimation() {
+		this.$mention.removeClass('reply_mention');
+		void this.$mention.get(0).offsetWidth; // force repaint
+		this.$mention.addClass('reply_mention');
+	},
+	_clearMention() { this.$mentionNickname.text(''); this.$mentionCommentNo.val(''); },
+	removeMention() { this.$mention.detach()},
+	addNickname(nickname) { this.$mentionNickname.text(nickname)},
+	addCommentNo(commentNo) { this.nCommentNo = commentNo},
+	addMention() {this.$addTarget.prepend(this.$mention)},
+	getCommentNo() { return this.nCommentNo}
+},$.eventEmitter);
+
+var oMention = new ssj.View.mention();
+const data = { nickname: "바지입는놀라운오리", commentNo: "1"};
+oMention.emit('show', data);
+console.log(oMention.getCommentNo())
+
+
 $(function () {
 	//뒤로가기
 	$('.header_wrap').on('click','.back',function(e){
@@ -39,9 +101,6 @@ $(function () {
 			}
 		}
 	});
-	function resetMention(){
-		$('.reply_mention').remove();
-	}
 	
 	function resetAddress(){
 		var id = getNumberInStr($(oSwiper.getActiveSlide()).attr('id'));
@@ -138,42 +197,6 @@ $(function () {
 	});
 	//댓글 언급 기능
 
-	//댓글 언급 기능
-	function makeMention(nickname, comment_no) {
-		return $(`
-      <div class="reply_mention">
-        <span class="reply_mention_tx">${nickname}</span>
-        <input type="hidden" value="${comment_no}"></input>
-        <button class="sp00 close" onclick="$(this).parent().remove()"></button>
-      </div>
-      `);
-	}
-
-	function changeMention(str, comment_no) {
-		var mention = $(".reply_mention");
-		mention.find('input[type="hidden"]').val(comment_no);
-		mention.find(".reply_mention_tx").text(str);
-		mention.removeClass("reply_mention");
-		void mention.get(0).offsetWidth;
-		mention.addClass("reply_mention");
-	}
-
-	function addMention(e) {
-		var mention = $(".reply_mention");
-		var isExist = mention.length;
-		var accordion = $(e.target).closest(".accordion");
-		var nickname = accordion.find(".detail_replyheader .detail_replytit").text();
-		var inputArea = $(".reply_inputctn");
-		var comment_no = getNumberInStr(
-			$(e.target).closest(".detail_replyitem").attr("id")
-		);
-		if (!isExist) {
-			mention = makeMention(nickname, comment_no);
-			inputArea.prepend(mention);
-		} else {
-			changeMention(nickname, comment_no);
-		}
-	}
 
 	function makeFirstItem(writingNo) {
 		var requestData = {
