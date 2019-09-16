@@ -166,7 +166,7 @@ public class LoginController {
     	
     	//유저정보 획득
     	UserDto userDto = userService.getUesrSettingDto(session, request);
-    	
+    	userDto.setLogin(true);
         return userDto;
     }
     
