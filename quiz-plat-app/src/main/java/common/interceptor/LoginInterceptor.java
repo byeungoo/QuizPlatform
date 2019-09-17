@@ -27,8 +27,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // session값 세팅
         HttpSession session = request.getSession();
-        logger.info("세션정보확인:  " + session.toString());
-        logger.info("로그인정보확인:  " + session.getAttribute("login"));
+
         Cookie cookie = WebUtils.getCookie(request, "remember");
         UserDto userDto = new UserDto();
         UserDto normalUserDto = userService.getUesrSettingDto(session, request);

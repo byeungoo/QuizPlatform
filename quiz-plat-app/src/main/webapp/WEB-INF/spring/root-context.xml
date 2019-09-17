@@ -18,7 +18,7 @@
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url"
-            value="jdbc:log4jdbc:mysql://15.164.84.243/ssgAvengers?useSSL=false&amp;serverTimezone=UTC"></property>
+            value="jdbc:log4jdbc:mysql://15.164.84.243/dev_pickvs?useSSL=false&amp;serverTimezone=UTC"></property>
         <property name="username" value="dksekfldks65"></property>
         <property name="password" value="2019ssg!"></property>
     </bean>
