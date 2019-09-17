@@ -106,7 +106,7 @@ public class MainController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public @ResponseBody String test(HttpSession session, HttpServletRequest request) throws Exception{
     	
-        return "test";
+        return "test22";
     }
     
 }
