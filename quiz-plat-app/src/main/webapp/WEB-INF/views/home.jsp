@@ -179,7 +179,7 @@
 
   <script id="cardTmpl" type="text/jsrender">
     <li class="main-sec__list-item">
-      <a href="/detail.html?writing_no={{:writing_no}}">
+      <a href=URL_BASE+"/detail.html?writing_no={{:writing_no}}">
         <div class="card">
             <div class="card__info-wrap">
               <div class="card__info-area">
