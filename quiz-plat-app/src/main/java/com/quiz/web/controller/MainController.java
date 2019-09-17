@@ -99,4 +99,14 @@ public class MainController {
         return isSuccess;
     } 
     
+    /*
+     ** 테스트 페이지
+     */    
+    @CrossOrigin
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public @ResponseBody String test(HttpSession session, HttpServletRequest request) throws Exception{
+    	
+        return "test";
+    }
+    
 }
