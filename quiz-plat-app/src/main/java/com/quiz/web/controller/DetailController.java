@@ -164,7 +164,7 @@ public class DetailController {
     	
     	try {
 	    	UserDto userDto = userService.getUesrSettingDto(session, request);
-	    
+	    	
 	    	ParamDto paramDto = new ParamDto();
 	    	paramDto.setWriting_no(writingNo);
 	    	paramDto.setVote(voteNum);
@@ -173,8 +173,6 @@ public class DetailController {
 	    	//작성글 투표수 증가 
 	    	writingDtlService.updateVote(paramDto); 	
 	    	
-	    	//게시글 투표 정보 추가
-	    	writingVoteService.insertWritingVoteDto(paramDto);
 	    	
 	    	//투표 정보 조회 및 반환
 	    	writingVoteDto = writingVoteService.getWritingVoteDto(paramDto);
