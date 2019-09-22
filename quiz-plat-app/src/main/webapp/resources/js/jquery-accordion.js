@@ -146,6 +146,12 @@
       }
     }
 
+    function scrollToLast(target) {
+      $("body,html").animate({
+        scrollTop: $(target).offset().top - $(window).height() / 2
+      }, 0);
+    }
+
     function refreshHeight($accordion) {
       if ($accordion.hasClass("open")) {
         var $content = $accordion.find(" [data-content]"),
@@ -231,7 +237,8 @@
       $otherAccordions.removeClass("open");
     }
 
-    function toggleAccordion() {
+    function toggleAccordion(e) {
+      e.stopPropagation();
       var isAccordionGroup = opts.singleOpen ? $accordion.parents(opts.groupElement).length > 0 : false;
 
       calculateHeight($content);
@@ -250,16 +257,20 @@
     function addEventListeners() {
       $controls.on("click", toggleAccordion);
 
-      $controls.on("accordion.toggle", function() {
+      $controls.on("accordion.toggle", function(e) {
         if (opts.singleOpen && $controls.length > 1) {
           return false;
         }
 
-        toggleAccordion();
+        toggleAccordion(e);
       });
 
       $controls.on("accordion.refresh", function() {
         refreshHeight($accordion);
+      });
+
+      $controls.on("accordion.scrollToLastChild", function(e, target) {
+        scrollToLast(target);
       });
 
       $(window).on(

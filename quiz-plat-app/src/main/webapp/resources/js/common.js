@@ -1,40 +1,58 @@
 var ssj = ssj || {};
 ssj.util = ssj.util || {};
 ssj.view = ssj.view || {};
-var oAjax, oSpinner, oToast;
+var oAjax, oSpinner, oToast, oleanModal;
+
+
 (function($){
+
+  // common function
   function prevent(e){
     e.preventDefault();
   }
+
+  // extend jQuery
   $.extend({
     scrollLock : function (lock) {
       lock ? 
         document.addEventListener('touchmove', prevent, { passive: false }) :
         document.removeEventListener('touchmove', prevent, { passive: false })
+    },
+    wait: function (delay) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => resolve(), delay);
+      });
     }
   });
 
-  jQuery.eventEmitter = {
-    _JQInit: function () {
-      this._JQ = jQuery(this);
+  $.observer = {
+    container: [],
+    register: function (topic, observer, context = this) {
+      this.container[topic] || (this.container[topic] = []);
+      this.container[topic].push(observer.bind(context));
     },
-    emit: function (evt, data) {
-      !this._JQ && this._JQInit();
-      this._JQ.trigger(evt, data);
+    remove: function (topic, observer) {
+      if (this.isEmpty(topic)) return;
+      var index = this.container[topic].indexOf(observer);
+      if (~index) {
+        this.container[topic].splice(index, 1);
+      }
     },
-    once: function (evt, handler) {
-      !this._JQ && this._JQInit();
-      this._JQ.one(evt, handler);
+    notify: function (topic, message) {
+      return new Promise((resolve, reject) => {
+        if (this.isEmpty(topic)) return;
+        const results = [];
+        this.container[topic].forEach(observer => {
+          const result = observer(message);
+          results.push(result);
+        });
+        resolve(results);
+      });
     },
-    on: function (evt, handler) {
-      !this._JQ && this._JQInit();
-      this._JQ.bind(evt, handler);
-    },
-    off: function (evt, handler) {
-      !this._JQ && this._JQInit();
-      this._JQ.unbind(evt, handler);
+    isEmpty: function (topic) {
+      return !this.container[topic];
     }
-  };
+  }
 
 })(jQuery);
 
@@ -91,36 +109,13 @@ function copyToClipboard(string) {
   return true;
 }
 
-// function copyToClipboard(url) {
-//   var $input = $("<input>");
-//   $input.val(url);
-//   if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
-//     var el = $input.get(0);
-//     var editable = el.contentEditable;
-//     var readOnly = el.readOnly;
-//     el.contentEditable = true;
-//     el.readOnly = false;
-//     var range = document.createRange();
-//     range.selectNodeContents(el);
-//     var sel = window.getSelection();
-//     sel.removeAllRanges();
-//     sel.addRange(range);
-//     el.setSelectionRange(0, 999999);
-//     el.contentEditable = editable;
-//     el.readOnly = readOnly;
-//   } else {
-//     $input.select();
-//   }
-//   document.execCommand("copy");
-// }
-
 function toggleInputBdr(target) {
   var len = $(target).find("input, textarea").val().trim().length;
   if (len > 0) $(target).addClass("on");
   else if (len == 0) $(target).removeClass("on");
 }
 
-function toggleTab(index) {
+function toggleTab(indexㅡ) {
   var target = $('.home_header_navlist');
   $(target.children()).removeClass("on");
   $(target.children().eq(index)).addClass("on");
@@ -148,14 +143,6 @@ function scrollToTop(duration = 0) {
   }, duration);
 }
 
-function scrollToCommentTarget(target, duration = 300) {
-  $("body,html").animate({
-      scrollTop: $(target).offset().top - $(window).height() / 2
-    },
-    duration
-  );
-}
-
 function scrollToTarget(target, duration = 300) {
   $("body,html").animate({
       scrollTop: $(target).offset().top - $(window).height() / 5
@@ -165,6 +152,10 @@ function scrollToTarget(target, duration = 300) {
 }
 function scrollByPosition(scrollTop){
   $('html, body').animate({scrollTop},0);
+}
+
+function getWritingNoFromURL(){
+  return getNumberInStr(window.location.search);
 }
 
 function isAndroid(){
@@ -309,43 +300,6 @@ ssj.util.spinner.prototype = {
   }
 };
 
-ssj.util.swiper = function (options) {
-  this.metaData = options;
-  this.init();
-};
-
-ssj.util.swiper.prototype = {
-  init() {
-    this.initVar();
-  },
-  initVar() {
-    this.swiper = new Swiper(".swiper-container", this.metaData);
-  },
-  appendItem(slide) {
-    this.swiper.appendSlide(slide);
-  },
-  getActiveSlide() {
-    return this.swiper.slides[this.getActiveIndex()];
-  },
-  getActiveIndex() {
-    return this.swiper.activeIndex;
-  },
-  getTotalCount() {
-    return this.swiper.slides.length;
-  },
-  getActiveSlideId() {
-    return getNumberInStr($(this.getActiveSlide()).attr('id'));
-  },
-  refreshSlideHeight() {
-    var footHeight = $('.reply_inputwrap').innerHeight();
-    var slideHeight = $(this.getActiveSlide()).find('section').innerHeight();
-    $('.swiper-container').css({
-      'height': slideHeight + footHeight * 2,
-      'overflow': 'hidden'
-    });
-  }
-};
-
 ssj.util.toast = function (options) {
   $.extend(this, options);
   this.init();
@@ -380,6 +334,7 @@ ssj.util.toast.prototype = {
     }, oSelf.duration);
   }
 };
+
 
 /*
   saved : [] , 배열 내 아이템
