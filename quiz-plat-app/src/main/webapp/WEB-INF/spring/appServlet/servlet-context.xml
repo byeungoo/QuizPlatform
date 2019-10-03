@@ -21,6 +21,21 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean id = "uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="\upload">
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<!-- multipart타입의 데이터 처리를 가능, 50mb정도로 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <!-- 최대업로드 가능한 바이트크기 -->
+         <beans:property name="maxUploadSize" value="52428800" />
+         <!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+         <!-- property name="maxInMemorySize" value="52428800" / -->
+         <!-- defaultEncoding -->
+         <beans:property name="defaultEncoding" value="utf-8" />
+	</beans:bean>
+	
 	<context:component-scan base-package="com.quiz.web" />
 	<context:component-scan base-package="common" />
 	

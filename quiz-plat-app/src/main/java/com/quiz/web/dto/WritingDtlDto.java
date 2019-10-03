@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class WritingDtlDto {
 	
 	private int    writing_no;        //게시글번호
+	private String title;             //게시글 제목
+	private String summary;           //요약
 	private String ques_type_div_cd;  //글타입
 	private String content;           //본문 내용
 	private String fir_writ_content;  //첫번째 투표 내용 
 	private String sec_writ_content;  //두번째 투표 내용
-	private String fir_writ_img_path; //첫번째 이미지 경로
-	private String sec_writ_img_path; //두번째 이미지 경로
 	private String user_id;           //유저아이디
 	private String regpe_id;          //등록자
 	private String modpe_id;          //변경자
@@ -66,18 +66,6 @@ public class WritingDtlDto {
 	}
 	public void setSec_writ_content(String sec_writ_content) {
 		this.sec_writ_content = sec_writ_content;
-	}
-	public String getFir_writ_img_path() {
-		return fir_writ_img_path;
-	}
-	public void setFir_writ_img_path(String fir_writ_img_path) {
-		this.fir_writ_img_path = fir_writ_img_path;
-	}
-	public String getSec_writ_img_path() {
-		return sec_writ_img_path;
-	}
-	public void setSec_writ_img_path(String sec_writ_img_path) {
-		this.sec_writ_img_path = sec_writ_img_path;
 	}
 	public String getRegpe_id() {
 		return regpe_id;
@@ -199,5 +187,17 @@ public class WritingDtlDto {
 	}
 	public void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getSummary() {
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 }

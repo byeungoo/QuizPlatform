@@ -2,6 +2,7 @@ package com.quiz.web.controller;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,10 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.quiz.web.dto.UserDto;
 import com.quiz.web.dto.WritingDtlDto;
+import com.quiz.web.service.FileUploadService;
 import com.quiz.web.service.UserService;
 import com.quiz.web.service.WritingDtlService;
 
@@ -38,6 +42,12 @@ public class PostController {
     
     @Autowired
     private WritingDtlService writingDtlService;
+    
+	@Autowired
+	FileUploadService fileUploadService;
+	
+	@Autowired private ServletContext servletContext;
+
 	
     /*
      ** 글작성 페이지 이동
@@ -71,4 +81,25 @@ public class PostController {
     	return writingDtlDto;
     }
 	
+    /*
+     ** 파일업로드 테스트 페이지 이동
+     */
+    @RequestMapping(value = "/fileUploadTest", method = RequestMethod.GET)
+    public String formTest(HttpSession session, HttpServletRequest request) throws Exception{
+    	logger.debug(servletContext.getRealPath("/"));
+
+        return "form";
+    }
+  
+    /*
+     ** 파일업로드
+     */
+	@RequestMapping( "/upload" )
+	public String upload(Model model, @RequestParam("file1") MultipartFile file) {
+			
+		String url = fileUploadService.restore(file);
+		model.addAttribute("url", url);
+		return "uploadResult";
+	}
+    
 }
