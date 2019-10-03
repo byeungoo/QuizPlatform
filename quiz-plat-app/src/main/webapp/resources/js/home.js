@@ -1,7 +1,6 @@
+var ssj = ssj || {};
+ssj.view = ssj.view || {};
 
-$('#_write').on('keyup change','.write_area',function(e){
-    $(e.currentTarget).toggleClass('on', $(e.target).val().length > 0);
-})
 function createWrite(){
   var plusBtn = $('.bottom_navbaritem.plus');
   var fir_writ_content = $('#_write_front').val();
@@ -35,6 +34,69 @@ function resetBottomNavbar(){
   $($('.bottom_navbar').children()).removeClass('on');
 }
 
+function isLogin() {
+  return oAjax.sendRequest(URL_READ_USERINFO, null, null, 'GET', null).then(json => {
+    console.log(json);
+    return json.login;
+  });
+}
+
+function setLoginIcon(login) {
+  $('.person').toggle(login);
+  $('.lock').toggle(!login);
+}
+
+function requestLogin(sendData) {
+  oAjax.sendRequest(URL_CREATE_SESSION, sendData, null, 'POST', null).then(json => {
+    if (json.login) {
+      oToast.show(json.nickname + "님 환영합니다");
+      loginForm.find('.modal_close').click();
+      setLoginIcon(json.login);
+    } else { //로그인 실패
+      loginInpGroup.removeClass('wrong').removeClass('on').val('');
+      loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다').prop('disabled', true);
+    }
+  });
+}
+
+function createMember(data) {
+  oAjax.sendRequest(URL_CREATE_MEMBER, data, null, 'POST', null).then(json => {
+    if (json.login) {
+      joinClose.click();
+      var user_id = joinInpGroup.eq(1).val();
+      var pwd = joinInpGroup.eq(2).val();
+      var rememberId = undefined;
+      var data = { user_id, pwd, rememberId };
+      requestLogin(data);
+      $("#join .modal_inp").removeClass('on').val('');
+      $('#join .modal_footbtn').prop('disabled', true).text('필수 항목을 작성해주세요').removeClass('on');
+    } else {
+      oToast.show("이미 존재하는 ID입니다");
+      $('#_join_id').val('').removeClass('on').addClass('wrong');
+    }
+  });
+}
+
+
+//회원가입 버튼 클릭 시
+$("#_join_form").on('submit', function (e) {
+  e.preventDefault();
+  var nickname = joinInpGroup.eq(0).val();
+  var user_id = joinInpGroup.eq(1).val();
+  var pwd = joinInpGroup.eq(2).val();
+  var data = { user_id, pwd, nickname };
+  createMember(data);
+});
+
+$("#_login_form").on('submit', function (e) {
+  e.preventDefault();
+  var user_id = loginInpGroup.eq(0).val();
+  var pwd = loginInpGroup.eq(1).val();
+  var rememberId = loginForm.find('input[type="checkbox"]').prop('checked');
+  var data = { user_id, pwd, rememberId };
+  requestLogin(data);
+});
+
 $('.home_header_navlist').on('click',function(){
   var section = $('.main-sec');
   resetBottomNavbar();
@@ -42,6 +104,9 @@ $('.home_header_navlist').on('click',function(){
   $(section.eq(1)).hide();
 });
 
+$('#_write').on('keyup change', '.write_area', function (e) {
+  $(e.currentTarget).toggleClass('on', $(e.target).val().length > 0);
+})
 
 //하단 네비게이션바
 $('.bottom_navbar').on('click','.bottom_navbaritem',function(e){
@@ -92,6 +157,32 @@ $('#_searchbar').on('click','.search',function(e){
   });
 })
 
+$('.person').on('click', function () {
+  oAjax.sendRequest(URL_REMOVE_SESSION, null, null, 'POST', null).then(json => {
+    if (!json.login) {
+      oToast.show('로그아웃 되었습니다');
+      setLoginIcon(json.login);
+    }
+  }).catch(error => {
+    oToast.show('로그아웃에 실패했습니다.');
+    return false;
+  });
+});
+
+$('.bottom_navbaritem.lock').on('click', function () {
+  $('#login_trigger').click();
+  $.scrollLock(true);
+});
+
+$('#join_trigger').on('click', function () {
+  $.scrollLock(true);
+})
+
+$('body').on('click', '.modal_close', function () {
+  $.scrollLock(false);
+  $('.bottom_navbar').children().removeClass('on').removeClass('off');
+});
+
 $('.write_inp').on('blur',function(e){
   $(this).siblings('label').hide();
 }).on('keyup',function(e){
@@ -111,47 +202,92 @@ $('#login .modal_header_tittx').on('click',function(){
   });
 });
 
+ssj.view.modal = function(options){
+  const df = {};
+  $.extend(this, options, df);
+  this.init();
+}
 
-var joinForm = $('#join');
-var joinInpGroup = joinForm.find('.modal_inp');
-var pwdGroup = joinForm.find('input[type="password"].modal_inp');
-var joinFootBtn = joinForm.find('.modal_footbtn');
-var joinClose = joinForm.find('.modal_close');
-var total = joinInpGroup.length;
-var passCheck = joinForm.find('.check');
-joinInpGroup.on('keyup',function(e){
-  //모든 필드에 적용
-  $(this).val().length ?
-    $(this).addClass('on').removeClass('wrong') :
-    $(this).removeClass('wrong').removeClass('on');
-  var curIdx = $(pwdGroup).index($(this));
-  if(curIdx >= 0){ //패스워드 입력시 비밀번호 확인
-    var my = curIdx ? $(pwdGroup).eq(curIdx) : null;
-    var other = $(pwdGroup).eq(!curIdx);
-    if($(other).val().length && $(my).val().length){//패스워드1,2 둘다 입력시 비밀번호 비교 
-      if($(my).val() !== $(other).val()){
-        $(pwdGroup).addClass('wrong').removeClass('on');
-      }else{
-        $(pwdGroup).addClass('on').removeClass('wrong');
-      }
-    }
+ssj.view.modal.prototype = $.extend({
+
+}, $.observer);
+
+ssj.view.modal.join = function(options){
+  const df = {};
+  $.extend(this, options, df);
+  this.init();
+}
+ssj.view.modal.join.prototype = $.extend({
+  init() {
+    this.assignElements();
+    this.attachEventHandler();
+  },
+  assignElements() {
+    this.$modal = $('#join');
+    this.$inpGroup = this.$modal.find('.modal_inp');
+    this.$inpPwdGroup = this.$modal.find('input[type="password"]');
+    this.$btnFoot = this.$modal.find('.modal_footbtn');
+    this.$btnJoin = this.$modal.find('.modal_close');
+    this.nTotal = this.$modal.length;
+    this.$passCheck = this.$modal.find('.check');
+  },
+  attachEventHandler() {
+    this.$inpGroup.on('keyup', this._onKeyUp.bind(this));
+  },
+  _onKeyUp(e) {
+    const $input = $(e.target);
+    this._toggleClass($input);
+    this._validatePassWord($input);
+    this._toggleBtnFoot( this.isCompleteForm() );
+  },
+  _toggleClass($input) {
+    const bEmpty = $input.val().length === 0;
+    $input.toggleClass('on', !bEmpty).removeClass('wrong');
+  },
+  _togglePwdClass(isSame) {
+    this.$inpPwdGroup.toggleClass('on', isSame);
+    this.$inpPwdGroup.toggleClass('wrong', !isSame);
+  },
+  _toggleBtnFoot(bCompleted) {
+    this.$btnFoot.toggleClass('on', bCompleted).prop('disabled', !bCompleted);
+
+    bCompleted ? this.$btnFoot.text('회원가입') : this.$btnFoot.text('필수 항목을 작성해주세요');
+  },
+  _validatePassWord($input) {
+    if (!this.isAllInputed()) return;
+    const nIndex = this.$inpPwdGroup.index($input);
+    const $my = this.$inpPwdGroup.eq(nIndex); 
+    const $other = this.$inpPwdGroup.eq(!nIndex);
+    const bSame = this.isSame($my, $other);
+    
+    this._togglePwdClass(bSame);
+  },
+  isAllInputed() {
+    return this.$inpPwdGroup.eq(0).val().length && this.$inpPwdGroup.eq(1).val().length
+  },
+  isSame($my, $other) {
+    return $my.val() === $other.val();
+  },
+  isCompleteForm() {
+    let result = true;
+    this.$inpGroup.each( (index, item) => {
+      if (!$(item).hasClass('on')) result = false;
+    });
+    return result;
   }
-  if(isCompleteForm(joinInpGroup)) {
-    joinFootBtn.addClass('on').prop('disabled',false).text('회원가입');
-  }else{
-    joinFootBtn.removeClass('on').prop('disabled', true).text('필수 항목을 작성해주세요');
-  }
-});
+}, $.observer);
+
+ssj.view.modal.prototype = $.extend({
+
+},$.observer);
+
+var oJoinModal = new ssj.view.modal.join();
+
 
 var loginForm = $('#login');
 var loginInpGroup = loginForm.find('.modal_inp');
 var loginFootBtn = loginForm.find('.modal_footbtn');
 loginInpGroup.on('keyup',function(e){
-  if ($(e.target).val().length > 0) {
-    $(this).addClass('on').removeClass('wrong');
-  } else {
-    $(this).removeClass('on').removeClass('wrong');
-  }
   if (isCompleteForm(loginInpGroup)) {
     loginFootBtn.addClass('on').prop('disabled',false).text('로그인');
   } else {
@@ -159,98 +295,6 @@ loginInpGroup.on('keyup',function(e){
   }
 });
 
-$('.person').on('click',function(){
-  oAjax.sendRequest(URL_REMOVE_SESSION,null,null,'POST',null).then( json => {
-    if(!json.login){
-      oToast.show('로그아웃 되었습니다');
-      setLoginIcon(json.login);
-    }
-  }).catch( error => {
-    oToast.show('로그아웃에 실패했습니다.');
-    return false;
-  });
-});
-
-function isLogin(){
-  return oAjax.sendRequest(URL_READ_USERINFO, null, null, 'GET', null).then(json => {
-    console.log(json);
-    return json.login;
-  });
-}
-
-function setLoginIcon(login){
-  $('.person').toggle(login);
-  $('.lock').toggle(!login);
-}
-
-//회원가입 버튼 클릭 시
-$("#_join_form").on('submit',function(e){
-  e.preventDefault();
-  var nickname = joinInpGroup.eq(0).val();
-  var user_id = joinInpGroup.eq(1).val();
-  var pwd = joinInpGroup.eq(2).val();
-  var data = {user_id,pwd,nickname};
-  createMember(data);
-});
-
-$("#_login_form").on('submit',function(e){
-  e.preventDefault();
-  var user_id = loginInpGroup.eq(0).val();
-  var pwd = loginInpGroup.eq(1).val();
-  var rememberId = loginForm.find('input[type="checkbox"]').prop('checked');
-  var data = { user_id, pwd, rememberId };
-  requestLogin(data);
-});
-
-function requestLogin(sendData) {
-  oAjax.sendRequest(URL_CREATE_SESSION, sendData,null,'POST',null).then( json => {
-    if(json.login){
-      oToast.show(json.nickname+"님 환영합니다");
-      loginForm.find('.modal_close').click();
-      setLoginIcon(json.login);
-    }else{ //로그인 실패
-      loginInpGroup.removeClass('wrong').removeClass('on').val('');
-      loginFootBtn.addClass('wrong').removeClass('on').text('잘 못 입력하셨습니다').prop('disabled',true);
-    }
-  });
-}
-
-function createMember(data) {
-  oAjax.sendRequest(URL_CREATE_MEMBER,data,null,'POST',null).then( json => {
-    if(json.login){
-      joinClose.click();
-      var user_id = joinInpGroup.eq(1).val();
-      var pwd = joinInpGroup.eq(2).val();
-      var rememberId = undefined; 
-      var data = { user_id, pwd, rememberId };
-      requestLogin(data);
-      $("#join .modal_inp").removeClass('on').val('');
-      $('#join .modal_footbtn').prop('disabled', true).text('필수 항목을 작성해주세요').removeClass('on');
-    }else{
-      oToast.show("이미 존재하는 ID입니다");
-      $('#_join_id').val('').removeClass('on').addClass('wrong');
-    }
-  });
-}
-
-function isCompleteForm(inpGroup) {
-  for (var i = 0; i < inpGroup.length; i++) {
-    if (!inpGroup.eq(i).hasClass('on')) return false;
-  }
-  return true;
-}
-
-$('.bottom_navbaritem.lock').on('click',function(){
-  $('#login_trigger').click();
-  $.scrollLock(true);
-});
-$('#join_trigger').on('click',function(){
-  $.scrollLock(true);
-})
-$('body').on('click','.modal_close',function(){
-  $.scrollLock(false);
-  $('.bottom_navbar').children().removeClass('on').removeClass('off');
-});
 var oSsjViewInfinite;
 $(function () {
   $("a[rel*=leanModal]").leanModal({ overlay: 0.4, slideinUp: 'join', topfix:['#_searchbar','#_write']}); //a태그에 모달 켜기 기능 추가

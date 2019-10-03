@@ -355,7 +355,6 @@ ssj.view.infiniteScroll.prototype = {
     this._assignElements();
     this._attachEventHandler();
     this._initVar();
-    this._setInitialCards();
   },
   _initVar() {
     this.saved = [];
@@ -364,7 +363,6 @@ ssj.view.infiniteScroll.prototype = {
     this.tmplId = ID_TMPL_MAIN_CARD;
     this.method = 'GET';
     this.tabcount = this.getTotalCateCount();
-    this._setInitialSavedData();
   },
   _assignElements() {
     this.cardList = $('.main-sec__list');
@@ -396,21 +394,6 @@ ssj.view.infiniteScroll.prototype = {
       });
     });
   },
-  _setInitialCards() {
-    var data = this._makeRequestData();
-    this.loadData(this.url, data).then( json => {
-      this.renderCards(json);
-    }).catch( e => {
-      console.log(e);
-    });
-  },
-  switchCategory(){ //배열에 데이터가 있으면 복구, 없으면 요청
-    if (this.isEmptyCardList()){
-      this._setInitialCards();
-    }else{
-      this._restoreCardList();
-    }
-  },
   saveCurrentState(){
     var scrollTop = $(window).scrollTop();
     var cards = this.cardList.children().detach();
@@ -436,22 +419,6 @@ ssj.view.infiniteScroll.prototype = {
   _setNoMoreData() {
     this.saved[this.getCurrentCateNum()].isEnded = true;
   },
-  _setInitialSavedData() {
-    for (var i = 0; i < this.tabcount; i++) { //카테고리 별로 필요한 데이터를 배열로 관리
-      this.saved.push({
-        'scrollTop': 0, //스크롤 탑 위치
-        'cards': null, //리스트의 카드들
-        'page': 1, //현재 보고 있는 페이지
-        'isEnded': false //카테고리의 글을 모두 불러왔는지?
-      });
-    }
-  },
-  _increasePageNum() {
-    this.saved[this.getCurrentCateNum()].page++;
-  },
-  _makeRequestData(){
-    return { page : this.getCurrentPageNum(), mainCategory : this.getCurrentCateNum()};
-  },
   isEmptyCardList(){
     var current = this.getCurrentSavedDatas();
     return !current.cards || !current.cards.length;
@@ -465,10 +432,6 @@ ssj.view.infiniteScroll.prototype = {
   },
   getCurrentCateNum() {
     return this.headerWrap.find('.on').val();
-  },
-  getCurrentPageNum() {
-    var category = this.getCurrentCateNum();
-    return this.saved[category].page;
   },
   getCurrentScrollTop() {
     return this.getCurrentSavedDatas().scrollTop;

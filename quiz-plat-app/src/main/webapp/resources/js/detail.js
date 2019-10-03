@@ -2,10 +2,19 @@ var ssj = ssj || {};
 ssj.view = ssj.view || {};
 
 $(function(){
-
+	function initModule() {
+		window.oMention = new ssj.view.mention();
+		window.oComment = new ssj.view.comment();
+		window.oReplyInput = new ssj.view.replyInput();
+		window.oCommentOptionBar = new ssj.view.comment.optionBar();
+		window.oModalCommentOption = new ssj.view.modal.commentOption();
+	}
 	// define common function
 	function getActiveSlideId() {
 		return getNumberInStr($(oSwiper.getActiveSlide()).attr('id'));
+	}
+	function getActiveSlide() {
+		return $(oSwiper.getActiveSlide());
 	}
 	function getActiveCommentId(e) {
 		var commentWrap = $(e.target).closest('.detail_reply_subitem').get(0) || $(e.target).closest('.detail_replyitem').get(0);
@@ -60,7 +69,7 @@ $(function(){
 			.hasClass('on');
 	}
 	function setInitialData(mainWritingNo) {
-		makeFirstItem(mainWritingNo)
+		return makeFirstItem(mainWritingNo)
 			.then(item => {
 				oSwiper.appendItem(item);
 				setInitialVoteState();
@@ -141,34 +150,8 @@ $(function(){
 		$.observer.notify('swiper.slide.refresh');
 	});
 
-	// 대댓글 작성 버튼 클릭 시
-	$('#_system_modal').on('click', '.modal_btn', function (e) {
-		var writing_no = oSwiper.getActiveSlideId();
-		var slide = $(oSwiper.getActiveSlide());
-		var modal = $(e.delegateTarget);
-		var comment_no = modal.find('.comment_no').val();
-		var comment = slide.find('#' + comment_no);
-		var modalClose = modal.find('.modal_close');
-		comment_no = getNumberInStr(comment_no);
-		if ($(this).hasClass('write')) { //대댓글 작성
-			comment.find('.detail_reply_more').click();
-		} else if ($(this).hasClass('delete')) { //댓글 삭제
-			oAjax.sendRequest(URL_REMOVE_COMMENT, { writing_no, comment_no }, null, 'POST', null).then(json => {
-				if (json.success) {
-					var contents = comment.find('.detail_replycont');
-					contents.eq(0).text('삭제된 댓글입니다');
-					comment.find('.isdeleted:first-child').val('N');
-				} else {
-					oToast.show('댓글삭제에 실패했습니다')
-				}
-			});
-		}
-		modalClose.click();
-	});
-
 	/* 투표 비동기 처리 */
-	$('.wrapper')
-		.on('click', '.card', function (e) {
+	$('.wrapper').on('click', '.card', function (e) {
 			var cardWrap = $(e.currentTarget).closest('.card_wrap');
 			if (cardWrap.hasClass('on')) return;
 			changeDetailUI(e);
@@ -197,12 +180,43 @@ $(function(){
 		});
 
 	// define Module
+	ssj.view.common = ssj.view.common || {};
+	ssj.view.common.comment = {
+		getNickName($comment) {
+			return $comment.find('.detail_replytit').eq(0).text();
+		},
+		getCommentNo($comment) {
+			return getNumberInStr($comment.prop('id'));
+		},
+		getCommentId($comment) {
+			return $comment.prop('id');
+		},
+		getCommentType($comment) {
+			return $comment.prop('id').slice(0, 3) !== 'low' ? TYPE_COMMENT : TYPE_LOWCOMMENT;
+		},
+		isCommentMine($comment) {
+			return $comment.find('.ismine').val() == 'true';
+		},
+		isCommentDeleted($comment) {
+			return $comment.find('.isdeleted').val() == 'N';
+		},
+		getWhereVote() {
+			return this.$hdVote.val() + 1;
+		},
+		showMention($comment) {
+			this.notify('mention.show', {
+				nickname: this.getNickName($comment),
+				commentNo: this.getCommentNo($comment)
+			});
+		}
+	}
+
 	ssj.view.comment = function (options) {
 		const df = {};
 		$.extend(this, df, options);
 		this.init();
 	}
-	ssj.view.comment.prototype = $.extend({
+	ssj.view.comment.prototype = $.extend(ssj.view.common.comment, {
 		init() {
 			this._assignElements();
 			this._attachEventHandlers();
@@ -216,12 +230,31 @@ $(function(){
 			this.register('comment.refresh.lowcomment', target => this.refreshLowComment(target));
 			this.register('comment.refresh.comment', target => this.refreshComment(target));
 			this.register('comment.setTeam', target => this.setTeam(target));
+			this.register('comment.remove', $comment => this._onRemove.call(this, $comment));
 		},
 		_onExpand(e) {
 			const $acdo = $(e.currentTarget).closest('.accordion');
 			this.activateAccordion($acdo);
 			this.clickAcdoControl($acdo);
 			$.wait(300).then( () => this.refreshSwiper() );
+		},
+		_onRemove($comment) {
+			const reqData = {
+				writing_no: getActiveSlideId(),
+				comment_no: this.getCommentNo($comment)
+			}
+
+			oAjax.sendRequest(URL_REMOVE_COMMENT, reqData, null, 'POST', null).then(json => {
+				if (json.success) {
+					const $contents = $comment.find('.detail_replycont').eq(0);
+					const $hdCommentDel = $comment.find('.isdeleted').eq(0);
+
+					$contents.text('삭제된 댓글입니다');
+					$hdCommentDel.val('N');
+				} else {
+					oToast.show('댓글삭제에 실패했습니다')
+				}
+			});
 		},
 		clickAcdoControl($acdo){
 			const $acdoCtrl = $acdo.find('[data-control]');
@@ -257,15 +290,12 @@ $(function(){
 		},
 		setTeam(target) {
 			$(target).each((index, item) => {
-				const nMyVoted = this.checkWhereVote();
+				const nMyVoted = this.getWhereVote();
 				const $nickName = $(target).find('.detail_replytit');
 				const nOtherVoted = $nickName.val();
 				$nickName.toggleClass('on', nMyVoted === nOtherVoted);
 				// TODO : 아군 표시 작업 마무리하기
 			});
-		},
-		checkWhereVote() {
-			return this.$hdVote.val() + 1;
 		},
 	}, $.observer);
 
@@ -275,44 +305,36 @@ $(function(){
 		this.init();
 	}
 
-	ssj.view.comment.optionBar.prototype = $.extend({
+	ssj.view.comment.optionBar.prototype = $.extend( Object.create(ssj.view.common.comment), {
 		init() {
 			this._initVar();
 			this._assignElements();
 			this._attachEventHandlers();
 		},
 		_initVar() {
-			this.TYPE_COMMENT = 0;
-			this.TYPE_LOWCOMMENT = 1;
+			this.$writingNo = getActiveSlideId();
+			this.$activeSlide = getActiveSlide();
 		},
 		_assignElements() {
 			this.$body = $('body');
-			this.$optModal = $('#_system_modal');
-			this.$hdCommentNo = this.$optModal.find('.comment_no');
 		},
 		_attachEventHandlers() {
 			this.$body.on('click', '.recommend', e => this._onClickRecommend.call(this, e));
 			this.$body.on('click', '.dot3', e => this._onClickOptions.call(this, e));
+			this.register('commentOptionBar.show.mention', this.showMention.bind(this));
 		},
 		_onClickOptions(e) {
-			this.$comment = $(e.target).closest('.detail_replyitem');
-			this.initModalVar();
-			this.setCommentNoToModal( this.getCommentNo() );
+			const $lowComment = $(e.target).closest('.detail_reply_subitem');
+			const $comment = $lowComment.length > 0 ? $lowComment : $(e.target).closest('.detail_replyitem');
+			this.bType = this.getCommentType($comment);
 
-			if(this.bType == this.TYPE_COMMENT){
-				this.$delBtn.text('댓글 삭제');
-				this.$writeBtn.text('대댓글 작성').show();
-			}
-			else if(this.bType == this.TYPE_LOWCOMMENT){
-				this.$delBtn.text('대댓글 삭제');
-				this.$writeBtn.hide();
-			}
+			const sCommentId = this.getCommentId($comment);
+			const bCommentType = this.bType;
+			const bCommentMine = this.isCommentMine($comment);
+			const bCommentDeleted = this.isCommentDeleted($comment);
+			const data = { $comment, sCommentId, bCommentType, bCommentMine, bCommentDeleted };
 
-			this.notify('mention.show',{
-				nickname : this.getNickName(),
-				commentNo : this.getCommentNo()
-			});
-
+			this.notify('modalCommentOption.open', data);
 		},
 		_onClickRecommend(e) {
 			const $btn = $(e.target);
@@ -324,41 +346,12 @@ $(function(){
 			const requestData = this.getRecomReqData(e);
 			this.sendRecomReq(e, requestData);
 		},
-		initModalVar(){
-			this.$delBtn = this.$optModal.find('.delete');
-			this.$writeBtn = this.$optModal.find('.write');
-			this.bType = this.getCommentType();
-		},
 		getRecomReqData(e) {
 			return {
 				prefer: $(e.target).hasClass('up') ? 0 : 1,
 				writing_no: getActiveSlideId(),
 				comment_no: getActiveCommentId(e)
 			}
-		},
-		getNickName() {
-			return this.$comment.find('.detail_replytit').eq(0).text();
-		},
-		getCommentNo() {
-			return getNumberInStr(this.getCommentId());
-		},
-		getCommentId() {
-			return this.$comment.prop('id');
-		},
-		getCommentType() {
-			return this.getCommentNo().slice(0, 3) !== 'low'? this.TYPE_COMMENT : this.TYPE_LOWCOMMENT;
-		},
-		setCommentNoToModal(comment_no) {
-			this.$hdCommentNo.val(comment_no);
-		},
-		disabledModalBtn() {
-			delBtn.prop('disabled', this.isCommentDeleted() || !this.isCommentMine() );
-		},
-		isCommentMine() {
-			return this.$comment.find('.ismine').val() == 'true';
-		},
-		isCommentDeleted() {
-			return this.$comment.find('.isdeleted').val() == 'N';
 		},
 		sendRecomReq(e, requestData) {
 			const $btn = $(e.target);
@@ -403,6 +396,88 @@ $(function(){
 		}
 	}, $.observer);
 
+	ssj.view.modal = ssj.view.modal || {};
+	ssj.view.modal.prototype = $.extend({
+		_assignCommonElements() {
+			this.$modal = $('.modal');
+			this.$btnClose = this.$modal.find('.modal_close');
+		},
+		_attachCommonEventHandler(){
+			this.register('modal.close', this.closeModal.bind(this));
+		},
+		closeModal(){
+			this.$btnClose.click();
+			this.$modal.off();
+		}
+	},$.observer);
+
+	ssj.view.modal.commentOption = function (options) {
+		const df = {};
+		$.extend(this, df, options);
+
+		this._init = function () {
+			this._assignCommonElements();
+			this._attachCommonEventHandler();
+			this._assignElements();
+			this._attachEventHandler();
+		}
+
+		this._assignElements = function() {
+			this.$hdCommentId = this.$modal.find('.comment_id');
+			this.$btnDel = this.$modal.find('.delete');
+			this.$btnWrite = this.$modal.find('.write');
+		}
+
+		this._attachEventHandler = function () {
+			$.observer.register('modalCommentOption.open', data => this._onOpen.call(this, data));
+		}
+
+		this._onOpen = function ( {$comment, sCommentId, bCommentType, bCommentMine, bCommentDeleted} ) {
+			this.setCommentId(sCommentId);
+			this.setCommentType(bCommentType);
+			this.changeModalText(bCommentType);
+			this.disableIf(this.$btnDel, (!bCommentMine || bCommentDeleted) );
+			this.$modal.one('click', '.write', () => this._onClickWrite.call(this, $comment));
+			this.$modal.one('click', '.delete', () => this._onClickDelete.call(this, $comment));
+		}
+
+		this.changeModalText = function(commentType) {
+			if( commentType === TYPE_COMMENT){
+				this.$btnDel.text('댓글 삭제');
+				this.$btnWrite.text('대댓글 작성').show();
+			}else if (commentType === TYPE_LOWCOMMENT){
+				this.$btnDel.text('대댓글 삭제');
+				this.$btnWrite.hide();
+			}
+		};
+
+		this.disableIf = function($target, bCondition) {
+			$target.prop('disabled', bCondition);
+		};
+
+		this.setCommentType = function(commentType) {
+			this.nCommentType = commentType;
+		}
+
+		this.setCommentId = function(commentId) {			
+			this.$hdCommentId.val(commentId);
+		}
+
+		this._onClickDelete = function($comment) {
+			this.notify('comment.remove', $comment);
+			this.closeModal();
+		};
+
+		this._onClickWrite = function($comment) {
+			this.notify('commentOptionBar.show.mention', $comment);
+			this.closeModal();
+		},
+
+		this._init();
+	}
+
+	ssj.view.modal.commentOption.prototype = ssj.view.modal.prototype;
+
 	ssj.view.replyInput = function (options) {
 		const df = {};
 		$.extend(this, df, options);
@@ -410,13 +485,8 @@ $(function(){
 	}
 	ssj.view.replyInput.prototype = $.extend({
 		init() {
-			this._initVar();
 			this._assignElements();
 			this._attachEventHandlers();
-		},
-		_initVar() {
-			this.TYPE_COMMENT = 0;
-			this.TYPE_LOWCOMMENT = 1;
 		},
 		_assignElements() {
 			this.$input = $('.reply_input');
@@ -437,13 +507,13 @@ $(function(){
 			const depth = this.getCommentType();
 			const slide = oSwiper.getActiveSlide();
 
-			if( depth === this.TYPE_COMMENT ){
+			if( depth === TYPE_COMMENT ){
 				const $commentList = slide.find('.detail_replylist');
 				const requestData = { writingNo, replytx, depth, parent: null };
 
 				this.addComment($commentList, requestData);
 			}
-			else if( depth === this.TYPE_LOWCOMMENT ){
+			else if( depth === TYPE_LOWCOMMENT ){
 				const parent = oMention.getCommentNo();
 				const comment = slide.find(`#comment${parent}`);
 				const $lowcommentList = comment.find('.detail_reply_subitems');
@@ -454,7 +524,7 @@ $(function(){
 
 		},
 		getCommentType() {
-			return isMentionExist()? this.TYPE_LOWCOMMENT : this.TYPE_COMMENT;
+			return isMentionExist()? TYPE_LOWCOMMENT : TYPE_COMMENT;
 		},
 		clear() {
 			this.$input.val('');
@@ -587,28 +657,20 @@ $(function(){
 		getCommentNo() { return this.$mention.data('id'); },
 	}, $.observer);
 
-	// Initialize Module
-	window.oMention = new ssj.view.mention();
-	window.oComment = new ssj.view.comment();
-	window.oReplyInput = new ssj.view.replyInput();
-	window.oCommentOptionBar = new ssj.view.comment.optionBar();
-
-
-	//TODO : Swiper 모듈 리팩토링 하기
+	
 	var mainWritingNo = getWritingNoFromURL();
 	var Footer = $('.reply_inputwrap');
 	oSpinner.setTarget($('.swiper-container'));
 	oSpinner.show(); //페이지 처음 진입시 스피너
 
-	window.oSwiper = $.extend(new ssj.util.swiper({
+	window.oSwiper = new ssj.util.swiper({
 		direction: 'horizontal',
-		slidesPerview: 1.1,
+		slidesPerView: 1.1,
 		centeredSlides: true,
-		preventClicksPropagation: false,
 		threshold: 10,
 		on: {
 			init: function () {
-				setInitialData(mainWritingNo);
+				setInitialData(mainWritingNo).then( () => { initModule(); });
 				oSpinner.hide();
 			},
 			slideChange: function () {
@@ -617,15 +679,17 @@ $(function(){
 						oSwiper.appendItem(items);
 					});
 				}
-				this.notify('swiper.slide.refresh');
+				$.observer.notify('swiper.slide.refresh');
+				$.observer.notify('clearReplyInput');
 				toggleFooter();
 				scrollToTop();
 				setHeaderState();
 				resetAddress();
-				resetMention();
 			}
 		}
-	}, $.observer));
+	});	
+
+
 
 	toggleFooter();
 });

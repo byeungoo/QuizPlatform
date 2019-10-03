@@ -4,7 +4,7 @@ var ID_TMPL_MAIN_CARD = "#cardTmpl";
 var ID_TMPL_SUBREPLY = "#subReplyTmpl";
 var ID_TMPL_RECOMCOUNTTX = "#recomCountTx";
 
-var URL_BASE = "/DevPickVs/";
+var URL_BASE = "http://pickvs.com/DevPickVs/";
 
 var URL_CREATE_COMMENT = URL_BASE + "writeComment";
 var URL_CREATE_COMPLAIN = URL_BASE + "reportWriting";
@@ -27,3 +27,6 @@ var URL_REMOVE_COMMENT = URL_BASE + "deleteComment";
 
 var PAGE_NAME_SWIPE = "swipe";
 var PAGE_NAME_SEARCH = "search";
+
+var TYPE_COMMENT = 000;
+var TYPE_LOWCOMMENT = 111;
