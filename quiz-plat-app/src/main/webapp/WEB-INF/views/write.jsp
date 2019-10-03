@@ -17,6 +17,7 @@
     .write_tit,
     .write_cont{display:block;width:100%;padding:10px;border:1px solid black;box-sizing:border-box;margin-top:20px;}
     .write_cont{min-height:50%;}
+    .write_cont.ty_summary{min-height:10%;}
     .write_tit{font-size:15px;}
     .btnarea{display:flex;align-items:center;justify-content: space-evenly;padding:10px;border:1px solid black;}
     .btnarea + .btnarea{margin-top:-1px;}
@@ -25,9 +26,10 @@
     .inserted_image.on{max-width:100%;max-height:100%;width:auto;height:auto;position:fixed;top:0;left:0;right:0;bottom:0;margin:auto;overflow:auto;}
     b{font-weight:bold;}
     .fontsize input{border:1px solid black; width:30px; margin-left:5px;}
-    li{padding-left:5px;}
+    li{padding-left:5px;word-break:break-all;}
     ul li:before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:black;margin-right:5px;}
     ol{list-style-type:decimal;margin-left:15px;}
+    .submit{display:block;margin:auto;border:1px solid black; border-radius:20px; padding: 10px 80px; margin: 50px auto;}
   </style>
 </head>
 <body>
@@ -35,10 +37,9 @@
   <form onsubmit="">
     <p class="title">제목</p>
     <input type="text" class="write_tit">
-    <p class="title">요약, 본문, 주장, 기타..</p>
-    <input type="file" class="blind" onchange="getImage(this);" id="inp_image" multiple="multiple">
+    <p class="title">툴팁</p>
     <div class="btnarea">
-      <label for="inp_image" class="btn">이미지 업로드</label>
+      <input type="file" id="inp_image">
     </div>
     <div class="btnarea">
       <p>폰트</p>
@@ -53,7 +54,11 @@
       <button type="button" class="btn ordered">순서O</button>
       <button type="button" class="btn indent">들여쓰기</button>
     </div>
+    <p class="title">요약</p>
+    <div class="write_cont ty_summary"></div>
+    <p class="title">본문</p>
     <div class="write_cont"></div>
+    <button class="submit">제출</button>
   </form>
 
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
@@ -93,13 +98,25 @@
     }
 
     $(function(){
-      const $target = $('.write_cont');
-      window.oEditor = new Squire($target.get(0), 
-      {
-        blockTag: 'P',
-        blockAttributes: { style: 'font-size: 16px;', class : "contents" }
-      },
-    );
+        const $target = $('.write_cont');
+        window.oEditor = window.oEditorSum;
+        window.oEditorSum = new Squire($target.get(0), 
+        {
+          blockTag: 'P',
+          blockAttributes: { style: 'font-size: 16px;', class : "summary" }
+        },
+        window.oEditorConts = new Squire($target.get(1),
+        {
+          blockTag: 'P',
+          blockAttributes: { style: 'font-size: 16px;', class: "contents" }
+        })
+      );
+
+      $('.write_cont').click(function(e){
+        const $target = $(e.delegateTarget);
+        const index = $('.write_cont').index($target);
+        oEditor = index === 0 ? oEditorSum : oEditorConts;
+      })
 
       $('.colorpicker').each(function () {
         $(this).minicolors({
@@ -133,6 +150,7 @@
       $('.fontsize').on('blur keyup','input', function(e){
         if(e.type ==="keyup" && e.keyCode != 13) return;
         oEditor.setFontSize($(e.target).val() + 'px');
+        e.preventDefault();
       });
 
       $('.underline').click(function(){
