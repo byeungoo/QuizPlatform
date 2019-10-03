@@ -86,6 +86,7 @@ public class PostController {
      */
     @RequestMapping(value = "/fileUploadTest", method = RequestMethod.GET)
     public String formTest(HttpSession session, HttpServletRequest request) throws Exception{
+    	
     	logger.debug(servletContext.getRealPath("/"));
 
         return "form";
