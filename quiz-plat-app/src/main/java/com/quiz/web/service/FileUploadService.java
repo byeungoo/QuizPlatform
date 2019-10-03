@@ -4,11 +4,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileUploadService {
+	
+	@Autowired private ServletContext servletContext;
+	
 	// 리눅스 기준으로 파일 경로를 작성 ( 루트 경로인 /으로 시작한다. )
 	// 윈도우라면 workspace의 드라이브를 파악하여 JVM이 알아서 처리해준다.
 	// 따라서 workspace가 C드라이브에 있다면 C드라이브에 upload 폴더를 생성해 놓아야 한다.
@@ -70,7 +76,8 @@ public class FileUploadService {
 		boolean result = false;
 
 		byte[] data = multipartFile.getBytes();
-		FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + saveFileName);
+		String realPath = servletContext.getRealPath("/");
+		FileOutputStream fos = new FileOutputStream(realPath + SAVE_PATH + "/" + saveFileName);
 		fos.write(data);
 		fos.close();
 		
