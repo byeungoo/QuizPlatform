@@ -95,4 +95,9 @@ public class WritingDtlDao {
     	sqlSession.update(Namespace+".reportWritingApply");
     }
     
+    //게시글 이미지 파일 추가
+    public void insertWritingImgFile(WritingDtlDto writingDtlDto) throws Exception{
+    	sqlSession.insert(Namespace+".insertWritingImgFile", writingDtlDto);
+    }
+    
 }

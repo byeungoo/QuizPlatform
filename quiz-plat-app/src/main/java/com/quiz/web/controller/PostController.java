@@ -46,9 +46,6 @@ public class PostController {
 	@Autowired
 	FileUploadService fileUploadService;
 	
-	@Autowired private ServletContext servletContext;
-
-	
     /*
      ** 글작성 페이지 이동
      */
@@ -64,7 +61,7 @@ public class PostController {
     @CrossOrigin
     @Transactional
     @RequestMapping(value="/writePost", method = RequestMethod.POST)
-    public @ResponseBody WritingDtlDto insertWrite(HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
+    public @ResponseBody WritingDtlDto insertWrite(HttpServletRequest request, WritingDtlDto writingDtlDto, @RequestParam("title_img_file") MultipartFile title_img_file) throws Exception{
     	
     	HttpSession   session           = request.getSession();
     	
@@ -75,9 +72,13 @@ public class PostController {
     	
     	writingDtlDto.setQues_type_div_cd(ques_type_div_cd);
     	writingDtlDto.setUser_id(userDto.getUser_id());
-
-    	writingDtlDto = writingDtlService.insertWritingDtl(writingDtlDto);
     	
+    	String title_img_path = fileUploadService.restore(title_img_file);
+    	
+    	writingDtlDto.setTitle_img_path(title_img_path);
+    	
+    	writingDtlDto = writingDtlService.insertWritingDtl(writingDtlDto);
+    	  	
     	return writingDtlDto;
     }
 	
@@ -87,13 +88,11 @@ public class PostController {
     @RequestMapping(value = "/fileUploadTest", method = RequestMethod.GET)
     public String formTest(HttpSession session, HttpServletRequest request) throws Exception{
     	
-    	logger.debug(servletContext.getRealPath("/"));
-
         return "form";
     }
   
     /*
-     ** 파일업로드
+     ** 파일업로드 테스트
      */
 	@RequestMapping( "/upload" )
 	public String upload(Model model, @RequestParam("file1") MultipartFile file) {

@@ -359,7 +359,7 @@
 					WHERE  1 = 1
 				    AND    C.WRITING_NO = W.WRITING_NO
 				) SUM_COMMENT
-		FROM    WRITING W
+		FROM    WRITING_IMG_PATH WIP RIGHT OUTER JOIN WRITING W ON WIP.WRITING_NO = W.WRITING_NO
 		WHERE   1 = 1
 		AND     W.USE_YN     = 'Y'
 		AND		W.WRITING_NO = #{writing_no}
@@ -438,5 +438,11 @@
 								   WHERE T.COUNT >= 5
     						   )
     </update>
+    
+    <insert id="insertWritingImgFile" parameterType="writingDtlDto">
+    	/* com.quiz.mapper.writingDtlMapper.insertWritingImgFile */
+    	INSERT INTO WRITING_IMG_PATH(WRITING_NO, TITLE_IMG_PATH, REGPE_ID, REG_DTS, MODPE_ID, MOD_DTS) 
+    	VALUES(#{writing_no}, #{title_img_path}, #{user_id}, now(), #{user_id}, now())
+    </insert>
     
 </mapper>
