@@ -79,8 +79,8 @@
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
-    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY)
-    	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary})
+    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY)
+    	VALUES(#{ques_type_div_cd}, #{content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary})
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>

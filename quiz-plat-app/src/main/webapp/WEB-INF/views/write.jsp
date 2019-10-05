@@ -75,8 +75,8 @@
       var data = new FormData(form);
       var summaryBlob = new Blob([oEditorSum.getHTML()], { type: "text/xml" });
       var contentBlob = new Blob([oEditorConts.getHTML()], { type: "text/xml" });
-      data.append('summary', summaryBlob);
-      data.append('content', contentBlob);
+      data.append('summary_file', summaryBlob);
+      data.append('content_file', contentBlob);
       console.log("전송할 데이터 \n", ...data);
 
       
