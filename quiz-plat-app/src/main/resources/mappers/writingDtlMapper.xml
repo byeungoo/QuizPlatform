@@ -14,20 +14,20 @@
 			FROM   (
 					SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 					      , W.WRITING_NO
-					      , W.FIR_WRIT_CONTENT
-					      , W.SEC_WRIT_CONTENT
+					      , W.TITLE
 					      , W.FIR_VOTE_NO
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+					      , WIP.TITLE_IMG_PATH
 					      , (
 						       SELECT COUNT(C.WRITING_NO)
 						       FROM   COMMENT C
 						       WHERE  1 = 1
 						       AND    C.WRITING_NO = W.WRITING_NO
 						    ) SUM_COMMENT
-						  , WV.VOTE  
 						  , W.REGPE_ID
-					FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
+						  , W.REG_DTS
+					FROM    WRITING_IMG_PATH WIP RIGHT OUTER JOIN WRITING W ON WIP.WRITING_NO = W.WRITING_NO
 						  , ( SELECT @ROWNUM := 0 ) R
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
