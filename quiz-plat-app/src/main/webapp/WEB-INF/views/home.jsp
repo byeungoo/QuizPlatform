@@ -61,7 +61,7 @@
                 <span class="crd_vote">투표 <span class="count">1.2k</span></span>
               </div>
             </div>
-            <div class="crd_tit">Cho Kuk, do you approve of the appointment?</div>
+            <p class="crd_tit">한글만 공백없이 썼을때 29자 까지 가능합니다. 한글만 공백없이 ㅋ</p>
           </div>
         </li>
         <li class="crd">
@@ -82,7 +82,7 @@
                 <span class="crd_vote">투표 <span class="count">1.2k</span></span>
               </div>
             </div>
-            <div class="crd_tit">조국 법무부 장관 임명, 찬성하십니까?</div>
+            <p class="crd_tit">조국 법무부 장관 임명, 찬성하십니까?</p>
           </div>
         </li>
       </ul>
