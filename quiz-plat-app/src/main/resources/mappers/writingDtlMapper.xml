@@ -14,20 +14,20 @@
 			FROM   (
 					SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 					      , W.WRITING_NO
-					      , W.FIR_WRIT_CONTENT
-					      , W.SEC_WRIT_CONTENT
+					      , W.TITLE
 					      , W.FIR_VOTE_NO
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+					      , WIP.TITLE_IMG_PATH
 					      , (
 						       SELECT COUNT(C.WRITING_NO)
 						       FROM   COMMENT C
 						       WHERE  1 = 1
 						       AND    C.WRITING_NO = W.WRITING_NO
 						    ) SUM_COMMENT
-						  , WV.VOTE  
 						  , W.REGPE_ID
-					FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
+						  , W.REG_DTS
+					FROM    WRITING_IMG_PATH WIP RIGHT OUTER JOIN WRITING W ON WIP.WRITING_NO = W.WRITING_NO
 						  , ( SELECT @ROWNUM := 0 ) R
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
@@ -79,8 +79,8 @@
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
-    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY)
-    	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary})
+    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY)
+    	VALUES(#{ques_type_div_cd}, #{content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary})
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>

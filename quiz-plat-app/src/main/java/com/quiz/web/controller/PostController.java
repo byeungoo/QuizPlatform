@@ -61,24 +61,33 @@ public class PostController {
     @CrossOrigin
     @Transactional
     @RequestMapping(value="/writePost", method = RequestMethod.POST)
-    public @ResponseBody WritingDtlDto insertWrite(HttpServletRequest request, WritingDtlDto writingDtlDto, @RequestParam("title_img_file") MultipartFile title_img_file) throws Exception{
+    public @ResponseBody WritingDtlDto insertWrite(HttpServletRequest request, WritingDtlDto writingDtlDto, @RequestParam("title_img_file") MultipartFile title_img_file
+    		, @RequestParam("content_file") MultipartFile content_file, @RequestParam("summary_file") MultipartFile summary_file) throws Exception{
     	
-    	HttpSession   session           = request.getSession();
+    	HttpSession   session = request.getSession();
     	
     	//유저정보 획득
     	UserDto userDto = userService.getUesrSettingDto(session, request);
     		
-    	String        ques_type_div_cd  = "10"; //텍스트 게시글 구분 코드 세팅
+    	String ques_type_div_cd  = "10"; //텍스트 게시글 구분 코드 세팅
     	
     	writingDtlDto.setQues_type_div_cd(ques_type_div_cd);
     	writingDtlDto.setUser_id(userDto.getUser_id());
     	
+    	//요약, 본문 데이터 세팅
+    	String content = new String(content_file.getBytes());
+    	String summary = new String(summary_file.getBytes());
+    	writingDtlDto.setContent(content);
+    	writingDtlDto.setSummary(summary);
+    	
+    	//서버에 파일 업로드
     	String title_img_path = fileUploadService.restore(title_img_file);
     	
+    	//이미지 경로 세팅
     	writingDtlDto.setTitle_img_path(title_img_path);
     	
     	writingDtlDto = writingDtlService.insertWritingDtl(writingDtlDto);
-    	  	
+    	
     	return writingDtlDto;
     }
 	
