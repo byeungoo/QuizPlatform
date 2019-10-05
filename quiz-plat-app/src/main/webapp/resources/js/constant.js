@@ -10,7 +10,7 @@ var URL_CREATE_COMMENT = URL_BASE + "writeComment";
 var URL_CREATE_COMPLAIN = URL_BASE + "reportWriting";
 var URL_CREATE_MEMBER = URL_BASE + "enroll";
 var URL_CREATE_SESSION = URL_BASE + "login";
-var URL_CREATE_VOTE = URL_BASE + "writePost";
+var URL_CREATE_POST = URL_BASE + "writePost";
 
 var URL_UPDATE_VOTECOUNT = URL_BASE + "vote";
 var URL_UPDATE_RECOMCOUNT = URL_BASE + "commentPreferUpdate";
