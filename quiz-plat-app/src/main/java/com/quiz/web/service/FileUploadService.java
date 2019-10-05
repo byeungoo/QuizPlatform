@@ -12,8 +12,8 @@ public class FileUploadService {
 	// 리눅스 기준으로 파일 경로를 작성 ( 루트 경로인 /으로 시작한다. )
 	// 윈도우라면 workspace의 드라이브를 파악하여 JVM이 알아서 처리해준다.
 	// 따라서 workspace가 C드라이브에 있다면 C드라이브에 upload 폴더를 생성해 놓아야 한다.
-	private static final String SAVE_PATH = "/home/ubuntu/tomcat8/webapps/upload";
-	private static final String PREFIX_URL = "/upload/";
+	private static final String SAVE_PATH = "/upload";
+	private static final String PREFIX_URL = "/home/ubuntu/tomcat8/webapps";
 	
 	public String restore(MultipartFile multipartFile) {
 		String url = null;
@@ -70,7 +70,7 @@ public class FileUploadService {
 		boolean result = false;
 
 		byte[] data = multipartFile.getBytes();
-		FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + saveFileName);
+		FileOutputStream fos = new FileOutputStream(PREFIX_URL + SAVE_PATH + "/" + saveFileName);
 		fos.write(data);
 		fos.close();
 		
