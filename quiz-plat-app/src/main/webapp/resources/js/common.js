@@ -369,7 +369,7 @@ ssj.view.infiniteScroll.prototype = {
     this.headerWrap = $('.home_header_navlist');
   },
   _attachEventHandler() {
-    $(window).scroll(this.onScroll.bind(this));
+    //$(window).scroll(this.onScroll.bind(this));
   },
   onScroll() {
     if (this.shouldTrigger() && !this.pending && !this.getCurrentSavedDatas().isEnded) {
