@@ -49,7 +49,7 @@
             </span>
           </div>
           <div class="crd_img">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Jo_Guk_%282017-05%29.jpg" alt="카드이미지">
+            <span class="img" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/5/5f/Jo_Guk_%282017-05%29.jpg);" alt="카드이미지">
           </div>
           <div class="crd_conts">
             <div class="crd_infos">
@@ -70,7 +70,7 @@
             <span class="ic_sm"><img src="resources/img/new@2x.png" alt="new"></span>
           </div>
           <div class="crd_img">
-            <img src="https://mn.kbs.co.kr/data/news/2019/10/03/4295796_180.jpg" alt="카드이미지">
+            <span class="img" style="background-image:url('https://mn.kbs.co.kr/data/news/2019/10/03/4295796_180.jpg')" alt="카드이미지">
           </div>
           <div class="crd_conts">
             <div class="crd_infos">

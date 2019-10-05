@@ -335,7 +335,7 @@ $(function () {
     })
   }
 
-  oSsjViewInfinite = new ssj.view.infiniteScroll();
+  //oSsjViewInfinite = new ssj.view.infiniteScroll();
   //인피니티 스크롤 : 탭 전환시 스크롤 위치 기억
   $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
     $('.main-sec__list').show();
