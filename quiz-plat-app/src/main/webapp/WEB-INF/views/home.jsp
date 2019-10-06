@@ -197,7 +197,29 @@
       </div>
     </div>
   </div>-->
-  
+  <script id='cardTmpl' type="text/x-jsrender">
+    <li class="crd">
+      <div class="crd_stat">
+        <span class="ic_sm"><img src="resources/img/hot@2x.png" alt="hot"></span>
+        <span class="ic_sm"><img src="resources/img/new@2x.png" alt="new"></span>
+      </div>
+      <div class="crd_img">
+        <span class="img" style="background-image:url('{{:title_img_path}}')" alt="카드이미지">
+      </div>
+      <div class="crd_conts">
+        <div class="crd_infos">
+          <div class="left">
+            <span class="crd_time">{{:reg_dts}}</span>
+          </div>
+          <div class="right">
+            <span class="crd_comment">댓글 <span class="count">{{:sum_comment}}</span></span>
+            <span class="crd_vote">투표 <span class="count">{{:sum_vote}}</span></span>
+          </div>
+        </div>
+        <p class="crd_tit">{{:title}}</p>
+      </div>
+    </li>
+  </script>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>
