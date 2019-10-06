@@ -46,6 +46,9 @@ public class PostController {
 	@Autowired
 	FileUploadService fileUploadService;
 	
+	@Autowired 
+	private ServletContext servletContext;
+	
     /*
      ** 글작성 페이지 이동
      */
@@ -65,6 +68,7 @@ public class PostController {
     		, @RequestParam("content_file") MultipartFile content_file, @RequestParam("summary_file") MultipartFile summary_file) throws Exception{
     	
     	HttpSession   session = request.getSession();
+    	logger.debug(servletContext.getRealPath("/"));
     	
     	//유저정보 획득
     	UserDto userDto = userService.getUesrSettingDto(session, request);
@@ -98,6 +102,15 @@ public class PostController {
     public String formTest(HttpSession session, HttpServletRequest request) throws Exception{
     	
         return "form";
+    }
+    
+    /*
+     ** 파일업로드 결과 테스트 페이지 이동
+     */
+    @RequestMapping(value = "/uploadResult", method = RequestMethod.GET)
+    public String uploadResult(HttpSession session, HttpServletRequest request) throws Exception{
+    	
+        return "uploadResult";
     }
   
     /*
