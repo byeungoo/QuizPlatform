@@ -324,19 +324,93 @@ $(function () {
     e.preventDefault();
   });
 
-  window.onpopstate = function (e) {
-    var $body = $('body');
-    $body.find('.iframe_wrapper').remove();
-    $body.find('header').show();
-    $body.find('.wrapper').show();
-    $body.find('footer').show();
-    isLogin().then(login => {
-      setLoginIcon(login);
-    })
+  // window.onpopstate = function (e) {
+  //   var $body = $('body');
+  //   $body.find('.iframe_wrapper').remove();
+  //   $body.find('header').show();
+  //   $body.find('.wrapper').show();
+  //   $body.find('footer').show();
+  //   isLogin().then(login => {
+  //     setLoginIcon(login);
+  //   })
+  // }
+
+  ssj.view.infiniteScroll = function (options) {
+    $.extend(this, options);
+    this.init();
   }
 
+  ssj.view.infiniteScroll.prototype = {
+    init() {
+      this._assignElements();
+      this._attachEventHandler();
+      this._initVar();
+    },
+    _initVar() {
+      this.loading = false;
+      this.url = URL_READ_MAIN_CARD_DATA;
+      this.tmplId = ID_TMPL_MAIN_CARD;
+      this.page = 1;
+    },
+    _assignElements() {
+      this.$cardList = $('.crdlst');
+    },
+    _attachEventHandler() {
+      $(window).scroll(this.onScroll.bind(this));
+    },
+    onScroll() {
+      if (this.shouldTrigger() && !this.loading && !this.bEnded) {
+        this.loading = true;
+        const data = this._makeRequestData();
+
+        this.loadData(this.url, data)
+          .then(cardData => {
+            
+              if(!cardData.length) {
+                this._setFull();
+                return;
+              }
+
+              this.appendCard(cardData);
+              this.loading = false;
+
+          }).catch(e => {
+              console.log(e);
+          });
+
+      }
+    },
+    _makeRequestData() {
+      return { mainCategory: 1, page: this.page };
+    },
+    loadData(url, data) {
+      return new Promise((resolve, reject) => {
+        $.get({
+          url, data,
+          success: function (data) { resolve(data) },
+          error: function (e) { reject(e) }
+        });
+      });
+    },
+    appendCard(json) {
+      console.log(json);
+      var tmpl = $.templates(this.tmplId);
+      var html = tmpl.render(json);
+      this.$cardList.append(html);
+      this.page++;
+    },
+    shouldTrigger() {
+      var winH = $(window).height();
+      var docH = $(document).height();
+      var winTop = $(window).scrollTop();
+      return Math.ceil(winTop) >= docH - winH;
+    },
+    _setFull() {
+      this.bEnded = true;
+    }
+  }
   oSsjViewInfinite = new ssj.view.infiniteScroll();
-  //인피니티 스크롤 : 탭 전환시 스크롤 위치 기억
+  
   $('.home_header_navlist').on('click', '.home_header_navitem', function (e) {
     $('.main-sec__list').show();
     $('.main-sec__searchlist').hide();

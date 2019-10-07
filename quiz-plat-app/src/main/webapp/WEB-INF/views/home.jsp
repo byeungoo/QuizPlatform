@@ -10,6 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>닥전닥후(pickvs.com)</title>
   <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/home.css">
   <link rel="stylesheet" href="resources/css/keyframes.css">
   <link rel="icon" href="resources/img/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="resources/css/pageTransitions.css">
@@ -34,42 +35,63 @@
 
 <body>
   <header class="home_header">
-    <ul class="home_header_navlist">
-      <li class="home_header_navitem on" value="0">인기</li>
-      <li class="home_header_navitem" value="1">신규</li>
-      <li class="home_header_navitem" value="2">활동</li>
-    </ul>
-    <div class="row_scroll">
-      <div class="mypage" style="display:none;">
-        <button type="button" class="mypage_myvote rdo_toggle" value="2">내가 투표한 글</button>
-        <button type="button" class="mypage_mycomment rdo_toggle" value="3">내가 댓글단 글</button>
-        <button type="button" class="mypage_mycomment rdo_toggle" value="4">내 게시글</button>
-      </div>
-    </div>
   </header>
   <div class="wrapper m-scene">
     <section class="main-sec">
-      <ul class="main-sec__list">
-      </ul>
-      <ul class="main-sec__searchlist">
-        
+      <ul class="crdlst">
+        <li class="crd">
+          <div class="crd_stat">
+            <span class="ic_sm">
+              <img src="resources/img/hot@2x.png" alt="hot">
+            </span>
+            <span class="ic_sm">
+              <img src="resources/img/new@2x.png" alt="new">
+            </span>
+          </div>
+          <div class="crd_img">
+            <span class="img" style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/5/5f/Jo_Guk_%282017-05%29.jpg);" alt="카드이미지">
+          </div>
+          <div class="crd_conts">
+            <div class="crd_infos">
+              <div class="left">
+                <span class="crd_time">2019.11.27 21:01:22</span>
+              </div>
+              <div class="right">
+                <span class="crd_comment">댓글 <span class="count">200</span></span>
+                <span class="crd_vote">투표 <span class="count">1.2k</span></span>
+              </div>
+            </div>
+            <p class="crd_tit">한글만 공백없이 썼을때 29자 까지 가능합니다. 한글만 공백없이 ㅋ</p>
+          </div>
+        </li>
+        <li class="crd">
+          <div class="crd_stat">
+            <span class="ic_sm"><img src="resources/img/hot@2x.png" alt="hot"></span>
+            <span class="ic_sm"><img src="resources/img/new@2x.png" alt="new"></span>
+          </div>
+          <div class="crd_img">
+            <span class="img" style="background-image:url('https://mn.kbs.co.kr/data/news/2019/10/03/4295796_180.jpg')" alt="카드이미지">
+          </div>
+          <div class="crd_conts">
+            <div class="crd_infos">
+              <div class="left">
+                <span class="crd_time">2019.11.27 21:01:22</span>
+              </div>
+              <div class="right">
+                <span class="crd_comment">댓글 <span class="count">200</span></span>
+                <span class="crd_vote">투표 <span class="count">1.2k</span></span>
+              </div>
+            </div>
+            <p class="crd_tit">조국 법무부 장관 임명, 찬성하십니까?</p>
+          </div>
+        </li>
       </ul>
     </section>
   </div>
   <footer>
-    <div class="bottom_navbar">
-      <button type="button" class="bottom_navbaritem sp42 search ">
-      </button>
-      <button type="button" class="bottom_navbaritem sp42 plus">
-      </button>
-      <button type="button" class="bottom_navbaritem sp42 lock ">
-      </button>
-      <button type="button" class="bottom_navbaritem sp42 person" style="display:none;">
-      </button>
-    </div>
   </footer>
 
-  <!-- 회원 가입 모달창-->
+  <!-- 회원 가입 모달창
   <a href="#join" id="join_trigger" class="blind" rel="leanModal">회원가입창</a>
   <div class="modal" id="join" style="display:none;left:10px;right:10px;top:100px;">
     <form id="_join_form">
@@ -101,9 +123,9 @@
       </div>
       <button type="button" class="modal_close ico_close"></button>
     </form>
-  </div>
+  </div>-->
 
-  <!-- 로그인 모달창-->
+  <!-- 로그인 모달창
   <a href="#login" id="login_trigger" class="blind" rel="leanModal">로그인창</a>
   <div class="modal" id="login" style="display:none;left:10px;right:10px;top:100px;">
     <form id="_login_form">
@@ -132,9 +154,9 @@
       </div>
       <button type="button" class="modal_close ico_close"></button>
     </form>
-  </div>
+  </div>-->
 
-  <!-- 검색창 -->
+  <!-- 검색창 
   <a href="#_searchbar" id="_searchbar_trigger" class="blind" rel="leanModal">검색창</a>
   <div class="modal ty_search" id="_searchbar" style="display:none;width:100vw; top:0;">
     <div class="modal_ctn">
@@ -144,9 +166,9 @@
       </div>
     </div>
     <button type="button" class="modal_close ico_close blind"></button>
-  </div>
+  </div>-->
 
-  <!-- 글작성창-->
+  <!-- 글작성창
   <a href="#_write" id="_write_trigger" class="blind" rel="leanModal">글작성창</a>
   <div class="modal ty2" id="_write" style="display:none; top:5vh">
     <div class="modal_ctn">
@@ -174,33 +196,30 @@
         <button type="button" class="modal_close ico_close" style="top:21px;right:25px;"></button>
       </div>
     </div>
-  </div>
-
-
-  <script id="cardTmpl" type="text/jsrender">
-    <li class="main-sec__list-item">
-      <a href="/DevPickVs/detail?writing_no={{:writing_no}}">
-        <div class="card">
-            <div class="card__info-wrap">
-              <div class="card__info-area">
-                <span class="sp00 vote"></span>
-                <span class="card__icon-desc font_blue">{{:sum_vote}}</span>
-              </div>
-              <div class="card__info-area">
-                <span class="sp00 comment yellow"></span>
-                <span class="card__icon-desc font_yellow">{{:sum_comment}}</span>
-              </div>
-            </div>
-            <span class="card__desc ellipsis">{{:fir_writ_content}}</span>
-            <div class="card__vsimg">
-              <span class="sp00 vs"></span>
-            </div>
-            <span class="card__desc ellipsis">{{:sec_writ_content}}</span>
+  </div>-->
+  <script id='cardTmpl' type="text/x-jsrender">
+    <li class="crd">
+      <div class="crd_stat">
+        <span class="ic_sm"><img src="resources/img/hot@2x.png" alt="hot"></span>
+        <span class="ic_sm"><img src="resources/img/new@2x.png" alt="new"></span>
+      </div>
+      <div class="crd_img">
+        <span class="img" style="background-image:url('{{:title_img_path}}')" alt="카드이미지">
+      </div>
+      <div class="crd_conts">
+        <div class="crd_infos">
+          <div class="left">
+            <span class="crd_time">{{:reg_dts}}</span>
+          </div>
+          <div class="right">
+            <span class="crd_comment">댓글 <span class="count">{{:sum_comment}}</span></span>
+            <span class="crd_vote">투표 <span class="count">{{:sum_vote}}</span></span>
+          </div>
         </div>
-      </a>
+        <p class="crd_tit">{{:title}}</p>
+      </div>
     </li>
   </script>
-  
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/smoothState.js"></script>
   <script src="resources/js/common.js"></script>

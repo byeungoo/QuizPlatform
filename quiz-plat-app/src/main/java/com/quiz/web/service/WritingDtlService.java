@@ -96,8 +96,10 @@ public class WritingDtlService {
     	try {
     		writingDtlDao.insertWritingDtl(writingDtlDto);
     		writingDtlDao.insertWritingImgFile(writingDtlDto);
-    		writingDtlDto = writingDtlDao.getMainWritingDtlDto(writingDtlDto); //작성한 게시글 정보 조회
     		
+        	//성공시 success is true
+        	writingDtlDto.setSuccess(true);
+        	
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
     	}

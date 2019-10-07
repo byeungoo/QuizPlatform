@@ -34,12 +34,12 @@
 </head>
 <body>
 
-  <form onsubmit="">
+  <form>
     <p class="title">제목</p>
-    <input type="text" class="write_tit">
+    <input type="text" class="write_tit" name="title">
     <p class="title">툴팁</p>
     <div class="btnarea">
-      <input type="file" id="inp_image">
+      <input type="file" id="inp_image" name="title_img_file">
     </div>
     <div class="btnarea">
       <p>폰트</p>
@@ -57,14 +57,45 @@
     <p class="title">요약</p>
     <div class="write_cont ty_summary"></div>
     <p class="title">본문</p>
-    <div class="write_cont"></div>
+    <div class="write_cont ty_contents"></div>
     <button class="submit">제출</button>
   </form>
 
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="resources/js/squire.js"></script>
   <script src="resources/js/jquery.minicolors.min.js"></script>
+  <script src="resources/js/constant.js"></script>
   <script type="text/javascript">
+    $("form").submit(function (e) {
+      e.preventDefault(); 
+      var form = $(this).get(0);
+      var url = URL_CREATE_POST;
+      var btnSubmit = $('button.submit');
+
+      var data = new FormData(form);
+      var summaryBlob = new Blob([oEditorSum.getHTML()], { type: "text/xml" });
+      var contentBlob = new Blob([oEditorConts.getHTML()], { type: "text/xml" });
+      data.append('summary_file', summaryBlob);
+      data.append('content_file', contentBlob);
+      console.log("전송할 데이터 \n", ...data);
+
+      
+
+      btnSubmit.prop('disabled',true);
+
+      $.ajax({
+        type: "POST", url, data,
+        enctype: 'multipart/form-data', 
+        processData: false, contentType: false, cache: false,
+        success: function (data) {
+          debugger;
+        },
+        done: function(data) {
+          btnSubmit.prop('disabled', false);
+        }
+      });
+
+    });
     function toggleBold(){
       const bold = $(this).data('bold');
       bold ? oEditor.bold() : oEditor.removeBold();
