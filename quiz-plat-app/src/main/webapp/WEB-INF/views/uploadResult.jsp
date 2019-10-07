@@ -11,7 +11,7 @@
 <div class="result-images">
 	<img src="${pageContext.request.contextPath }" style="width:150px">
 	<img src="${url}" style="width:150px">
-	<img src="../upload/2019960341662" style="width:150px">
+	<img src="../upload/2019960341662.jpg" style="width:150px">
 </div>
 </body>
 </html>
