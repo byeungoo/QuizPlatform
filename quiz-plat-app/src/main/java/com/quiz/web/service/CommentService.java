@@ -30,6 +30,7 @@ public class CommentService {
 			commentDao.insertComment(commentDto);
 		}  catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	} 
 	}
 	
@@ -134,6 +135,7 @@ public class CommentService {
 			commentPrefer.setSum_prefer(sumPrefer);
 		} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	} 
 		
 		return commentPrefer;
@@ -151,6 +153,7 @@ public class CommentService {
     		commentDto.setSuccess(true);
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return commentDto;

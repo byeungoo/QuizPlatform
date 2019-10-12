@@ -109,4 +109,15 @@ public class MainController {
         return "test22";
     }
     
+    /*
+     ** 트랜잭션 테스트
+     */
+    @RequestMapping(value = "/insertTestNickname", method = RequestMethod.GET)
+    public @ResponseBody String insertTestNickname(HttpSession session, HttpServletRequest request) throws Exception{
+    	
+    	userService.insertTestNickname();
+    	
+        return "test22";
+    }
+    
 }

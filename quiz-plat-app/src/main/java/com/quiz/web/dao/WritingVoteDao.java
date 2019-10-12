@@ -19,15 +19,15 @@ public class WritingVoteDao {
     
     private static final String Namespace = "com.quiz.mapper.writingVoteDtlMapper";
     
-    public WritingVoteDto getWritingVoteDto(ParamDto paramDto) throws Exception {
+    public WritingVoteDto getWritingVoteDto(ParamDto paramDto){
         return sqlSession.selectOne(Namespace+".getWritingVoteDto", paramDto);
     }
     
-    public void insertWritingVoteDto(ParamDto paramDto) throws Exception {
+    public void insertWritingVoteDto(ParamDto paramDto){
     	sqlSession.insert(Namespace+".insertWritingVoteDto", paramDto);
     }
     
-    public String chekVote(WritingVoteDto writingVoteDto) throws Exception {
+    public String chekVote(WritingVoteDto writingVoteDto){
     	return sqlSession.selectOne(Namespace+".chekVote", writingVoteDto);
     }
 }

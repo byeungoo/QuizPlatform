@@ -86,6 +86,7 @@ public class WritingDtlService {
         	}
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     }
     
@@ -102,6 +103,7 @@ public class WritingDtlService {
         	
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return writingDtlDto;
@@ -115,6 +117,7 @@ public class WritingDtlService {
     		writingDtlDao.updateHits(writing_no);
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     }
     
@@ -152,6 +155,7 @@ public class WritingDtlService {
     	} catch(Exception e) {
     		report = false;     //게시글 신고 실패
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return report;
@@ -169,6 +173,7 @@ public class WritingDtlService {
     	} catch(Exception e) {
     		isSuccess = false;     //게시글 신고 실패
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return isSuccess;
@@ -185,6 +190,7 @@ public class WritingDtlService {
 	   } catch(Exception e) {
    			isSuccess = false;     //게시글 신고 실패
    			System.err.println(e.getMessage());
+   			throw new RuntimeException(e);
    		} 
 	   
 	   return isSuccess;
