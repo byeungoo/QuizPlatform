@@ -49,7 +49,7 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(HttpSession session, HttpServletRequest request) throws Exception{
     	
-        return "home";
+        return "index";
     }
 
     /*
