@@ -188,8 +188,8 @@ textarea
 .main-sec{background-color:hsl(0, 0%, 94%);}
 /* icon */
 .ic_sm{display:inline-block;width:38px;height:18px;vertical-align:middle;}
-.ic_sm.ic_hot{background:url(/resources/img/hot@2x.png) no-repeat;}
-.ic_sm.ic_new{background:url(/resources/img/new@2x.png) no-repeat;}
+.ic_sm.ic_hot{background:url(/DevPickVs/resources/img/hot@2x.png) no-repeat;}
+.ic_sm.ic_new{background:url(/DevPickVs/resources/img/new@2x.png) no-repeat;}
 
 /* card */
 .crd{position:relative;display:block;width:340px;border-radius:16px;box-shadow: 0 8px 22px 0 rgba(0, 0, 0, 0.12);background:white;overflow:hidden;line-height:1.3;margin:auto;}
