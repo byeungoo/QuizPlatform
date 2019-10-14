@@ -69,7 +69,6 @@ public class DetailController {
     /*
      ** 상세 페이지 게시글 조회 비동기 처리 
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "getWritingDtlDto", method = RequestMethod.GET)
     public @ResponseBody WritingDtlDto getWritingDtlDto(HttpSession session, HttpServletRequest request
@@ -101,7 +100,6 @@ public class DetailController {
     /*
      ** 상세 페이지 비동기 처리 페이징 조회
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "getDetailDtoList", method = RequestMethod.GET)
     public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request
@@ -154,7 +152,6 @@ public class DetailController {
     /*
      ** 상세페이지 투표 비동기 처리
      */
-    @Transactional	
     @CrossOrigin
     @RequestMapping(value = "vote", method = RequestMethod.POST)
     public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="voteNum") int voteNum , @RequestParam(value="writingNo") int writingNo) throws Exception{
@@ -187,7 +184,6 @@ public class DetailController {
     /*
      ** 댓글 작성 비동기 처리
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
     public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") int writing_no
@@ -223,7 +219,6 @@ public class DetailController {
     /*
      ** 댓글 좋아요, 싫어요 업데이트
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "commentPreferUpdate", method = RequestMethod.POST)
     public @ResponseBody CommentPrefer commentPrefer(HttpSession session, HttpServletRequest request, @RequestParam(value="comment_no") int comment_no, @RequestParam(value="prefer") String prefer
@@ -250,7 +245,6 @@ public class DetailController {
     /*
      ** 신고하기 업데이트
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "reportWriting", method = RequestMethod.POST)
     public @ResponseBody boolean reportWriting(HttpSession session, HttpServletRequest request, ParamDto paramDto) throws Exception{
@@ -267,7 +261,6 @@ public class DetailController {
     /*
      ** 게시글 삭제하기, 사용여부만 'N'으로 설정
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "deleteWriting", method = RequestMethod.POST)
     public @ResponseBody boolean deleteWriting(HttpSession session, HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
@@ -284,7 +277,6 @@ public class DetailController {
     /*
      ** 댓글 삭제하기, 사용여부 'N' 변경
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "deleteComment", method = RequestMethod.POST)
     public @ResponseBody CommentDto deleteComment(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{

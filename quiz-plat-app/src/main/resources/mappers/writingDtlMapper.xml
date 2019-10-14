@@ -27,10 +27,12 @@
 						    ) SUM_COMMENT
 						  , W.REGPE_ID
 						  , W.REG_DTS
-					FROM    WRITING_IMG_PATH WIP RIGHT OUTER JOIN WRITING W ON WIP.WRITING_NO = W.WRITING_NO
+					FROM    WRITING W
+					      , WRITING_IMG_PATH WIP
 						  , ( SELECT @ROWNUM := 0 ) R
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
+					AND		WIP.WRITING_NO = W.WRITING_NO
 					ORDER BY W.REG_DTS DESC
 			       ) A
 			WHERE A.RNUM <=#{end}
@@ -43,8 +45,8 @@
     <select id="getTextWriting" parameterType="paramDto" resultType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.getTextWriting */
     	SELECT  W.WRITING_NO
-		      , W.FIR_WRIT_CONTENT
-      		  , W.SEC_WRIT_CONTENT
+		      , W.TITLE
+		      , WIP.TITLE_IMG_PATH
       		  , W.CONTENT
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
@@ -72,9 +74,11 @@
 			    ) AS REPORT
      	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
      	      , USER U
+     	      , WRITING_IMG_PATH WIP
      	WHERE   1 = 1
      	AND     W.WRITING_NO = #{writing_no}
      	AND		U.USER_ID    = W.REGPE_ID
+     	AND		WIP.WRITING_NO = W.WRITING_NO
     </select>
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
@@ -202,8 +206,8 @@
 						FROM   (
 								SELECT	W.WRITING_NO
 								      , W.CONTENT
-								      , W.FIR_WRIT_CONTENT
-								      , W.SEC_WRIT_CONTENT
+								      , W.TITLE
+								      , WIP.TITLE_IMG_PATH
 								      , W.FIR_VOTE_NO
 								      , W.SEC_VOTE_NO
 								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
@@ -217,6 +221,7 @@
 									  , W.REG_DTS
 									  , W.REGPE_ID
 								FROM    WRITING W 
+								      , WRITING_IMG_PATH WIP
 									  , USER U
 								WHERE   1 = 1
 								AND     W.USE_YN = 'Y'
@@ -227,6 +232,7 @@
 															WHERE  WV.USER_ID = #{user_id}
 											            )	
 								AND		U.USER_ID      = W.REGPE_ID
+								AND		WIP.WRITING_NO = W.WRITING_NO
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
 						WHERE 1 = 1

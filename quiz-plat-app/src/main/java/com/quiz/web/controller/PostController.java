@@ -62,7 +62,6 @@ public class PostController {
      ** 글작성
      */
     @CrossOrigin
-    @Transactional
     @RequestMapping(value="/writePost", method = RequestMethod.POST)
     public @ResponseBody WritingDtlDto insertWrite(HttpServletRequest request, WritingDtlDto writingDtlDto, @RequestParam("title_img_file") MultipartFile title_img_file
     		, @RequestParam("content_file") MultipartFile content_file, @RequestParam("summary_file") MultipartFile summary_file) throws Exception{
