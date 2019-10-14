@@ -1,4 +1,4 @@
-importScripts("/DevPickVs/resources/precache-manifest.68a38df463a3d837a52ea1b29c3ea165.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("/DevPickVs/resources/precache-manifest.a30c7b8634517e6b0e830d32c3f34cbc.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
@@ -20,6 +20,7 @@ workbox.routing.registerRoute(
     ]
   })
 );
+
 workbox.routing.registerRoute(new RegExp(`http://pickvs.com/(DevPickVs)?`), new workbox.strategies.NetworkFirst());
 
 workbox.routing.registerRoute(
@@ -35,4 +36,3 @@ workbox.routing.registerRoute(
       });
   }
 );
-
