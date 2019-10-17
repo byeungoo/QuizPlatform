@@ -189,8 +189,8 @@ section{display:none}
 /* icon */
 .main-sec{background-color:#f0f0f0;padding:88px 0;}
 .ic_sm{display:inline-block;width:38px;height:18px;vertical-align:middle;}
-.ic_sm.ic_hot{background:url(/DevPickVs/resources/img/hot@2x.png) no-repeat;}
-.ic_sm.ic_new{background:url(/DevPickVs/resources/img/new@2x.png) no-repeat;}
+.ic_sm.ic_hot{background:url(/DevPickVs/img/hot@2x.png) no-repeat;}
+.ic_sm.ic_new{background:url(/DevPickVs/img/new@2x.png) no-repeat;}
 
 /* card */
 .crd{position:relative;display:block;width:340px;border-radius:16px;box-shadow: 0 8px 22px 0 rgba(0, 0, 0, 0.12);
