@@ -98,26 +98,4 @@ public class MainController {
 
         return isSuccess;
     } 
-    
-    /*
-     ** 테스트 페이지
-     */    
-    @CrossOrigin
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public @ResponseBody String test(HttpSession session, HttpServletRequest request) throws Exception{
-    	
-        return "test22";
-    }
-    
-    /*
-     ** 트랜잭션 테스트
-     */
-    @RequestMapping(value = "/insertTestNickname", method = RequestMethod.GET)
-    public @ResponseBody String insertTestNickname(HttpSession session, HttpServletRequest request) throws Exception{
-    	
-    	userService.insertTestNickname();
-    	
-        return "test22";
-    }
-    
 }

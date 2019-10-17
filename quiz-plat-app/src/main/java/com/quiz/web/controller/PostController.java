@@ -93,34 +93,14 @@ public class PostController {
     	
     	return writingDtlDto;
     }
-	
-    /*
-     ** 파일업로드 테스트 페이지 이동
-     */
-    @RequestMapping(value = "/fileUploadTest", method = RequestMethod.GET)
-    public String formTest(HttpSession session, HttpServletRequest request) throws Exception{
-    	
-        return "form";
-    }
     
     /*
-     ** 파일업로드 결과 테스트 페이지 이동
+     ** 글작성 페이지 이동
      */
-    @RequestMapping(value = "/uploadResult", method = RequestMethod.GET)
-    public String uploadResult(HttpSession session, HttpServletRequest request) throws Exception{
+    @RequestMapping(value = "/kakaoShare", method = RequestMethod.GET)
+    public String kakaoShare(HttpSession session, HttpServletRequest request) throws Exception{
     	
-        return "uploadResult";
+        return "kakaoShare";
     }
-  
-    /*
-     ** 파일업로드 테스트
-     */
-	@RequestMapping( "/upload" )
-	public String upload(Model model, @RequestParam("file1") MultipartFile file) {
-			
-		String url = fileUploadService.restore(file);
-		model.addAttribute("url", url);
-		return "uploadResult";
-	}
     
 }
