@@ -1,4 +1,4 @@
-importScripts("/resources/precache-manifest.45bac5f38f8d97dd5522ce14d04d0c86.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("/resources/precache-manifest.45ad9d01fe66019955d16e2ee77ec71a.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
@@ -25,7 +25,7 @@ workbox.routing.registerRoute(new RegExp(`http://pickvs.com/(DevPickVs)?`), new 
 
 workbox.routing.registerRoute(
   ({ event }) => event.request.mode === 'navigate',
-  async () => {
+  async function() {
     return caches
       .match(workbox.precaching.getCacheKeyForURL(pageUrl))
       .then(response => {
