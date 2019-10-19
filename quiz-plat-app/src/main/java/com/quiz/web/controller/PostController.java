@@ -55,7 +55,7 @@ public class PostController {
     @RequestMapping(value = "/write", method = RequestMethod.GET)
     public String main(HttpSession session, HttpServletRequest request) throws Exception{
     	
-        return "write";
+        return "write/write";
     }
     
     /*
