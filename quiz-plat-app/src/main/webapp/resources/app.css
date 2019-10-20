@@ -132,6 +132,29 @@ label, select, button, textarea {
   .btn--cons {
     background-color: #ff2c5c; }
 
+.btnarea {
+  background: #f5f5f5; }
+  .btnarea--fixBottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+  .btnarea--row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 40px;
+    border-top: 1px solid #c7c7c7; }
+    .btnarea--row .btnarea_btn {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold; }
+    .btnarea--row .btnarea_btn + .btnarea_btn {
+      margin-left: 20px; }
+
 /* icon */
 .main-sec {
   background-color: #f0f0f0;
@@ -211,7 +234,7 @@ label, select, button, textarea {
 .detail-sec {
   display: none;
   background: white;
-  padding: 88px 0; }
+  padding: 88px 0 60px; }
   .detail-sec .crd {
     border-radius: 0;
     width: 100vw;
@@ -240,17 +263,18 @@ label, select, button, textarea {
   .contents_content {
     margin: 45px 0; }
 
-.content_header {
-  font-size: 17px;
-  color: #181818;
-  font-weight: bold;
-  margin-bottom: 10px; }
-
-.content_desc {
-  font-size: 17px;
-  color: #5c5c5c;
-  font-weight: normal;
-  line-height: 26px; }
+.content {
+  word-break: break-all; }
+  .content_header {
+    font-size: 17px;
+    color: #181818;
+    font-weight: bold;
+    margin-bottom: 10px; }
+  .content_desc {
+    font-size: 17px;
+    color: #5c5c5c;
+    font-weight: normal;
+    line-height: 26px; }
 
 .xfile {
   padding: 0 17px;
@@ -311,18 +335,4 @@ label, select, button, textarea {
     font-weight: bold; }
     .howthink_desc + .howthink_desc {
       margin-top: 10px; }
-  .howthink_btnarea {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 40px; }
-  .howthink_btn {
-    margin: 10px 0;
-    font-size: 16px;
-    color: #fff;
-    font-weight: bold; }
-    .howthink_btn + .howthink_btn {
-      margin-left: 20px; }
 
