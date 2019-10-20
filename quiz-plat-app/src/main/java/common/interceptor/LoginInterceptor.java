@@ -94,12 +94,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	     		nonUserDto.setNickname(nickname);
 	     		nonUserDto.setLogin(false);
 	     		
-	     		//비회원 정보 저장
-	     		userService.insertUser(nonUserDto);
-	     		session.setAttribute("login", nonUserDto);
-	            
-	     		//쿠키값 디비 저장
-	            userService.keepLogin(session.getId(), session.getId(),  calendar.getTime());
+	     		//가입된 회원이 없을 경우
+	     		if(userService.chekUserId(nonUserDto) == 0) {
+	     			//비회원 정보 저장
+	     			userService.insertUser(nonUserDto);
+	     			session.setAttribute("login", nonUserDto);
+	     			
+		     		//쿠키값 디비 저장
+		            userService.keepLogin(session.getId(), session.getId(),  calendar.getTime());
+	     		}
 	        	
 	        	/*
 	        	if(normalUserDto!=null && normalUserDto.isLogin() == true) { //기억하기 없이 로그인되어있는 상태일 경우
