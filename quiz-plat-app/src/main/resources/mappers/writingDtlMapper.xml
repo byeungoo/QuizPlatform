@@ -15,9 +15,6 @@
 					SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 					      , W.WRITING_NO
 					      , W.TITLE
-					      , W.FIR_WRIT_CONTENT
-					      , W.SEC_WRIT_CONTENT
-					      , W.FACT_CONTENT
 					      , W.FIR_VOTE_NO
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
@@ -49,6 +46,10 @@
     	/* com.quiz.mapper.writingDtlMapper.getTextWriting */
     	SELECT  W.WRITING_NO
 		      , W.TITLE
+		      , W.FIR_WRIT_CONTENT
+		      , W.SEC_WRIT_CONTENT
+		      , W.FACT_CONTENT
+		      , W.SUMMARY
 		      , WIP.TITLE_IMG_PATH
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
@@ -212,6 +213,7 @@
 					                  , W.FIR_WRIT_CONTENT
 					                  , W.SEC_WRIT_CONTENT
 					                  , W.FACT_CONTENT
+					                  , W.SUMMARY
 								      , WIP.TITLE_IMG_PATH
 								      , W.FIR_VOTE_NO
 								      , W.SEC_VOTE_NO
