@@ -14,6 +14,7 @@ public class WritingDtlDto {
 	private String content;           //본문 내용
 	private String fir_writ_content;  //첫번째 투표 내용 
 	private String sec_writ_content;  //두번째 투표 내용
+	private String fact_content;      //팩트 체크 정보
 	private String title_img_path;    //제목 이미지 경로
 	private String user_id;           //유저아이디
 	private String regpe_id;          //등록자
@@ -206,5 +207,11 @@ public class WritingDtlDto {
 	}
 	public void setTitle_img_path(String title_img_path) {
 		this.title_img_path = title_img_path;
+	}
+	public String getFact_content() {
+		return fact_content;
+	}
+	public void setFact_content(String fact_content) {
+		this.fact_content = fact_content;
 	}
 }

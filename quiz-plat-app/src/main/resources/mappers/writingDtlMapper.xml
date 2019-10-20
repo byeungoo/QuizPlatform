@@ -15,6 +15,9 @@
 					SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 					      , W.WRITING_NO
 					      , W.TITLE
+					      , W.FIR_WRIT_CONTENT
+					      , W.SEC_WRIT_CONTENT
+					      , W.FACT_CONTENT
 					      , W.FIR_VOTE_NO
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
@@ -47,7 +50,6 @@
     	SELECT  W.WRITING_NO
 		      , W.TITLE
 		      , WIP.TITLE_IMG_PATH
-      		  , W.CONTENT
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
       		  , W.REG_DTS
@@ -83,8 +85,9 @@
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
-    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY)
-    	VALUES(#{ques_type_div_cd}, #{content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary})
+    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO
+    						, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY, FACT_CONTENT)
+    	VALUES(#{ques_type_div_cd}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary}, #{fact_content})
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>
@@ -205,8 +208,10 @@
 						      , ROUND((T.SEC_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 						FROM   (
 								SELECT	W.WRITING_NO
-								      , W.CONTENT
 								      , W.TITLE
+					                  , W.FIR_WRIT_CONTENT
+					                  , W.SEC_WRIT_CONTENT
+					                  , W.FACT_CONTENT
 								      , WIP.TITLE_IMG_PATH
 								      , W.FIR_VOTE_NO
 								      , W.SEC_VOTE_NO

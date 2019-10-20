@@ -64,7 +64,8 @@ public class PostController {
     @CrossOrigin
     @RequestMapping(value="/writePost", method = RequestMethod.POST)
     public @ResponseBody WritingDtlDto insertWrite(HttpServletRequest request, WritingDtlDto writingDtlDto, @RequestParam("title_img_file") MultipartFile title_img_file
-    		, @RequestParam("content_file") MultipartFile content_file, @RequestParam("summary_file") MultipartFile summary_file) throws Exception{
+    		, @RequestParam("summary_file") MultipartFile summary_file, @RequestParam("pros_file") MultipartFile pros_file
+    		, @RequestParam("cons_file") MultipartFile cons_file      , @RequestParam("fact_file") MultipartFile fact_file) throws Exception{
     	
     	HttpSession   session = request.getSession();
     	logger.debug(servletContext.getRealPath("/"));
@@ -77,11 +78,15 @@ public class PostController {
     	writingDtlDto.setQues_type_div_cd(ques_type_div_cd);
     	writingDtlDto.setUser_id(userDto.getUser_id());
     	
-    	//요약, 본문 데이터 세팅
-    	String content = new String(content_file.getBytes());
+    	//요약, 본문, 찬성의견, 반대의견 데이터 세팅
     	String summary = new String(summary_file.getBytes());
-    	writingDtlDto.setContent(content);
+    	String fir_writ_content = new String(pros_file.getBytes());
+    	String sec_writ_content = new String(cons_file.getBytes());
+    	String fact_content     = new String(fact_file.getBytes());
     	writingDtlDto.setSummary(summary);
+    	writingDtlDto.setFir_writ_content(fir_writ_content);
+    	writingDtlDto.setSec_writ_content(sec_writ_content);
+    	writingDtlDto.setFact_content(fact_content);
     	
     	//서버에 파일 업로드
     	String title_img_path = fileUploadService.restore(title_img_file);
