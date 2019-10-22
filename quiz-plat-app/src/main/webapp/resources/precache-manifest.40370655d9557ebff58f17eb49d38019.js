@@ -1,11 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c444f602cc7297173533",
+    "revision": "3747e8fa75bf6cf45b60",
     "url": "/resources/app.bundle.js"
   },
   {
-    "revision": "c444f602cc7297173533",
+    "revision": "3747e8fa75bf6cf45b60",
     "url": "/resources/app.css"
+  },
+  {
+    "revision": "a53d1a798a00b3ac907dbb33211a1895",
+    "url": "/resources/img/agree@2x.png"
+  },
+  {
+    "revision": "55a0a450114a2701245888d32a56f53a",
+    "url": "/resources/img/disagree@2x.png"
   },
   {
     "revision": "38230fecd04026181cc7d8b121409eda",
@@ -32,11 +40,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resources/vendors.bundle.js"
   },
   {
-    "revision": "61bdd1d57d9aa41786d0",
+    "revision": "be54bc421c052c42c0a1",
     "url": "/resources/write.bundle.js"
   },
   {
-    "revision": "61bdd1d57d9aa41786d0",
+    "revision": "be54bc421c052c42c0a1",
     "url": "/resources/write.css"
   }
 ]);

@@ -82,6 +82,54 @@ label, select, button, textarea {
   /* Browsers have different default form fonts */
   font-size: 13px; }
 
+.modal {
+  display: none; }
+  .modal--fix {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 3000;
+    padding-top: 50px;
+    background-color: rgba(0, 0, 0, 0.7); }
+    .modal--fix .modal_header {
+      font-size: 18px;
+      color: #c7c7c7;
+      font-weight: bold;
+      position: relative;
+      background: #fff;
+      height: 45px;
+      line-height: 45px;
+      padding: 0 15px;
+      text-align: center;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px; }
+    .modal--fix .modal_conts {
+      background: #fff;
+      height: 100%; }
+    .modal--fix .modal_close {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-60%);
+      display: inline-block;
+      width: 18px;
+      height: 18px; }
+      .modal--fix .modal_close:before, .modal--fix .modal_close:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        top: 50%;
+        left: 0;
+        bottom: 0;
+        background-color: #181818; }
+      .modal--fix .modal_close:before {
+        transform: rotate(45deg); }
+      .modal--fix .modal_close:after {
+        transform: rotate(-45deg); }
+
 .list {
   counter-reset: list; }
   .list_item {
@@ -184,6 +232,30 @@ label, select, button, textarea {
   margin: auto; }
   .crd + .crd {
     margin-top: 28px; }
+  .crd--pros, .crd--cons {
+    position: relative; }
+    .crd--pros .crd_img:before, .crd--cons .crd_img:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6); }
+    .crd--pros .crd_img:after, .crd--cons .crd_img:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 184px;
+      height: 80px; }
+  .crd--pros .crd_img:after {
+    background: url(/resources/img/agree@2x.png) no-repeat;
+    background-size: 100% 100%; }
+  .crd--cons .crd_img:after {
+    background: url(/resources/img/disagree@2x.png) no-repeat;
+    background-size: 100% 100%; }
 
 .crd_stat {
   display: flex;
@@ -275,7 +347,7 @@ label, select, button, textarea {
     font-size: 17px;
     color: #5c5c5c;
     font-weight: normal;
-    line-height: 26px; }
+    line-height: 1.3; }
 
 .xfile {
   padding: 0 17px;
