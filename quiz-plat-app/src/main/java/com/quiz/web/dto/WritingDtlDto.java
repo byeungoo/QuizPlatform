@@ -15,6 +15,7 @@ public class WritingDtlDto {
 	private String fir_writ_content;  //첫번째 투표 내용 
 	private String sec_writ_content;  //두번째 투표 내용
 	private String fact_content;      //팩트 체크 정보
+	private String fact_link;         //팩트링크 정보
 	private String title_img_path;    //제목 이미지 경로
 	private String user_id;           //유저아이디
 	private String regpe_id;          //등록자
@@ -213,5 +214,11 @@ public class WritingDtlDto {
 	}
 	public void setFact_content(String fact_content) {
 		this.fact_content = fact_content;
+	}
+	public String getFact_link() {
+		return fact_link;
+	}
+	public void setFact_link(String fact_link) {
+		this.fact_link = fact_link;
 	}
 }

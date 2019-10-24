@@ -49,6 +49,7 @@
 		      , W.FIR_WRIT_CONTENT
 		      , W.SEC_WRIT_CONTENT
 		      , W.FACT_CONTENT
+		      , W.FACT_LINK
 		      , W.SUMMARY
 		      , WIP.TITLE_IMG_PATH
       		  , W.FIR_VOTE_NO
@@ -86,9 +87,38 @@
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
-    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO
-    						, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS, TITLE, SUMMARY, FACT_CONTENT)
-    	VALUES(#{ques_type_div_cd}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0, #{title}, #{summary}, #{fact_content})
+    	INSERT INTO WRITING(
+    						   , QUES_TYPE_DIV_CD
+    						   , FIR_WRIT_CONTENT
+    						   , SEC_WRIT_CONTENT
+    						   , FIR_VOTE_NO
+    						   , SEC_VOTE_NO
+    						   , REGPE_ID
+    						   , MODPE_ID
+    						   , REG_DTS
+    						   , MOD_DTS
+    						   , HITS
+    						   , TITLE
+    						   , SUMMARY
+    						   , FACT_CONTENT
+    						   , FACT_LINK
+    				       )
+    			     VALUES(
+    			                 #{ques_type_div_cd}
+    			               , #{fir_writ_content}
+    			               , #{sec_writ_content}
+    			               , 0
+    			               , 0
+    			               , #{user_id}
+    			               , #{user_id}
+    			               , now()
+    			               , now()
+    			               , 0
+    			               , #{title}
+    			               , #{summary}
+    			               , #{fact_content}
+    			               , #{fact_link}
+    			            )
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>
@@ -220,6 +250,7 @@
 					                  , W.FIR_WRIT_CONTENT
 					                  , W.SEC_WRIT_CONTENT
 					                  , W.FACT_CONTENT
+					                  , W.FACT_LINK
 					                  , W.SUMMARY
 								      , WIP.TITLE_IMG_PATH
 								      , W.FIR_VOTE_NO

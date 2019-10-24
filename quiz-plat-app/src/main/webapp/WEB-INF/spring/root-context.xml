@@ -37,11 +37,8 @@
     </bean>
     
     <!-- bean 등록 -->
-    <context:component-scan base-package="com.quiz.web.dto"></context:component-scan>
     <context:component-scan base-package="com.quiz.web.dao"></context:component-scan>
     <context:component-scan base-package="com.quiz.web.service"></context:component-scan>
-    <context:component-scan base-package="common.search.dto"></context:component-scan>
-    <context:component-scan base-package="common.search.dao"></context:component-scan>
-    <context:component-scan base-package="common.search.service"></context:component-scan>
+
  
 </beans>

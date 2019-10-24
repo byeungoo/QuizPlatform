@@ -60,6 +60,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	         		String nickname = userService.getNickname();
 	         		//userService.updateNickname(nickname);
 	         		
+	         		//항상 쿠키 로그인 기반으로 로그인 되도록 설정
+					int cookieMaxTime = 28*24*60*60; // 쿠키 만료 시간 지정
+					
+					cookie = new Cookie("remember", session.getId());
+					cookie.setPath("/"); //모든 경로에서 접근 가능하도록 세팅
+					cookie.setMaxAge(cookieMaxTime);
+		            response.addCookie(cookie); 
+		            
+		            Calendar calendar = Calendar.getInstance();
+		            Date now = new Date();
+		            calendar.add(Calendar.SECOND, cookieMaxTime);
+	         		
 	         		//세션이 처음 연결될 경우 비회원 유저 정보 생성
 	         		nonUserDto.setUser_id(session.toString());
 	         		nonUserDto.setReg_div_cd("20");
@@ -70,9 +82,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	         		//비회원 정보 저장
 	         		if(userService.chekUserId(nonUserDto) == 0) {
 	         			userService.insertUser(nonUserDto);
-	         			session.setAttribute("login", nonUserDto);
 	         			logger.info("비회원 삽입 완료");
 	         		}
+	         		
+	         		session.setAttribute("login", nonUserDto);
+		     		//쿠키값 디비 저장
+		            userService.keepLogin(session.toString(), session.getId(),  calendar.getTime());
 	         	}
 	        } else { //쿠키값이 없을 경우
 	        	
@@ -104,43 +119,27 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	     		if(userService.chekUserId(nonUserDto) == 0) {
 	     			//비회원 정보 저장
 	     			userService.insertUser(nonUserDto);
-	     			session.setAttribute("login", nonUserDto);
-	     			
-		     		//쿠키값 디비 저장
-		            userService.keepLogin(session.getId(), session.getId(),  calendar.getTime());
 	     		}
+	     		
+	     		session.setAttribute("login", nonUserDto);
+	     		//쿠키값 디비 저장
+	            userService.keepLogin(session.toString(), session.getId(),  calendar.getTime());
 	        	
-	        	/*
-	        	if(normalUserDto!=null && normalUserDto.isLogin() == true) { //기억하기 없이 로그인되어있는 상태일 경우
-	        		session.setAttribute("login", normalUserDto);
-	        	} else if(nonUserDto != null) {  //현재 세션 연결중(비회원 로그인상태로 간주)
-	        		nonUserDto.setLogin(false);
-	         		session.setAttribute("login", nonUserDto); 
-	         	} else { //비회원 회원가입 및 비회원 로그인 정보 세팅
-	         		
-	         		nonUserDto = new UserDto();
-	         		
-	         		//서버로부터 닉네임 받아오고, 사용여부 'N' 업데이트
-	         		String nickname = userService.getNickname();
-	         		//userService.updateNickname(nickname);
-	         		
-	         		//세션이 처음 연결될 경우 비회원 유저 정보 생성
-	         		nonUserDto.setUser_id(session.toString());
-	         		nonUserDto.setReg_div_cd("20");
-	         		nonUserDto.setNickname(nickname);
-	         		
-	         		nonUserDto.setLogin(false);
-	         		
-	         		//비회원 정보 저장
-	         		userService.insertUser(nonUserDto);
-	         		session.setAttribute("login", nonUserDto);
-	         	}
-	         	*/
 	        }
         } catch(Exception e) {
         	System.err.println(e.getMessage());
     		throw new RuntimeException(e);
         }
+        
+        String requestURI = request.getRequestURI();
+        
+        /*
+        if(!"/".equals(requestURI)) {
+        	response.sendRedirect("/");
+        	response.addHeader("requestURI", requestURI);
+        	return false;
+        }
+        */
         
         return true;
     }
