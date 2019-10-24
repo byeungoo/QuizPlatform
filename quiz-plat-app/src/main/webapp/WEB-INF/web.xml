@@ -40,6 +40,7 @@
 	
 	<!-- This is Filter -->
 	<filter>
+		<!-- encoding -->
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
@@ -50,15 +51,24 @@
 		<!-- CORS -->
 		<filter-name>cors</filter-name>
     	<filter-class>common.SimpleCORSFilter</filter-class>
+    	
+    	 <!-- XSS 방어 -->
+    	 <filter-name>xssEscapeServletFilter</filter-name>
+    	 <filter-class>com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
+		<!-- encoding -->
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		
 		<!-- CORS -->
 		<filter-name>cors</filter-name>
         <url-pattern>/*</url-pattern>
+        
+        <!-- XSS 방어 -->
+    	<filter-name>xssEscapeServletFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
 	
