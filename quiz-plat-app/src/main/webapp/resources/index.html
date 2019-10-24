@@ -187,77 +187,150 @@
       </a>
     </li>
   </script>
-  <script src="resources/js/constant.js"></script>
-<script id="page_detail" type="text/x-jsrender">
-   <div class="crd">
-    <div class="crd_stat">
-     <span class="ic_sm ic_hot"></span>
-     <span class="ic_sm ic_new"></span>
+  <script id="page_detail" type="text/x-jsrender">
+    <div class="crd">
+        <div class="crd_stat">
+            <span class="ic_sm ic_hot"></span>
+            <span class="ic_sm ic_new"></span>
+        </div>
+        <div class="crd_img">
+            <span class="img" style="background-image:url(http://pickvs.com{{:title_img_path}});" alt="이미지">
+            </span>
+        </div>
+        <div class="crd_conts">
+            <div class="crd_infos">
+                <div class="left">
+                    <span class="crd_time">{{:reg_dts}}</span>
+                </div>
+                <div class="right">
+                    <span class="crd_comment">댓글 <span class="count">{{:sum_vote}}</span></span>
+                    <span class="crd_vote">투표 <span class="count">{{:sum_comment}}</span></span>
+                </div>
+            </div>
+            <p class="crd_tit">{{:title}}</p>
+        </div>
     </div>
-    <div class="crd_img">
-     <span class="img" style="background-image:url(http://pickvs.com{{:title_img_path}});" alt="이미지">
-     </span>
+
+    <div class="contents ty_after detail-sec_contents">
+        <section class="vote-result vote-result--pros">
+            <header class="vote-result_header">
+                <h1 class="vote-result_tit">찬성 <span class="count">30</span>%</h1>
+                <p class="vote-result_subtit">
+                    <span class="total">1,320</span>명 중 <span class="current">396</span>명
+                </p>
+            </header>
+            <div class="vote-result_progbar"></div>
+        </section>
+
+        <button type="button" class="expand-detail contents_expand-detail">
+            <span class="expand-detail_tit">본문 펼치기</span>
+            <i class="expand-detail_arrow"></i>
+        </button>
+
+        <ul class="comment-bestlist">
+            <section class="comment comment--pros">
+                <header class="comment_header">
+                    <p class="comment_headerwrap">
+                        <span class="comment_nick">아이디최대길이알파베타감마15</span>
+                        <span class="comment_refcnt">820</span>
+                    </p>
+                    <span class="comment_badge">BEST</span>
+                </header>
+                <section class="comment_subheader">
+                    <p class="comment_optionwrap">
+                        <span class="comment_option">정시 확대</span>
+                        <span class="comment_option">수시 확대</span>
+                    </p>
+                </section>
+                <section class="comment_contents">
+                    <p class="comment_maintx">
+                        댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔
+                    </p>
+                </section>
+                <footer class="comment_footer">
+                    <time class="comment_time">2019.11.28 23:30:20</time>
+                </footer>
+            </section>
+
+            <section class="comment comment--cons">
+                <header class="comment_header">
+                    <p class="comment_headerwrap">
+                        <span class="comment_nick">아이디최대길이알파베타감마15</span>
+                        <span class="comment_refcnt">820</span>
+                    </p>
+                    <span class="comment_badge">BEST</span>
+                </header>
+                <section class="comment_subheader">
+                    <p class="comment_optionwrap">
+                        <span class="comment_option">정시 확대</span>
+                        <span class="comment_option">수시 확대</span>
+                    </p>
+                </section>
+                <section class="comment_contents">
+                    <p class="comment_maintx">
+                        댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔
+                    </p>
+                </section>
+                <footer class="comment_footer">
+                    <time class="comment_time">2019.11.28 23:30:20</time>
+                </footer>
+            </section>
+        </ul>
+
+        <ul class="comment-list">
+            <li class="comment-item"></li>
+        </ul>
+
+
     </div>
-    <div class="crd_conts">
-     <div class="crd_infos">
-      <div class="left">
-       <span class="crd_time">{{:reg_dts}}</span>
-      </div>
-      <div class="right">
-       <span class="crd_comment">댓글 <span class="count">{{:sum_vote}}</span></span>
-       <span class="crd_vote">투표 <span class="count">{{:sum_comment}}</span></span>
-      </div>
-     </div>
-     <p class="crd_tit">{{:title}}</p>
+
+   <div class="contents ty_before detail-sec_contents">
+        <section class="content contents_content">
+            <header class="content_header">
+                <h1 class="content_title">요약</h1>
+            </header>
+            {{:summary}}
+        </section>
+    
+        <section class="content contents_content">
+            <header class="content_header">
+                <h1 class="content_title">찬성의견</h1>
+            </header>
+            <ul class="list list--pros">
+                {{:fir_writ_content}}
+            </ul>
+        </section>
+    
+    
+        <section class="content contents_content">
+            <header class="content_header">
+                <h1 class="content_title">반대의견</h1>
+            </header>
+            <ul class="list list--cons">
+                {{:sec_writ_content}}
+            </ul>
+        </section>
+
+        <section class="xfile contents_xfile">
+            <header class="xfile_header">
+                <p class="xfile_subtit">신중한 당신을 위해</p>
+                <h1 class="xfile_tit">4개의 X파일</h1>
+            </header>
+            <ul class="list list--fillgray list--ellipsis xfile_list">
+            </ul>
+        </section>
+
     </div>
-   </div>
-   <div class="contents">
-  
-    <section class="content contents_content">
-     <header class="content_header">
-      <h1 class="content_title">요약</h1>
-     </header>
-     {{:summary}}
+
+    <section class="howthink">
+        <figure class="howthink_figure">
+            <span class="howthink_img"></span>
+            <figcaption class="howthink_figcap">
+                <p class="howthink_desc">다른 사람들은 어떻게 생각할까요?</p>
+                <p class="howthink_desc">투표 후 결과를 확인해보세요!</p>
+            </figcaption>
+        </figure>
     </section>
-  
-    <section class="content contents_content">
-     <header class="content_header">
-      <h1 class="content_title">찬성의견</h1>
-     </header>
-     <ul class="list list--pros">
-       {{:fir_writ_content}}
-     </ul>
-    </section>
-  
-  
-    <section class="content contents_content">
-     <header class="content_header">
-      <h1 class="content_title">반대의견</h1>
-     </header>
-     <ul class="list list--cons">
-       {{:sec_writ_content}}
-     </ul>
-    </section>
-   </div>
-  
-   <section class="xfile">
-    <header class="xfile_header">
-     <p class="xfile_subtit">신중한 당신을 위해</p>
-     <h1 class="xfile_tit">4개의 X파일</h1>
-    </header>
-    <ul class="list list--fillgray list--ellipsis xfile_list">
-    </ul>
-   </section>
-  
-   <section class="howthink">
-    <figure class="howthink_figure">
-     <span class="howthink_img"></span>
-     <figcaption class="howthink_figcap">
-      <p class="howthink_desc">다른 사람들은 어떻게 생각할까요?</p>
-      <p class="howthink_desc">투표 후 결과를 확인해보세요!</p>
-     </figcaption>
-    </figure>
-   </section>
 
    <div class="btnarea btnarea--fixBottom btnarea--row prosandcons">
     <button class="btn btn--size_s btn--oval btn--pros btnarea_btn" type="button">찬성</button>
