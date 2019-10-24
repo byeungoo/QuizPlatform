@@ -62,7 +62,7 @@
 	</filter-mapping>
 	
 	
-	<!-- 싱글페이지 앱 url 직접 접근시 404error. 404가 error 시 루트로 매핑해주고 프론트에서 url과 api를 이용한처리-->
+	<!-- 싱글페이지 앱 url 직접 접근시 404error. 404가 error 시 루트로 forward해주고 프론트에서 url과 api를 이용한처리-->
 	<error-page>
     	<error-code>404</error-code>
     	<location>/resources/index.html</location>
