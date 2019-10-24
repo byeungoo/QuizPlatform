@@ -34,7 +34,7 @@ public class WritingDtlDto {
 	private int    sec_vote_perc;     //두번째 투표 퍼센트
 	private int    vote_diff;         //투표율 차이
 	private boolean report;           //0:신고x, 1:신고
-	private Integer vote;             // 위 컨텐츠 투표시 1, 아래 컨텐츠 투표 시 2, 투표값 없으면 null
+	private Integer vote;             // 찬성1, 반대2, 투표값 없으면 null
 	private List<CommentDto> detailCommentList; //댓글 리스트
 	private boolean isMine;           //내가 쓴 게시글일경우 true, 아니면 false
 	private boolean isSuccess;        //게시글 삭제 성공시 true, 실패시 false

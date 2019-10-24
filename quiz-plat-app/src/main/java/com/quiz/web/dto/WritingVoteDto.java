@@ -5,17 +5,17 @@ import java.util.List;
 
 public class WritingVoteDto {
 
-	private int     writing_no;         //�Խñ� ��ȣ
-	private String  user_id;            //����ھ��̵�
-	private String  regpe_id;           //�ۼ���
-	private String  modpe_id;           //������
-	private Date    reg_dts;            //����Ͻ�
-	private Date    mod_dts;            //�����Ͻ�
-	private Integer vote;               //1�ϰ�� ���� ������, 2�ϰ�� �Ʒ� ������ ��ǥ
+	private int     writing_no;         //게시글 번호
+	private String  user_id;            //유저 아이디
+	private String  regpe_id;           //등록자
+	private String  modpe_id;           //변경자
+	private Date    reg_dts;            //등록일
+	private Date    mod_dts;            //변경일
+	private Integer vote;               //1: 찬성 투표, 2: 반대 투표
 	private int     fir_vote_no;
 	private int     sec_vote_no;
-	private Integer fir_vote_perc;      //ù��° ���� �ۼ�Ʈ
-	private Integer sec_vote_perc;      //�ι�° ���� �ۼ�Ʈ
+	private Integer fir_vote_perc;      //첫번째 투표 비율
+	private Integer sec_vote_perc;      //두번쨰 투표 비율
 	private List<Integer> voteNoArr;    //컨텐츠 투표 수 리스트
 	private List<Integer> votePerc;     //컨텐츠 투표 비율 리스트
 	private	int     totalVoteNum;       //총투표수 

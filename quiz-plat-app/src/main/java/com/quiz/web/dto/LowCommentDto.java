@@ -16,7 +16,7 @@ public class LowCommentDto {
 	private String nickname;           //닉네임
 	private int    depth;              //0: 댓글, 1:대댓글
 	private Integer parent;            //대댓글 상위 댓글 번호
-	private	Integer vote;              //1:첫번째 투표, 2:두번째투표
+	private	Integer vote;              //1:찬성, 2:반대
 	private int    sum_prefer;         //좋아요 - 싫어요 수 합
 	private boolean isMine;            //내가쓴 댓글일경우 true, 아니면 false
 	private String prefer;             //0:댓글좋아요, 1:댓글싫어요, null: 선호 선택x

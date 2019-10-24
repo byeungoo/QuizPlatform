@@ -121,11 +121,18 @@
 								      , W.REGPE_ID
 								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 								      , (
-									    SELECT COUNT(C.WRITING_NO)
-									    FROM   COMMENT C
-									    WHERE  1            = 1
-									    AND    C.WRITING_NO = W.WRITING_NO
-									) SUM_COMMENT
+									       SELECT COUNT(C.WRITING_NO)
+									       FROM   COMMENT C
+									       WHERE  1            = 1
+									       AND    C.WRITING_NO = W.WRITING_NO
+									    ) SUM_COMMENT
+									  , (
+									  	    SELECT WV.VOTE
+									  	    FROM   WRITING_VOTE WV
+									  	    WHERE  1 = 1
+									  	    AND	   WV.WRITING_NO
+									  	    AND    USER_ID = #{user_id} 
+									    ) VOTE
 								FROM    WRITING W
 								WHERE   1 = 1
 								AND     W.USE_YN = 'Y'

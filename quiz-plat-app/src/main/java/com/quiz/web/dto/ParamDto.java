@@ -4,7 +4,7 @@ public class ParamDto {
 	
 	private int     writing_no;  //게시글번호
 	private String  user_id;     //유저아이디
-	private Integer vote;        //1: 첫번쨰 컨텐츠 투표, 2: 두번째 컨텐츠 투표
+	private Integer vote;        //1: 찬성 투표, 2: 반대 투표
 	private int     depth;       //0: 댓글, 1: 대댓글
 	private Integer parent;      //대댓글 상위 댓글번호
 	private int     comment_no;  //댓글번호
