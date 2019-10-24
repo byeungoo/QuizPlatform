@@ -131,16 +131,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     		throw new RuntimeException(e);
         }
         
-        String requestURI = request.getRequestURI();
-        
-        /*
-        if(!"/".equals(requestURI)) {
-        	response.sendRedirect("/");
-        	response.addHeader("requestURI", requestURI);
-        	return false;
-        }
-        */
-        
         return true;
     }
 }
