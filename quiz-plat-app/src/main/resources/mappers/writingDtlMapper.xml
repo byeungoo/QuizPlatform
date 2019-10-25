@@ -88,7 +88,7 @@
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
     	INSERT INTO WRITING(
-    						   , QUES_TYPE_DIV_CD
+    						     QUES_TYPE_DIV_CD
     						   , FIR_WRIT_CONTENT
     						   , SEC_WRIT_CONTENT
     						   , FIR_VOTE_NO
