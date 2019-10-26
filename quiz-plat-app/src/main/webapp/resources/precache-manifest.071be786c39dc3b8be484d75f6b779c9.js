@@ -1,11 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c2e5592a74545a14e0b0",
+    "revision": "f6ec04d64b018f676b92",
     "url": "/resources/app.bundle.js"
-  },
-  {
-    "revision": "c2e5592a74545a14e0b0",
-    "url": "/resources/app.css"
   },
   {
     "revision": "a53d1a798a00b3ac907dbb33211a1895",
@@ -14,6 +10,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "55a0a450114a2701245888d32a56f53a",
     "url": "/resources/img/disagree@2x.png"
+  },
+  {
+    "revision": "b2c7f8c9156f1acb091a65e23c4126b8",
+    "url": "/resources/img/downbtn.svg"
   },
   {
     "revision": "38230fecd04026181cc7d8b121409eda",
@@ -32,6 +32,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resources/img/question@2x.png"
   },
   {
+    "revision": "b1d7982d64142c53112ce5a3bd9bf408",
+    "url": "/resources/img/replybtn.svg"
+  },
+  {
+    "revision": "6fb19a25bb061e0517448ddab4858426",
+    "url": "/resources/img/upbtn.svg"
+  },
+  {
     "revision": "cde4be54afa344c007cf",
     "url": "/resources/share.bundle.js"
   },
@@ -40,11 +48,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resources/vendors.bundle.js"
   },
   {
-    "revision": "fd67942a21d570986a6b",
+    "revision": "59545ab6466a92004198",
     "url": "/resources/write.bundle.js"
-  },
-  {
-    "revision": "fd67942a21d570986a6b",
-    "url": "/resources/write.css"
   }
 ]);
