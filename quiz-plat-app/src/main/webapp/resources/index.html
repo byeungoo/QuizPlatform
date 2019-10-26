@@ -34,10 +34,12 @@
     </section>
     <section class="detail-sec">
     </section>
-    <section class="modal modal--fix">
+    <section class="modal modal--fix" id="_modal_xfile">
     <header class="modal_header">
         <h1 class="modal_tit">X파일</h1>
-        <i class="modal_close"></i>
+        <button type="button" class="modal_close">
+            <i class="modal_close-icon"></i>
+        </button>
     </header>
     <div class="modal_conts">
         <iframe src="" frameborder="0" class="modal_iframe"></iframe>
@@ -287,7 +289,6 @@
    <div class="contents ty_before detail-sec_contents">
         <section class="content contents_content">
             <header class="content_header">
-                <h1 class="content_title">요약</h1>
             </header>
             {{:summary}}
         </section>
@@ -311,7 +312,7 @@
             </ul>
         </section>
 
-        <section class="xfile contents_xfile">
+        <section class="xfile contents_xfile" data-target-layer="#_modal_xfile">
             <header class="xfile_header">
                 <p class="xfile_subtit">신중한 당신을 위해</p>
                 <h1 class="xfile_tit">4개의 X파일</h1>
