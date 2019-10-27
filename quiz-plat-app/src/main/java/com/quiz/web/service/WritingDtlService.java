@@ -61,12 +61,10 @@ public class WritingDtlService {
     /*
      ** 게시글 1개 상세 조회
      */
-    public WritingDtlDto getWritingDtl(ParamDto paramDto) throws Exception{
-    	
-    	WritingDtlDto writingDtlDto = new WritingDtlDto();
+    public WritingDtlDto getWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	
     	try {
-    		writingDtlDto = writingDtlDao.getTextWriting(paramDto);
+    		writingDtlDto = writingDtlDao.getTextWriting(writingDtlDto);
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
     	}

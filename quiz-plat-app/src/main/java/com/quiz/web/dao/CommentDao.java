@@ -1,5 +1,8 @@
 package com.quiz.web.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -7,10 +10,6 @@ import com.quiz.web.dto.CommentDto;
 import com.quiz.web.dto.CommentPrefer;
 import com.quiz.web.dto.LowCommentDto;
 import com.quiz.web.dto.ParamDto;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
 
 @Repository
 public class CommentDao {
@@ -28,15 +27,15 @@ public class CommentDao {
 	/*
 	 ** 댓글 리스트 조회
 	 */
-	public List<CommentDto> getCommentDtoList(ParamDto paramDto){
-		return sqlSession.selectList(Namespace+".getCommentDtoList", paramDto);
+	public List<CommentDto> getCommentDtoList(CommentDto commentDto){
+		return sqlSession.selectList(Namespace+".getCommentDtoList", commentDto);
 	}
 	
 	/*
 	 ** 대댓글 리스트 조회 
 	 */
-	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto){
-		return sqlSession.selectList(Namespace+".getLowCommentDtoList", paramDto);
+	public List<LowCommentDto> getLowCommentDtoList(CommentDto paramComment){
+		return sqlSession.selectList(Namespace+".getLowCommentDtoList", paramComment);
 	}
 	
 	/*

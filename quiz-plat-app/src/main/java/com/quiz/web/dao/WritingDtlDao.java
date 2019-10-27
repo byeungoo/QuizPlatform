@@ -26,8 +26,8 @@ public class WritingDtlDao {
         return sqlSession.selectList(Namespace+".getTextWritingList", pagingDto);
     }
     
-    public WritingDtlDto getTextWriting(ParamDto paramDto){
-        return sqlSession.selectOne(Namespace+".getTextWriting", paramDto);
+    public WritingDtlDto getTextWriting(WritingDtlDto writingDtlDto){
+        return sqlSession.selectOne(Namespace+".getTextWriting", writingDtlDto);
     }
     
     //게시글 작성

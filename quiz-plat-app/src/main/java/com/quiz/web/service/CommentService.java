@@ -37,28 +37,38 @@ public class CommentService {
     /*
      ** 댓글 리스트 조회
      */
-	public List<CommentDto> getCommentDtoList (ParamDto paramDto, UserDto userDto) throws Exception{
+	public List<CommentDto> getCommentDtoList (CommentDto commentDto) throws Exception{
 		
 		List<CommentDto> commentDtoList = new ArrayList<CommentDto>();
 		
-		try {
+		try {	
+			//게시글 댓글 조회
+			commentDto.setDepth(0);
+			commentDto.setStart((commentDto.getPage_num()-1)*commentDto.getPage_size());
+			commentDto.setEnd(commentDto.getPage_num()*commentDto.getPage_size());
+			commentDtoList = commentDao.getCommentDtoList(commentDto);
 			
-			commentDtoList = commentDao.getCommentDtoList(paramDto);
-			
-		    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
-		    //대댓글 값 세팅
 		    for(CommentDto tempCommentDto : commentDtoList) {
+		    	
 		    	int sum_prefer = tempCommentDto.getRecom_num() - tempCommentDto.getHate_num();
-		    	tempCommentDto.setSum_prefer(sum_prefer);
-		    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
-		    	tempCommentDto.setLowCommentDtoList(getLowCommentDtoList(paramDto, userDto));
+		    	tempCommentDto.setSum_prefer(sum_prefer); //좋아요수 - 싫어요수 세팅
+		    	
+			    //각 댓글의 대댓글 세팅
+		    	CommentDto paramComment = new CommentDto();
+		    	
+		    	paramComment.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
+		    	paramComment.setUser_id(commentDto.getUser_id());        //유저아이디 세팅
+		    	paramComment.setWriting_no(commentDto.getWriting_no());  //게시글 번호 세팅
+		    	paramComment.setDepth(1); //대댓글 세팅
+		    	
+		    	tempCommentDto.setLowCommentDtoList(getLowCommentDtoList(paramComment));
 		    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size());  //대댓글 개수 세팅
 		    	
 		    	//내가 쓴 댓글인지 판단
-			    if(tempCommentDto.getRegpe_id().equals(userDto.getUser_id())) {
+			    if(tempCommentDto.getRegpe_id().equals(commentDto.getUser_id())) {
 			    	tempCommentDto.setMine(true);
 			    }
-		    	
+			    
 		    }
 		} catch(Exception e) {
     		System.err.println(e.getMessage());
@@ -70,13 +80,13 @@ public class CommentService {
     /*
      ** 대댓글 리스트 조회
      */
-	public List<LowCommentDto> getLowCommentDtoList(ParamDto paramDto, UserDto userDto) throws Exception{
+	public List<LowCommentDto> getLowCommentDtoList(CommentDto paramComment) throws Exception{
 		
 		List<LowCommentDto> lowCommentDtoList = new ArrayList<LowCommentDto>();
 		
 		try {
 			
-			lowCommentDtoList = commentDao.getLowCommentDtoList(paramDto);
+			lowCommentDtoList = commentDao.getLowCommentDtoList(paramComment);
 			
 			//좋아요-싫어요 수 세팅
 			for(LowCommentDto tempLowCommentDto : lowCommentDtoList) {
@@ -84,7 +94,7 @@ public class CommentService {
 				tempLowCommentDto.setSum_prefer(sum_prefer);
 				
 		    	//내가 쓴 댓글인지 판단
-			    if(tempLowCommentDto.getRegpe_id().equals(userDto.getUser_id())) {
+			    if(tempLowCommentDto.getRegpe_id().equals(paramComment.getUser_id())) {
 			    	tempLowCommentDto.setMine(true);
 			    }
 				
@@ -160,9 +170,19 @@ public class CommentService {
     }
     
     public List<CommentDto> getChildCommentList(CommentDto commentDto) throws Exception{
-    	
+    	List<CommentDto> commentDtoList = new ArrayList();
     	try {
-    		return commentDao.getChildCommentList(commentDto);
+    		
+    		commentDtoList = commentDao.getChildCommentList(commentDto);
+		    
+		    for(CommentDto tempCommentDto : commentDtoList) {
+		    	//내가 쓴 댓글인지 판단
+			    if(tempCommentDto.getRegpe_id().equals(commentDto.getUser_id())) {
+			    	tempCommentDto.setMine(true);
+			    }
+		    }
+		    
+		    return commentDtoList;
     	} catch(Exception e) {
     		throw new RuntimeException(e);
     	}

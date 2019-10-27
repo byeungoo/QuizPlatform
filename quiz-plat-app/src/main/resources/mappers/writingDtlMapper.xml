@@ -42,7 +42,7 @@
 		 ]]>
     </select>
     
-    <select id="getTextWriting" parameterType="paramDto" resultType="writingDtlDto">
+    <select id="getTextWriting" parameterType="writingDtlDto" resultType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.getTextWriting */
     	SELECT  W.WRITING_NO
 		      , W.TITLE
