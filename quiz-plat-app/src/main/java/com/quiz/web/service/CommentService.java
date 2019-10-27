@@ -158,4 +158,14 @@ public class CommentService {
     	
     	return commentDto;
     }
+    
+    public List<CommentDto> getChildCommentList(CommentDto commentDto) throws Exception{
+    	
+    	try {
+    		return commentDao.getChildCommentList(commentDto);
+    	} catch(Exception e) {
+    		throw new RuntimeException(e);
+    	}
+    	
+    }
 }

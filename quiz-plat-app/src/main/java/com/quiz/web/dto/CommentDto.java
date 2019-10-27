@@ -29,6 +29,7 @@ public class CommentDto {
 	private boolean isMine;            //내가 쓴 댓글일 경우 true, 아니면 false
 	private String prefer;             //0:댓글좋아요, 1:댓글싫어요, null: 선호 선택x
 	private String use_yn;             //댓글 사용여부
+	private String user_id;            //유저아이디
 	private boolean isSuccess;         //댓글 삭제 성공 여부
 	
 	public Integer getVote() {
@@ -150,5 +151,11 @@ public class CommentDto {
 	}
 	public void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 }

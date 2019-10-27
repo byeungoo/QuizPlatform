@@ -157,4 +157,31 @@
     	AND		COMMENT_NO  = #{comment_no}
     </update>
     
+    <select id="getChildCommentList" parameterType="commentDto" resultType="commentDto">
+        /* com.quiz.mapper.commentMapper.getChildCommentList */
+        SELECT  C.WRITING_NO
+              , C.COMMENT_NO
+              , C.PARENT
+              , C.COMMENT_CONTENT
+              , C.RECOM_NUM
+              , C.DEPTH
+              , (
+                    SELECT  CP.PREFER
+                    FROM    COMMENT_PREFER CP
+                    WHERE   1 = 1
+                    AND	CP.WRITING_NO = C.WRITING_NO
+					AND	CP.USER_ID    = C.REGPE_ID
+					AND	CP.COMMENT_NO = C.COMMENT_NO
+                ) PREFER
+              , U.NICKNAME
+              , C.REGPE_ID
+              , C.REG_DTS
+              , C.MOD_DTS
+		FROM	COMMENT C
+		      , USER U
+		WHERE	1 = 1
+		AND	C.PARENT   = #{comment_no}
+		AND	U.USER_ID  = C.REGPE_ID
+    </select>  
+    
 </mapper>

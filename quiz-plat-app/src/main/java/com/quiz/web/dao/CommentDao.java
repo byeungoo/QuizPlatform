@@ -74,4 +74,8 @@ public class CommentDao {
 	public void updateCommentUseYn(CommentDto commentDto){
 		sqlSession.update(Namespace+".updateCommentUseYn", commentDto);
 	}
+	
+	public List<CommentDto> getChildCommentList(CommentDto commentDto){
+		return sqlSession.selectList(Namespace+".getChildCommentList", commentDto);
+	}
 }
