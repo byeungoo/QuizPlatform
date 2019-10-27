@@ -236,6 +236,32 @@ public class DetailController {
     }
     
     /*
+     ** 댓글 좋아요, 싫어요 업데이트
+     */
+    @CrossOrigin
+    @RequestMapping(value = "commentPreferUpdate", method = RequestMethod.POST)
+    public @ResponseBody CommentPrefer commentPrefer(HttpSession session, HttpServletRequest request, @RequestParam(value="comment_no") int comment_no, @RequestParam(value="prefer") String prefer
+    		                                     , @RequestParam(value="writing_no") int writing_no) throws Exception{
+
+    	session    = request.getSession();
+    	
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	String  userId  = userDto.getUser_id();
+    	CommentPrefer commentPrefer = new CommentPrefer();
+    	commentPrefer.setWriting_no(writing_no);
+    	commentPrefer.setComment_no(comment_no);
+    	commentPrefer.setPrefer(prefer);
+    	commentPrefer.setUser_id(userId);
+    	
+    	try {
+	    	commentPrefer = commentService.commentPreferUpdate(commentPrefer);
+    	} catch(Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return commentPrefer;
+    }
+    
+    /*
      ** 신고하기 업데이트
      */
     @CrossOrigin
