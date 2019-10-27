@@ -1,17 +1,10 @@
 package com.quiz.web.dto;
 
-public class LoginCommand {
+public class LoginCommand extends BaseDto{
     
-    private String  user_id;
     private String  pwd;
     private boolean rememberId; //로그인 기억하기 flag
     
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
 	public String getPwd() {
 		return pwd;
 	}

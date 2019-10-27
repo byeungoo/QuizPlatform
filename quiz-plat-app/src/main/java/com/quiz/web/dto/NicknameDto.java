@@ -1,6 +1,6 @@
 package com.quiz.web.dto;
 
-public class NicknameDto {
+public class NicknameDto extends BaseDto{
 	private String nickname;
 
 	public String getNickname() {

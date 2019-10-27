@@ -2,17 +2,13 @@ package com.quiz.web.dto;
 
 import java.util.Date;
 
-public class LowCommentDto {
+public class LowCommentDto extends BaseDto{
 
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
 	private int    recom_num;          //좋아요수
 	private int    hate_num;           //싫어요수
-	private String regpe_id;           //등록자
-	private String modpe_id;           //변경자
-	private Date   reg_dts;            //등록일
-	private Date   mod_dts;            //변경일
 	private String nickname;           //닉네임
 	private int    depth;              //0: 댓글, 1:대댓글
 	private Integer parent;            //대댓글 상위 댓글 번호
@@ -52,30 +48,6 @@ public class LowCommentDto {
 	}
 	public void setComment_content(String comment_content) {
 		this.comment_content = comment_content;
-	}
-	public String getRegpe_id() {
-		return regpe_id;
-	}
-	public void setRegpe_id(String regpe_id) {
-		this.regpe_id = regpe_id;
-	}
-	public String getModpe_id() {
-		return modpe_id;
-	}
-	public void setModpe_id(String modpe_id) {
-		this.modpe_id = modpe_id;
-	}
-	public Date getReg_dts() {
-		return reg_dts;
-	}
-	public void setReg_dts(Date reg_dts) {
-		this.reg_dts = reg_dts;
-	}
-	public Date getMod_dts() {
-		return mod_dts;
-	}
-	public void setMod_dts(Date mod_dts) {
-		this.mod_dts = mod_dts;
 	}
 	public String getNickname() {
 		return nickname;

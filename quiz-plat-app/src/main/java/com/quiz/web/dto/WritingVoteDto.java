@@ -3,14 +3,9 @@ package com.quiz.web.dto;
 import java.util.Date;
 import java.util.List;
 
-public class WritingVoteDto {
+public class WritingVoteDto extends BaseDto{
 
 	private int     writing_no;         //게시글 번호
-	private String  user_id;            //유저 아이디
-	private String  regpe_id;           //등록자
-	private String  modpe_id;           //변경자
-	private Date    reg_dts;            //등록일
-	private Date    mod_dts;            //변경일
 	private Integer vote;               //1: 찬성 투표, 2: 반대 투표
 	private int     fir_vote_no;
 	private int     sec_vote_no;
@@ -25,36 +20,6 @@ public class WritingVoteDto {
 	}
 	public void setWriting_no(int writing_no) {
 		this.writing_no = writing_no;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
-	public String getRegpe_id() {
-		return regpe_id;
-	}
-	public void setRegpe_id(String regpe_id) {
-		this.regpe_id = regpe_id;
-	}
-	public String getModpe_id() {
-		return modpe_id;
-	}
-	public void setModpe_id(String modpe_id) {
-		this.modpe_id = modpe_id;
-	}
-	public Date getReg_dts() {
-		return reg_dts;
-	}
-	public void setReg_dts(Date reg_dts) {
-		this.reg_dts = reg_dts;
-	}
-	public Date getMod_dts() {
-		return mod_dts;
-	}
-	public void setMod_dts(Date mod_dts) {
-		this.mod_dts = mod_dts;
 	}
 	public Integer getVote() {
 		return vote;

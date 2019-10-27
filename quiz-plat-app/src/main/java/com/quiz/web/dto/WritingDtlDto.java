@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class WritingDtlDto {
+public class WritingDtlDto extends BaseDto{
 	
 	private int    writing_no;        //게시글번호
 	private String title;             //게시글 제목
@@ -17,14 +17,7 @@ public class WritingDtlDto {
 	private String fact_content;      //팩트 체크 정보
 	private String fact_link;         //팩트링크 정보
 	private String title_img_path;    //제목 이미지 경로
-	private String user_id;           //유저아이디
-	private String regpe_id;          //등록자
-	private String modpe_id;          //변경자
 	private String nickname;          //닉네임
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date   reg_dts;           //등록일
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date   mod_dts;           //변경일
 	private int    hits;              //조회수
 	private int    sum_vote;          //총 투표수
 	private int    sum_comment;       //총 댓글수
@@ -69,30 +62,6 @@ public class WritingDtlDto {
 	}
 	public void setSec_writ_content(String sec_writ_content) {
 		this.sec_writ_content = sec_writ_content;
-	}
-	public String getRegpe_id() {
-		return regpe_id;
-	}
-	public void setRegpe_id(String regpe_id) {
-		this.regpe_id = regpe_id;
-	}
-	public String getModpe_id() {
-		return modpe_id;
-	}
-	public void setModpe_id(String modpe_id) {
-		this.modpe_id = modpe_id;
-	}
-	public Date getReg_dts() {
-		return reg_dts;
-	}
-	public void setReg_dts(Date reg_dts) {
-		this.reg_dts = reg_dts;
-	}
-	public Date getMod_dts() {
-		return mod_dts;
-	}
-	public void setMod_dts(Date mod_dts) {
-		this.mod_dts = mod_dts;
 	}
 	public int getHits() {
 		return hits;
@@ -172,12 +141,6 @@ public class WritingDtlDto {
 	}
 	public void setReport(boolean report) {
 		this.report = report;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
 	}
 	public boolean isMine() {
 		return isMine;

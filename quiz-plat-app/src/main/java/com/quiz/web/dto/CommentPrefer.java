@@ -1,11 +1,10 @@
 package com.quiz.web.dto;
 
-public class CommentPrefer {
+public class CommentPrefer extends BaseDto{
 	private int    writing_no;
 	private int    comment_no;
 	private int    recom_num;
 	private int    hate_num;
-	private String user_id;
 	private String prefer;
 	private int    sum_prefer;  //좋아요 - 싫어요 수 합
 	private int    like;
@@ -39,12 +38,6 @@ public class CommentPrefer {
 	}
 	public void setHate_num(int hate_num) {
 		this.hate_num = hate_num;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
 	}
 	public String getPrefer() {
 		return prefer;
