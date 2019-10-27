@@ -97,7 +97,7 @@ public class DetailController {
     @CrossOrigin
     @RequestMapping(value = "getDetailDtoList", method = RequestMethod.GET)
     public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request
-    		                  , @RequestParam(value="page") int page, @RequestParam(value="writing_no") int writing_no) throws Exception{
+    		                  , @RequestParam(value="page_num") int page_num, @RequestParam(value="writing_no") int writing_no) throws Exception{
     	
     	session    = request.getSession();
     	  
@@ -107,7 +107,7 @@ public class DetailController {
         //페이징 정보 세팅
     	PagingDto pagingDto = new WritingDtlPagingDto();
     	pagingDto.setUser_id(user.getUser_id());
-    	pagingDto.setPage_num(page);
+    	pagingDto.setPage_num(page_num);
     	pagingDto.setPage_size(5);
         
     	WritingDtlPagingDto writingDtlPagingDto = (WritingDtlPagingDto) pagingDto;
