@@ -224,9 +224,13 @@ public class DetailController {
     @RequestMapping(value = "getChildCommentList", method = RequestMethod.GET)
     public @ResponseBody List<CommentDto> getChildCommentList(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{
     	
-    	List<CommentDto> commentDtoList = new ArrayList();
+    	//유저 아이디 세팅
+    	session    = request.getSession();
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	commentDto.setUser_id(userDto.getUser_id());
     	
-    	commentDtoList = commentService.getChildCommentList(commentDto);
+    	//대댓글 조회
+    	List<CommentDto> commentDtoList  = commentService.getChildCommentList(commentDto);
     	
     	return commentDtoList;
     }

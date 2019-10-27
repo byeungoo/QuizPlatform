@@ -164,15 +164,23 @@
               , C.PARENT
               , C.COMMENT_CONTENT
               , C.RECOM_NUM
+              , C.HATE_NUM
               , C.DEPTH
               , (
                     SELECT  CP.PREFER
                     FROM    COMMENT_PREFER CP
                     WHERE   1 = 1
                     AND	CP.WRITING_NO = C.WRITING_NO
-					AND	CP.USER_ID    = C.REGPE_ID
+					AND	CP.USER_ID    = #{user_id}
 					AND	CP.COMMENT_NO = C.COMMENT_NO
                 ) PREFER
+              , (
+                    SELECT  WV.VOTE
+                    FROM    WRITING_VOTE WV
+                    WHERE   1 = 1
+                    AND		WV.WRITING_NO = C.WRITING_NO
+                    AND		WV.USER_ID    = C.REGPE_ID
+                ) VOTE
               , U.NICKNAME
               , C.REGPE_ID
               , C.REG_DTS
@@ -181,7 +189,9 @@
 		      , USER U
 		WHERE	1 = 1
 		AND	C.PARENT   = #{comment_no}
+		AND C.USE_YN   = 'Y'
 		AND	U.USER_ID  = C.REGPE_ID
+		ORDER BY REG_DTS
     </select>  
     
 </mapper>
