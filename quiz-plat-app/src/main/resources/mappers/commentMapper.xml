@@ -61,7 +61,6 @@
                                         ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
                                       , ( SELECT @ROWNUM := 0 ) R
                                 WHERE 1 = 1
-                                ORDER BY A.REG_DTS ASC
                             ) B
                     WHERE	1 = 1
                     AND     B.RNUM <= #{end}
