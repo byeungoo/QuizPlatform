@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "df5f1a8acd5eb4db9c13",
+    "revision": "fb2d201e2aeba8f5c384",
     "url": "/resources/app.bundle.js"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resources/img/question@2x.png"
   },
   {
-    "revision": "cde4be54afa344c007cf",
+    "revision": "06911fa8768994f2e433",
     "url": "/resources/share.bundle.js"
   },
   {
@@ -36,7 +36,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resources/vendors.bundle.js"
   },
   {
-    "revision": "1bcd8eb7684cf17f9be4",
+    "revision": "4fb633d3b0392dbd5b12",
     "url": "/resources/write.bundle.js"
   }
 ]);
