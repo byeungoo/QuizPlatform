@@ -45,6 +45,7 @@ public class WritingVoteService {
     		writingVoteDao.insertWritingVoteDto(paramDto);
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     }
     

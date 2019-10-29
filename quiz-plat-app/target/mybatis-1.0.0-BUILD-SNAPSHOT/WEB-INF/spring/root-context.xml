@@ -18,7 +18,7 @@
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url"
-            value="jdbc:log4jdbc:mysql://13.125.55.140:3306/ssgAvengers?useSSL=false&amp;serverTimezone=UTC"></property>
+            value="jdbc:log4jdbc:mysql://15.164.84.243/dev_pickvs?useSSL=false&amp;serverTimezone=UTC"></property>
         <property name="username" value="dksekfldks65"></property>
         <property name="password" value="2019ssg!"></property>
     </bean>
@@ -37,7 +37,11 @@
     </bean>
     
     <!-- bean 등록 -->
+    <context:component-scan base-package="com.quiz.web.dto"></context:component-scan>
     <context:component-scan base-package="com.quiz.web.dao"></context:component-scan>
     <context:component-scan base-package="com.quiz.web.service"></context:component-scan>
+    <context:component-scan base-package="common.search.dto"></context:component-scan>
+    <context:component-scan base-package="common.search.dao"></context:component-scan>
+    <context:component-scan base-package="common.search.service"></context:component-scan>
  
 </beans>

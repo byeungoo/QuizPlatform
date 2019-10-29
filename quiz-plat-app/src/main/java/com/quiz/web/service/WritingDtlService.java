@@ -64,12 +64,10 @@ public class WritingDtlService {
     /*
      ** 게시글 1개 상세 조회
      */
-    public WritingDtlDto getWritingDtl(ParamDto paramDto) throws Exception{
-    	
-    	WritingDtlDto writingDtlDto = new WritingDtlDto();
+    public WritingDtlDto getWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	
     	try {
-    		writingDtlDto = writingDtlDao.getTextWriting(paramDto);
+    		writingDtlDto = writingDtlDao.getTextWriting(writingDtlDto);
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
     	}
@@ -94,6 +92,7 @@ public class WritingDtlService {
         	
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     }
     
@@ -103,9 +102,14 @@ public class WritingDtlService {
     public WritingDtlDto insertWritingDtl(WritingDtlDto writingDtlDto) throws Exception{
     	try {
     		writingDtlDao.insertWritingDtl(writingDtlDto);
-    		writingDtlDto = writingDtlDao.getMainWritingDtlDto(writingDtlDto); //작성한 게시글 정보 조회
+    		writingDtlDao.insertWritingImgFile(writingDtlDto);
+    		
+        	//성공시 success is true
+        	writingDtlDto.setSuccess(true);
+        	
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return writingDtlDto;
@@ -119,6 +123,7 @@ public class WritingDtlService {
     		writingDtlDao.updateHits(writing_no);
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     }
     
@@ -156,6 +161,7 @@ public class WritingDtlService {
     	} catch(Exception e) {
     		report = false;     //게시글 신고 실패
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return report;
@@ -173,6 +179,7 @@ public class WritingDtlService {
     	} catch(Exception e) {
     		isSuccess = false;     //게시글 신고 실패
     		System.err.println(e.getMessage());
+    		throw new RuntimeException(e);
     	}
     	
     	return isSuccess;
@@ -189,6 +196,7 @@ public class WritingDtlService {
 	   } catch(Exception e) {
    			isSuccess = false;     //게시글 신고 실패
    			System.err.println(e.getMessage());
+   			throw new RuntimeException(e);
    		} 
 	   
 	   return isSuccess;

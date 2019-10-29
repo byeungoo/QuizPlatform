@@ -1,5 +1,6 @@
 package com.quiz.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,31 +70,23 @@ public class DetailController {
     /*
      ** 상세 페이지 게시글 조회 비동기 처리 
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "getWritingDtlDto", method = RequestMethod.GET)
-    public @ResponseBody WritingDtlDto getWritingDtlDto(HttpSession session, HttpServletRequest request
-    		                  , @RequestParam(value="writingNo") int writing_no) throws Exception{
+    public @ResponseBody WritingDtlDto getWritingDtlDto(HttpSession session, HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
     	
-    	session    = request.getSession();
+    	session = request.getSession();
     	
     	//유저정보 획득
     	UserDto userDto = userService.getUesrSettingDto(session, request);
-    	
-    	ParamDto paramDto = new ParamDto();
-    	paramDto.setWriting_no(writing_no);
-    	paramDto.setDepth(0);  //댓글조회를 위해 0으로 세팅
-    	paramDto.setUser_id(userDto.getUser_id());
+    	writingDtlDto.setUser_id(userDto.getUser_id());
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
-	    WritingDtlDto writingDtlDto = writingDtlService.getWritingDtl(paramDto);
-	    List<CommentDto> commentDtoList = commentService.getCommentDtoList(paramDto, userDto);  
+	    writingDtlDto = writingDtlService.getWritingDtl(writingDtlDto);
 	    
+	    //게시글 등록자와 조회자가 일치하면 나의 게시물 표시
 	    if(writingDtlDto.getRegpe_id().equals(userDto.getUser_id())) {
 	    	writingDtlDto.setMine(true);
 	    }
-	    
-	    writingDtlDto.setDetailCommentList(commentDtoList);
     
     	return writingDtlDto;
     }    
@@ -101,11 +94,10 @@ public class DetailController {
     /*
      ** 상세 페이지 비동기 처리 페이징 조회
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "getDetailDtoList", method = RequestMethod.GET)
     public @ResponseBody List<WritingDtlDto> getDetailDtoList(HttpSession session, HttpServletRequest request
-    		                  , @RequestParam(value="page") int page, @RequestParam(value="writing_no") int writing_no) throws Exception{
+    		                  , @RequestParam(value="page_num") int page_num, @RequestParam(value="writing_no") int writing_no) throws Exception{
     	
     	session    = request.getSession();
     	  
@@ -115,7 +107,7 @@ public class DetailController {
         //페이징 정보 세팅
     	PagingDto pagingDto = new WritingDtlPagingDto();
     	pagingDto.setUser_id(user.getUser_id());
-    	pagingDto.setPage_num(page);
+    	pagingDto.setPage_num(page_num);
     	pagingDto.setPage_size(5);
         
     	WritingDtlPagingDto writingDtlPagingDto = (WritingDtlPagingDto) pagingDto;
@@ -123,41 +115,16 @@ public class DetailController {
     	
         //최종 결과 담을 객체 생성 및 인기컨텐츠 정보로 초기화
 	    List<WritingDtlDto> detailWritingList = writingDtlService.getPopulWritingDtoList(writingDtlPagingDto);
-     
-    	ParamDto paramDto = new ParamDto();
-    	
-	    //해당 글에 대한 댓글 정보 조회 및 추가
-	    for(WritingDtlDto detailDto :detailWritingList) {
-	    	paramDto.setDepth(0);  //댓글조회를 위해 0으로 세팅
-	    	paramDto.setWriting_no(detailDto.getWriting_no());
-	    	detailDto.setDetailCommentList(commentService.getCommentDtoList(paramDto, user));  //댓글 세팅
-	    	
-	    	//내가 쓴 글일경우 isMins True
-		    if(detailDto.getRegpe_id().equals(user.getUser_id())) {
-		    	detailDto.setMine(true);
-		    }
-	    	
-		    paramDto.setDepth(1); //대댓글 조회를 위해 1로세팅
-		    List<CommentDto> commentListDto = detailDto.getDetailCommentList();
-		    
-		    //대댓글 값 세팅
-		    for(CommentDto tempCommentDto : commentListDto) {
-		    	paramDto.setParent(tempCommentDto.getComment_no());  //대댓글 상위 댓글 번호 세팅
-		    	tempCommentDto.setLowCommentDtoList(commentService.getLowCommentDtoList(paramDto, user));
-		    	tempCommentDto.setLow_comment_num(tempCommentDto.getLowCommentDtoList().size()); //대댓글 개수 세팅
-		    }
-	    }	
-
+	
     	return detailWritingList;
     }
     
     /*
      ** 상세페이지 투표 비동기 처리
      */
-    @Transactional	
     @CrossOrigin
     @RequestMapping(value = "vote", method = RequestMethod.POST)
-    public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="voteNum") int voteNum , @RequestParam(value="writingNo") int writingNo) throws Exception{
+    public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="vote") int vote , @RequestParam(value="writing_no") int writing_no) throws Exception{
 
     	session = request.getSession();
     	WritingVoteDto writingVoteDto = new WritingVoteDto();
@@ -166,8 +133,8 @@ public class DetailController {
 	    	UserDto userDto = userService.getUesrSettingDto(session, request);
 	    	
 	    	ParamDto paramDto = new ParamDto();
-	    	paramDto.setWriting_no(writingNo);
-	    	paramDto.setVote(voteNum);
+	    	paramDto.setWriting_no(writing_no);
+	    	paramDto.setVote(vote);
 	    	paramDto.setUser_id(userDto.getUser_id());
 	    	    	
 	    	//작성글 투표수 증가 
@@ -185,10 +152,9 @@ public class DetailController {
     /*
      ** 댓글 작성 비동기 처리
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
-    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") int writing_no
+    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writing_no") int writing_no
     		                                     , @RequestParam(value="depth") int depth, @RequestParam(value="parent") Integer parent) throws Exception{
 
     	session    = request.getSession();
@@ -219,9 +185,44 @@ public class DetailController {
     }    
     
     /*
+     ** 대댓글 조회
+     */
+    @CrossOrigin
+    @RequestMapping(value = "getChildCommentList", method = RequestMethod.GET)
+    public @ResponseBody List<CommentDto> getChildCommentList(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{
+    	
+    	//유저 아이디 세팅
+    	session    = request.getSession();
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	commentDto.setUser_id(userDto.getUser_id());
+    	
+    	//대댓글 조회
+    	List<CommentDto> commentDtoList  = commentService.getChildCommentList(commentDto);
+    	
+    	return commentDtoList;
+    }
+    
+    /*
+     ** 베스트댓글 조회
+     */
+    @CrossOrigin
+    @RequestMapping(value = "getBestCommentList", method = RequestMethod.GET)
+    public @ResponseBody List<CommentDto> getBestCommentList(HttpSession session, HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
+    	
+    	//유저 아이디 세팅
+    	session         = request.getSession();
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	writingDtlDto.setUser_id(userDto.getUser_id());
+    	
+    	//베스트 댓글 조회
+    	List<CommentDto> commentDtoList  = commentService.getBestCommentList(writingDtlDto);
+    	
+    	return commentDtoList;
+    }
+    
+    /*
      ** 댓글 좋아요, 싫어요 업데이트
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "commentPreferUpdate", method = RequestMethod.POST)
     public @ResponseBody CommentPrefer commentPrefer(HttpSession session, HttpServletRequest request, @RequestParam(value="comment_no") int comment_no, @RequestParam(value="prefer") String prefer
@@ -248,7 +249,6 @@ public class DetailController {
     /*
      ** 신고하기 업데이트
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "reportWriting", method = RequestMethod.POST)
     public @ResponseBody boolean reportWriting(HttpSession session, HttpServletRequest request, ParamDto paramDto) throws Exception{
@@ -265,7 +265,6 @@ public class DetailController {
     /*
      ** 게시글 삭제하기, 사용여부만 'N'으로 설정
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "deleteWriting", method = RequestMethod.POST)
     public @ResponseBody boolean deleteWriting(HttpSession session, HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
@@ -282,7 +281,6 @@ public class DetailController {
     /*
      ** 댓글 삭제하기, 사용여부 'N' 변경
      */
-    @Transactional
     @CrossOrigin
     @RequestMapping(value = "deleteComment", method = RequestMethod.POST)
     public @ResponseBody CommentDto deleteComment(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{
@@ -294,5 +292,21 @@ public class DetailController {
     	
     	return commentDto;
     }
+    
+    /*
+     ** 댓글 비동기 불러오기
+     */
+    @CrossOrigin
+    @RequestMapping(value = "getCommentDtoList", method = RequestMethod.GET)
+    public @ResponseBody List<CommentDto> getCommentDtoList(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{
+    	
+    	session = request.getSession(); 
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	commentDto.setUser_id(userDto.getUser_id());
+    	List<CommentDto> commentDtoList = commentService.getCommentDtoList(commentDto);
+    	
+    	return commentDtoList;
+    }
+    
     
 }

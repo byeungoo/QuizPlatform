@@ -6,19 +6,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
-public class CommentDto {
+public class CommentDto extends BaseDto{
 	
 	private int    writing_no;         //게시글번호
 	private int    comment_no;         //댓글번호
 	private String comment_content;    //댓글내용
 	private int    recom_num;          //좋아요수
 	private int    hate_num;           //싫어요수
-	private String regpe_id;           //등록자
-	private String modpe_id;           //변경자
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date   reg_dts;            //등록일
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date   mod_dts;            //변경일
 	private String nickname;           //닉네임
 	private int    depth;              //0: 댓글, 1:대댓글
 	private Integer parent;            //대댓글 상위 댓글 번호
@@ -29,6 +23,7 @@ public class CommentDto {
 	private boolean isMine;            //내가 쓴 댓글일 경우 true, 아니면 false
 	private String prefer;             //0:댓글좋아요, 1:댓글싫어요, null: 선호 선택x
 	private String use_yn;             //댓글 사용여부
+	private String user_id;            //유저아이디
 	private boolean isSuccess;         //댓글 삭제 성공 여부
 	
 	public Integer getVote() {
@@ -54,30 +49,6 @@ public class CommentDto {
 	}
 	public void setComment_content(String comment_content) {
 		this.comment_content = comment_content;
-	}
-	public String getRegpe_id() {
-		return regpe_id;
-	}
-	public void setRegpe_id(String regpe_id) {
-		this.regpe_id = regpe_id;
-	}
-	public String getModpe_id() {
-		return modpe_id;
-	}
-	public void setModpe_id(String modpe_id) {
-		this.modpe_id = modpe_id;
-	}
-	public Date getReg_dts() {
-		return reg_dts;
-	}
-	public void setReg_dts(Date reg_dts) {
-		this.reg_dts = reg_dts;
-	}
-	public Date getMod_dts() {
-		return mod_dts;
-	}
-	public void setMod_dts(Date mod_dts) {
-		this.mod_dts = mod_dts;
 	}
 	public String getNickname() {
 		return nickname;
@@ -150,5 +121,11 @@ public class CommentDto {
 	}
 	public void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 }

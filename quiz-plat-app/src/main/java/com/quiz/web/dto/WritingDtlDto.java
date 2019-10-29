@@ -5,23 +5,19 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class WritingDtlDto {
+public class WritingDtlDto extends BaseDto{
 	
 	private int    writing_no;        //게시글번호
+	private String title;             //게시글 제목
+	private String summary;           //요약
 	private String ques_type_div_cd;  //글타입
 	private String content;           //본문 내용
 	private String fir_writ_content;  //첫번째 투표 내용 
 	private String sec_writ_content;  //두번째 투표 내용
-	private String fir_writ_img_path; //첫번째 이미지 경로
-	private String sec_writ_img_path; //두번째 이미지 경로
-	private String user_id;           //유저아이디
-	private String regpe_id;          //등록자
-	private String modpe_id;          //변경자
+	private String fact_content;      //팩트 체크 정보
+	private String fact_link;         //팩트링크 정보
+	private String title_img_path;    //제목 이미지 경로
 	private String nickname;          //닉네임
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date   reg_dts;           //등록일
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date   mod_dts;           //변경일
 	private int    hits;              //조회수
 	private int    sum_vote;          //총 투표수
 	private int    sum_comment;       //총 댓글수
@@ -32,7 +28,7 @@ public class WritingDtlDto {
 	private int    sec_vote_perc;     //두번째 투표 퍼센트
 	private int    vote_diff;         //투표율 차이
 	private boolean report;           //0:신고x, 1:신고
-	private Integer vote;             // 위 컨텐츠 투표시 1, 아래 컨텐츠 투표 시 2, 투표값 없으면 null
+	private Integer vote;             // 찬성1, 반대2, 투표값 없으면 null
 	private List<CommentDto> detailCommentList; //댓글 리스트
 	private boolean isMine;           //내가 쓴 게시글일경우 true, 아니면 false
 	private boolean isSuccess;        //게시글 삭제 성공시 true, 실패시 false
@@ -66,42 +62,6 @@ public class WritingDtlDto {
 	}
 	public void setSec_writ_content(String sec_writ_content) {
 		this.sec_writ_content = sec_writ_content;
-	}
-	public String getFir_writ_img_path() {
-		return fir_writ_img_path;
-	}
-	public void setFir_writ_img_path(String fir_writ_img_path) {
-		this.fir_writ_img_path = fir_writ_img_path;
-	}
-	public String getSec_writ_img_path() {
-		return sec_writ_img_path;
-	}
-	public void setSec_writ_img_path(String sec_writ_img_path) {
-		this.sec_writ_img_path = sec_writ_img_path;
-	}
-	public String getRegpe_id() {
-		return regpe_id;
-	}
-	public void setRegpe_id(String regpe_id) {
-		this.regpe_id = regpe_id;
-	}
-	public String getModpe_id() {
-		return modpe_id;
-	}
-	public void setModpe_id(String modpe_id) {
-		this.modpe_id = modpe_id;
-	}
-	public Date getReg_dts() {
-		return reg_dts;
-	}
-	public void setReg_dts(Date reg_dts) {
-		this.reg_dts = reg_dts;
-	}
-	public Date getMod_dts() {
-		return mod_dts;
-	}
-	public void setMod_dts(Date mod_dts) {
-		this.mod_dts = mod_dts;
 	}
 	public int getHits() {
 		return hits;
@@ -182,12 +142,6 @@ public class WritingDtlDto {
 	public void setReport(boolean report) {
 		this.report = report;
 	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
 	public boolean isMine() {
 		return isMine;
 	}
@@ -199,5 +153,35 @@ public class WritingDtlDto {
 	}
 	public void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getSummary() {
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+	public String getTitle_img_path() {
+		return title_img_path;
+	}
+	public void setTitle_img_path(String title_img_path) {
+		this.title_img_path = title_img_path;
+	}
+	public String getFact_content() {
+		return fact_content;
+	}
+	public void setFact_content(String fact_content) {
+		this.fact_content = fact_content;
+	}
+	public String getFact_link() {
+		return fact_link;
+	}
+	public void setFact_link(String fact_link) {
+		this.fact_link = fact_link;
 	}
 }

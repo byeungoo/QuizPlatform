@@ -9,29 +9,38 @@
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
 	
+	
+	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+
+
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- contextLoader가 해당 위치의 설정 파일을 읽어, 해당 파일을 dispatcher servlet으로 만듬 -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-		
+
+	<!-- / 로 시작되는 url 요청을 받아서 appServlet에서 처리 -->
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	
+	
 	<!-- This is Filter -->
 	<filter>
+		<!-- encoding -->
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
@@ -42,14 +51,32 @@
 		<!-- CORS -->
 		<filter-name>cors</filter-name>
     	<filter-class>common.SimpleCORSFilter</filter-class>
+    	
+    	 <!-- XSS 방어 -->
+    	 <filter-name>xssEscapeServletFilter</filter-name>
+    	 <filter-class>com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
+		<!-- encoding -->
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		
 		<!-- CORS -->
 		<filter-name>cors</filter-name>
         <url-pattern>/*</url-pattern>
+        
+        <!-- XSS 방어 -->
+    	<filter-name>xssEscapeServletFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
+	<!-- 싱글페이지 앱 url 직접 접근시 404error. 404가 error 시 루트로 forward해주고 프론트에서 url과 api를 이용한처리-->
+	<error-page>
+    	<error-code>404</error-code>
+    	<location>/resources/index.html</location>
+	</error-page>
+
+	
 </web-app>

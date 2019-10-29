@@ -14,23 +14,25 @@
 			FROM   (
 					SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
 					      , W.WRITING_NO
-					      , W.FIR_WRIT_CONTENT
-					      , W.SEC_WRIT_CONTENT
+					      , W.TITLE
 					      , W.FIR_VOTE_NO
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+					      , WIP.TITLE_IMG_PATH
 					      , (
 						       SELECT COUNT(C.WRITING_NO)
 						       FROM   COMMENT C
 						       WHERE  1 = 1
 						       AND    C.WRITING_NO = W.WRITING_NO
 						    ) SUM_COMMENT
-						  , WV.VOTE  
 						  , W.REGPE_ID
-					FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
+						  , W.REG_DTS
+					FROM    WRITING W
+					      , WRITING_IMG_PATH WIP
 						  , ( SELECT @ROWNUM := 0 ) R
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
+					AND		WIP.WRITING_NO = W.WRITING_NO
 					ORDER BY W.REG_DTS DESC
 			       ) A
 			WHERE A.RNUM <=#{end}
@@ -40,12 +42,16 @@
 		 ]]>
     </select>
     
-    <select id="getTextWriting" parameterType="paramDto" resultType="writingDtlDto">
+    <select id="getTextWriting" parameterType="writingDtlDto" resultType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.getTextWriting */
     	SELECT  W.WRITING_NO
+		      , W.TITLE
 		      , W.FIR_WRIT_CONTENT
-      		  , W.SEC_WRIT_CONTENT
-      		  , W.CONTENT
+		      , W.SEC_WRIT_CONTENT
+		      , W.FACT_CONTENT
+		      , W.FACT_LINK
+		      , W.SUMMARY
+		      , WIP.TITLE_IMG_PATH
       		  , W.FIR_VOTE_NO
       		  , W.SEC_VOTE_NO
       		  , W.REG_DTS
@@ -72,15 +78,47 @@
 			    ) AS REPORT
      	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
      	      , USER U
+     	      , WRITING_IMG_PATH WIP
      	WHERE   1 = 1
      	AND     W.WRITING_NO = #{writing_no}
      	AND		U.USER_ID    = W.REGPE_ID
+     	AND		WIP.WRITING_NO = W.WRITING_NO
     </select>
     
     <insert id="insertWritingDtl" parameterType="writingDtlDto">
     	/* com.quiz.mapper.writingDtlMapper.insertWritingDtl */
-    	INSERT INTO WRITING(QUES_TYPE_DIV_CD, CONTENT, FIR_WRIT_CONTENT, SEC_WRIT_CONTENT, FIR_VOTE_NO, SEC_VOTE_NO, REGPE_ID, MODPE_ID, REG_DTS, MOD_DTS, HITS)
-    	VALUES(#{ques_type_div_cd}, #{content}, #{fir_writ_content}, #{sec_writ_content}, 0, 0, #{user_id}, #{user_id}, now(), now(), 0)
+    	INSERT INTO WRITING(
+    						     QUES_TYPE_DIV_CD
+    						   , FIR_WRIT_CONTENT
+    						   , SEC_WRIT_CONTENT
+    						   , FIR_VOTE_NO
+    						   , SEC_VOTE_NO
+    						   , REGPE_ID
+    						   , MODPE_ID
+    						   , REG_DTS
+    						   , MOD_DTS
+    						   , HITS
+    						   , TITLE
+    						   , SUMMARY
+    						   , FACT_CONTENT
+    						   , FACT_LINK
+    				       )
+    			     VALUES(
+    			                 #{ques_type_div_cd}
+    			               , #{fir_writ_content}
+    			               , #{sec_writ_content}
+    			               , 0
+    			               , 0
+    			               , #{user_id}
+    			               , #{user_id}
+    			               , now()
+    			               , now()
+    			               , 0
+    			               , #{title}
+    			               , #{summary}
+    			               , #{fact_content}
+    			               , #{fact_link}
+    			            )
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>
@@ -113,11 +151,18 @@
 								      , W.REGPE_ID
 								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 								      , (
-									    SELECT COUNT(C.WRITING_NO)
-									    FROM   COMMENT C
-									    WHERE  1            = 1
-									    AND    C.WRITING_NO = W.WRITING_NO
-									) SUM_COMMENT
+									       SELECT COUNT(C.WRITING_NO)
+									       FROM   COMMENT C
+									       WHERE  1            = 1
+									       AND    C.WRITING_NO = W.WRITING_NO
+									    ) SUM_COMMENT
+									  , (
+									  	    SELECT WV.VOTE
+									  	    FROM   WRITING_VOTE WV
+									  	    WHERE  1 = 1
+									  	    AND	   WV.WRITING_NO
+									  	    AND    USER_ID = #{user_id} 
+									    ) VOTE
 								FROM    WRITING W
 								WHERE   1 = 1
 								AND     W.USE_YN = 'Y'
@@ -200,33 +245,39 @@
 						      , ROUND((T.FIR_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS FIR_VOTE_PERC
 						      , ROUND((T.SEC_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 						FROM   (
-								SELECT	W.WRITING_NO
-								      , W.CONTENT
-								      , W.FIR_WRIT_CONTENT
-								      , W.SEC_WRIT_CONTENT
-								      , W.FIR_VOTE_NO
-								      , W.SEC_VOTE_NO
-								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
-								      , (
-									        SELECT COUNT(C.WRITING_NO)
-									        FROM   COMMENT C
-									        WHERE  1            = 1
-									        AND    C.WRITING_NO = W.WRITING_NO
-									    ) SUM_COMMENT
-									  , U.NICKNAME
-									  , W.REG_DTS
-									  , W.REGPE_ID
-								FROM    WRITING W 
-									  , USER U
-								WHERE   1 = 1
-								AND     W.USE_YN = 'Y'
-								AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
-								AND	W.WRITING_NO NOT IN (
-														    SELECT WRITING_NO
-															FROM   WRITING_VOTE WV
-															WHERE  WV.USER_ID = #{user_id}
-											            )	
-								AND		U.USER_ID      = W.REGPE_ID
+								    SELECT	W.WRITING_NO
+								          , W.TITLE
+					                      , W.FIR_WRIT_CONTENT
+					                      , W.SEC_WRIT_CONTENT
+					                      , W.FACT_CONTENT
+					                      , W.FACT_LINK
+					                      , W.SUMMARY
+								          , WIP.TITLE_IMG_PATH
+								          , W.FIR_VOTE_NO
+								          , W.SEC_VOTE_NO
+								          , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+								          , (
+									            SELECT COUNT(C.WRITING_NO)
+									            FROM   COMMENT C
+									            WHERE  1            = 1
+									            AND    C.WRITING_NO = W.WRITING_NO
+									        ) SUM_COMMENT
+									      , U.NICKNAME
+									      , W.REG_DTS
+									      , W.REGPE_ID
+								    FROM    WRITING W 
+								          , WRITING_IMG_PATH WIP
+									      , USER U
+								    WHERE   1 = 1
+								    AND     W.USE_YN = 'Y'
+								    AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
+								    AND	W.WRITING_NO NOT IN (
+														       SELECT WRITING_NO
+															   FROM   WRITING_VOTE WV
+															   WHERE  WV.USER_ID = #{user_id}
+											                )	
+								    AND		U.USER_ID      = W.REGPE_ID
+								    AND		WIP.WRITING_NO = W.WRITING_NO
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
 						WHERE 1 = 1
@@ -359,7 +410,7 @@
 					WHERE  1 = 1
 				    AND    C.WRITING_NO = W.WRITING_NO
 				) SUM_COMMENT
-		FROM    WRITING W
+		FROM    WRITING_IMG_PATH WIP RIGHT OUTER JOIN WRITING W ON WIP.WRITING_NO = W.WRITING_NO
 		WHERE   1 = 1
 		AND     W.USE_YN     = 'Y'
 		AND		W.WRITING_NO = #{writing_no}
@@ -438,5 +489,11 @@
 								   WHERE T.COUNT >= 5
     						   )
     </update>
+    
+    <insert id="insertWritingImgFile" parameterType="writingDtlDto">
+    	/* com.quiz.mapper.writingDtlMapper.insertWritingImgFile */
+    	INSERT INTO WRITING_IMG_PATH(WRITING_NO, TITLE_IMG_PATH, REGPE_ID, REG_DTS, MODPE_ID, MOD_DTS) 
+    	VALUES(#{writing_no}, #{title_img_path}, #{user_id}, now(), #{user_id}, now())
+    </insert>
     
 </mapper>

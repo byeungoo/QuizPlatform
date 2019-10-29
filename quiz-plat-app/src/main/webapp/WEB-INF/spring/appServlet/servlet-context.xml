@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        ">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -17,21 +24,77 @@
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="prefix" value="/resources/" />
+		<beans:property name="suffix" value=".html" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.quiz.web" />
-	<context:component-scan base-package="common" />
 	
+	
+	<beans:bean id = "uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="\upload">
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<!-- multipart타입의 데이터 처리를 가능, 50mb정도로 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <!-- 최대업로드 가능한 바이트크기 -->
+         <beans:property name="maxUploadSize" value="52428800" />
+         <!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+         <!-- property name="maxInMemorySize" value="52428800" / -->
+         <!-- defaultEncoding -->
+         <beans:property name="defaultEncoding" value="utf-8" />
+	</beans:bean>
+	
+	
+	
+	<!-- bean 등록 -->
+	<context:component-scan base-package="common" />
+    <context:component-scan base-package="com.quiz.web.controller" />
+    
+    
+    
 	 <!--로그인 처리 Interceptor 설정-->
     <beans:bean id="loginInterceptor" class="common.interceptor.LoginInterceptor"/>
 
     <interceptors>
         <interceptor>
-            <mapping path="/**/"/>
+            <mapping path="/**/*"/>
             <beans:ref bean="loginInterceptor"/>
         </interceptor>
     </interceptors>
+
+
+
+	<!-- Transaction을 관리하기위한 Bean을 생성하고 id를 부여한다. dataSource는 applicationContext-mybatis.xml 안에 mySQL로 지정되어 있다 -->
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <beans:property name="dataSource" ref="dataSource"/>
+	</beans:bean>
 	
+	<!-- AOP 설정부분. -->
+	<!-- proxy-target-class 는 proxy(일종의 wrapper)가 interface가 정의되지 않은 method들에 대해서 transaction을 사용하는 경우를 위한 것이다. 
+	기본적으로 spring의 proxy-target-class 값은 false로, 타겟은 interface여야 하지만, serviceImpl.java 류들의 파일안의 모든 메소드들이 interface로 정의되어 있지 않기에 
+	proxy-target-class를 true로 한것이다. 이를 가능하게 하기위해 cglib이라는 모듈을 사용한다. -->
+	<aop:config proxy-target-class="true">
+    	<!-- pointcut은 원하는 동작을 적용하고자 하는 클래스와 메소드의 이름을 기술하는 부분이다.  expression은 AspectJ의 pointcut 언어를 사용한다.  자신의 클래스 패키지의 service 폴더까지 지정하고 그 이후에 ..*Service.*(..)) 와 같이 그아래 모든 Service가 들어가는 파일명과 모든 메소드들에 대해서 pointcut을 지정했다. -->
+    	<aop:pointcut id="serviceOperation" expression="execution(* *..*Service.*(..))" /> 
+
+    	<!-- advisor는 우리말로 하면 충고인데.. pointcut에 대해 무슨일을 할지 정하는 것이다.  -->
+    	<aop:advisor id="transactionAdvisor" pointcut-ref="serviceOperation" advice-ref="txAdvice"/>
+	</aop:config>
+
+
+	<!--tx:advice 는 advisor에서 설정한 advice-ref를 기술해주는 부분이다. 처리를 담당하는 빈은  위에서 생성한 transactionManager 이며,  
+		Exception이 발생할때 rollback 을 발생시키는 transaction rule을 지정했다. pointcut으로 지정된 모든 메소드들중에서도 특정 이름이 포함된것으로 한정할수 있다. 
+		db저장과 관련된 이름의 메소드들(register,save,update,remove로 시작하는 함수들)을 tx-의 method name으로 지정했다.-->   
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+    	<tx:attributes>
+        	<tx:method name="register*" rollback-for="Exception"/>
+        	<tx:method name="save*"     rollback-for="Exception"/>
+        	<tx:method name="update*"   rollback-for="Exception"/>
+        	<tx:method name="insert*"   rollback-for="Exception"/>
+        	<tx:method name="delete*"   rollback-for="Exception"/>
+        	<tx:method name="remove*"   rollback-for="Exception"/>
+    	</tx:attributes>
+	</tx:advice>
+    
 </beans:beans>

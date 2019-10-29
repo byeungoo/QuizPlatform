@@ -5,7 +5,18 @@
     <configuration>
     
         <typeAliases>
-            <typeAlias type="com.quiz.web.dto.MemberDto" alias="memberDto"/>
+            <typeAlias type="com.quiz.web.dto.WritingDtlDto" alias="writingDtlDto"/>
+            <typeAlias type="com.quiz.web.dto.WritingVoteDto" alias="writingVoteDto"/>
+            <typeAlias type="com.quiz.web.dto.UserDto" alias="userDto"/>
+            <typeAlias type="com.quiz.web.dto.CommentDto" alias="commentDto"/>
+            <typeAlias type="com.quiz.web.dto.LoginCommand" alias="loginCommand"/>
+            <typeAlias type="com.quiz.web.dto.ParamDto" alias="paramDto"/>
+            <typeAlias type="com.quiz.web.dto.LowCommentDto" alias="lowCommentDto"/>
+            <typeAlias type="com.quiz.web.dto.CommentPrefer" alias="commentPrefer"/>
+            <typeAlias type="common.AuthInfo" alias="authInfo"/>
+            <typeAlias type="common.paging.dto.PagingDto" alias="pagingDto"/>
+            <typeAlias type="common.paging.dto.WritingDtlPagingDto" alias="writingDtlPagingDto"/>
+            <typeAlias type="common.search.dto.SearchDto" alias="searchDto"/>
         </typeAliases>
-        
+
     </configuration>
