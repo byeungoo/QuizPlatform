@@ -190,7 +190,7 @@
     </li>
   </script>
   <script id="page_detail-after" type="text/x-jsrender">
-    <div class="contents ty_after detail-sec_contents">
+    <section class="contents ty_after detail-sec_contents">
         {{if vote == 1}}
                 <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
@@ -230,11 +230,19 @@
         </ul>
 
         <ul class="comment-list">
-            <li class="comment-list_item">
-                {{include tmpl="#replyTmpl" /}}
-            </li>
         </ul>
-    </div>
+
+        <footer class="reply">
+            <label for="reply" class="reply_label">
+                <input type="text" class="reply_inp" id="reply"></input>
+                <button type="button" class="reply_submit">
+                    <svg class="ic ic--stamp">
+                        <use xlink:href="#stamp" />
+                    </svg>
+                </button>
+            </label>
+        </footer>
+    </section>
 </script>
 
 <script id="page_detail" type="text/x-jsrender">
@@ -338,8 +346,8 @@
  <script id="comment_header--best" type="text/x-jsrender">
     <header class="comment_header">
         <p class="comment_headerwrap">
-            <span class="comment_nick">아이디최대길이알파베타감마15</span>
-            <span class="comment_refcnt">820</span>
+            <span class="comment_nick">{{:nickname}}</span>
+            <span class="comment_refcnt">{{:recom_num}}</span>
         </p>
         <span class="comment_badge">BEST</span>
     </header>
@@ -347,8 +355,8 @@
 <script id="comment_header--plain" type="text/x-jsrender">
     <header class="comment_header">
         <p class="comment_headerwrap">
-            <span class="comment_nick">아이디최대길이알파베타감마15</span>
-            <span class="comment_refcnt">820</span>
+            <span class="comment_nick">{{:nickname}}</span>
+            <span class="comment_refcnt">{{:recom_num}}</span>
         </p>
         <div class="comment_header-optbar">
             <button type="button" class="comment_hdopts">
@@ -366,8 +374,8 @@
 <script id="subcomment_header" type="text/x-jsrender">
     <header class="comment_header">
         <p class="comment_headerwrap">
-            <span class="comment_nick">아이디최대길이알파베타감마15</span>
-            <span class="comment_refcnt">820</span>
+            <span class="comment_nick">{{:nickname}}</span>
+            <span class="comment_refcnt">{{:recom_num}}</span>
         </p>
         <div class="comment_header-optbar">
             <button type="button" class="comment_hdopts">
@@ -383,7 +391,7 @@
     </header>
 </script>
  <script id="bestReplyTmpl" type="text/x-jsrender">
-    <section class="comment comment--pros">
+    <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}">
         {{include tmpl="#comment_header--best" /}}
         <section class="comment_subheader">
             <p class="comment_optionwrap">
@@ -403,49 +411,51 @@
 </script>
 
 <script id="replyTmpl" type="text/x-jsrender">
-    <section class="comment comment--cons">
-        {{include tmpl="#comment_header--plain" /}}
-        <section class="comment_subheader">
-            <p class="comment_optionwrap">
-                <span class="comment_option">정시 확대</span>
-                <span class="comment_option">수시 확대</span>
-            </p>
+    <li class="comment-list_item">
+        <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}">
+            {{include tmpl="#comment_header--plain" /}}
+            <section class="comment_subheader">
+                <p class="comment_optionwrap">
+                    <span class="comment_option">정시 확대</span>
+                    <span class="comment_option">수시 확대</span>
+                </p>
+            </section>
+            <section class="comment_contents">
+                <p class="comment_maintx">
+                    {{:comment_content}}
+                </p>
+            </section>
+            <footer class="comment_footer">
+                <time class="comment_time">{{:reg_dts}}</time>
+            </footer>
+            <ul class="subcomment_list">
+                {{for lowCommentDtoList tmpl="#subReplyTmpl"}}
+                {{/for}}
+            </ul>
         </section>
-        <section class="comment_contents">
-            <p class="comment_maintx">
-                댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔
-            </p>
-        </section>
-        <footer class="comment_footer">
-            <time class="comment_time">2019.11.28 23:30:20</time>
-        </footer>
-        <ul class="subcomment_list">
-            <li class="subcomment_item">
-                {{include tmpl="#subReplyTmpl" /}}
-                {{include tmpl="#subReplyTmpl" /}}
-            </li>
-        </ul>
-    </section>
+    </li>
 </script>
 
 <script id="subReplyTmpl" type="text/x-jsrender">
-    <section class="comment comment--sub comment--pros">
-        {{include tmpl="#subcomment_header" /}}
-        <section class="comment_subheader">
-            <p class="comment_optionwrap">
-                <span class="comment_option">정시 확대</span>
-                <span class="comment_option">수시 확대</span>
-            </p>
+    <li class="subcomment_item">
+        <section class="comment comment--sub {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}">
+            {{include tmpl="#subcomment_header" /}}
+            <section class="comment_subheader">
+                <p class="comment_optionwrap">
+                    <span class="comment_option">정시 확대</span>
+                    <span class="comment_option">수시 확대</span>
+                </p>
+            </section>
+            <section class="comment_contents">
+                <p class="comment_maintx">
+                    {{:comment_content}}
+                </p>
+            </section>
+            <footer class="comment_footer">
+                <time class="comment_time">{{:reg_dts}}</time>
+            </footer>
         </section>
-        <section class="comment_contents">
-            <p class="comment_maintx">
-                댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔
-            </p>
-        </section>
-        <footer class="comment_footer">
-            <time class="comment_time">2019.11.28 23:30:20</time>
-        </footer>
-    </section>
+    </li>
 </script>
 
 
