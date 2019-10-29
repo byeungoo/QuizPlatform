@@ -25,6 +25,9 @@ public class WritingDtlService {
     @Autowired
     private WritingDtlDao writingDtlDao;
     
+    @Autowired
+    private WritingVoteService writingVoteService;
+    
     /*
      ** 메인페이지 카테고리에따른 게시글 조회
      */
@@ -77,11 +80,16 @@ public class WritingDtlService {
      */  
     public void updateVote(ParamDto paramDto) throws Exception{
     	try {
+    		
+	    	//게시글 투표 정보 추가
+	    	writingVoteService.insertWritingVoteDto(paramDto);
+    		
         	if(paramDto.getVote() == 1) {
         		writingDtlDao.updateFirVote(paramDto);
         	} else if(paramDto.getVote() == 2) {
         		writingDtlDao.updateSecVote(paramDto);
         	}
+        	
     	} catch(Exception e) {
     		System.err.println(e.getMessage());
     		throw new RuntimeException(e);
