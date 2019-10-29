@@ -61,7 +61,6 @@
                                         ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
                                       , ( SELECT @ROWNUM := 0 ) R
                                 WHERE 1 = 1
-                                ORDER BY A.REG_DTS ASC
                             ) B
                     WHERE	1 = 1
                     AND     B.RNUM <= #{end}
@@ -135,6 +134,15 @@
        WHERE 1    = 1
     </select>
     
+    <select id="getCommentNum" parameterType="writingDtlDto" resultType="int">
+        /* 게시글 댓글 개수 조회 쿼리 com.quiz.mapper.commentMapper.getCommentNum */
+        SELECT  COUNT(*)
+        FROM    COMMENT
+        WHERE   1 = 1
+        AND     WRITING_NO = #{writing_no}
+        AND     VOTE       = #{vote}
+    </select>
+    
  	<update id="updateCommentPrefer" parameterType="commentPrefer">
  		/* com.quiz.mapper.commentMapper.updateCommentPrefer */
     	UPDATE  COMMENT
@@ -180,6 +188,57 @@
     	AND	    WRITING_NO  = #{writing_no}
     	AND		COMMENT_NO  = #{comment_no}
     </update>
+    
+    
+    <select id="getBestCommentList" parameterType="writingDtlDto" resultType="commentDto">
+        /* 베스트댓글 조회 쿼리 com.quiz.mapper.commentMapper.getBestCommentList */
+        <![CDATA[
+        SELECT  B.*
+        FROM    (
+                    SELECT  A.*
+                    FROM    (
+                                SELECT  @ROWNUM:=@ROWNUM+1 AS RNUM
+                                    , C.WRITING_NO
+                                    , C.COMMENT_NO
+                                    , C.COMMENT_CONTENT
+                                    , C.DEPTH
+                                    , C.RECOM_NUM
+                                    , C.HATE_NUM
+                                    , C.USE_YN
+                                    , C.REGPE_ID
+                                    , C.REG_DTS
+                                    , C.MOD_DTS
+                                    , WV.VOTE
+                                    , U.NICKNAME
+                                    , (
+                                          SELECT  CP.PREFER
+                                          FROM    COMMENT_PREFER CP
+                                          WHERE   1 = 1
+                                          AND     CP.WRITING_NO = C.WRITING_NO
+                                          AND     CP.COMMENT_NO = C.COMMENT_NO
+                                          AND     CP.USER_ID    = #{user_id}
+                                    ) AS "PREFER"
+                                FROM  COMMENT C
+                                    , WRITING_VOTE WV
+                                    , USER U
+                                    , ( SELECT @ROWNUM := 0 ) R
+                                WHERE   1 = 1
+                                AND C.WRITING_NO  = #{writing_no}
+                                AND C.DEPTH       = 0
+                                AND C.USE_YN      = 'Y'
+                                AND WV.WRITING_NO = C.WRITING_NO
+                                AND WV.VOTE       = #{vote}
+                                AND WV.USER_ID    = C.REGPE_ID
+                                AND U.USER_ID     = C.REGPE_ID
+                                ORDER BY C.RECOM_NUM DESC, C.REG_DTS DESC
+                            ) A
+                    WHERE   1 = 1
+                    AND     A.RNUM <= #{end}
+                ) B
+        WHERE 1 = 1
+        AND   B.RNUM > #{start} 
+        ]]>
+    </select>  
     
     <select id="getChildCommentList" parameterType="commentDto" resultType="commentDto">
         /* com.quiz.mapper.commentMapper.getChildCommentList */
