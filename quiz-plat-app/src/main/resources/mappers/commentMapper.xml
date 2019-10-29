@@ -57,7 +57,7 @@
                                             AND     C.WRITING_NO = #{writing_no}
                                             AND     C.DEPTH      = #{depth}
                                             AND     U.USER_ID    = C.REGPE_ID 
-                                            ORDER BY C.REG_DTS ASC
+                                            ORDER BY C.REG_DTS DESC
                                         ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
                                       , ( SELECT @ROWNUM := 0 ) R
                                 WHERE 1 = 1
