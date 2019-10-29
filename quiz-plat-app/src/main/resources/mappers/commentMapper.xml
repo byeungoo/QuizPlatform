@@ -137,10 +137,13 @@
     <select id="getCommentNum" parameterType="writingDtlDto" resultType="int">
         /* 게시글 댓글 개수 조회 쿼리 com.quiz.mapper.commentMapper.getCommentNum */
         SELECT  COUNT(*)
-        FROM    COMMENT
+        FROM    COMMENT C
+              , WRITING_VOTE WV
         WHERE   1 = 1
-        AND     WRITING_NO = #{writing_no}
-        AND     VOTE       = #{vote}
+        AND     C.WRITING_NO  = #{writing_no}
+        AND     WV.USER_ID    = C.REGPE_ID
+        AND     WV.WRITING_NO = C.WRITING_NO
+        AND     WV.VOTE       = #{vote}
     </select>
     
  	<update id="updateCommentPrefer" parameterType="commentPrefer">
