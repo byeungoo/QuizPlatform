@@ -190,7 +190,7 @@
     </li>
   </script>
   <script id="page_detail-after" type="text/x-jsrender">
-    <div class="contents ty_after detail-sec_contents">
+    <section class="contents ty_after detail-sec_contents">
         {{if vote == 1}}
                 <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
@@ -231,7 +231,18 @@
 
         <ul class="comment-list">
         </ul>
-    </div>
+
+        <footer class="reply">
+            <label for="reply" class="reply_label">
+                <input type="text" class="reply_inp" id="reply"></input>
+                <button type="button" class="reply_submit">
+                    <svg class="ic ic--stamp">
+                        <use xlink:href="#stamp" />
+                    </svg>
+                </button>
+            </label>
+        </footer>
+    </section>
 </script>
 
 <script id="page_detail" type="text/x-jsrender">
