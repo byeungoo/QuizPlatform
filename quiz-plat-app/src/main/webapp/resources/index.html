@@ -233,6 +233,12 @@
         </ul>
 
         <footer class="reply">
+            <div class="reply_nickarea" data-comment-id>
+                <span class="reply_nick">아이디최대길이알파베타감마15</span>
+                <span class="reply_close">
+                    <svg><use xlink:href="#close"></use></svg>
+                </span>
+            </div>
             <label for="reply" class="reply_label">
                 <input type="text" class="reply_inp" id="reply"></input>
                 <button type="button" class="reply_submit">
@@ -242,6 +248,7 @@
                 </button>
             </label>
         </footer>
+
     </section>
 </script>
 
@@ -359,14 +366,23 @@
             <span class="comment_refcnt">{{:recom_num}}</span>
         </p>
         <div class="comment_header-optbar">
-            <button type="button" class="comment_hdopts">
-                <svg class="ic ic--upbtn comment_header-up"><use xlink:href="#upbtn"></use></svg>
+            <button type="button" class="comment_hdopts comment_header-up">
+                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="comment_rdo0{{:comment_no}}">
+                <label for="comment_rdo0{{:comment_no}}">
+                    <svg class="ic ic--upbtn"><use xlink:href="#upbtn"></use></svg>
+                </label>
             </button>
-            <button type="button" class="comment_hdopts">
-                <svg class="ic ic--downbtn comment_header-down"><use xlink:href="#downbtn"></use></svg>
+            <button type="button" class="comment_hdopts comment_header-down">
+                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="comment_rdo1{{:comment_no}}">
+                <label for="comment_rdo1{{:comment_no}}">
+                    <svg class="ic ic--downbtn"><use xlink:href="#downbtn"></use></svg>
+                </label>
             </button>
-            <button type="button" class="comment_hdopts">
-                <svg class="ic ic--replybtn comment_header-reply"><use xlink:href="#replybtn"></use></svg>
+            <button type="button" class="comment_hdopts comment_header-reply">
+                <input class="blind comment_inp" type="radio" name="comment_chk" id="comment_chk0{{:comment_no}}">
+                <label for="comment_chk0{{:comment_no}}">
+                    <svg class="ic ic--replybtn"><use xlink:href="#replybtn"></use></svg>
+                </label>
             </button>
         </div>
     </header>
@@ -429,8 +445,10 @@
                 <time class="comment_time">{{:reg_dts}}</time>
             </footer>
             <ul class="subcomment_list">
-                {{for lowCommentDtoList tmpl="#subReplyTmpl"}}
-                {{/for}}
+                {{if lowCommentDtoList}}
+                    {{for lowCommentDtoList tmpl="#subReplyTmpl"}}
+                    {{/for}}
+                {{/if}}
             </ul>
         </section>
     </li>
