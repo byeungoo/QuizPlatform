@@ -10,6 +10,7 @@ import com.quiz.web.dto.CommentDto;
 import com.quiz.web.dto.CommentPrefer;
 import com.quiz.web.dto.LowCommentDto;
 import com.quiz.web.dto.ParamDto;
+import com.quiz.web.dto.WritingDtlDto;
 
 @Repository
 public class CommentDao {
@@ -44,6 +45,21 @@ public class CommentDao {
 	public CommentDto getCommentDto(ParamDto paramDto){
 		return sqlSession.selectOne(Namespace+".getCommentDto", paramDto);
 	}
+	
+	/*
+	 ** 베스트 댓글 조회 
+	 */
+	public List<CommentDto> getBestCommentList(WritingDtlDto writingDtlDto){
+		return sqlSession.selectList(Namespace+".getBestCommentList", writingDtlDto);
+	}
+	
+	/*
+	 ** 게시글 댓글 개수 조회 
+	 */
+	public int getCommentNum(WritingDtlDto writingDtlDto) {
+		return sqlSession.selectOne(Namespace+".getCommentNum", writingDtlDto);
+	}
+	
 	
 	/*
 	 ** 좋아요, 싫어요 업데이트

@@ -124,7 +124,7 @@ public class DetailController {
      */
     @CrossOrigin
     @RequestMapping(value = "vote", method = RequestMethod.POST)
-    public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="voteNum") int voteNum , @RequestParam(value="writingNo") int writingNo) throws Exception{
+    public @ResponseBody WritingVoteDto vote(HttpSession session, HttpServletRequest request, @RequestParam(value="vote") int vote , @RequestParam(value="writing_no") int writing_no) throws Exception{
 
     	session = request.getSession();
     	WritingVoteDto writingVoteDto = new WritingVoteDto();
@@ -133,8 +133,8 @@ public class DetailController {
 	    	UserDto userDto = userService.getUesrSettingDto(session, request);
 	    
 	    	ParamDto paramDto = new ParamDto();
-	    	paramDto.setWriting_no(writingNo);
-	    	paramDto.setVote(voteNum);
+	    	paramDto.setWriting_no(writing_no);
+	    	paramDto.setVote(vote);
 	    	paramDto.setUser_id(userDto.getUser_id());
 	    	    	
 	    	//작성글 투표수 증가 
@@ -156,7 +156,7 @@ public class DetailController {
      */
     @CrossOrigin
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
-    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writingNo") int writing_no
+    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writing_no") int writing_no
     		                                     , @RequestParam(value="depth") int depth, @RequestParam(value="parent") Integer parent) throws Exception{
 
     	session    = request.getSession();
@@ -200,6 +200,24 @@ public class DetailController {
     	
     	//대댓글 조회
     	List<CommentDto> commentDtoList  = commentService.getChildCommentList(commentDto);
+    	
+    	return commentDtoList;
+    }
+    
+    /*
+     ** 베스트댓글 조회
+     */
+    @CrossOrigin
+    @RequestMapping(value = "getBestCommentList", method = RequestMethod.GET)
+    public @ResponseBody List<CommentDto> getBestCommentList(HttpSession session, HttpServletRequest request, WritingDtlDto writingDtlDto) throws Exception{
+    	
+    	//유저 아이디 세팅
+    	session         = request.getSession();
+    	UserDto userDto = userService.getUesrSettingDto(session, request);
+    	writingDtlDto.setUser_id(userDto.getUser_id());
+    	
+    	//베스트 댓글 조회
+    	List<CommentDto> commentDtoList  = commentService.getBestCommentList(writingDtlDto);
     	
     	return commentDtoList;
     }

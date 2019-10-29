@@ -245,39 +245,39 @@
 						      , ROUND((T.FIR_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS FIR_VOTE_PERC
 						      , ROUND((T.SEC_VOTE_NO/(T.FIR_VOTE_NO+T.SEC_VOTE_NO))*100) AS SEC_VOTE_PERC
 						FROM   (
-								SELECT	W.WRITING_NO
-								      , W.TITLE
-					                  , W.FIR_WRIT_CONTENT
-					                  , W.SEC_WRIT_CONTENT
-					                  , W.FACT_CONTENT
-					                  , W.FACT_LINK
-					                  , W.SUMMARY
-								      , WIP.TITLE_IMG_PATH
-								      , W.FIR_VOTE_NO
-								      , W.SEC_VOTE_NO
-								      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
-								      , (
-									        SELECT COUNT(C.WRITING_NO)
-									        FROM   COMMENT C
-									        WHERE  1            = 1
-									        AND    C.WRITING_NO = W.WRITING_NO
-									    ) SUM_COMMENT
-									  , U.NICKNAME
-									  , W.REG_DTS
-									  , W.REGPE_ID
-								FROM    WRITING W 
-								      , WRITING_IMG_PATH WIP
-									  , USER U
-								WHERE   1 = 1
-								AND     W.USE_YN = 'Y'
-								AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
-								AND	W.WRITING_NO NOT IN (
-														    SELECT WRITING_NO
-															FROM   WRITING_VOTE WV
-															WHERE  WV.USER_ID = #{user_id}
-											            )	
-								AND		U.USER_ID      = W.REGPE_ID
-								AND		WIP.WRITING_NO = W.WRITING_NO
+								    SELECT	W.WRITING_NO
+								          , W.TITLE
+					                      , W.FIR_WRIT_CONTENT
+					                      , W.SEC_WRIT_CONTENT
+					                      , W.FACT_CONTENT
+					                      , W.FACT_LINK
+					                      , W.SUMMARY
+								          , WIP.TITLE_IMG_PATH
+								          , W.FIR_VOTE_NO
+								          , W.SEC_VOTE_NO
+								          , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
+								          , (
+									            SELECT COUNT(C.WRITING_NO)
+									            FROM   COMMENT C
+									            WHERE  1            = 1
+									            AND    C.WRITING_NO = W.WRITING_NO
+									        ) SUM_COMMENT
+									      , U.NICKNAME
+									      , W.REG_DTS
+									      , W.REGPE_ID
+								    FROM    WRITING W 
+								          , WRITING_IMG_PATH WIP
+									      , USER U
+								    WHERE   1 = 1
+								    AND     W.USE_YN = 'Y'
+								    AND     (W.WRITING_NO IS NULL OR W.WRITING_NO != #{writing_no})
+								    AND	W.WRITING_NO NOT IN (
+														       SELECT WRITING_NO
+															   FROM   WRITING_VOTE WV
+															   WHERE  WV.USER_ID = #{user_id}
+											                )	
+								    AND		U.USER_ID      = W.REGPE_ID
+								    AND		WIP.WRITING_NO = W.WRITING_NO
 						       ) T
 						       , ( SELECT @ROWNUM := 0 ) R
 						WHERE 1 = 1
