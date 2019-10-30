@@ -130,6 +130,7 @@
         FROM      COMMENT C
                 , USER U
         WHERE   1 = 1
+        AND     C.WRITING_NO = #{writing_no}
         AND     C.COMMENT_NO = #{comment_no}
         AND     C.REGPE_ID   = U.USER_ID
     </select>
