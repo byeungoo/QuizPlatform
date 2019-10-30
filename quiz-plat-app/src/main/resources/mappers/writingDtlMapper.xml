@@ -19,6 +19,8 @@
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 					      , WIP.TITLE_IMG_PATH
+					      , W.CHOICE1
+					      , W.CHOICE2
 					      , (
 						       SELECT COUNT(C.WRITING_NO)
 						       FROM   COMMENT C
@@ -102,6 +104,8 @@
     						   , SUMMARY
     						   , FACT_CONTENT
     						   , FACT_LINK
+    						   , CHOICE1
+    						   , CHOICE2
     				       )
     			     VALUES(
     			                 #{ques_type_div_cd}
@@ -118,6 +122,8 @@
     			               , #{summary}
     			               , #{fact_content}
     			               , #{fact_link}
+    			               , #{choice1}
+    			               , #{chocie2}
     			            )
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()

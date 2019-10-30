@@ -18,6 +18,8 @@ public class WritingDtlDto extends BaseDto{
 	private String fact_link;         //팩트링크 정보
 	private String title_img_path;    //제목 이미지 경로
 	private String nickname;          //닉네임
+	private String choice1;           //선택지1
+	private String choice2;           //선택지2
 	private int    hits;              //조회수
 	private int    sum_vote;          //총 투표수
 	private int    sum_comment;       //총 댓글수
@@ -183,5 +185,17 @@ public class WritingDtlDto extends BaseDto{
 	}
 	public void setFact_link(String fact_link) {
 		this.fact_link = fact_link;
+	}
+	public String getChoice1() {
+		return choice1;
+	}
+	public void setChoice1(String choice1) {
+		this.choice1 = choice1;
+	}
+	public String getChoice2() {
+		return choice2;
+	}
+	public void setChoice2(String choice2) {
+		this.choice2 = choice2;
 	}
 }
