@@ -145,34 +145,34 @@ public class CommentService {
 			
 			writingDtlDto.setVote(1);
 			
-			if((agreeVote>5 && agreeVote<=10) && (disagreeVote>5 && disagreeVote<=10)) {
+			if((agreeVote>=5 && agreeVote<10) && (disagreeVote>=5 && disagreeVote<10)) {
 				
 				bestCommentNum = 1; //진영별 베스트 댓글 1개
+				writingDtlDto.setStart(0);
+				writingDtlDto.setEnd(bestCommentNum);
 				
 				agreeBestCommentDtoList    = commentDao.getBestCommentList(writingDtlDto);
 				writingDtlDto.setVote(2);
-				writingDtlDto.setStart(0);
-				writingDtlDto.setEnd(bestCommentNum);
 				disagreeBestCommentDtoList = commentDao.getBestCommentList(writingDtlDto);
 				
-			} else if((agreeVote>10 && agreeVote <= 15) && (disagreeVote>10 && disagreeVote<=15)) {
+			} else if((agreeVote>=10 && agreeVote < 15) && (disagreeVote>=10 && disagreeVote<15)) {
 				
 				bestCommentNum = 2; //진영별 베스트 댓글 2개
+				writingDtlDto.setStart(0);
+				writingDtlDto.setEnd(bestCommentNum);
 				
 				agreeBestCommentDtoList    = commentDao.getBestCommentList(writingDtlDto);
 				writingDtlDto.setVote(2);
-				writingDtlDto.setStart(0);
-				writingDtlDto.setEnd(bestCommentNum);
 				disagreeBestCommentDtoList = commentDao.getBestCommentList(writingDtlDto);
 				
-			} else if(agreeVote > 15 && disagreeVote > 15) {
+			} else if(agreeVote >= 15 && disagreeVote >= 15) {
 				
 				bestCommentNum = 3; //진영별 베스트 댓글 3개
+				writingDtlDto.setStart(0);
+				writingDtlDto.setEnd(bestCommentNum);
 				
 				agreeBestCommentDtoList    = commentDao.getBestCommentList(writingDtlDto);
 				writingDtlDto.setVote(2);
-				writingDtlDto.setStart(0);
-				writingDtlDto.setEnd(bestCommentNum);
 				disagreeBestCommentDtoList = commentDao.getBestCommentList(writingDtlDto);
 				
 			}

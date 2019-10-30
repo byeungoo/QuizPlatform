@@ -110,37 +110,41 @@
     
     <select id="getCommentDto" parameterType="paramDto" resultType="commentDto">
         /* com.quiz.mapper.commentMapper.getCommentDto */
-        SELECT  A.*
-              , WV.VOTE
-        FROM  (
-                SELECT  C.WRITING_NO
-              		  , C.COMMENT_NO
-              		  , C.PARENT
-              		  , C.COMMENT_CONTENT
-              		  , C.DEPTH
-			  		  , C.RECOM_NUM
-	          		  , C.REGPE_ID
-	          	      , C.REG_DTS
-	          		  , C.MOD_DTS
-	          	 	  , U.NICKNAME
-        		FROM    COMMENT C
-              		  , USER U
-        		WHERE   1 = 1
-        		AND     C.WRITING_NO = #{writing_no}
-        		AND     C.COMMENT_NO = #{comment_no}
-        		AND     C.REGPE_ID   = U.USER_ID
-        		ORDER BY C.REG_DTS DESC
-        	 ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
-       WHERE 1    = 1
+        SELECT    C.WRITING_NO
+                , C.COMMENT_NO
+                , C.PARENT
+                , C.COMMENT_CONTENT
+                , C.DEPTH
+                , C.RECOM_NUM
+                , C.REGPE_ID
+                , C.REG_DTS
+                , C.MOD_DTS
+                , U.NICKNAME
+                , (
+                      SELECT  WV.VOTE
+                      FROM    WRITING_VOTE WV
+                      WHERE   1 = 1
+                      AND     WV.WRITING_NO = C.WRITING_NO
+                      AND     WV.USER_ID    = C.REGPE_ID 
+                ) "VOTE"
+        FROM      COMMENT C
+                , USER U
+        WHERE   1 = 1
+        AND     C.WRITING_NO = #{writing_no}
+        AND     C.COMMENT_NO = #{comment_no}
+        AND     C.REGPE_ID   = U.USER_ID
     </select>
     
     <select id="getCommentNum" parameterType="writingDtlDto" resultType="int">
         /* 게시글 댓글 개수 조회 쿼리 com.quiz.mapper.commentMapper.getCommentNum */
         SELECT  COUNT(*)
-        FROM    COMMENT
+        FROM    COMMENT C
+              , WRITING_VOTE WV
         WHERE   1 = 1
-        AND     WRITING_NO = #{writing_no}
-        AND     VOTE       = #{vote}
+        AND     C.WRITING_NO  = #{writing_no}
+        AND     WV.USER_ID    = C.REGPE_ID
+        AND     WV.WRITING_NO = C.WRITING_NO
+        AND     WV.VOTE       = #{vote}
     </select>
     
  	<update id="updateCommentPrefer" parameterType="commentPrefer">
