@@ -78,6 +78,8 @@
 			  		AND    WR.WRITING_NO = #{writing_no}
 			  		AND	   WR.USER_ID    = #{user_id} 
 			    ) AS REPORT
+			  , W.CHOICE1
+			  , W.CHOICE2
      	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
      	      , USER U
      	      , WRITING_IMG_PATH WIP
