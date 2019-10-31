@@ -194,7 +194,7 @@
         {{if vote == 1}}
                 <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
-                        <h1 class="vote-result_tit">찬성 <span class="vote-result_count">{{: votePerc[0]}}</span>%</h1>
+                        <h1 class="vote-result_tit">{{:choice1}} <span class="vote-result_count">{{: votePerc[0]}}</span>%</h1>
                         <p class="vote-result_subtit">
                             <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:voteNoArr[0]}}</span>명
                         </p>
@@ -203,10 +203,10 @@
                         <div class="vote-result_progfill"></div>
                     </div>
                 </section>
-            {{else}}
+        {{else vote == 2}}
                 <section class="vote-result vote-result--cons">
                     <header class="vote-result_header">
-                        <h1 class="vote-result_tit">찬성 <span class="vote-result_count">{{: votePerc[1]}}</span>%</h1>
+                        <h1 class="vote-result_tit">{{:choice2}} <span class="vote-result_count">{{:votePerc[1]}}</span>%</h1>
                         <p class="vote-result_subtit">
                             <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:voteNoArr[1]}}</span>명
                         </p>
@@ -234,7 +234,7 @@
 
         <footer class="reply">
             <div class="reply_nickarea" data-comment-id>
-                <span class="reply_nick">아이디최대길이알파베타감마15</span>
+                <span class="reply_nick"></span>
                 <span class="reply_close">
                     <svg><use xlink:href="#close"></use></svg>
                 </span>
@@ -285,7 +285,7 @@
     
         <section class="content contents_content">
             <header class="content_header">
-                <h1 class="content_title">찬성의견</h1>
+                <h1 class="content_title">{{:choice1}}</h1>
             </header>
             <ul class="list list--1">
                 {{:fir_writ_content}}
@@ -295,7 +295,7 @@
     
         <section class="content contents_content">
             <header class="content_header">
-                <h1 class="content_title">반대의견</h1>
+                <h1 class="content_title">{{:choice2}}</h1>
             </header>
             <ul class="list list--2">
                 {{:sec_writ_content}}
@@ -340,10 +340,10 @@
             </button>
             <div class="btnarea_after-conts js-after">
                 <button type="button" class="btn btn--size_m btn--after js-after-opt1" value="1">
-                    <span class="btn_tx">청소년 보호법 폐지</span>
+                    <span class="btn_tx">{{:choice1}}</span>
                 </button>
                 <button type="button" class="btn btn--size_m btn--after js-after-opt2" value="2">
-                    <span class="btn_tx">청소년 보호법 유지</span>
+                    <span class="btn_tx">{{:choice2}}</span>
                 </button>
             </div>
        </section>
