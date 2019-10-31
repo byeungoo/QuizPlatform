@@ -27,7 +27,7 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
         response.setHeader("Access-Control-Allow-Credentials", true);
         
-        response.setHeader("Access-Control-Allow-Origin", "https://localhost");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost");
      
  
  
