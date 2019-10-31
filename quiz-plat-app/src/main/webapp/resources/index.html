@@ -367,13 +367,13 @@
         </p>
         <div class="comment_header-optbar">
             <button type="button" class="comment_hdopts comment_header-up">
-                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="comment_rdo0{{:comment_no}}" {{if prefer == 1}} checked disabled{{else}} disabled {{/if}}>
+                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="comment_rdo0{{:comment_no}}" {{if prefer == 1}} checked disabled{{else prefer == 2 }} disabled {{/if}}>
                 <label for="comment_rdo0{{:comment_no}}">
                     <svg class="ic ic--upbtn"><use xlink:href="#upbtn"></use></svg>
                 </label>
             </button>
             <button type="button" class="comment_hdopts comment_header-down">
-                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="comment_rdo1{{:comment_no}}" {{if prefer == 2}} checked disabled{{else}} disabled {{/if}}>
+                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="comment_rdo1{{:comment_no}}" {{if prefer == 2}} checked disabled{{else prefer == 1 }} disabled {{/if}}>
                 <label for="comment_rdo1{{:comment_no}}">
                     <svg class="ic ic--downbtn"><use xlink:href="#downbtn"></use></svg>
                 </label>
@@ -395,13 +395,13 @@
         </p>
         <div class="comment_header-optbar">
             <button type="button" class="comment_hdopts comment_header-up">
-                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="subcomment_rdo0{{:comment_no}}" {{if prefer == 1}} checked disabled{{else}} disabled {{/if}} >
+                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="subcomment_rdo0{{:comment_no}}"{{if prefer == 1}} checked disabled{{else prefer == 2 }} disabled {{/if}} >
                 <label for="subcomment_rdo0{{:comment_no}}">
                     <svg class="ic ic--upbtn"><use xlink:href="#upbtn"></use></svg>
                 </label>
             </button>
             <button type="button" class="comment_hdopts comment_header-down">
-                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="subcomment_rdo1{{:comment_no}}" {{if prefer == 2}} checked disabled{{else}} disabled {{/if}}>
+                <input class="blind recom_grp" type="radio" name="comment_rdo{{:comment_no}}" id="subcomment_rdo1{{:comment_no}}" {{if prefer == 2}} checked disabled{{else prefer == 1 }} disabled {{/if}}>
                 <label for="subcomment_rdo1{{:comment_no}}">
                     <svg class="ic ic--downbtn"><use xlink:href="#downbtn"></use></svg>
                 </label>
