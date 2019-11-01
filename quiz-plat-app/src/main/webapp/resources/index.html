@@ -193,70 +193,7 @@
       </a>
     </li>
   </script>
-  <script id="page_detail-after" type="text/x-jsrender">
-    <section class="contents ty_after on detail-sec_contents" data-vote="2">
-        {{if vote == 1}}
-                <section class="vote-result vote-result--pros">
-                    <header class="vote-result_header">
-                        <h1 class="vote-result_tit">{{:choice1}} <span class="vote-result_count">{{:fir_vote_perc}}</span>%</h1>
-                        <p class="vote-result_subtit">
-                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:fir_vote_no}}</span>명
-                        </p>
-                    </header>
-                    <div class="vote-result_progbar">
-                        <div class="vote-result_progfill" style="width:{{:fir_vote_perc}}px"></div>
-                    </div>
-                </section>
-        {{else vote == 2}}
-                <section class="vote-result vote-result--cons">
-                    <header class="vote-result_header">
-                        <h1 class="vote-result_tit">{{:choice2}} <span class="vote-result_count">{{:sec_vote_perc}}</span>%</h1>
-                        <p class="vote-result_subtit">
-                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:sec_vote_no}}</span>명
-                        </p>
-                    </header>
-                    <div class="vote-result_progbar">
-                        <div class="vote-result_progfill" style="width:{{:sec_vote_perc}}px"></div>
-                    </div>
-                </section>
-        {{/if}}
-
-        <button type="button" class="expand-detail contents_expand-detail">
-            <span class="expand-detail_tit">본문 펼치기</span>
-            <i class="expand-detail_arrow"></i>
-        </button>
-
-        {{include tmpl="#page_detail-before"/}}
-
-        <ul class="comment-bestlist">
-            <li class="comment-bestlist_item">
-            </li>
-        </ul>
-
-        <ul class="comment-list">
-        </ul>
-
-        <footer class="reply">
-            <div class="reply_nickarea" data-comment-id>
-                <span class="reply_nick"></span>
-                <span class="reply_close">
-                    <svg><use xlink:href="#close"></use></svg>
-                </span>
-            </div>
-            <label for="reply" class="reply_label">
-                <input type="text" class="reply_inp" id="reply"></input>
-                <button type="button" class="reply_submit">
-                    <svg class="ic ic--stamp">
-                        <use xlink:href="#stamp" />
-                    </svg>
-                </button>
-            </label>
-        </footer>
-
-    </section>
-</script>
-
-<script id="page_detail-footer" type="text/x-jsrender">
+  <script id="page_detail-footer" type="text/x-jsrender">
     <section class="howthink">
         <figure class="howthink_figure">
             <span class="howthink_img"></span>
@@ -294,8 +231,69 @@
     </div>
 </script>
 
+<script id="page_detail-after" type="text/x-jsrender">
+    <section class="contents ty_after {{if vote !== null }} on {{/if}} detail-sec_contents" data-vote="{{:vote}}">
+        {{if vote == 1}}
+                <section class="vote-result vote-result--pros">
+                    <header class="vote-result_header">
+                        <h1 class="vote-result_tit">{{:choice1}} <span class="vote-result_count">{{:fir_vote_perc}}</span>%</h1>
+                        <p class="vote-result_subtit">
+                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:fir_vote_no}}</span>명
+                        </p>
+                    </header>
+                    <div class="vote-result_progbar">
+                        <div class="vote-result_progfill" style="width:{{:fir_vote_perc}}px"></div>
+                    </div>
+                </section>
+        {{else vote == 2}}
+                <section class="vote-result vote-result--cons">
+                    <header class="vote-result_header">
+                        <h1 class="vote-result_tit">{{:choice2}} <span class="vote-result_count">{{:sec_vote_perc}}</span>%</h1>
+                        <p class="vote-result_subtit">
+                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:sec_vote_no}}</span>명
+                        </p>
+                    </header>
+                    <div class="vote-result_progbar">
+                        <div class="vote-result_progfill" style="width:{{:sec_vote_perc}}px"></div>
+                    </div>
+                </section>
+        {{/if}}
+
+        <button type="button" class="expand-detail contents_expand-detail">
+            <span class="expand-detail_tit">본문 펼치기</span>
+            <i class="expand-detail_arrow"></i>
+        </button>
+
+        <ul class="comment-bestlist">
+            <li class="comment-bestlist_item">
+            </li>
+        </ul>
+
+        <ul class="comment-list">
+        </ul>
+
+        <footer class="reply">
+            <div class="reply_nickarea" data-comment-id>
+                <span class="reply_nick"></span>
+                <span class="reply_close">
+                    <svg><use xlink:href="#close"></use></svg>
+                </span>
+            </div>
+            <label for="reply" class="reply_label">
+                <input type="text" class="reply_inp" id="reply"></input>
+                <button type="button" class="reply_submit">
+                    <svg class="ic ic--stamp">
+                        <use xlink:href="#stamp" />
+                    </svg>
+                </button>
+            </label>
+        </footer>
+
+    </section>
+</script>
+
 <script id="page_detail-before" type="text/x-jsrender">
-    <div class="contents ty_before {{if vote !== null }} on {{/if}} detail-sec_contents">
+    <div class="contents ty_before {{if vote === null }} on {{/if}} detail-sec_contents">
         <section class="content contents_content">
             <header class="content_header">
             </header>
@@ -363,12 +361,8 @@
             </div>
         </div>
 
-        {{if vote !== null }}
-            {{include tmpl="#page_detail-before" /}}
-        {{else}}
-            {{include tmpl="#page_detail-after" /}}
-        {{/if}}
-
+        {{include tmpl="#page_detail-before" /}}
+        {{include tmpl="#page_detail-after" /}}
     </main>
  </script>
 
