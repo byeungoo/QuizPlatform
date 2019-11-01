@@ -1,7 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "dde0822608d13e46a654",
+    "revision": "5a6cfc3758017b4a7eb6",
     "url": "/resources/app.bundle.js"
+  },
+  {
+    "revision": "5a6cfc3758017b4a7eb6",
+    "url": "/resources/app.css"
   },
   {
     "revision": "a53d1a798a00b3ac907dbb33211a1895",
@@ -36,7 +40,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resources/vendors.bundle.js"
   },
   {
-    "revision": "1dd31209ae0369492f7b",
+    "revision": "649012563d10063a1289",
     "url": "/resources/write.bundle.js"
+  },
+  {
+    "revision": "649012563d10063a1289",
+    "url": "/resources/write.css"
   }
 ]);
