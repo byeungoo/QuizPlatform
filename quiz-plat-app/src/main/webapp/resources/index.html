@@ -190,7 +190,7 @@
     </li>
   </script>
   <script id="page_detail-after" type="text/x-jsrender">
-    <section class="contents ty_after on detail-sec_contents" data-vote="{{:vote}}">
+    <section class="contents ty_after on detail-sec_contents" data-vote="2">
         {{if vote == 1}}
                 <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
@@ -224,8 +224,6 @@
 
         <ul class="comment-bestlist">
             <li class="comment-bestlist_item">
-                {{include tmpl="#bestReplyTmpl" /}}
-                {{include tmpl="#bestReplyTmpl" /}}
             </li>
         </ul>
 
@@ -422,21 +420,21 @@
     </header>
 </script>
  <script id="bestReplyTmpl" type="text/x-jsrender">
-    <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}">
+    <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-depth="{{:depth}}" data-vote="{{:vote}}">
         {{include tmpl="#comment_header--best" /}}
         <section class="comment_subheader">
             <p class="comment_optionwrap">
-                <span class="comment_option">정시 확대</span>
-                <span class="comment_option">수시 확대</span>
+                <span class="comment_option">{{:choice1}}</span>
+                <span class="comment_option">{{:choice2}}</span>
             </p>
         </section>
         <section class="comment_contents">
             <p class="comment_maintx">
-                댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔 댓글을 좔좔좔좔
+                {{:comment_content}}
             </p>
         </section>
         <footer class="comment_footer">
-            <time class="comment_time">2019.11.28 23:30:20</time>
+            <time class="comment_time">{{:reg_dts}}</time>
         </footer>
     </section>
 </script>
