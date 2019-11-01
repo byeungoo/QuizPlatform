@@ -194,9 +194,9 @@
         {{if vote == 1}}
                 <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
-                        <h1 class="vote-result_tit">{{:choice1}} <span class="vote-result_count">{{: votePerc[0]}}</span>%</h1>
+                        <h1 class="vote-result_tit">{{:choice1}} <span class="vote-result_count">{{:fir_vote_perc}}</span>%</h1>
                         <p class="vote-result_subtit">
-                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:voteNoArr[0]}}</span>명
+                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:fir_vote_no}}</span>명
                         </p>
                     </header>
                     <div class="vote-result_progbar">
@@ -206,9 +206,9 @@
         {{else vote == 2}}
                 <section class="vote-result vote-result--cons">
                     <header class="vote-result_header">
-                        <h1 class="vote-result_tit">{{:choice2}} <span class="vote-result_count">{{:votePerc[1]}}</span>%</h1>
+                        <h1 class="vote-result_tit">{{:choice2}} <span class="vote-result_count">{{:sec_vote_perc}}</span>%</h1>
                         <p class="vote-result_subtit">
-                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:voteNoArr[1]}}</span>명
+                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:sec_vote_no}}</span>명
                         </p>
                     </header>
                     <div class="vote-result_progbar">
