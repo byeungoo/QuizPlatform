@@ -172,7 +172,11 @@
             <span class="ic_sm ic_new"></span>
         </div>
         <div class="crd_img">
-        <span class="img" style="background-image:url('http://pickvs.com{{:title_img_path}}')" alt="카드이미지">
+          <span class="img" style="background-image:url('https://pickvs.com{{:title_img_path}}')" alt="카드이미지">
+              <video class="crd_video">
+                <source src="https://pickvs.com{{:title_img_path}}" type="video/mp4">
+              </video>
+          </span>
         </div>
         <div class="crd_conts">
           <div class="crd_infos">
@@ -189,8 +193,46 @@
       </a>
     </li>
   </script>
-  <script id="page_detail-after" type="text/x-jsrender">
-    <section class="contents ty_after on detail-sec_contents" data-vote="2">
+  <script id="page_detail-footer" type="text/x-jsrender">
+    <section class="howthink">
+        <figure class="howthink_figure">
+            <span class="howthink_img"></span>
+            <figcaption class="howthink_figcap">
+                <p class="howthink_desc">다른 사람들은 어떻게 생각할까요?</p>
+                <p class="howthink_desc">투표 후 결과를 확인해보세요!</p>
+            </figcaption>
+        </figure>
+    </section>
+
+    <div class="btnarea btnarea--fixBottom btnarea--them1 js-vote-btn-wrap">
+        <div class="btnarea_before">
+            <button type="button" class="btn btn--size_l btn--before js-before">
+                <span class="btn_tx">투표하기</span>
+                <svg class="ic ic--stamp"><use xlink:href="#stamp" /></svg>
+            </button>
+        </div>
+        <section class="btnarea_after">
+                <header class="btnarea_after-header">
+                        <h1 class="btnarea_tit">투표하기</h1>
+                        <svg class="ic ic--stamp"><use xlink:href="#stamp" /></svg>
+                </header>
+                <button type="button" class="btnarea_after-close">
+                    <svg class="ic ic--close"><use xlink:href="#close" /></svg>
+                </button>
+                <div class="btnarea_after-conts js-after">
+                    <button type="button" class="btn btn--size_m btn--after js-after-opt1" value="1">
+                        <span class="btn_tx">{{:choice1}}</span>
+                    </button>
+                    <button type="button" class="btn btn--size_m btn--after js-after-opt2" value="2">
+                        <span class="btn_tx">{{:choice2}}</span>
+                    </button>
+                </div>
+        </section>
+    </div>
+</script>
+
+<script id="page_detail-after" type="text/x-jsrender">
+    <section class="contents ty_after {{if vote !== null }} on {{/if}} detail-sec_contents" data-vote="{{:vote}}">
         {{if vote == 1}}
                 <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
@@ -251,7 +293,7 @@
 </script>
 
 <script id="page_detail-before" type="text/x-jsrender">
-    <div class="contents ty_before on detail-sec_contents">
+    <div class="contents ty_before {{if vote === null }} on {{/if}} detail-sec_contents">
         <section class="content contents_content">
             <header class="content_header">
             </header>
@@ -286,42 +328,7 @@
             </ul>
         </section>
 
-        <section class="howthink">
-            <figure class="howthink_figure">
-                <span class="howthink_img"></span>
-                <figcaption class="howthink_figcap">
-                    <p class="howthink_desc">다른 사람들은 어떻게 생각할까요?</p>
-                    <p class="howthink_desc">투표 후 결과를 확인해보세요!</p>
-                </figcaption>
-            </figure>
-        </section>
-
-        <div class="btnarea btnarea--fixBottom btnarea--them1 js-vote-btn-wrap">
-            <div class="btnarea_before">
-                <button type="button" class="btn btn--size_l btn--before js-before">
-                    <span class="btn_tx">투표하기</span>
-                    <svg class="ic ic--stamp"><use xlink:href="#stamp" /></svg>
-                </button>
-            </div>
-            <section class="btnarea_after">
-                    <header class="btnarea_after-header">
-                            <h1 class="btnarea_tit">투표하기</h1>
-                            <svg class="ic ic--stamp"><use xlink:href="#stamp" /></svg>
-                    </header>
-                    <button type="button" class="btnarea_after-close">
-                        <svg class="ic ic--close"><use xlink:href="#close" /></svg>
-                    </button>
-                    <div class="btnarea_after-conts js-after">
-                        <button type="button" class="btn btn--size_m btn--after js-after-opt1" value="1">
-                            <span class="btn_tx">{{:choice1}}</span>
-                        </button>
-                        <button type="button" class="btn btn--size_m btn--after js-after-opt2" value="2">
-                            <span class="btn_tx">{{:choice2}}</span>
-                        </button>
-                    </div>
-            </section>
-        </div>
-
+        {{include tmpl="#page_detail-footer"/}}
     </div>
 </script>
 
@@ -334,7 +341,10 @@
                 <span class="ic_sm ic_new"></span>
             </div>
             <div class="crd_img">
-                <span class="img" style="background-image:url(http://pickvs.com{{:title_img_path}});" alt="이미지">
+                <span class="img" style="background-image:url(https://pickvs.com{{:title_img_path}});" alt="이미지">
+                    <video loop muted class="crd_video">
+                        <source src="https://pickvs.com{{:title_img_path}}" type="video/mp4">
+                    </video>
                 </span>
             </div>
             <div class="crd_conts">
@@ -351,12 +361,8 @@
             </div>
         </div>
 
-        {{if vote === null }}
-            {{include tmpl="#page_detail-before" /}}
-        {{else}}
-            {{include tmpl="#page_detail-after" /}}
-        {{/if}}
-
+        {{include tmpl="#page_detail-before" /}}
+        {{include tmpl="#page_detail-after" /}}
     </main>
  </script>
 
