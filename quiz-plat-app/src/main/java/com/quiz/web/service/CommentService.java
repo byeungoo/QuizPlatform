@@ -131,9 +131,9 @@ public class CommentService {
      */
 	public List<CommentDto> getBestCommentList(WritingDtlDto writingDtlDto) throws Exception{
 		
-		List<CommentDto> bestCommentDtoList = new ArrayList();
-		List<CommentDto> agreeBestCommentDtoList = new ArrayList();
-		List<CommentDto> disagreeBestCommentDtoList = new ArrayList();
+		List<CommentDto> bestCommentDtoList = new ArrayList<>();
+		List<CommentDto> agreeBestCommentDtoList = new ArrayList<>();
+		List<CommentDto> disagreeBestCommentDtoList = new ArrayList<>();
 		
 		Integer userVote   = writingDtlDto.getVote();
 		int bestCommentNum = 0;  //각 진영의 베스트 댓글 개수
