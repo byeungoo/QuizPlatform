@@ -168,7 +168,7 @@
     }
   </script>
   <script id='cardTmpl' type="text/x-jsrender">
-    <li class="crd" id="{{:writing_no}}">
+    <li class="crd {{if vote}} on {{/if}}" id="{{:writing_no}}">
       <a href="./detail/{{:writing_no}}">
         <div class="crd_stat">
             <span class="ic_sm ic_hot"></span>
@@ -241,19 +241,19 @@
                     <header class="vote-result_header">
                         <h1 class="vote-result_tit">{{:choice1}} <span class="vote-result_count">{{:fir_vote_perc}}</span>%</h1>
                         <p class="vote-result_subtit">
-                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:fir_vote_no}}</span>명
+                            <span class="total">{{:sum_vote}}</span>명 중 <span class="current">{{:fir_vote_no}}</span>명
                         </p>
                     </header>
                     <div class="vote-result_progbar">
                         <div class="vote-result_progfill" style="width:{{:fir_vote_perc}}px"></div>
                     </div>
                 </section>
-        {{else vote == 2}}
-                <section class="vote-result vote-result--cons">
+        {{else}}
+                <section class="vote-result vote-result--pros">
                     <header class="vote-result_header">
                         <h1 class="vote-result_tit">{{:choice2}} <span class="vote-result_count">{{:sec_vote_perc}}</span>%</h1>
                         <p class="vote-result_subtit">
-                            <span class="total">{{:totalVoteNum}}</span>명 중 <span class="current">{{:sec_vote_no}}</span>명
+                            <span class="total">{{:sum_vote}}</span>명 중 <span class="current">{{:sec_vote_no}}</span>명
                         </p>
                     </header>
                     <div class="vote-result_progbar">
