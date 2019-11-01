@@ -173,7 +173,7 @@
         </div>
         <div class="crd_img">
           <span class="img" style="background-image:url('https://pickvs.com{{:title_img_path}}')" alt="카드이미지">
-              <video loop muted autoplay class="crd_video">
+              <video loop muted autoplay playsinline class="crd_video">
                 <source src="https://pickvs.com{{:title_img_path}}" type="video/mp4">
               </video>
           </span>
@@ -353,7 +353,7 @@
             </div>
             <div class="crd_img">
                 <span class="img" style="background-image:url(https://pickvs.com{{:title_img_path}});" alt="이미지">
-                    <video loop muted autoplay class="crd_video">
+                    <video loop muted autoplay playsinline class="crd_video">
                         <source src="https://pickvs.com{{:title_img_path}}" type="video/mp4">
                     </video>
                 </span>
@@ -458,12 +458,12 @@
 
 <script id="replyTmpl" type="text/x-jsrender">
     <li class="comment-list_item">
-        <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}">
+        <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-vote="{{:vote}}">
             {{include tmpl="#comment_header--plain" /}}
             <section class="comment_subheader">
                 <p class="comment_optionwrap">
-                    <span class="comment_option">정시 확대</span>
-                    <span class="comment_option">수시 확대</span>
+                    <span class="comment_option">{{:choice1}}</span>
+                    <span class="comment_option">{{:choice2}}</span>
                 </p>
             </section>
             <section class="comment_contents">
@@ -486,12 +486,12 @@
 
 <script id="subReplyTmpl" type="text/x-jsrender">
     <li class="subcomment_item">
-        <section class="comment comment--sub {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}">
+        <section class="comment comment--sub {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-vote={{:vote}}>
             {{include tmpl="#subcomment_header" /}}
             <section class="comment_subheader">
                 <p class="comment_optionwrap">
-                    <span class="comment_option">정시 확대</span>
-                    <span class="comment_option">수시 확대</span>
+                    <span class="comment_option">{{:choice1}}</span>
+                    <span class="comment_option">{{:choice2}}대대</span>
                 </p>
             </section>
             <section class="comment_contents">
