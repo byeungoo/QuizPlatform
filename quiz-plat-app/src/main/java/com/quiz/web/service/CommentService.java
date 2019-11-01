@@ -50,8 +50,11 @@ public class CommentService {
 			
 		    for(CommentDto tempCommentDto : commentDtoList) {
 		    	
-		    	int sum_prefer = tempCommentDto.getRecom_num() - tempCommentDto.getHate_num();
-		    	tempCommentDto.setSum_prefer(sum_prefer); //좋아요수 - 싫어요수 세팅
+		    	int sum_prefer = tempCommentDto.getSum_prefer();
+		    	if(sum_prefer<0) {
+		    		sum_prefer = 0;
+			    	tempCommentDto.setSum_prefer(sum_prefer); //좋아요수 - 싫어요수 세팅
+		    	}
 		    	
 			    //각 댓글의 대댓글 세팅
 		    	CommentDto paramComment = new CommentDto();
@@ -90,9 +93,13 @@ public class CommentService {
 			
 			//좋아요-싫어요 수 세팅
 			for(LowCommentDto tempLowCommentDto : lowCommentDtoList) {
-				int sum_prefer = tempLowCommentDto.getRecom_num() - tempLowCommentDto.getHate_num();
-				tempLowCommentDto.setSum_prefer(sum_prefer);
+				int sum_prefer = tempLowCommentDto.getSum_prefer();
 				
+				if(sum_prefer<0) {
+					sum_prefer = 0;
+					tempLowCommentDto.setSum_prefer(sum_prefer);
+				}
+
 		    	//내가 쓴 댓글인지 판단
 			    if(tempLowCommentDto.getRegpe_id().equals(paramComment.getUser_id())) {
 			    	tempLowCommentDto.setMine(true);
@@ -128,9 +135,9 @@ public class CommentService {
      */
 	public List<CommentDto> getBestCommentList(WritingDtlDto writingDtlDto) throws Exception{
 		
-		List<CommentDto> bestCommentDtoList = new ArrayList();
-		List<CommentDto> agreeBestCommentDtoList = new ArrayList();
-		List<CommentDto> disagreeBestCommentDtoList = new ArrayList();
+		List<CommentDto> bestCommentDtoList = new ArrayList<CommentDto>();
+		List<CommentDto> agreeBestCommentDtoList = new ArrayList<CommentDto>();
+		List<CommentDto> disagreeBestCommentDtoList = new ArrayList<CommentDto>();
 		
 		Integer userVote   = writingDtlDto.getVote();
 		int bestCommentNum = 0;  //각 진영의 베스트 댓글 개수
@@ -175,6 +182,17 @@ public class CommentService {
 				writingDtlDto.setVote(2);
 				disagreeBestCommentDtoList = commentDao.getBestCommentList(writingDtlDto);
 				
+			}
+			
+			//좋아요 수 - 싫어요 수가 0보다 작을경우 0으로 세팅
+			for(int i=0;i<bestCommentNum;i++) {
+				if(agreeBestCommentDtoList.get(i).getSum_prefer() < 0) {
+					agreeBestCommentDtoList.get(i).setSum_prefer(0);
+				}
+				
+				if(disagreeBestCommentDtoList.get(i).getSum_prefer() < 0) {
+					disagreeBestCommentDtoList.get(i).setSum_prefer(0);
+				}	
 			}
 			
 			//투표 진영 반대편이 먼저오도록해서 교차로 순서 지정
@@ -244,7 +262,7 @@ public class CommentService {
     }
     
     public List<CommentDto> getChildCommentList(CommentDto commentDto) throws Exception{
-    	List<CommentDto> commentDtoList = new ArrayList();
+    	List<CommentDto> commentDtoList = new ArrayList<CommentDto>();
     	try {
     		
     		commentDtoList = commentDao.getChildCommentList(commentDto);
@@ -254,6 +272,13 @@ public class CommentService {
 			    if(tempCommentDto.getRegpe_id().equals(commentDto.getUser_id())) {
 			    	tempCommentDto.setMine(true);
 			    }
+			    
+			    //좋아요 - 싫어요 가 0보다 작을 경우 0으로 세팅
+			    int sum_prefer = tempCommentDto.getSum_prefer();
+		    	if(sum_prefer<0) {
+		    		sum_prefer = 0;
+			    	tempCommentDto.setSum_prefer(sum_prefer);
+		    	}
 		    }
 		    
 		    return commentDtoList;

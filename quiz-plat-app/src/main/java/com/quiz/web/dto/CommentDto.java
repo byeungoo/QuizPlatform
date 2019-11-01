@@ -24,6 +24,8 @@ public class CommentDto extends BaseDto{
 	private String prefer;             //0:댓글좋아요, 1:댓글싫어요, null: 선호 선택x
 	private String use_yn;             //댓글 사용여부
 	private String user_id;            //유저아이디
+	private String choice1;            //선택지1
+	private String choice2;            //선택지2
 	private boolean isSuccess;         //댓글 삭제 성공 여부
 	
 	public Integer getVote() {
@@ -127,5 +129,17 @@ public class CommentDto extends BaseDto{
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	public String getChoice1() {
+		return choice1;
+	}
+	public void setChoice1(String choice1) {
+		this.choice1 = choice1;
+	}
+	public String getChoice2() {
+		return choice2;
+	}
+	public void setChoice2(String choice2) {
+		this.choice2 = choice2;
 	}
 }

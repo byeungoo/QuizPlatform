@@ -51,12 +51,17 @@
                                                   , C.MOD_DTS
                                                   , U.NICKNAME
                                                   , C.USE_YN
+                                                  , W.CHOICE1
+                                                  , W.CHOICE2
+                                                  , C.RECOM_NUM - C.HATE_NUM AS "SUM_PREFER"
                                             FROM    COMMENT C
                                                   , USER U
+                                                  , WRITING W
                                             WHERE   1 = 1
                                             AND     C.WRITING_NO = #{writing_no}
                                             AND     C.DEPTH      = #{depth}
                                             AND     U.USER_ID    = C.REGPE_ID 
+                                            AND     W.WRITING_NO = C.WRITING_NO
                                             ORDER BY C.REG_DTS DESC
                                         ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
                                       , ( SELECT @ROWNUM := 0 ) R
@@ -96,13 +101,18 @@
 	          			  , C.MOD_DTS
 	          			  , U.NICKNAME
 	          			  , C.USE_YN
+	          			  , W.CHOICE1
+	          			  , W.CHOICE2
+	          			  , C.RECOM_NUM - C.HATE_NUM AS "SUM_PREFER"
         			FROM    COMMENT C
               			  , USER U
+              			  , WRITING W
        	 			WHERE   1 = 1
         			AND     C.WRITING_NO = #{writing_no}
         			AND     C.DEPTH      = #{depth}
         			AND     C.PARENT     = #{parent}
         			AND		U.USER_ID    = C.REGPE_ID
+        			AND     W.WRITING_NO = C.WRITING_NO
         			ORDER BY C.REG_DTS ASC
         	   ) A LEFT OUTER JOIN WRITING_VOTE WV ON WV.WRITING_NO = A.WRITING_NO AND WV.USER_ID = A.REGPE_ID
 		]]>
@@ -222,14 +232,19 @@
                                           AND     CP.COMMENT_NO = C.COMMENT_NO
                                           AND     CP.USER_ID    = #{user_id}
                                     ) AS "PREFER"
+                                    , W.CHOICE1
+                                    , W.CHOICE2
+                                    , C.RECOM_NUM - C.HATE_NUM AS "SUM_PREFER"
                                 FROM  COMMENT C
                                     , WRITING_VOTE WV
+                                    , WRITING W
                                     , USER U
                                     , ( SELECT @ROWNUM := 0 ) R
                                 WHERE   1 = 1
                                 AND C.WRITING_NO  = #{writing_no}
                                 AND C.DEPTH       = 0
                                 AND C.USE_YN      = 'Y'
+                                AND W.WRITING_NO  = C.WRITING_NO
                                 AND WV.WRITING_NO = C.WRITING_NO
                                 AND WV.VOTE       = #{vote}
                                 AND WV.USER_ID    = C.REGPE_ID
@@ -272,12 +287,16 @@
               , C.REGPE_ID
               , C.REG_DTS
               , C.MOD_DTS
+              , W.CHOICE1
+              , W.CHOICE2
+              , C.RECOM_NUM - C.HATE_NUM AS "SUM_PREFER"
 		FROM	COMMENT C
 		      , USER U
 		WHERE	1 = 1
-		AND	C.PARENT   = #{comment_no}
-		AND C.USE_YN   = 'Y'
-		AND	U.USER_ID  = C.REGPE_ID
+		AND	    C.PARENT     = #{comment_no}
+		AND     C.USE_YN     = 'Y'
+		AND	    U.USER_ID    = C.REGPE_ID
+		AND     W.WRITING_NO = C.WRITING_NO
 		ORDER BY REG_DTS
     </select>  
     
