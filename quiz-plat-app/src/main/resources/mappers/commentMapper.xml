@@ -139,7 +139,7 @@
                 ) "VOTE"
                 , W.CHOICE1
                 , W.CHOICE2
-        FROM      COMMENT C
+        FROM      COMMENT C 
                 , USER U
                 , WRITING W
         WHERE   1 = 1
