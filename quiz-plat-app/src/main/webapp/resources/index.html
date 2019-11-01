@@ -33,15 +33,6 @@
       </ul>
     </section>
     <section class="detail-sec">
-      <div class="detail-sec_header">
-        <svg class="ic ic--arrow-left">
-          <use xlink:href="#arrow" />
-        </svg>
-        <svg class="ic ic--logo">
-          <use xlink:href="#logo" />
-        </svg>
-        <i class="ic--kakao"></i>
-      </div>
     </section>
     <section class="modal modal--fix" id="_modal_xfile">
     <header class="modal_header">
@@ -342,6 +333,17 @@
 </script>
 
 <script id="page_detail" type="text/x-jsrender">
+    <div class="detail-sec_header">
+        <button type="button" class="back">
+          <svg class="ic ic--arrow-left">
+            <use xlink:href="#arrow" />
+          </svg>
+        </button>
+        <svg class="ic ic--logo">
+          <use xlink:href="#logo" />
+        </svg>
+        <i class="ic--kakao"></i>
+      </div>
     <main class="page_detail" id="{{:writing_no}}">
 
         <div class="crd">
@@ -351,7 +353,7 @@
             </div>
             <div class="crd_img">
                 <span class="img" style="background-image:url(https://pickvs.com{{:title_img_path}});" alt="이미지">
-                    <video loop muted class="crd_video">
+                    <video loop muted autoplay class="crd_video">
                         <source src="https://pickvs.com{{:title_img_path}}" type="video/mp4">
                     </video>
                 </span>
