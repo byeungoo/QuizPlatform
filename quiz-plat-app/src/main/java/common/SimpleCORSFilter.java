@@ -28,8 +28,6 @@ public class SimpleCORSFilter implements Filter {
         
         response.setHeader("Access-Control-Allow-Origin", "*");
      
- 
- 
         chain.doFilter(req, res);
     }
  
