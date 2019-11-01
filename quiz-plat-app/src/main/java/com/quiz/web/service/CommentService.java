@@ -51,6 +51,9 @@ public class CommentService {
 		    for(CommentDto tempCommentDto : commentDtoList) {
 		    	
 		    	int sum_prefer = tempCommentDto.getRecom_num() - tempCommentDto.getHate_num();
+		    	if(sum_prefer<0) {
+		    		sum_prefer = 0;
+		    	}
 		    	tempCommentDto.setSum_prefer(sum_prefer); //좋아요수 - 싫어요수 세팅
 		    	
 			    //각 댓글의 대댓글 세팅
@@ -175,6 +178,17 @@ public class CommentService {
 				writingDtlDto.setVote(2);
 				disagreeBestCommentDtoList = commentDao.getBestCommentList(writingDtlDto);
 				
+			}
+			
+			//좋아요 수 - 싫어요 수가 0보다 작을경우 0으로 세팅
+			for(int i=0;i<bestCommentNum;i++) {
+				if(agreeBestCommentDtoList.get(i).getSum_prefer() < 0) {
+					agreeBestCommentDtoList.get(i).setSum_prefer(0);
+				}
+				
+				if(disagreeBestCommentDtoList.get(i).getSum_prefer() < 0) {
+					disagreeBestCommentDtoList.get(i).setSum_prefer(0);
+				}	
 			}
 			
 			//투표 진영 반대편이 먼저오도록해서 교차로 순서 지정
