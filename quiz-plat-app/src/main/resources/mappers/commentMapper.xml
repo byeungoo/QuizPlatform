@@ -137,12 +137,16 @@
                       AND     WV.WRITING_NO = C.WRITING_NO
                       AND     WV.USER_ID    = C.REGPE_ID 
                 ) "VOTE"
+                , W.CHOICE1
+                , W.CHOICE2
         FROM      COMMENT C
                 , USER U
+                , WRITING W
         WHERE   1 = 1
         AND     C.WRITING_NO = #{writing_no}
         AND     C.COMMENT_NO = #{comment_no}
         AND     C.REGPE_ID   = U.USER_ID
+        AND     W.WRITING_NO = C.WRITING_NO
     </select>
     
     <select id="getCommentNum" parameterType="writingDtlDto" resultType="int">

@@ -154,29 +154,21 @@ public class DetailController {
      */
     @CrossOrigin
     @RequestMapping(value = "writeComment", method = RequestMethod.POST)
-    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, @RequestParam(value="replytx") String replytx, @RequestParam(value="writing_no") int writing_no
-    		                                     , @RequestParam(value="depth") int depth, @RequestParam(value="parent") Integer parent) throws Exception{
+    public @ResponseBody CommentDto writeComment(HttpSession session, HttpServletRequest request, CommentDto commentDto) throws Exception{
 
     	session    = request.getSession();
     	    	
     	UserDto userDto = userService.getUesrSettingDto(session, request);
     	
     	//댓글 저장 후 반환
-    	String comment_content = replytx;
-    	int recom_num = 0;
-    	CommentDto commentDto = new CommentDto();
-    	commentDto.setWriting_no(writing_no);
-    	commentDto.setComment_content(comment_content);
-    	commentDto.setRecom_num(recom_num);
     	commentDto.setRegpe_id(userDto.getUser_id());
     	commentDto.setNickname(userDto.getNickname());
-    	commentDto.setDepth(depth);
-    	commentDto.setParent(parent);
+
     	commentService.insertComment(commentDto);  //INSERT 후 COMMENT_NO 자동세팅
     
     	//댓글, 대댓글 조회 파라미터 설정
     	ParamDto paramDto = new ParamDto();
-    	paramDto.setWriting_no(writing_no);
+    	paramDto.setWriting_no(commentDto.getWriting_no());
     	paramDto.setComment_no(commentDto.getComment_no());
     	
     	commentDto = commentService.getCommentDto(paramDto);
