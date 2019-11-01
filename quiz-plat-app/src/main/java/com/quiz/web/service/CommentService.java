@@ -131,9 +131,9 @@ public class CommentService {
      */
 	public List<CommentDto> getBestCommentList(WritingDtlDto writingDtlDto) throws Exception{
 		
-		List<CommentDto> bestCommentDtoList = new ArrayList<>();
-		List<CommentDto> agreeBestCommentDtoList = new ArrayList<>();
-		List<CommentDto> disagreeBestCommentDtoList = new ArrayList<>();
+		List<CommentDto> bestCommentDtoList = new ArrayList<CommentDto>();
+		List<CommentDto> agreeBestCommentDtoList = new ArrayList<CommentDto>();
+		List<CommentDto> disagreeBestCommentDtoList = new ArrayList<CommentDto>();
 		
 		Integer userVote   = writingDtlDto.getVote();
 		int bestCommentNum = 0;  //각 진영의 베스트 댓글 개수
@@ -258,7 +258,7 @@ public class CommentService {
     }
     
     public List<CommentDto> getChildCommentList(CommentDto commentDto) throws Exception{
-    	List<CommentDto> commentDtoList = new ArrayList();
+    	List<CommentDto> commentDtoList = new ArrayList<CommentDto>();
     	try {
     		
     		commentDtoList = commentDao.getChildCommentList(commentDto);
