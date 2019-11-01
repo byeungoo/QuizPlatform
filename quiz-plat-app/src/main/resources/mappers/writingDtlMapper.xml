@@ -35,7 +35,7 @@
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
 					AND		WIP.WRITING_NO = W.WRITING_NO
-					ORDER BY W.REG_DTS DESC
+					ORDER BY RAND()
 			       ) A
 			WHERE A.RNUM <=#{end}
 		     ) B
