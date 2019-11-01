@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "dde0822608d13e46a654",
+    "revision": "009605fbb59e7f272532",
     "url": "/resources/app.bundle.js"
   },
   {
@@ -18,6 +18,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "44ae4fdb16ba192549377318d3e93784",
     "url": "/resources/img/jquery.minicolors.png"
+  },
+  {
+    "revision": "699e2c756542315dddd8bda3a993ac4e",
+    "url": "/resources/img/kakao.png"
   },
   {
     "revision": "eb0bf4fad6beb099f5391ebd6919357a",
