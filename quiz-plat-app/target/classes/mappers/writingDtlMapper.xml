@@ -19,6 +19,8 @@
 					      , W.SEC_VOTE_NO
 					      , W.FIR_VOTE_NO + W.SEC_VOTE_NO 'SUM_VOTE'
 					      , WIP.TITLE_IMG_PATH
+					      , W.CHOICE1
+					      , W.CHOICE2
 					      , (
 						       SELECT COUNT(C.WRITING_NO)
 						       FROM   COMMENT C
@@ -33,7 +35,7 @@
 					WHERE   1 = 1
 					AND     W.USE_YN = 'Y'
 					AND		WIP.WRITING_NO = W.WRITING_NO
-					ORDER BY W.REG_DTS DESC
+					ORDER BY RAND() 
 			       ) A
 			WHERE A.RNUM <=#{end}
 		     ) B
@@ -76,6 +78,8 @@
 			  		AND    WR.WRITING_NO = #{writing_no}
 			  		AND	   WR.USER_ID    = #{user_id} 
 			    ) AS REPORT
+			  , W.CHOICE1
+			  , W.CHOICE2
      	FROM    WRITING_VOTE WV RIGHT OUTER JOIN WRITING W ON WV.WRITING_NO = W.WRITING_NO AND WV.USER_ID = #{user_id}
      	      , USER U
      	      , WRITING_IMG_PATH WIP
@@ -102,6 +106,8 @@
     						   , SUMMARY
     						   , FACT_CONTENT
     						   , FACT_LINK
+    						   , CHOICE1
+    						   , CHOICE2
     				       )
     			     VALUES(
     			                 #{ques_type_div_cd}
@@ -118,6 +124,8 @@
     			               , #{summary}
     			               , #{fact_content}
     			               , #{fact_link}
+    			               , #{choice1}
+    			               , #{choice2}
     			            )
 		<selectKey keyProperty="writing_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
