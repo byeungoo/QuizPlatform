@@ -437,7 +437,7 @@
     </header>
 </script>
  <script id="bestReplyTmpl" type="text/x-jsrender">
-    <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-depth="{{:depth}}" data-prefer="{{:prefer}}">
+    <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-depth="{{:depth}}" data-vote="{{:vote}}">
         {{include tmpl="#comment_header--best" /}}
         <section class="comment_subheader">
             <p class="comment_optionwrap">
@@ -458,7 +458,7 @@
 
 <script id="replyTmpl" type="text/x-jsrender">
     <li class="comment-list_item">
-        <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-prefer="{{:prefer}}">
+        <section class="comment {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-vote="{{:vote}}">
             {{include tmpl="#comment_header--plain" /}}
             <section class="comment_subheader">
                 <p class="comment_optionwrap">
@@ -486,7 +486,7 @@
 
 <script id="subReplyTmpl" type="text/x-jsrender">
     <li class="subcomment_item">
-        <section class="comment comment--sub {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-prefer={{:prefer}}>
+        <section class="comment comment--sub {{if vote == 1}} comment--pros {{else vote == 2}} comment--cons {{/if}}" id="{{:comment_no}}" data-vote={{:vote}}>
             {{include tmpl="#subcomment_header" /}}
             <section class="comment_subheader">
                 <p class="comment_optionwrap">
