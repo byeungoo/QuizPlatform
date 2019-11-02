@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6f4c355e21bbc3d74d38",
+    "revision": "49ec3f06609bc9424758",
     "url": "/resources/app.bundle.js"
   },
   {
