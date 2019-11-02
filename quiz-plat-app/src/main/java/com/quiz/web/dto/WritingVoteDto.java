@@ -14,6 +14,8 @@ public class WritingVoteDto extends BaseDto{
 	private List<Integer> voteNoArr;    //컨텐츠 투표 수 리스트
 	private List<Integer> votePerc;     //컨텐츠 투표 비율 리스트
 	private	int     totalVoteNum;       //총투표수 
+	private String  choice1;            //선택1
+	private String  choice2;            //선택2
 	
 	public int getWriting_no() {
 		return writing_no;
@@ -68,5 +70,17 @@ public class WritingVoteDto extends BaseDto{
 	}
 	public void setTotalVoteNum(int totalVoteNum) {
 		this.totalVoteNum = totalVoteNum;
+	}
+	public String getChoice1() {
+		return choice1;
+	}
+	public void setChoice1(String choice1) {
+		this.choice1 = choice1;
+	}
+	public String getChoice2() {
+		return choice2;
+	}
+	public void setChoice2(String choice2) {
+		this.choice2 = choice2;
 	}
 }
