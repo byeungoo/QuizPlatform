@@ -1,4 +1,4 @@
-importScripts("/resources/precache-manifest.705c939eb0288d5228e71e3f180ac982.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts("/resources/precache-manifest.7b69eb8142c0ea6f236a576aec7747a3.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
