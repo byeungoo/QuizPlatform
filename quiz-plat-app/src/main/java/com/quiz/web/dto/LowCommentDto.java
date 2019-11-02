@@ -10,6 +10,8 @@ public class LowCommentDto extends BaseDto{
 	private int    recom_num;          //좋아요수
 	private int    hate_num;           //싫어요수
 	private String nickname;           //닉네임
+	private String choice1;            //선택지1
+	private String choice2;            //선택지2
 	private int    depth;              //0: 댓글, 1:대댓글
 	private Integer parent;            //대댓글 상위 댓글 번호
 	private	Integer vote;              //1:찬성, 2:반대
@@ -102,5 +104,17 @@ public class LowCommentDto extends BaseDto{
 	}
 	public void setSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
+	}
+	public String getChoice1() {
+		return choice1;
+	}
+	public void setChoice1(String choice1) {
+		this.choice1 = choice1;
+	}
+	public String getChoice2() {
+		return choice2;
+	}
+	public void setChoice2(String choice2) {
+		this.choice2 = choice2;
 	}
 }
