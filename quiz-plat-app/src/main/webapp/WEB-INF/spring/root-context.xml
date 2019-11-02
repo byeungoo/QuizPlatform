@@ -20,7 +20,7 @@
         <property name="url"
             value="jdbc:log4jdbc:mysql://15.164.84.243/dev_pickvs?useSSL=false&amp;serverTimezone=UTC"></property>
         <property name="username" value="dksekfldks65"></property>
-        <property name="password" value="2019ssg!"></property>
+        <property name="password" value="2019ssg!"></property> 
     </bean>
  
     <!-- mybatis SqlSessionFactoryBean -->
