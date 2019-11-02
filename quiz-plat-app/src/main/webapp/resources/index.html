@@ -519,13 +519,13 @@
         window.history.pushState(null, null, '');
 
         window.onpopstate = () => {
-            alert(document.referrer);
             if (document.referrer === "") {
                 window.location.href = "https://pickvs.com";
             } else {
                 history.back();
             }
         };
+
     </script>
 <script type="text/javascript" src="/resources/vendors.bundle.js"></script><script type="text/javascript" src="/resources/app.bundle.js"></script></body>
 
