@@ -139,13 +139,11 @@ public class LoginController {
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public @ResponseBody UserDto logout(HttpServletResponse response, HttpServletRequest request, HttpSession session) throws Exception{
     	
-    	Cookie cookie = WebUtils.getCookie(request, "remember");
-    	if(cookie!=null) {
-    		cookie.setMaxAge(0); // 쿠키만료
-	        cookie.setPath("/"); // 모든 경로에서 접근 가능하도록 세팅
-	        response.addCookie(cookie);
-    	}
-        
+    	//쿠키 정보삭제
+    	Cookie cookie = new Cookie("remember", null);
+    	cookie.setMaxAge(0); // 쿠키만료
+	    response.addCookie(cookie);
+	    
     	//유저정보 획득
     	UserDto userDto = userService.getUesrSettingDto(session, request);
         
