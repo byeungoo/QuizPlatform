@@ -7,8 +7,8 @@
 
  	<insert id="insertComment" parameterType="commentDto">
  		/* com.quiz.mapper.commentMapper.insertComment */
-		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NUM, REGPE_ID, MOD_DTS, USE_YN) 
-		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_num}, #{regpe_id}, NOW(), 'Y')
+		INSERT INTO COMMENT(WRITING_NO, DEPTH, PARENT, COMMENT_CONTENT, RECOM_NUM, REGPE_ID, REG_DTS, MOD_DTS, USE_YN) 
+		VALUES(#{writing_no}, #{depth}, #{parent}, #{comment_content}, #{recom_num}, #{regpe_id}, NOW(), NOW(), 'Y')
 		<selectKey keyProperty="comment_no" resultType="int" order="AFTER">
     		SELECT LAST_INSERT_ID()
         </selectKey>
