@@ -12,7 +12,7 @@
         <org.springframework-version>4.3.3.RELEASE</org.springframework-version>
         <org.aspectj-version>1.6.10</org.aspectj-version>
         <org.slf4j-version>1.6.6</org.slf4j-version>
-        <jackson.version>2.9.2</jackson.version>
+        <jackson.version>2.9.10.1</jackson.version>
         
         <!-- Jenkins에서 사용하는 부분 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
